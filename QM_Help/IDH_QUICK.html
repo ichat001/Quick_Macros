@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Quick start</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Quick start</h1>
+<p><a name="a_macro" href="IDH_QUICK.html#b_macro">What is a macro</a></p>
+<p><a name="a_how_works" href="IDH_QUICK.html#b_how_works">How Quick Macros works</a></p>
+<p><a name="a_qm_window" href="IDH_QUICK.html#b_qm_window">Quick Macros window</a></p>
+<p><a name="a_new" href="IDH_QUICK.html#b_new">Creating new macro, menu or toolbar</a></p>
+<p><a name="a_adding_commands" href="IDH_QUICK.html#b_adding_commands">Adding macro commands</a></p>
+<p><a name="a_recording" href="IDH_QUICK.html#b_recording">Recording</a></p>
+<p><a name="a_menu" href="IDH_QUICK.html#b_menu">Adding menu items and toolbar buttons</a></p>
+<p><a name="a_triggers" href="IDH_QUICK.html#b_triggers">Launching macros, menus and toolbars</a></p>
+<p><a name="a_running" href="IDH_QUICK.html#b_running">How to know that a macro is running</a></p>
+<p><a name="a_end" href="IDH_QUICK.html#b_end">How to end a running macro</a></p>
+<p><a name="a_tb_attach" href="IDH_QUICK.html#b_tb_attach">How to assign a toolbar to a window</a></p>
+<p><a name="a_tb_autohide" href="IDH_QUICK.html#b_tb_autohide">How to create an &quot;auto-hide&quot; toolbar</a></p>
+<p><a name="a_tb_manage" href="IDH_QUICK.html#b_tb_manage">Managing toolbars</a></p>
+<p><a name="a_tsm" href="IDH_QUICK.html#b_tsm">How to create text-replacement (&quot;autotext&quot;) macros</a></p>
+<p><a name="a_scope" href="IDH_QUICK.html#b_scope">Can macros run in any program?</a></p>
+<p><a name="a_sim" href="IDH_QUICK.html#b_sim">Can two macros run simultaneously?</a></p>
+<p><a name="a_background" href="IDH_QUICK.html#b_background">Can I automate background windows?</a></p>
+<p><a name="a_exe" href="IDH_QUICK.html#b_exe">Can I run a macro without running QM?</a></p>
+<p><a name="a_err" href="IDH_QUICK.html#b_err">Can the macro run when an error occurs?</a></p>
+<p><a name="a_system" href="IDH_QUICK.html#b_system">What is the System folder and other default items in the list?</a></p>
+<p><a name="a_typeinfo" href="IDH_QUICK.html#b_typeinfo">What is the list that pops up when I type dot (.)?</a></p>
+<p><a name="a_comments" href="IDH_QUICK.html#b_comments">Disabling commands, adding comments</a></p>
+<p><a name="a_strings" href="IDH_QUICK.html#b_strings">Using strings; inserting newlines and quotes</a></p>
+<p><a name="a_rep" href="IDH_QUICK.html#b_rep">Repeating</a></p>
+<p><a name="a_variables" href="IDH_QUICK.html#b_variables">Using variables</a></p>
+<p><a name="a_top" href="IDH_QUICK.html#b_top">Top 20 commands</a></p>
+<p>&nbsp;</p>
+<p><a href="IDH_TUTORIAL.html">Tutorials</a></p>
+<p><a href="http://www.quickmacros.com/forum/viewtopic.php?f=7&t=7009" target="_blank">Video tutorials</a></p>
+<p><a href="IDH_NETWORK.html"></a><a href="../Reference/IDH_REFERENCE.html">Reference</a></p>
+<p><a href="../Reference/IDH_PROGRAMMING.html">Programming in QM (if, goto, functions, 
+  etc)</a></p>
+<h2><a name="b_macro" href="IDH_QUICK.html#a_macro">What is a macro</a></h2>
+<p> A <a href="IDH_MACRO.html">macro</a> is a list of <a href="../Reference/IDH_REFERENCE.html">commands</a> 
+    that are executed when the macro runs. The commands can perform the same actions 
+    as you can do manually: type text, click menus, run files, etc. To launch 
+    a macro, you can assign it a <a href="IDH_PROPERTIES.html">trigger</a> (eg a
+    hotkey), or place it in a toolbar, or use some other way. That is, instead 
+    of manually doing the same sequence of actions again and again, you can place 
+  it in a macro, and launch it with just a single click or keystroke.</p>
+<h2><a name="b_how_works" href="IDH_QUICK.html#a_how_works">How Quick Macros works</a></h2>
+<p>In the <a href="IDH_INTERFACE.html">Quick Macros window</a> you can create 
+    macros and <a href="IDH_ITEMS.html">items</a> of other types (functions, 
+    toolbars, etc). You create a macro for each task you want to automate. You 
+    can assign it a <a href="IDH_PROPERTIES.html">trigger</a>, eg a hotkey.</p>
+  <p>&nbsp;</p>
+  <p>While Quick Macros is running, it watches for these triggers. On a trigger 
+    event (eg a hotkey pressed) it executes the macro to which the trigger 
+    is assigned. Quick 
+    Macros also manages your toolbars and menus.</p>
+
+
+  
+<h2><a name="b_qm_window" href="IDH_QUICK.html#a_qm_window">Quick Macros window</a></h2>
+<p>To show the <a href="IDH_INTERFACE.html">Quick Macros window</a>, click <img src="../image/qm_icon.png"> 
+    icon in the system notification area (by the clock) or in the Start menu.To hide - click the X (Close) button.</p>
+<p>&nbsp;</p>
+  <p>Window parts:</p>
+  <p>Top - menu and toolbars.</p>
+  <p> Left - list of <a href="IDH_ITEMS.html">QM items</a> (macros, functions, menus, toolbars, etc).</p>
+  <p> Middle - code editor. Here you edit text (list of commands) of the currently selected QM item.</p>
+  <p> Bottom - output (errors and other messages), find, tips, status bar.</p>
+  
+<h2><a name="b_new" href="IDH_QUICK.html#a_new">Creating new macro, menu or toolbar</a></h2>
+<p>You create a macro for each task you want to automate. To create new macro, 
+    click the New Macro button on the toolbar, and type a name in the small field 
+    that appears at the top of the list. To create an <a href="IDH_ITEMS.html">item</a> 
+    of other type (function, toolbar, etc), use the popup menu that appears when 
+    you click the small arrow beside the New Macro button.</p>
+
+
+
+<h2><a name="b_adding_commands" href="IDH_QUICK.html#a_adding_commands">Adding macro commands</a></h2>
+<p>Macros are <a href="../Reference/IDP_SYNTAX.html">stored as simple text</a>. 
+  Usually each command is in a separate line.</p>
+  <p>&nbsp;</p>
+  
+<p>To add macro commands, you can use dialogs from the code toolbar. However 
+  QM does not provide dialogs for all commands. You can find commands and dialogs using the <a href="IDH_INTERFACE.html#A5">Find help, functions, tools</a> field (above the code editor), or in <a href="../Reference/IDH_REFERENCE.html">Reference</a>, or in 
+<a href="IDH_TYPEINFO.html">lists</a>.</p>
+  <p>&nbsp;</p>
+  <p>The simplest way to add keyboard and mouse commands - record.</p>
+
+
+
+<h2><a name="b_recording" href="IDH_QUICK.html#a_recording">Recording</a></h2>
+<p>You can <a href="IDH_RECORD.html">record</a> keys and mouse. You can record complete macro, or only some parts.</p>
+  <p>&nbsp;</p>
+  
+<p>To start recording, click the Record button on the toolbar, or press Ctrl+Shift+Alt+R. 
+  When recording is finished, click Insert or ... button in QM Recording dialog.</p>
+  <p>&nbsp;</p>
+  
+<p>Recorded macro often is not perfect. You have to review and possibly edit it. 
+  For example, recorded macro may run too fast, and you have to insert <a href="../Commands/IDP_WAIT.html">delays</a> 
+  or change the wait time in <span class="blue">wait</span> commands. Recorded 
+  window names often contain document name, which causes error when running the 
+  macro when there is open other document. In this case, remove document name.</p>
+  <p>&nbsp;</p>
+  <p>When recording, it is recommended to use the keyboard instead of the mouse 
+    (where possible), especially to select menu items (use Alt and underlined 
+    letters). It is because menus and other objects next time may be in another 
+    place, even when recorded mouse coordinates are relative to window (default).</p>
+  
+
+
+
+<h2><a name="b_menu" href="IDH_QUICK.html#a_menu">Adding menu items and toolbar 
+  buttons</a></h2>
+<p><a href="IDH_POPUP.html">Menu text</a> is simply a list of macro commands. 
+  Each command is preceded by some text (label), space and colon. The same with 
+  <a href="IDH_TOOLBAR.html">toolbars</a>. Each line creates menu item or toolbar 
+  button, which will execute the command.</p>
+  <p>&nbsp;</p>
+  <p>Example:</p>
+  <p>&nbsp;</p>
+  
+<pre class=cod>Macro18 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro18&#34;</span>
+Notepad <span class=p>:</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span>
+-
+Email <span class=p>:</span><span class=fq>key</span> <span class=s>&#34;my@ema.il&#34;</span><span class=mi> * text.ico</span>
+Login <span class=p>:</span><span class=fq>key</span> <span class=s>&#34;abcd&#34;</span><span class=p>;</span> <span class=fq>key</span> T<span class=p>;</span> <span class=fq>key</span> <span class=s>&#34;1234&#34;</span><span class=p>;</span> <span class=fq>key</span> Y<span class=mi> * text.ico</span></pre>
+<p>&nbsp;</p>
+  <p><img src="../image/tut_menu.gif"></p>
+  <p>&nbsp;</p>
+  <p>To quickly add a macro, drag and drop it from the list to the menu/toolbar 
+    text. To add a file, use the Run File dialog from the code toolbar, or 
+    drag the file from the desktop or Windows Explorer. To add other commands, 
+    use other dialogs from the code toolbar. To add a separator, type - or 
+    |. To add <a href="IDH_MENUICONS.html">icons</a>, use the Icons dialog.</p>
+
+
+
+<h2><a name="b_triggers" href="IDH_QUICK.html#a_triggers">Launching macros, menus and toolbars</a></h2>
+<p>You can use various ways to launch a macro:</p>
+  <p>&nbsp;</p>
+  <p>The Run button on the QM toolbar.</p>
+  
+<p>A <a href="IDH_TRIG_KEY.html">hotkey</a>, <a href="IDH_TRIG_MOUSE.html">mouse</a>, 
+  <a href="IDH_TRIG_WINDOW.html">window</a>, or <a href="IDH_PROPERTIES.html">other</a> 
+  trigger. To assign a trigger click the Properties button on the toolbar.</p>
+  
+<p>Place the macro in a custom <a href="IDH_POPUP.html">menu</a> or <a href="IDH_TOOLBAR.html">toolbar</a>. Open the menu or toolbar, 
+  and drag the macro to the code editor. You can attach toolbars to windows.</p>
+<p>Schedule the macro to run at a certain time. Click 
+  the Schedule button in the Properties dialog.</p>
+  
+<p>Create a shortcut on the desktop. Click the Shortcut button in the 
+  Properties dialog.</p>
+<p>Other programs can launch QM macros using <a href="IDH_TRIG_COMMANDLINE.html">command 
+  line</a>.</p>
+  <p>You can use the <a href="../Commands/IDP_MAC.html" class="blue">mac</a> command 
+    to launch it from another macro.</p>
+  <p><a href="IDH_TSM.html">Autotext list</a> commands are executed when you type 
+    certain text.</p>
+  <p>&nbsp;</p>
+  
+<p>Menus, toolbars and functions can be launched using the same ways 
+  as macros.</p>
+<h2><a name="b_running" href="IDH_QUICK.html#a_running">How to know that a macro is running</a></h2>
+<p>When a <a href="IDH_MACRO.html">macro</a> is running, the QM tray icon is red <img src="../image/qm_icon_running.png">. 
+  When <a href="IDH_ITEMS.html">QM items</a> of other types (functions, menus, etc) are running, the tray icon 
+does not change. It also does not change if the macro has option 'Run simultaneously'. You can see running items in the 'Running items' pane in QM window or in the Threads dialog in QM tray menu.</p>
+
+
+<h2><a name="b_end" href="IDH_QUICK.html#a_end">How to end a running macro</a></h2>
+<p>When a macro is running, the QM tray icon is red <img src="../image/qm_icon_running.png">. To end running macro manually, 
+    press Pause key (you can change this in Options). If input is blocked (<span class="dll">BlockInput</span> 
+    is used in the macro), at first press Ctrl+Alt+Delete.</p>
+  <p>&nbsp;</p>
+  
+<p>If it is a <a href="IDH_FUNCTION.html">function</a>, you cannot end it with 
+  Pause. Also if the macro has option 'Run simultaneously'. Then use the 'Running items' pane in QM window or the Threads dialog in QM tray menu. Or, if you use the <span class="UDF">AddTrayIcon</span> function, you can Ctrl+click the tray icon added by it.</p>
+<p>&nbsp;</p>
+  <p>Or, you can use special code in the macro or function. Example:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>ifk</span><span class=p>(</span>F12<span class=p>)</span> <span class=fq>ret</span> <span class=c2>;;end if F12 is pressed
+</span><span class=i>&#9;</span><span class=c> ...</span></pre>
+
+
+<h2><a name="b_tb_attach" href="IDH_QUICK.html#a_tb_attach">How to assign a toolbar to a window</a></h2>
+<p>Assign it a <a href="IDH_TRIG_WINDOW.html">window trigger</a>. To assign a 
+  window trigger, select Window in the Properties dialog, drag the &quot;Drag&quot; 
+  picture and drop onto the window. May need to edit or remove window name, 
+  eg remove the name of the currently open document.</p>
+  <h2><a name="b_tb_autohide" href="IDH_QUICK.html#a_tb_autohide">How to create an &quot;auto-hide&quot; toolbar</a></h2>
+<p>Click menu File -&gt; New -&gt; Templates -&gt; Toolbar Top or Bottom, or Toolbar 
+  Left or Right. To launch it, you for example can assign a <a href="IDH_TRIG_MOUSE.html">mouse 
+  trigger</a>. Or launch it <a href="IDH_TRIG_QM.html">at startup</a>.</p>
+
+
+<h2><a name="b_tb_manage" href="IDH_QUICK.html#a_tb_manage">Managing toolbars</a></h2>
+<p>You can drag <a href="IDH_TOOLBAR.html">toolbars</a> with the right mouse 
+    button. To drag or delete buttons, Shift+Drag. You can drag macros, files 
+    and Internet links and drop onto a toolbar. Use the right-click menu to change toolbar style or open to edit.</p>
+  <p>&nbsp;</p>
+  
+<p>If you have lost a toolbar (it is running but invisible), right click it in the 'Running items' pane in QM window and 
+  select 'Move Here' or 'Reset'.</p>
+  
+
+<h2><a name="b_tsm" href="IDH_QUICK.html#a_tsm">How to create text-replacement (&quot;autotext&quot;) 
+  macros</a></h2>
+<p>Don't need to create separate macros for each text replacement. Create one or several 
+  <a href="IDH_TSM.html">autotext lists</a> that contain multiple replacements. Assign Autotext or Keyboard trigger.</p>
+
+
+<h2><a name="b_scope" href="IDH_QUICK.html#a_scope">Can macros run in any program?</a></h2>
+<p>Macros can run in any Windows program. You can make a macro to run only in 
+    a certain program(s).</p>
+  <p>&nbsp;</p>
+  
+<p> In some programs, triggers and some macro commands may not work. The reason usually is either security-related or the program uses a nonstandard input method. Make sure that: 1. In Options -&gt; General is selected Administrator or uiAccess, not User. 2. In Options -&gt; Triggers is checked low level hook for keyboard and mouse. </p>
+  
+
+<h2><a name="b_sim" href="IDH_QUICK.html#a_sim">Can two macros run simultaneously? 
+  </a></h2>
+<p>By default, multiple <a href="IDH_MACRO.html">macros</a> cannot run simultaneously. If a 
+  macro (macro2) is launched while a macro is already running, macro2 will not 
+  run. Several instances of the same macro also will not run simultaneously.</p>
+  <p>&nbsp;</p>
+  <p>A macro can run simultaneously with other macros if you select 'Run simultaneously' in Properties -&gt; Macro properties. <a href="IDH_MACRO.html">Read more</a>.</p>
+  <p>&nbsp;</p>
+  <p>Multiple <a href="IDH_FUNCTION.html">functions</a> always can run simultaneously, as well as several instances of the same function.</p>
+<h2><a name="b_background" href="IDH_QUICK.html#a_background">Can I automate backround windows?</a></h2>
+<p>Macros cannot send keys and mouse clicks to a background window without activating it. However, it is often possible (but not so easy, and will not always succeed) to replace keyboard and mouse commands with other commands that usually 
+  can work in the background. To insert such commands, use dialogs from the code 
+toolbar's &quot;Window, controls&quot; menu.</p>
+  
+
+<h2><a name="b_exe" href="IDH_QUICK.html#a_exe">Can I run a macro without running QM?</a></h2>
+<p>Yes. You can <a href="IDH_MAKEEXE.html">create executable programs</a> from 
+  macros and functions.</p>
+<h2><a name="b_err" href="IDH_QUICK.html#a_err">Can macro run when an error occurs?</a></h2>
+<p>When a macro is launched, at first it is <a href="IDH_DEBUG.html">compiled</a>. 
+    This includes error checking. If the macro contains <a href="../Other/IDP_ERRORS.html">errors</a>, 
+    it is not executed. Error description is displayed in the QM output, and error 
+    place is highlighted.</p>
+  <p>&nbsp;</p>
+  
+<p>When macro runs, some commands may fail (eg due to a missing file or window). 
+  Then macro ends. To continue on run-time error, you can use <a href="../Flow/IDP_ERR.html" class="blue">err</a>. 
+  Example:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>run</span> <span class=s>&#34;abc.exe&#34;</span> <span class=c2>;;macro would end if file &#34;abc.exe&#34; does not exist
+</span><span class=fq>err</span> <span class=c2>;;allows macro to continue when an error occurs in the preceding command</span></pre>
+
+
+<h2><a name="b_system" href="IDH_QUICK.html#a_system">What is the System folder and 
+  other default items in the list?</a></h2>
+<p>Many QM features are written in QM language. It includes code toolbar dialogs, Dialog Editor and many functions that you can 
+  use in macros. All this is in the System folder.
+</p>
+  <p>&nbsp;</p>
+<p>The Samples folder is only for learning. You can delete it.</p>
+<h2><a name="b_typeinfo" href="IDH_QUICK.html#a_typeinfo">What is the list that pops 
+  up when I type dot (.)?</a></h2>
+<p>The <a href="IDH_TYPEINFO.html">list</a> contains functions and other identifiers 
+    that you can use in macro. Double click an item in the list to insert it in 
+    macro. At the top of the list are categories - collections of related 
+    functions. When you double click a category in the list, pops up another list 
+    containing functions from that category.</p>
+
+
+<h2><a name="b_comments" href="IDH_QUICK.html#a_comments">Disabling commands, adding comments</a></h2>
+<p>Lines that begin with a space are disabled. This also can be used to add <a href="../Commands/IDP_COMMENT.html">comments</a>. 
+  To quickly disable/enable single line, right click the selection bar (thin gray 
+  bar at the left of the macro text). To disable/enable several lines, select 
+  them and right click the selection bar. To add comments at the end of line, 
+  use two semicolons.</p>
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> comments
+</span><span class=fq>key</span> Cv <span class=c2>;;press Ctrl+V</span></pre>
+
+
+<h2><a name="b_strings" href="IDH_QUICK.html#a_strings">Using strings; inserting newlines and quotes</a></h2>
+<p><a href="../Language/IDP_CONSTANT.html">Strings</a> (text) must be enclosed 
+  in double quotes.  In strings, use '' (two ') for &quot;. Use [] for new line. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span> <span class=s>&#34;This is[]a multiline  string[]with ''double quotes''.&#34;</span></pre>
+<p>&nbsp;</p>
+<p>The same without replacing quotes etc:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s<span class=o>=</span>
+<span class=s> This is</span>
+<span class=s> a multiline string</span>
+<span class=s> with &quot;double quotes&quot;.</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<p>In dialogs (in the code toolbar), type exact text, without quotes. To use a variable in a dialog field where text is required, enclose it in parentheses (except when there is a checkbox or other control to specify that it is a variable).</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_FSTRING.html">variables in strings</a></p>
+<h2><a name="b_rep" href="IDH_QUICK.html#a_rep">Repeating</a></h2>
+<p>Assume you want to repeatedly execute two commands:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>lef</span> <span class=n>100</span> <span class=n>200</span>
+<span class=fq>key</span> Y</pre>
+  <p>&nbsp;</p>
+  <p> Insert <a href="../Flow/IDP_REP.html" class="blue">rep</a> before. Then 
+    select the commands and press Tab key. This tab-indents the selected lines:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>lef</span> <span class=n>100</span> <span class=n>200</span>
+<span class=i>&#9;</span><span class=fq>key</span> Y</pre>
+  <p>&nbsp;</p>
+  <p>Repeat 10 times:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>rep</span> <span class=n>10</span>
+<span class=i>&#9;</span><span class=fq>lef</span> <span class=n>100</span> <span class=n>200</span>
+<span class=i>&#9;</span><span class=fq>key</span> Y</pre>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Reference/IDH_PROGRAMMING.html">Programming in 
+  QM</a></p>
+<h2><a name="b_variables" href="IDH_QUICK.html#a_variables">Using variables</a></h2>
+<p>You can use <a href="../Language/IDH_VARIABLES.html">variables</a> almost 
+    everywhere in code. To store numeric integer values, use variables of type 
+    int. To store floating-point values - double. To store text - str. Example:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=c> without variables 
+</span><span class=fq>lef</span> <span class=n>100</span> <span class=n>200</span> <span class=s>&#34;Notepad&#34;</span>
+
+<span class=c> use variables
+</span><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;Notepad&#34;</span> <span class=c2>;;declare str variable s, and store &#34;Notepad&#34;
+</span><span class=t>int</span> x y <span class=c2>;;declare int variables x and y
+</span>x<span class=o>=</span><span class=n>100</span>
+y<span class=o>=</span>x<span class=o>*</span><span class=n>2</span>
+<span class=fq>lef</span> x y s</pre>
+  
+<p>&nbsp;</p>
+<p>To share a variable between macros, declare it with +:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span><span class=o>+</span> global_var</pre>
+<p>&nbsp;</p>  
+<p>You can use variables in dialogs of the code toolbar. To use a variable in a 
+  text field, enclose it in parentheses. Parentheses are not used in fields that 
+  accept numeric values.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Reference/IDH_PROGRAMMING.html">Programming in 
+  QM</a></p>
+
+
+<h2><a name="b_top" href="IDH_QUICK.html#a_top">Top 20 commands</a></h2>
+<p>Creating and understanding macros is easier if you know the following 20 commands. 
+  Some of them can be entered using dialogs, or recorded, but often it is quicker 
+  to write them directly.</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr> 
+    <td><a href="../Commands/IDP_LEF.html" class="blue">lef, rig</a></td>
+    <td><p>Click mouse left or right button. To enter these commands, you can 
+        record, or use the Mouse dialog. Examples:</p>
+      <pre class=cod><span class=fq>lef</span> <span class=n>100</span> <span class=n>200</span> <span class=c2>;;left click at 100x200 pixels
+</span><span class=fq>lef</span> <span class=n>90</span> <span class=n>40</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;left click at 90x40 pixels in Notepad window
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_KEY.html" class="blue">key</a></td>
+    <td><p>Press keyboard keys. Type text. To type text, enclose the text into 
+        quotes. To enter <a href="../Tables/IDP_KEYCODES.html">other keys</a>, 
+        you can record, or use the Keys dialog. Examples:</p>
+      <pre class=cod><span class=fq>key</span> <span class=s>&#34;Australia&#34;</span> <span class=c2>;;type text
+</span><span class=p>'</span><span class=s>&#34;Australia&#34;</span> <span class=c2>;;type text (key can be replaced with ' )
+</span><span class=fq>key</span> F12 <span class=c2>;;press F12
+</span><span class=fq>key</span> LLLL <span class=c2>;;press Left Arrow 4 times
+</span><span class=fq>key</span> Cv <span class=c2>;;press Ctrl+V
+</span><span class=fq>key</span> A{ep} <span class=c2>;;press Alt+E+P
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_PASTE.html" class="blue">paste</a></td>
+    <td><p>Paste text. This command also can be entered through the Text dialog. 
+        Examples:</p>
+      <pre class=cod><span class=fq>paste</span> <span class=s>&#34;New Zealand&#34;</span> <span class=c2>;;paste text
+</span><span class=s>&#34;New Zealand&#34;</span> <span class=c2>;;the same (the paste keyword can be omitted)
+</span><span class=fq>paste</span> s <span class=c2>;;paste variable s
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_OUT.html" class="blue">out</a></td>
+    <td><p>Display something (numbers, strings, variables, etc) in QM output. 
+        Useful when <a href="IDH_DEBUG.html">debugging</a> macros or learning/testing various functions. This command also 
+        can be entered through the Text dialog. Examples:</p>
+      <pre class=cod><span class=fq>out</span> <span class=s>&#34;I am here&#34;</span> <span class=c2>;;display text
+</span><span class=fq>out</span> i <span class=c2>;;display variable i
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_MES.html" class="blue">mes</a></td>
+    <td><p>Display something in a message box. This command also can be entered 
+        through the Message Box dialog. Examples:</p>
+      <pre class=cod><span class=fq>mes</span> <span class=s>&#34;Important information&#34;</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>mes</span><span class=p>(</span><span class=s>&#34;Continue?&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;YN&#34;</span><span class=p>)</span><span class=o>=</span><span class=n>'N'</span><span class=p>)</span> <span class=c2>;;if the user clicks No
+</span><span class=i>&#9;</span><span class=fq>ret</span> <span class=c2>;;exit
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_RUN.html" class="blue">run</a></td>
+    <td><p>Run file, open document, web page, etc. This command also can be entered 
+        through the Run File dialog or other dialogs from the same menu. Or, you 
+        can drag and drop a file from the desktop or Windows Explorer. Examples:</p>
+      <pre class=cod><span class=fq>run</span> <span class=s>&#34;C:\WINDOWS\system32\notepad.exe&#34;</span>
+<span class=fq>run</span> <span class=s>&#34;http://www.quickmacros.com&#34;</span></pre>
+      </td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_ACT.html" class="blue">act</a></td>
+    <td><p>Activate window. This command also can be entered through the Window 
+        dialog. Example:</p>
+      <pre class=cod><span class=fq>act</span> <span class=s>&#34;Notepad&#34;</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_WIN.html" class="blue">win</a></td>
+    <td><p>Find window and return window handle that can be used in other commands. 
+        This command also can be entered through the Find Window Or Control dialog. 
+        Example:</p>
+      <pre class=cod><span class=t>int</span> hwnd<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Internet Explorer&#34;</span> <span class=s>&#34;IEFrame&#34;</span><span class=p>)</span>
+<span class=fq>act</span> hwnd</pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_WAIT.html" class="blue">wait</a>, <a href="../Commands/IDP_WAIT_FOR.html">wait for</a></td>
+    <td><p>Insert simple delay, or wait for some event (e.g., window). This command 
+        also can be entered through the Wait dialog. Examples:</p>
+      <pre class=cod><span class=fq>wait</span> <span class=n>5</span> <span class=c2>;;wait 5 seconds
+</span><span class=n>0.5</span> <span class=c2>;;wait 0.5 second (wait can be omitted)
+</span><span class=fq>wait</span> <span class=n>30</span> <span class=s>&#34;Internet Explorer&#34;</span> <span class=c2>;;wait max 30 s for Internet Explorer
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Commands/IDP_MAC.html" class="blue">mac</a></td>
+    <td><p>Launch a macro. This command usually is used in menus and toolbars. 
+        To enter it quickly, drag and drop the macro from the list. Example:</p>
+      <pre class=cod><span class=fq>mac</span> <span class=s>&#34;Macro9&#34;</span></pre>
+      <p>&nbsp;</p>
+      <p>Note: <span class="blue">mac</span> is not used to call functions. The 
+        launched macro is independent from the current macro, and the current 
+        macro does not wait for it.</p></td>
+  </tr>
+  <tr> 
+    <td><a href="../Flow/IDP_ERR.html" class="blue">err</a></td>
+    <td><p>Continue macro if an error occurs. Example:</p>
+      <pre class=cod><span class=fq>wait</span> <span class=n>2</span> <span class=s>&#34;Window&#34;</span> <span class=c2>;;wait for Window max 2 s, and then throw error
+</span><span class=fq>err</span> <span class=c2>;;on error continue
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Flow/IDP_RET.html" class="blue">ret</a></td>
+    <td><p>Exit (end current macro or function). Example:</p>
+      <pre class=cod><span class=fq>if</span><span class=p>(</span>i<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>ret</span> <span class=c2>;;if variable i is 0, exit
+</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Flow/IDP_GOTO.html" class="blue">goto</a></td>
+    <td><p>Go to another line. Example:</p>
+      <pre class=cod><span class=fq>if</span><span class=p>(</span>i<span class=o>&#62;=</span><span class=n>10</span><span class=p>)</span> <span class=fq>goto</span> g1 <span class=c2>;;if variable i is &#62;= 10, go to the g1 label
+</span><span class=fq>out</span> <span class=s>&#34;This line is executed only if i is &#60; 10&#34;</span>
+<span class=c> g1
+</span><span class=fq>out</span> <span class=s>&#34;This line is executed always&#34;</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Flow/IDP_IF.html" class="blue">if, else</a></td>
+    <td><p>Execute or skip commands if certain condition is true. The commands 
+        must be preceded by a tab, unless they are in the same line. Example:</p>
+      <pre class=cod><span class=fq>if</span> i<span class=o>&#60;</span><span class=n>5</span> <span class=c2>;;if variable i is less than 5, execute the following two commands
+</span><span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;variable i is &#60; 5&#34;</span>
+<span class=i>&#9;</span>i<span class=o>+</span><span class=n>1</span>
+<span class=fq>else</span> <span class=c2>;;else execute the following one command
+</span><span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;variable i is &#62;= 5&#34;</span></pre></td>
+  </tr>
+  <tr> 
+    <td><a href="../Flow/IDP_REP.html" class="blue">rep, break</a></td>
+    <td><p>Repeatedly execute commands. The commands must be preceded by a tab, 
+        unless they are in the same line. Examples:</p>
+      <pre class=cod><span class=fq>rep</span> <span class=n>10</span> <span class=c2>;;press Right Arrow 10 times
+</span><span class=i>&#9;</span><span class=fq>key</span> R</pre> 
+      <p>&nbsp;</p>
+      <p> Repeat while variable i is &lt;= 5:</p>
+      <pre class=cod><span class=t>int</span> i <span class=c2>;;declare variable i
+</span><span class=fq>rep</span>
+<span class=i>&#9;</span>i<span class=o>+</span><span class=n>1</span>
+<span class=i>&#9;</span><span class=fq>if</span> i<span class=o>&#62;</span><span class=n>5</span>
+<span class=i>&#9;&#9;</span><span class=fq>out</span> <span class=s>&#34;i is &#62; 5&#34;</span>
+<span class=i>&#9;&#9;</span><span class=fq>break</span> <span class=c2>;;exit the loop
+</span><span class=i>&#9;</span><span class=fq>out</span> i</pre>
+      </td>
+  </tr>
+  <tr> 
+    <td><a href="../Language/IDH_VARIABLES.html" class="type">int, str</a></td>
+    <td><p>Declare variables. Use <span class="type">int</span> for numeric integer 
+        variables. Use <span class="type">str</span> for string variables. Examples:</p>
+      <pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;Notepad&#34;</span> <span class=c2>;;declare str variable s, and store &#34;Notepad&#34;
+</span><span class=t>int</span> x y <span class=c2>;;declare int variables x and y
+</span><span class=t>int</span><span class=o>+</span> g_var <span class=c2>;;declare global int variable g_var
+</span></pre> 
+      </td>
+  </tr>
+</table>
+
+
+</body>
+
+</html>
