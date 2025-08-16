@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>interface</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><a href="../Language/IDP_DECLARATION.html">Declare</a> COM interface</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>interface</b><i>[</i>@<i>|</i>#<i>]</i> typename :baseinterface memberfunctions <i>[</i>{guid}<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>typename</b> - interface <A href="../Other/IDP_IDENTIFIERS.html">name</a>.</p>
+
+<p> <b>baseinterface</b> - interface from which this interface is inherited.</p>
+
+<p> <b>memberfunctions</b> - list of member functions.</p>
+<ul>
+  <li> Member functions and other 
+    parts after <b>typename</b> can be declared in multiple tab-indented lines.</li>
+</ul>
+<p> <b>guid</b> - <A href="../Other/IDP_GUID.html">GUID</a> of the interface. It is 
+  implicitly used by <A href="IDP_COM_FUNC.html">_create</a> and 
+  in some other cases.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags">
+<tr>
+<td><i> </i>@</td> <td><p>Declare dispinterface.</p>
+  <ul>
+    <li> Functions will be called through IDispatch::Invoke.</li>
+    <li> Default: declare interface. Functions will be called directly.</li>
+  </ul>
+  </td>
+</tr>
+<tr>
+<td>#</td> <td><p>All functions are Automation-compatible.</p>
+  <ul>
+    <li>The return value in the function's C++ declaration actually has 
+      HRESULT type. In QM it is hidden.</li>
+    <li>If a function returns negative 
+      HRESULT value, QM generates run-time error.</li>
+  </ul>
+  </td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<p>Member function syntax:&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax><i>[</i>[attributes]<i>][</i>membertype<i>]</i>membername<i>[</i>(parameters)<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<div class="parts">
+<p> <b>attributes</b> - one or more of the following literals:</p>
+<table class="tflags">
+<tr> 
+  <td width="10%">f</td>
+  <td width="83%">method (default).</td>
+</tr>
+<tr> 
+  <td>p</td>
+  <td>property-put function.</td>
+</tr>
+<tr> 
+  <td>g</td>
+  <td>property-get function.</td>
+</tr>
+<tr> 
+  <td>r</td>
+  <td>property-put byref function.</td>
+</tr>
+<tr> 
+  <td>h</td>
+  <td><p>function is Automation-compatible.</p>
+    <ul>
+      <li>Optional if used option # or attribute a or l. Cannot be used with dispinterfaces.</li>
+      <li> QM 2.2.0. If function's return type is specified, [h] is interpreted 
+        like [a]. In previous versions, if only [h] was specified, the function 
+        was interpreted as not returning a value.</li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>a</td>
+  <td><p>function is Automation-compatible. It has a hidden parameter for return value (not specified in <b>parameters</b>).</p>
+    <ul>
+      <li>Optional if used option #.</li>
+      <li>Cannot 
+        be used with dispinterfaces.</li>
+    </ul>      </td>
+</tr>
+<tr> 
+  <td>l</td>
+  <td><p>function is Automation-compatible. It has a hidden parameter for locale (not 
+    specified in <b>parameters</b>).</p>
+    <ul>
+      <li> Cannot be used with dispinterface.</li>
+    </ul></td>
+</tr>
+</table>
+<p><A href="../Other/IDP_TYPESPEC.html"> <b>membertype</b></a> - type of the 
+return value.</p>
+<p> <b>membername</b> - function's <A href="../Other/IDP_IDENTIFIERS.html">name</a>.</p>
+
+<p> <b>parameters</b> - parameters. Same as with <A href="../Language/IDP_DLL.html">dll</a>. 
+Parentheses (maybe empty) must be used, unless parameters are not defined.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_DECLARATION.html">declarations</a>, 
+  <a href="../Other/IDP_IDENTIFIERS.html">scope</a></p>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>Declares a <A href="IDH_COM.html">COM</a> interface. A COM interface defines 
+  functions that can be used with a COM object. <a onClick="doSection(e1)" class="expand">Read 
+  more</a>.</p>
+<div id="e1" class="expand"> 
+  <p>Physically, a COM interface is an array of function addresses. An interface 
+    pointer variable holds the address of a COM object, which holds the address 
+    of that array. A COM object can have one or more different interfaces. All 
+    COM interfaces are inherited from (i.e. includes functions of) base interface 
+    IUnknown (directly or through another base interface). IUnknown has 3 member 
+    functions: QueryInterface, AddRef and Release. QueryInterface gets pointer 
+    to some other supported interface, others control object's life time. IDispatch 
+    also has 4 member functions that allow calling other functions by name. Interfaces 
+    IUnknown and IDispatch are defined by QM. For all interfaces, QM implicitly 
+    calls functions of IUnknown and IDispatch when needed. It is not error to 
+    call them explicitly, although they are not included in the popup list of 
+    member functions of other interfaces.</p>
+  <p>&nbsp;</p>
+  <p>For interfaces, must be declared all member functions. A function is called 
+    by the position in the array, therefore functions must be declared in exact 
+    order (but you can change names). You can fully declare only functions that 
+    you will use. All other functions can be for example x. If a function is declared 
+    without parameters, then, when calling, you can pass any number of arguments, 
+    but argument types are not converted therefore must match expected. To explicitly 
+    specify that a function has 0 parameters, use empty parentheses.</p>
+  <p>&nbsp;</p>
+  <p>For dispinterfaces, can be declared only some functions, in arbitrary order. 
+    A function is called by name therefore names cannot be changed.</p>
+</div>
+<p>&nbsp;</p>
+<p>Interfaces also can be declared in <a href="../QM_Help/IDH_SETT_FILES.html">reference 
+  files</a> and <A href="IDP_TYPELIB.html">type libraries</a>, which allows you 
+  to use them without declaring explicitly. Many declarations are in WINAPI and 
+  WINAPIV reference files. Usage example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=lib>WINAPI.</span><span class=t>ITaskScheduler</span> ts</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0: Can be defined optional parameters, like with <a href="../Language/IDP_DLL.html">dll</a>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Allowed comments, like with <a href="../Language/IDP_TYPE.html" class="blue">type</a>.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. You can declare parameters as <a href="../Language/IDH_POINTERS.html">reference instead of pointer</a>. For example, <span class=cod><span class=t>VARIANT</span><span class=o>&amp;</span>p</span> is the same as <span class=cod><span class=t>VARIANT</span><span class=o>*</span>p</span>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>interface</span> <span class=t>IDispatch</span> <span class=p>:</span><span class=t>IUnknown</span>
+<span class=i>&#9;</span><span class=o>#</span>GetTypeInfoCount<span class=p>(</span><span class=o>*</span>pctinfo<span class=p>)</span>
+<span class=i>&#9;</span><span class=o>#</span>GetTypeInfo<span class=p>(</span>iTInfo lcid ITypeInfo<span class=o>*</span>pTInfo<span class=p>)</span>
+<span class=i>&#9;</span><span class=o>#</span>GetIDsOfNames<span class=p>(</span><span class=t>GUID</span><span class=o>*</span>riid <span class=t>word</span><span class=o>**</span>rgszNames cNames lcid rgDispId<span class=p>)</span>
+<span class=i>&#9;</span><span class=o>#</span>Invoke<span class=p>(</span>dispIdMember <span class=t>GUID</span><span class=o>*</span>riid lcid <span class=o>@</span>wFlags DISPPARAMS<span class=o>*</span>pDispParams <span class=t>VARIANT</span><span class=o>*</span>pVarResult EXCEPINFO<span class=o>*</span>pExcepInfo <span class=o>*</span>puArgErr<span class=p>)</span>
+<span class=i>&#9;</span>{00020400-0000-0000-C000-000000000046}
+
+<span class=fq>interface</span> <span class=t>IAccessible</span> <span class=p>:</span><span class=t>IDispatch</span>
+<span class=i>&#9;</span>[ga]<span class=t>IAccessible</span><span class=p>'</span>Parent<span class=p>()</span>
+<span class=i>&#9;</span>[ga]ChildCount<span class=p>()</span>
+<span class=i>&#9;</span>[ga]<span class=t>IAccessible</span><span class=p>'</span>Child<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>Name<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>Value<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>Description<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>VARIANT</span><span class=p>'</span>Role<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>VARIANT</span><span class=p>'</span>State<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>Help<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]HelpTopic<span class=p>(</span><span class=t>BSTR</span><span class=o>*</span>pszHelpFile <span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>KeyboardShortcut<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ga]<span class=t>VARIANT</span><span class=p>'</span>Focus<span class=p>()</span>
+<span class=i>&#9;</span>[ga]<span class=t>VARIANT</span><span class=p>'</span>Selection<span class=p>()</span>
+<span class=i>&#9;</span>[ga]<span class=t>BSTR</span><span class=p>'</span>DefaultAction<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[h]Select<span class=p>(</span>flagsSelect <span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[h]Location<span class=p>(</span><span class=o>*</span>pxLeft <span class=o>*</span>pyTop <span class=o>*</span>pcxWidth <span class=o>*</span>pcyHeight <span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[a]<span class=t>VARIANT</span><span class=p>'</span>Navigate<span class=p>(</span>navDir <span class=t>VARIANT</span><span class=p>'</span>varStart<span class=p>)</span>
+<span class=i>&#9;</span>[a]<span class=t>VARIANT</span><span class=p>'</span>HitTest<span class=p>(</span>xLeft yTop<span class=p>)</span>
+<span class=i>&#9;</span>[h]DoDefaultAction<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild<span class=p>)</span>
+<span class=i>&#9;</span>[ph]Name<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild <span class=t>BSTR</span><span class=p>'</span>szName<span class=p>)</span>
+<span class=i>&#9;</span>[ph]Value<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>varChild <span class=t>BSTR</span><span class=p>'</span>szValue<span class=p>)</span>
+<span class=i>&#9;</span>{618736e0-3c3d-11cf-810c-00aa00389b71}
+
+<span class=fq>interface</span><span class=o>#</span> ITask <span class=p>:</span>IScheduledWorkItem
+<span class=i>&#9;</span>SetApplicationName<span class=p>(</span><span class=o>@*</span>pwszApplicationName<span class=p>)</span>
+<span class=i>&#9;</span>GetApplicationName<span class=p>(</span><span class=o>@**</span>ppwszApplicationName<span class=p>)</span>
+<span class=i>&#9;</span>SetParameters<span class=p>(</span><span class=o>@*</span>pwszParameters<span class=p>)</span>
+<span class=i>&#9;</span>GetParameters<span class=p>(</span><span class=o>@**</span>ppwszParameters<span class=p>)</span>
+<span class=i>&#9;</span>SetWorkingDirectory<span class=p>(</span><span class=o>@*</span>pwszWorkingDirectory<span class=p>)</span>
+<span class=i>&#9;</span>GetWorkingDirectory<span class=p>(</span><span class=o>@**</span>ppwszWorkingDirectory<span class=p>)</span>
+<span class=i>&#9;</span>SetPriority<span class=p>(</span>dwPriority<span class=p>)</span>
+<span class=i>&#9;</span>GetPriority<span class=p>(</span><span class=o>*</span>pdwPriority<span class=p>)</span>
+<span class=i>&#9;</span>SetTaskFlags<span class=p>(</span>dwFlags<span class=p>)</span>
+<span class=i>&#9;</span>GetTaskFlags<span class=p>(</span><span class=o>*</span>pdwFlags<span class=p>)</span>
+<span class=i>&#9;</span>SetMaxRunTime<span class=p>(</span>dwMaxRunTimeMS<span class=p>)</span>
+<span class=i>&#9;</span>GetMaxRunTime<span class=p>(</span><span class=o>*</span>pdwMaxRunTimeMS<span class=p>)</span>
+<span class=i>&#9;</span>{148BD524-A2AB-11CE-B11F-00AA00530503}
+
+<span class=fq>interface</span><span class=o>@</span> IExample <span class=p>:</span><span class=t>IDispatch</span> <span class=o>#</span>Method<span class=p>(</span><span class=t>VARIANT</span><span class=p>'</span>v<span class=p>)</span> [g]<span class=t>BSTR</span><span class=p>'</span>Property<span class=p>()</span> [p]Property<span class=p>(</span><span class=t>BSTR</span><span class=p>'</span>name<span class=p>)</span></pre>
+
+</body>
+
+</html>
