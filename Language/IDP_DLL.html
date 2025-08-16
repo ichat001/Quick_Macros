@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>dll</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><a href="IDP_DECLARATION.html">Declare</a> dll function</h1>
+
+<h3>Syntax1 - declare single function</h3>
+
+<pre class=syntax><b>dll</b><i>[</i>-<i>]</i> dllfile <i>[</i>functype<i>]</i><span class="dll">Function</span> <i>[</i>parameters<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - declare several functions from same dll</h3>
+
+<pre class=syntax><b>dll</b><i>[</i>-<i>]</i> dllfile
+<i class=f8>(tab)</i><i>[</i>functype<i>]</i><span class="dll">Function1</span> <i>[</i>parameters<i>]</i>
+<i>[</i><i class=f8>(tab)</i><i>[</i>functype<i>]</i><span class="dll">Function2</span> <i>[</i>parameters<i>]</i>
+<i>...]</i></pre>
+<p>&nbsp;</p>
+<p>Use this syntax to declare different name (alias) than it is in dll:</p>
+<pre class=syntax><b>dll </b>dllfile [TrueName]<i>[</i>functype<i>]</i><span class="dll">AnyName</span> <i>[</i>parameters<i>]</i></pre>
+<p>&nbsp;</p>
+<p>Use this syntax to find function by its ordinal number:</p>
+<pre class=syntax><b>dll </b>dllfile [ordinal]<i>[</i>functype<i>]</i><span class="dll">AnyName</span> <i>[</i>parameters<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>dllfile</b> - dll <A href="../Other/IDP_SEARCHPATHS.html">filename</a> 
+or full path.</p>
+<ul>
+<li> Can be enclosed in quotes or not.</li>
+<li> Can be used named constants, 
+  but only if begin with _DLL_ (QM 2.2.0).</li>
+<li>Can be &quot;&quot; if you'll explicitly set address with operator &amp; (read below).</li>
+</ul>
+<p> <A href="../Other/IDP_TYPESPEC.html"> <b>functype</b></a> -  return 
+type. If omitted, the return value is undefined (void).</p>
+
+<p> <b>Function</b> -  <A href="../Other/IDP_IDENTIFIERS.html">name</a>.</p>
+
+<p><b>parameters</b> - list of parameters.</p>
+<ul>
+<li> Parameter syntax: <span class=syntax><i>[</i><A href="../Other/IDP_TYPESPEC.html">type</a><i>]</i>name</span></li>
+<li>Optional parameter syntax: <span class=syntax>[<i>[</i><a href="../Other/IDP_TYPESPEC.html">type</a><i>]</i>name]</span></li>
+<li>Default <b>type</b> is int.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td> -</td> <td> Delay-loading. Also use if you'll explicitly set address with operator &amp; (read below).</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Declares a dll function.</p>
+<p>&nbsp;</p>
+<p> By default, loads the dll file and finds the function when compiling (in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> 
+  - when starting the program). If the dll or function not found, generates 
+  error (in exe - ends process with an error message box). If <span class=cod><span class=fq>dll</span><span class=o>-</span></span> 
+ used (delay-loading), the dll and function will be loaded at run time, when need (called, 
+ address queried, etc); will be run-time error (see <a href="../Flow/IDP_ERR.html" class="blue">err</a>) if the dll or function not found.</p>
+<p>&nbsp;</p>
+<p>Some functions in dll have two versions: with 'A' and with 'W' suffix. The 
+  A version uses ANSI text. The W version uses Unicode UTF-16 text. You can omit 
+  'A' suffix. If QM does not find the specified function, it searches for function 
+  with 'A' suffix. To support <a href="../Other/IDP_UNICODE.html">Unicode</a>, 
+  use functions with 'W' suffix. <a onClick="doSection(e1)" class="expand">Example</a>.</p>
+<div id="e1" class="expand">
+<pre class=cod><span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>SetWindowTextW</span> hWnd <span class=o>@*</span>lpString
+<span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>GetWindowTextW</span> hWnd <span class=o>@*</span>lpString nMaxCount
+
+<span class=fd>SetWindowTextW</span> _hwndqm <span class=o>@</span><span class=s>&#34;unicode text&#34;</span>
+
+<span class=t>str</span> s<span class=p>;</span> <span class=t>BSTR</span> b
+<span class=fd>GetWindowTextW</span><span class=p>(</span>_hwndqm b.alloc<span class=p>(</span><span class=n>300</span><span class=p>)</span> <span class=n>300</span><span class=p>)</span>
+s.ansi<span class=p>(</span>b<span class=p>)</span>
+<span class=fq>out</span> s</pre>
+</div>
+<p>&nbsp;</p>
+<p> Supported are __stdcall and __cdecl calling conventions. Don't need to specify it.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1. Can be used optional parameters. They are declared by enclosing into 
+  [ ]. The default value is 0. User-defined types 
+  passed by value cannot be optional.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1. To declare variable number of parameters, add <span class=cod> ...</span> at the end. When calling the function, argument types are not converted, therefore must 
+  match expected.</p>
+<p>&nbsp;</p>
+<p>Allowed is function declaration without parameters. When calling such function, 
+  can be passed any number of arguments; argument types must match expected.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. You can declare parameters as <a href="IDH_POINTERS.html">reference instead of pointer</a>. For example, <span class=cod><span class=t>POINT</span><span class=o>&amp;</span>p</span> is the same as <span class=cod><span class=t>POINT</span><span class=o>*</span>p</span>. You can pass variables for reference and pointer parameters with or without operator &amp;. For example, code <span class=cod><span class=t>POINT</span> p<span class=p>;</span> <span class=fd>GetCursorPos</span><span class=p>(</span>p<span class=p>)</span></span> is the same as <span class=cod><span class=t>POINT</span> p<span class=p>;</span> <span class=fd>GetCursorPos</span><span class=p>(</span><span class=o>&amp;</span>p<span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>Dll functions also can be declared in <a href="../QM_Help/IDH_SETT_FILES.html">reference 
+  files</a> and <A href="../_COM/IDP_TYPELIB.html">type libraries</a>, which allows 
+  you to use them without declaring explicitly. Many declarations are in WINAPI 
+  and WINAPIV reference files. Usage example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> hdc<span class=o>=</span><span class=lib>WINAPI.</span><span class=fd>CreateCompatibleDC</span><span class=p>(</span><span class=n>0</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Some Windows functions are declared by default, in the System\Declarations 
+  folder.</p>
+<p>&nbsp;</p>
+<p>Usually you don't use full path in <b>dllfile</b>. Then the dll file should 
+  be in QM folder or in System32 folder. If used in exe, it should be in exe folder 
+  (however when creating exe it also must be in QM folder) or in System32 
+  folder.</p>
+<p>&nbsp;</p>
+<p><i>See also: </i> <A href="IDH_FUNCTIONS.html">Functions</a> <a href="IDP_REF.html">reference 
+  files</a> <a href="../_COM/IDP_TYPELIB.html">type libraries</a> <a href="IDP_DECLARATION.html">declarations</a> 
+  <a href="../Other/IDP_IDENTIFIERS.html">scope</a> </p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>SendMessage</span> hWnd wMsg wParam lParam
+<span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>FindWindow</span> <span class=o>$</span>lpClassName <span class=o>$</span>lpWindowName
+<span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>GetCursorPos</span> <span class=t>POINT</span><span class=o>*</span>lpPoint
+<span class=fq>dll</span> msvcrt
+<span class=i>&#9;</span><span class=o>^</span><span class=fd>pow</span> <span class=o>^</span>x <span class=o>^</span>y
+<span class=i>&#9;</span>[<span class=fd>tolower</span>]<span class=o>#</span><span class=fd>ToLower</span> c
+<span class=i>&#9;</span>[<span class=n>795</span>]<span class=o>#</span><span class=fd>ToUpper</span> c
+<span class=fq>dll</span> <span class=s>&#34;qm.exe&#34;</span> <span class=o>^</span><span class=fd>Round</span> <span class=o>^</span>number [cDec] <span class=c2>;;cDec is optional
+</span><span class=fq>dll</span> msvcrt <span class=o>#</span><span class=fd>sprintf</span> <span class=o>$</span>buffer <span class=o>$</span>format ... <span class=c2>;;2 or more parameters</span>
+</pre>
+<p>&nbsp;</p>
+<h2>Explicitly set function address with operator &amp; (QM 2.4.1)</h2>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+<pre class=syntax><b>&amp;</b><span class="dll">Function</span>=address</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p><b>Function</b> - function name previously declared with <span class="blue">dll</span>-. You can declare any names.</p>
+<p><b>address</b> - any function address. The function can be a dll function, a user-defined function, a function compiled at run time with <span class="type">__Tcc</span> class (C compiler), etc.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Sets a function address to be used to call a function previously declared with <span class="blue">dll</span>-.</p>
+<p>&nbsp;</p>
+<p>When you declare a dll function with <span class="blue">dll</span>-, by default QM automatically loads the dll and finds function at run time when the function is actually used first time. But sometimes you may want to just declare the function, and at run time explicitly get function address (eg with <span class="dll">GetProcAddress</span>) and bind it to the declaration. Then use operator &amp;. Also it allows you to declare any functions with <span class="blue">dll</span>-, not just dll functions. The purpose is to be able to call the function as easily and safely as any declared dll function. You could instead use  <a href="../Functions/IDP_CALL.html" class="blue">call</a>, but then calling is not so easy and safe, because function parameters are not defined.</p>
+<p>&nbsp;</p>
+<p>In function declaration (<span class="blue">dll</span>-), <b>dllfile</b> can be &quot;&quot;. Operator &amp; does not use it anyway.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> declare a user-defined function as a dll function</span>
+<span class=fq>dll</span><span class=o>-</span> <span class=s>&quot;&quot;</span> <span class=fd>DlTest</span> x <span class=c2>;;declare</span>
+<span class=o>&amp;</span><span class=fd>DlTest</span><span class=o>=&amp;</span><span class=fu>Function274</span> <span class=c2>;;set address</span>
+<span class=fd>DlTest</span> <span class=n>100</span> <span class=c2>;;call</span>
+
+<span class=c> declare a dll function</span>
+<span class=fq>dll</span><span class=o>-</span> <span class=s>&quot;&quot;</span> <span class=o>#</span><span class=fd>MessageBox2</span> hWnd <span class=o>$</span>lpText <span class=o>$</span>lpCaption uType
+<span class=o>&amp;</span><span class=fd>MessageBox2</span><span class=o>=</span><span class=fd>GetProcAddress</span><span class=p>(</span><span class=fd>GetModuleHandle</span><span class=p>(</span><span class=s>&quot;user32&quot;</span><span class=p>)</span> <span class=s>&quot;MessageBoxA&quot;</span><span class=p>)</span>
+<span class=fd>MessageBox2</span> <span class=n>0</span> <span class=s>&quot;text&quot;</span> <span class=s>&quot;caption&quot;</span> <span class=n>0</span>
+
+<span class=c> declare C functions compiled at run time</span>
+<span class=fq>dll</span><span class=o>-</span> <span class=s>&quot;&quot;</span>
+<span class=i>&#9;</span><span class=fd>test_add</span> a b
+<span class=i>&#9;</span><span class=fd>test_sub</span> a b
+<span class=t>__Tcc</span><span class=o>+</span> g_test_tcc
+<span class=fq>if</span> <span class=o>!</span>g_test_tcc.f
+<span class=i>&#9;</span><span class=t>int</span><span class=o>*</span> p<span class=o>=</span>g_test_tcc.<span class=fu>Compile</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=s>&quot;add[]sub&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=o>&amp;</span><span class=fd>test_add</span><span class=o>=</span>p[<span class=n>0</span>]
+<span class=i>&#9;</span><span class=o>&amp;</span><span class=fd>test_sub</span><span class=o>=</span>p[<span class=n>1</span>]
+<span class=fq>out</span> <span class=fd>test_add</span><span class=p>(</span><span class=n>4</span> <span class=n>5</span><span class=p>)</span>
+<span class=fq>out</span> <span class=fd>test_sub</span><span class=p>(</span><span class=n>4</span> <span class=n>5</span><span class=p>)</span>
+<span class=dir>#ret</span>
+<span class=t>int</span> add<span class=p>(</span><span class=t>int</span> a<span class=p>,</span> <span class=t>int</span> b<span class=p>)</span>{return a<span class=o>+</span>b<span class=p>;</span>}
+<span class=t>int</span> sub<span class=p>(</span><span class=t>int</span> a<span class=p>,</span> <span class=t>int</span> b<span class=p>)</span>{return a<span class=o>-</span>b<span class=p>;</span>}
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
