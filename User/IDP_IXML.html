@@ -1,0 +1,931 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>IXml and IXmlNode interfaces</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>IXml and IXmlNode interfaces</h1>
+
+
+<p><span class="type">IXml</span> and <span class="type">IXmlNode</span> interfaces 
+  are used to work with <a onClick="doSection(e1)" class="expand">XML</a>.</p>
+<div id="e1" class="expand"> 
+  <p>XML is a text file format used to store data or settings. It can 
+    be used to store tables as well as hierarchical data structures (trees) of 
+    any format. To save 
+    tables, <a href="IDP_ICSV.html">CSV</a> or <span class="type">Sqlite</span> often is better and easier to use. 
+    You can find many information about 
+    XML on the Internet.</p>
+  <p>&nbsp;</p>
+  <p>XML format is similar to HTML. Example:</p>
+  <p>&nbsp;</p>
+  <pre>&lt;note&gt;<br>	&lt;to&gt;Tove&lt;/to&gt;<br>	&lt;from&gt;Jani&lt;/from&gt;<br>	&lt;heading&gt;Reminder&lt;/heading&gt;<br>	&lt;body&gt;Don't forget me this weekend!&lt;/body&gt;<br>&lt;/note&gt;</pre>
+  <p>&nbsp;</p>
+  <p>You can find many examples on your computer, since many programs save their 
+    settings and data in XML format. Press Win+F and search for *.xml files.</p>
+  <p>&nbsp;</p>
+  <p>Alternatively can be used MSXML. It has more features. It is a COM component, 
+    included in Windows. You can find an example in the QM forum. However different 
+    Windows versions have different MSXML versions. Also it is quite slow. <span class="type">IXml</span> 
+    works on all Windows versions, is faster, uses less 
+    memory and does not load any dlls. <span class="type">IXml</span> supports 
+    basic XML features. However it does not help you to work with advanced XML 
+    features, such as namespaces, DTD, schemas, XPath (partially supported), custom 
+    entities, etc. In most cases it successfully parses and composes documents 
+    that use these features, but does not help you to manage the advanced features.</p>
+</div>
+  <p>&nbsp;</p>
+<p> Added in QM 2.3.0.</p>
+<p>&nbsp;</p>
+<p> To create an XML object, use function <span class="dll">CreateXml</span> or <span class="blue">_create</span> (QM 2.3.4). To 
+  work with it, use <span class="type">IXml</span> and <span class="type">IXmlNode</span> 
+  interfaces. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> This macro loads XML file and adds several new nodes.</span>
+
+<span class=fq>out</span>
+<span class=t>IXml</span> x.<span class=fq>_create</span>
+
+x.<span class=fd>FromFile</span><span class=p>(</span><span class=s>&quot;$qm$\test.xml&quot;</span><span class=p>)</span> <span class=c2>;;load XML file</span>
+<span class=fq>err</span> <span class=fq>out</span> <span class=s>&quot;Error: %s&quot;</span> x.<span class=fd>XmlParsingError</span><span class=p>;</span> <span class=fq>ret</span> <span class=c2>;;error if the file is corrupted</span>
+
+<span class=t>IXmlNode</span> my<span class=o>=</span>x.<span class=fd>RootElement</span>.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;myelement&quot;</span><span class=p>)</span> <span class=c2>;;add one new element as child of the root element</span>
+my.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;mysubelement&quot;</span> <span class=s>&quot;text of my subelement&quot;</span><span class=p>)</span> <span class=c2>;;add its child element</span>
+my.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;mysubelement2&quot;</span> <span class=s>&quot;some text&quot;</span><span class=p>)</span>.<span class=fd>SetAttribute</span><span class=p>(</span><span class=s>&quot;a&quot;</span> <span class=s>&quot;my attribute&quot;</span><span class=p>)</span> <span class=c2>;;add another child element and an attribute</span>
+
+<span class=t>str</span> s
+x.<span class=fd>ToString</span><span class=p>(</span>s<span class=p>)</span> <span class=c2>;;compose xml string</span>
+<span class=fq>out</span> s
+</pre>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> This macro creates new XML document, adds elements, attributess, finds and gets values.</span>
+
+<span class=fq>out</span>
+<span class=t>IXml</span> x.<span class=fq>_create</span>
+
+x.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;?xml&quot;</span><span class=p>)</span> <span class=c2>;;add xml declaration (optional)</span>
+<span class=t>IXmlNode</span> re<span class=o>=</span>x.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;rootelem&quot;</span><span class=p>)</span> <span class=c2>;;add root element (XML must have exactly 1 root element)</span>
+re.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;child&quot;</span> <span class=s>&quot;text&quot;</span><span class=p>)</span>.<span class=fd>SetAttribute</span><span class=p>(</span><span class=s>&quot;a&quot;</span> <span class=s>&quot;10&quot;</span><span class=p>)</span> <span class=c2>;;add child element with text and 1 attribute</span>
+
+<span class=t>IXmlNode</span> e<span class=o>=</span>re.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;elem2&quot;</span><span class=p>)</span> <span class=c2>;;add another child element</span>
+e.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;cc&quot;</span> <span class=s>&quot;text of cc&quot;</span><span class=p>)</span> <span class=c2>;;add child of child</span>
+e<span class=o>=</span>e.<span class=fd>Add</span><span class=p>(</span><span class=s>&quot;cc2&quot;</span><span class=p>)</span> <span class=c2>;;add another child of child</span>
+e.<span class=fd>SetAttribute</span><span class=p>(</span><span class=s>&quot;a&quot;</span> <span class=s>&quot;AAA&quot;</span><span class=p>)</span> <span class=c2>;;add attribute</span>
+e.<span class=fd>SetAttribute</span><span class=p>(</span><span class=s>&quot;b&quot;</span> <span class=s>&quot;BBB&quot;</span><span class=p>)</span> <span class=c2>;;add another attribute</span>
+
+<span class=t>str</span> v1<span class=o>=</span>re.<span class=fd>ChildValue</span><span class=p>(</span><span class=s>&quot;child&quot;</span><span class=p>)</span> <span class=c2>;;get value of a child (same as re.Child(&quot;child&quot;).Value)</span>
+e<span class=o>=</span>x.<span class=fd>Path</span><span class=p>(</span><span class=s>&quot;rootelem/elem2/cc2/@b&quot;</span><span class=p>)</span> <span class=c2>;;find a node by path</span>
+<span class=t>str</span> v2<span class=o>=</span>e.<span class=fd>Value</span> <span class=c2>;;get its value</span>
+<span class=fq>out</span> v1
+<span class=fq>out</span> v2
+
+<span class=fq>out</span> <span class=s>&quot;-----&quot;</span>
+<span class=t>str</span> s
+x.<span class=fd>ToString</span><span class=p>(</span>s<span class=p>)</span> <span class=c2>;;compose xml string</span>
+<span class=fq>out</span> s
+</pre>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /</span>
+<span class=fq>function</span> <span class=t>IXml</span><span class=o>&amp;</span>xml [withAttr]
+
+<span class=c> This function displays all XML nodes and their properties.
+ To test it, create new function, name it XmlOut and paste this code.</span>
+
+<span class=c> EXAMPLE</span>
+<span class=c> IXml x=CreateXml</span>
+<span class=c> x.FromFile(&quot;$my qm$\test.xml&quot;)</span>
+<span class=c> XmlOut x 1</span>
+
+
+<span class=t>lpstr</span> st<span class=o>=</span><span class=s>&quot;root[]el[]a[]text[]xml[]DOC[]PI[]CD[]comm&quot;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> at<span class=o>=</span>st
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>)</span> a<span class=p>;</span> <span class=t>int</span> i
+xml.<span class=fd>Root</span>.<span class=fd>GetAll</span><span class=p>(</span>withAttr<span class=o>!=</span><span class=n>0</span> a<span class=p>)</span>
+
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.<span class=fq>len</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=t>XMLNODE</span> xi<span class=p>;</span> a[i].<span class=fd>Properties</span><span class=p>(</span><span class=o>&amp;</span>xi<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;%-15s %-4s F=0x%X L=%i V='%s'&quot;</span><span class=p>,</span> xi.name<span class=p>,</span> at[xi.xtype]<span class=p>,</span> xi.flags<span class=p>,</span> xi.level<span class=p>,</span> xi.value
+</pre>
+<p>&nbsp;</p>
+<h2>XML nodes</h2>
+<p>Example XML, containing all node types:</p>
+<p>&nbsp;</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;<br>&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;example.xsl&quot;?&gt;<br>&lt;!DOCTYPE  example &gt;<br>&lt;!--this is an example xml--&gt;<br>&lt;example&gt;<br>	&lt;simple&gt;<br>		&lt;elem&gt;text&lt;/elem&gt;<br>		text before&lt;a&gt;left&lt;b&gt;center&lt;/b&gt;right&lt;/a&gt;after<br>		&lt;elem&gt;text again&lt;/elem&gt;<br>	&lt;/simple&gt;<br>	&lt;entities&gt;&amp;lt;&amp;gt;&amp;amp;&amp;quot;&amp;apos;&lt;/entities&gt;<br>	&lt;unicode&gt;&amp;#2345; &amp;#x5678; &amp;#x10FFFF;&lt;/unicode&gt;<br>	&lt;attr-and-text a=&quot;aaa&quot; b=&quot;bbb&quot; c=&quot;ccc&quot;&gt;text&lt;/attr-and-text&gt;<br>	&lt;empty /&gt;<br>	text after empty<br>	&lt;notext&gt;&lt;/notext&gt;<br>	&lt;empty-attr a=&quot;1&quot; /&gt;<br>	&lt;notext-attr b=&quot;&quot;&gt;&lt;/notext-attr&gt;<br>	&lt;lang name=&quot;qm&quot;&gt;<br>		&lt;styles&gt;<br>			&lt;s32 f=&quot;Courier' &amp;quot;New&quot; fs=&quot;8&quot;&gt;Default&lt;/s32&gt;<br>			&lt;s1 u=&quot;1&quot;&gt;Tabs&lt;/s1&gt;<br>			&lt;?pi abc?&gt;<br>		&lt;/styles&gt;<br>		&lt;misc&gt;<br>			&lt;multiline&gt;<br>line1<br>line2<br>			&lt;/multiline&gt;<br>			&lt;mixed-content&gt;<br>			line1<br>			&lt;?pi intext?&gt;<br>			line2<br>			&lt;/mixed-content&gt;<br>		&lt;/misc&gt;<br>	&lt;/lang&gt;<br>	&lt;![CDATA[can contain &lt; &amp; etc]]&gt;<br>	&lt;!--&lt;rem&gt;text&lt;/rem&gt;--&gt;<br>&lt;/example&gt;<br><br></pre>
+<p>XML node types and properties used by <span class="type">IXml</span> and <span class="type">IXmlNode</span>:</p>
+<table class="tnormal">
+  <tr> 
+    <th>Node type</th>
+    <th>Constant</th>
+    <th>Examples</th>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Can have children</th>
+    <th>Can have attributes</th>
+    <th>Can be at the root</th>
+    <th>Can be not at the root</th>
+  </tr>
+  <tr> 
+    <td>virtual root</td>
+    <td>XT_Root 0</td>
+    <td>Not used in XML.</td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td>element</td>
+    <td>XT_Element 1</td>
+    <td><p>&lt;elem&gt;text&lt;/elem&gt;</p>
+      <p>&nbsp;</p>
+      <p>&lt;example&gt;&lt;/example&gt;</p>
+      <p>&nbsp;</p>
+      <p>&lt;empty /&gt;</p>
+      <p>&nbsp;</p>
+      <p>&lt;empty-attr a=&quot;1&quot; /&gt;</p>
+      <p>&nbsp;</p>
+      <p>&lt;s1 u=&quot;1&quot;&gt;Tabs&lt;/s1&gt;</p></td>
+    <td>name</td>
+    <td>Text between &lt;elem&gt; and &lt;/elem&gt;. Empty if &lt;elem /&gt; or 
+      &lt;elem&gt;&lt;/elem&gt; or has child nodes.</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>Yes, 1</td>
+    <td>Yes</td>
+  </tr>
+  <tr> 
+    <td>attribute</td>
+    <td>XT_Attribute 2</td>
+    <td><p>a=&quot;1&quot;</p>
+      <p>&nbsp;</p>
+      <p>encoding=&quot;utf-8&quot;</p></td>
+    <td>name</td>
+    <td>Attribute value. It is text within &quot; or '.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td>text</td>
+    <td>XT_Text 3</td>
+    <td><p>text</p>
+      <p>&nbsp;</p>
+      <p>line1</p>
+      <p>line2</p></td>
+    <td></td>
+    <td>The text, including all spaces and leading/trailing new lines. Note that 
+      this element type can be found only where the parent element also has other 
+      child nodes. If not, text is interpreted as value of the parent element, 
+      not as a separate node.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+  </tr>
+  <tr> 
+    <td>xml declaration</td>
+    <td>XT_XmlDeclaration 4</td>
+    <td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</td>
+    <td>?xml</td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+    <td>Yes, 1, first</td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td>DOCTYPE (document type)</td>
+    <td>XT_DocumentType 5</td>
+    <td>&lt;!DOCTYPE example &gt;</td>
+    <td>!DOCTYPE</td>
+    <td>Text between &lt;!DOCTYPE and &gt;, not including leading and trailing 
+      spaces. QM does not parse it.</td>
+    <td></td>
+    <td></td>
+    <td>Yes, 1, before root element</td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td>processing instruction</td>
+    <td>XT_ProcessingInstruction 6</td>
+    <td>&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;example.xsl&quot;?&gt;</td>
+    <td>?name</td>
+    <td> Text between &lt;?instructionname and ?&gt;, not including leading and 
+      trailing spaces. QM does not parse it.</td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr> 
+    <td>CDATA (custom data)</td>
+    <td>XT_CDATA 7</td>
+    <td>&lt;![CDATA[can contain &lt; &amp; etc]]&gt;</td>
+    <td>![</td>
+    <td>Text between &lt;![CDATA[ and ]]&gt;, including all spaces.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+  </tr>
+  <tr> 
+    <td>comment</td>
+    <td>XT_Comment 8</td>
+    <td><p>&lt;!--this is an example xml--&gt;</p>
+      <p>&nbsp;</p>
+      <p>&lt;!--&lt;rem&gt;text&lt;/rem&gt;--&gt;</p></td>
+    <td>!-</td>
+    <td>Text between &lt;!-- and --&gt;, including all spaces.</td>
+    <td></td>
+    <td></td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Note that XML element types 'end element' and 'white space' are not used. It 
+  is managed automatically.</p>
+<h2>Interfaces</h2>
+<p>There are two COM interfaces.</p>
+<p>&nbsp;</p>
+<p>Interface <span class="type">IXml</span> represents an XML document. It is responsible 
+  for loading, saving, parsing and composing XML. It manages XML nodes and has 
+  functions to access them.</p>
+<p>&nbsp;</p>
+<p> Interface <span class="type">IXmlNode</span> represents a node in the XML document. 
+  It has functions to get and set node values and other properties, find other 
+  nodes, add child nodes.</p>
+<p>&nbsp;</p>
+<h2>Global functions</h2>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>IXml</span><span class=p>'</span><span class=fd>CreateXml</span> [flags] <span class=c2>;;flags: 1 normalize newlines, 2 enable UserData, 4 ignore encoding, 8 auto save</span><span class="c2">, 0x100 safe save, 0x200 safe save+backup</span></pre>
+<p>&nbsp;</p>
+<p>Creates  XML object and returns <span class="type">IXml</span> COM interface pointer.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>flags</b> - same as with function <span class="dll">Flags</span>, see below.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.4. You can instead use <span class="blue">_create</span>.</p>
+<p>&nbsp;</p>
+<h2>IXml member functions</h2>
+<p>Member functions are called like: variable.Function(arguments). See the example code at the top of this topic. Note that the colored code lines below are not function calling examples. They are copied from interface declaration and used here to show function name, arguments etc.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=i></span>[p]<span class=fd>Flags</span><span class=p>(</span>flags<span class=p>)</span> <span class=c2>;;1 normalize newlines, 2 enable UserData, 4 ignore encoding, 8 auto save</span><span class="c2">, 0x100 safe save, 0x200 safe save+backup</span>
+<span class=i></span>[g]<span class=o>#</span><span class=fd>Flags</span><span class=p>()</span>
+</pre>
+<p>&nbsp;</p>
+<p>Sets or gets flags to change default behavior of other functions.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>flags</b>:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>1</td>
+      <td>When parsing, replace various new line forms ([], 
+        [13]) to [10] (XML 
+        standard). When composing, make all new lines []. 
+        If this flag is not set, does not touch new lines.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Enable IXmlNode.UserData, which is disabled by default.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>When parsing XML, ignore &quot;encoding&quot; attribute in xml declaration. 
+        Read more below, in Notes chapter.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Autosave. After successful <span class="dll">FromFile</span>, before destroying 
+        the IXml object automatically saves to the same file. However will not save if 
+        you after call <span class="dll">FromString</span>.</td>
+    </tr>
+    <tr>
+      <td>0x100</td>
+      <td>QM 2.4.0. Safe saving. This flag is added to <span class="dll">ToFile</span> flags.</td>
+    </tr>
+    <tr>
+      <td>0x200</td>
+      <td>QM 2.4.0. Safe saving and backup. This flag is added to <span class="dll">ToFile</span> flags.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Root</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets the virtual root node. It actually does 
+  not exist in XML, but can be used as parent of XML root nodes (xml declaration, 
+  DOCTYPE, root element, etc).</p>
+<p>&nbsp;</p>
+<p>When you read &quot;get node&quot;, &quot;get element&quot; or &quot;get attribute&quot;, 
+  it means &quot;get <span class="type">IXmlNode</span> interface pointer that 
+  can be used to manipulate the node&quot;.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>RootElement</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets the root element. For example, 
+  in XML <tt>&lt;?xml version=&quot;1.0&quot;?&gt;&lt;elem&gt;&lt;elem2&gt;text&lt;/elem2&gt;&lt;/elem&gt;</tt>, 
+the root element is <tt>elem</tt>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Path</span><span class=p>(</span><span class=o>$</span>path [<span class=t>ARRAY</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>)</span><span class=o>&amp;</span>allMatching]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets any node by path. The <span class="type">IXmlNode</span> 
+  interface also has these functions, <a href="IDP_IXML.html#Path">look there</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Add</span><span class=p>(</span><span class=o>$</span>name [<span class=o>$</span>value]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds a node at the root. The <span class="type">IXmlNode</span> 
+  interface also has this function, and it is documented there. Note that xml 
+  declaration and DOCTYPE nodes are always added where they should be, even if 
+  more nodes already exist at the root.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Delete</span><span class=p>(</span><span class=t>IXmlNode</span><span class=o>&amp;</span>node<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Delete a node. The argument must be a variable 
+  of <span class="type">IXmlNode</span> type. If it is an element, also deletes 
+  its attributes, text and descendant nodes. Can be used to delete an attribute 
+  too. </p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Clear</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Delete all nodes.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>XmlParsingError</span></pre>
+<p>&nbsp;</p>
+<p>If <span class="dll">FromString</span> 
+  or <span class="dll">FromFile</span> failed to parse XML, gets the place (substring) 
+  in XML that has error.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>Count</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets the number of nodes in XML, including attributes.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>FromString</span><span class=p>(</span><span class=o>$</span>s<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Parses an XML string and creates a tree 
+  of node objects in memory. Returns root element.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToString</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>so<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Composes XML string from the tree.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>FromFile</span><span class=p>(</span><span class=o>$</span><span class=lib>file</span> [<span class=o>$</span>defaultXML]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Parses an XML file and creates a tree 
+  of node objects in memory. Returns root element.</p>
+<p>&nbsp;</p>
+<p> Error if the file does not exist, unless you provide <b>defaultXML</b>. </p>
+<p>&nbsp;</p>
+<p><b>defaultXML</b> - if the file does not exist, initializes 
+  the object (like <span class="dll">FromString</span>). 
+  The  XML must contain at least the root element. Example: <span class=cod><span class=s>&quot;&lt;r/&gt;&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p>After successful <span class="dll">FromFile</span>, the object remembers <b>file</b>, 
+  and can use it to autosave (see <span class="dll">CreateXml</span> flag 8) and 
+  with <span class="dll">ToFile</span>. The object loses this memory after <span class="dll">FromString</span> 
+  or unsuccessful <span class="dll">FromFile</span>.</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToFile</span><span class=p>(</span>[<span class=o>$</span><span class=lib>file</span>] [flags]<span class=p>)</span><span class="c2"> ;;flags: 0x100 safe, 0x200 safe+backup</span></pre>
+<p>&nbsp;</p>
+<p>Saves to an XML file.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p> <b>flags</b> (QM 2.4.0):</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>0x100</td>
+      <td>QM 2.4.0. Safe saving. The file will never be corrupted on power failure etc. Writes to a temporary file, flushes its buffers, and renames the temporary file to <b>file</b>, replacing if exists.</td>
+    </tr>
+    <tr>
+      <td>0x200</td>
+      <td>QM 2.4.0. Safe saving and backup. Same as 0x100, but also creates a backup file, named <b>file</b>-backup.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>If <b>file</b> is omitted or empty, uses the same file as used with <span class="dll">FromFile</span>.</p>
+<p>Flags 0x100 and 0x200 also can be specified earlier with <span class="dll">Flags</span> or <span class="dll">CreateXml</span>. It is useful when you use the auto-save feature.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Creates parent folder if does not exist.</p>
+<p>&nbsp;</p>
+<h2>IXmlNode member functions</h2>
+<p>&nbsp;</p>
+<pre class=cod>[g]<span class=t>IUnknown</span><span class=p>'</span><span class=fd>XmlDoc</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets parent <span class="type">IXml</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Parent</span><span class=p>()</span>
+[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Prev</span><span class=p>()</span>
+[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Next</span><span class=p>()</span>
+[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>FirstChild</span><span class=p>()</span>
+[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>LastChild</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+
+<p>Gets 
+  parent, sibling or child node. The first three functions can be used with attribute nodes 
+  too.</p>
+<p>&nbsp;</p>
+<hr>
+<a name="Child"></a>
+<pre class=cod>[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Child</span><span class=p>(</span><span class=o>$</span>name [index]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets a child node by name and/or index. Tip: 
+  if you need its value, you can instead use <span class="dll">ChildValue</span>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>name</b> - child node name.</p>
+<ul>
+  <li> If &quot;*&quot;, matches any name.</li>
+  <li>Can have a filter expression, like with <a href="IDP_IXML.html#Path" class="dll">Path</a>.</li>
+  <li>QM 2.3.5. Supports <a href="../Functions/IDP_MATCHW.html">wildcard characters</a> in element name.</li>
+</ul>
+<p><b>index</b> - 1-based match index. If name is &quot;*&quot;, it 
+  is index in all children, else - in children whose name is <b>name</b>. 
+  If omitted or 0 or 1, gets first matching child.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Attribute</span><span class=p>(</span><span class=o>$</span>name<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets an attribute node. If <b>name</b> 
+  is &quot;*&quot;, gets first attribute. If <b>name</b> is &quot;&quot;, gets 
+  last attribute. Tip: if you need its value, you can instead use <span class="dll">AttributeValue</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<a name="Path"></a>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Path</span><span class=p>(</span><span class=o>$</span>path [<span class=t>ARRAY</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>)</span><span class=o>&amp;</span>allMatching] [flags]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets any node by path.</p>
+<p>&nbsp;</p>
+<p>The <span class="type">IXml</span> interface also has this function.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>path</b> - node path, like &quot;rootElement/itsChild/theNode&quot;.</p>
+  <ul>
+    <li>It is not 
+  XPath, but supports something from it.</li>
+    <li><span class="type">IXml</span>.<span class="dll">Path</span> starts searching from the root of the XML tree.</li>
+    <li><span class="type">IXmlNode</span>.<span class="dll">Path</span> starts searching from
+  (not including) the element of the <span class="type">IXmlNode</span> variable, unless path begins with &quot;/&quot;.</li>
+  </ul>
+  <p><b>allMatching</b> - array variable that receives <span class="type">IXmlNode</span> objects of all matching nodes. Optional, can be 0.</p>
+  <p><b>flags</b> (QM 2.3.5):</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>1</td>
+      <td>Search in all matching paths (like XPath). For example if <b>path</b> is &quot;elem1/elem2&quot;, searches for &quot;elem2&quot; in all &quot;elem1&quot;. Without this flag searches only in the first matching path (in the example - in the first found &quot;elem1&quot;).</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>If last part of path is &quot;*&quot;, get only elements (like XPath). Without this flag gets nodes of any type except attributes.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p> Examples of supported paths:</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <td>&quot;node&quot;</td>
+    <td>Get child node &quot;node&quot;, like <span class="dll">Child</span> 
+      does. The advantage is that here you can use <b>allMatching</b>.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem/node&quot;</td>
+    <td>Get child node &quot;node&quot; of element &quot;elem&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem/@a&quot;</td>
+    <td>Get attribute &quot;a&quot; of element &quot;elem&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;*&quot;</td>
+    <td>Get first child node, like <span class="dll">FirstChild</span> does. 
+      If <b>allMatching</b> is used, it receives all child nodes.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem/*&quot;</td>
+    <td>Get first child node of element &quot;elem&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem/@*&quot;</td>
+    <td>Get first attribute of element &quot;elem&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;*/node&quot;</td>
+    <td><p>Get child node &quot;node&quot; of the first or any (flag 1) child element.</p></td>
+  </tr>
+  <tr> 
+    <td>&quot;../node&quot;</td>
+    <td>Get child node &quot;node&quot; of the parent element.</td>
+  </tr>
+  <tr>
+    <td>&quot;/*/node&quot;</td>
+    <td>QM 2.3.5. Get child node &quot;node&quot; of the root element.</td>
+  </tr>
+  <tr>
+    <td>&quot;.//node&quot;</td>
+    <td>QM 2.3.5. Get any descendant node &quot;node&quot;. If &quot;//node&quot;, always searches from the root.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>An element name can be followed by a filter expression. Examples:</p>
+<table class="tnormal">
+  <tr> 
+    <td>&quot;elem[='abc']&quot;</td>
+    <td>Get element &quot;elem&quot; whose value is &quot;abc&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;*[='abc']&quot;</td>
+    <td>Get first node whose value is &quot;abc&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem[@id='abc']&quot;</td>
+    <td>Get element &quot;elem&quot; that has attribute &quot;id&quot; 
+      whose value is &quot;abc&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem[@id*='ab*']&quot;</td>
+    <td>Get element &quot;elem&quot; that has attribute &quot;id&quot; 
+    whose value begins with &quot;ab&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem[node='abc']&quot;</td>
+    <td>Get element &quot;elem&quot; that has a child &quot;node&quot; whose 
+      value is &quot;abc&quot;.</td>
+  </tr>
+  <tr> 
+    <td>&quot;elem[node*='ab*']&quot;</td>
+    <td>Get element &quot;elem&quot; that has a child &quot;node&quot; 
+    whose value begins with &quot;ab&quot;.</td>
+  </tr>
+  <tr>
+    <td>&quot;elem[.='abc']&quot;</td>
+    <td>QM 2.3.5. Same as &quot;elem[='abc']&quot;.</td>
+  </tr>
+  <tr>
+    <td>&quot;elem[@id&gt;0]&quot;</td>
+    <td>QM 2.3.5. Get element &quot;elem&quot; if numeric value of its attribute &quot;id&quot; is &gt; 0.</td>
+  </tr>
+  <tr>
+    <td>&quot;elem[node]&quot;</td>
+    <td>QM 2.3.5. Get element &quot;elem&quot; if it has child node &quot;node&quot;.</td>
+  </tr>
+  <tr>
+    <td>&quot;elem[@id]&quot;</td>
+    <td>QM 2.3.5. Get element &quot;elem&quot; if it has attribute &quot;id&quot;.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Filter expression operators:</p>
+<table class="tnormal"><col>
+  <tr> 
+    <td>=</td>
+    <td><p>If the right part is enclosed in ', compare as strings, case insensitive.</p>
+    <p>Else compare as integer numbers (QM 2.3.5, in older QM use #=).</p></td>
+  </tr>
+  <tr> 
+    <td>*=</td>
+    <td>Compare as strings with <a href="../Functions/IDP_MATCHW.html">wildcard characters</a>, case insensitive.</td>
+  </tr>
+  <tr>
+    <td>!</td>
+    <td>Logical not. Can be used before other operators. For example, != means 
+      not equal.</td>
+  </tr>
+  <tr>
+    <td>&gt;, &lt;, &gt;=, &lt;=, &amp;</td>
+    <td>QM 2.3.5. Compares as integers.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Filter expressions can be anywhere in path. Example: &quot;elem1[@id='abc']/elem2&quot;.</p>
+<p>Filter expressions can be used with all node types except attributes.</p>
+<p>&nbsp;</p>
+<p>New in QM 2.3.5:</p>
+<ul>
+  <li>Added <b>flags</b>. </li>
+  <li>Supports <a href="../Functions/IDP_MATCHW.html">wildcard characters</a> in element names, not just single &quot;*&quot;.</li>
+  <li>A &quot;.&quot; part in path is valid. It explicitly specifies current node.</li>
+  <li>If path begins with &quot;/&quot;, always searches from the root.</li>
+  <li>Supports &quot;//&quot; and &quot;.//&quot; to find any descendant node without specifying path to it.</li>
+  <li>If path ends with &quot;@*&quot;, <b>allMatching</b> receives all attributes, not just the first.</li>
+  <li>Path containing &quot;@attribute/..&quot; is valid and gets parent element of the attribute.</li>
+  <li>In filter expression supports more operators, etc. See above.</li>
+</ul>
+<p>&nbsp;</p>
+<p><i>Tip:</i> To create path where some parts of it are variables, use <a href="../Language/IDP_FSTRING.html">operator F</a> or <a href="../str/IDP_S_FORMAT.html">str.format</a>.</p>
+<p>&nbsp;</p>
+<p>See also: <a href="IDP_IXML.html#GetAll" class="dll">GetAll</a></p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>Name</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets name of the node. Can be used with attributes 
+  too.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>Value</span><span class=p>()</span>
+[p]<span class=fd>Value</span><span class=p>(</span><span class=o>$</span>value<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets or set value of the node. Can be used 
+  with attributes too.</p>
+<p>&nbsp;</p>
+<p>When used to set value, error if CDATA value contains ]]&gt; or comments value 
+  contains --. Values of elements and attributes can contain any characters because 
+  special characters are replaced with XML escape sequences.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ValueBinaryGet</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>value<span class=p>)</span>
+<span class=fd>ValueBinarySet</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>value [flags]<span class=p>)</span> <span class=c2>;;flags: 1 compress, 2 hex</span></pre>
+<p>&nbsp;</p>
+<p><span class="dll">ValueBinarySet</span> - sets value of the node.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>value</b> - a str variable. It can contain binary data. In XML file the 
+data will be converted to text, because binary data cannot be used.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>compress.</td>
+</tr>
+<tr>
+<td>2</td> <td>use Hex encoding (fast encoding/decoding, 100% bigger encoded string). 
+If not set, uses Base64 encoding (fast encoding, slow decoding, 33% bigger encoded 
+string).</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p><span class="dll">ValueBinaryGet</span> - gets value of the node. It must 
+  be set by <span class="dll">ValueBinarySet</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>Type</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Gets type of the node. It is a numeric value 
+  listed in the Nodes chapter above. Can be used with attributes too.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>UserData</span><span class=p>()</span>
+[p]<span class=fd>UserData</span><span class=p>(</span>userdata<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Attaches a numeric value to the node, 
+  or gets the attached value. You can use the value for any purpose. It is used 
+  only in memory, and is not saved or included in XML string. By default this 
+  function is disabled. To enable it, use flag 2 with <span class="dll">CreateXml</span>. 
+  Can be used with attributes too.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Properties</span><span class=p>(</span><span class=t>XMLNODE</span><span class=o>&amp;</span>xi<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets all node properties using single 
+  function call. The argument must be a variable of type <span class="type">XMLNODE</span>. 
+  Can be used with attributes too.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>XMLNODE</span> <span class=o>$</span>name <span class=o>$</span>value <span class=o>@</span>level <span class=o>!</span>xtype <span class=o>!</span>flags userdata</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>name</b>, <b>value</b>, <b>xtype</b>, <b>userdata</b> - described above.</p>
+<p><b>level</b> - level of the node in the XML hierarchy.</p>
+<ul>
+  <li> Root nodes have level 
+    0, direct child nodes of the root element have level 1, and so on.</li>
+</ul>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>the element has text.</td>
+</tr>
+<tr>
+<td>2</td> <td><p>the element has children.</p>
+  <ul>
+    <li> Note that an element cannot have both text and children.</li>
+  </ul></td>
+</tr>
+<tr>
+<td>4</td> <td>the element 
+or xml declaration has attributes.</td>
+</tr>
+<tr>
+<td>128</td> <td>the attribute is in xml declaration.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>ChildValue</span><span class=p>(</span><span class=o>$</span>name [index]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets value of a child node. Can be used instead of <span class=cod>n.Child<span class=p>(</span><span class=s>&quot;name&quot;</span><span class=p>)</span>.Value</span>.</p>
+<p>&nbsp;</p>
+<p>Parameters 
+are same as with <a href="IDP_IXML.html#Child" class="dll">Child</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>AttributeValue</span><span class=p>(</span><span class=o>$</span>name<span class=p>)</span>
+[g]<span class=o>#</span><span class=fd>AttributeValueInt</span><span class=p>(</span><span class=o>$</span>name<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p><span class="dll">AttributeValue</span> - gets value of an attribute. Can 
+  be used instead of <span class=cod>n.Attribute<span class=p>(</span><span class=s>&quot;name&quot;</span><span class=p>)</span>.Value</span>.</p>
+<p>&nbsp;</p>
+<p><span class="dll">AttributeValueInt</span> - the same, but converts the value 
+  to integer number.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Add</span><span class=p>(</span><span class=o>$</span>name [<span class=o>$</span>value]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds a child node and optionally sets its value. 
+  Adds to the end of the list of children. Does not replace existing items with 
+  the same name (use <span class="dll">SetChild</span> instead). Not used to 
+  add attributes (use <span class="dll">SetAttribute</span> instead).</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>Insert</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>'</span>iafter <span class=o>$</span>name [<span class=o>$</span>value]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>The same as <span class="dll">Add</span>, but adds after <b>iafter</b>, 
+  which must be a child node (variable of <span class="type">IXmlNode</span> type) 
+  of the element. If <b>iafter</b> is 0, adds to the beginning.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>SetChild</span><span class=p>(</span><span class=o>$</span>name <span class=o>$</span>value<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds or replaces a child node. If the 
+  child node exists, sets its value like <span class="dll">Value</span> does, 
+  else adds new node like <span class="dll">Add</span> does.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=t>IXmlNode</span><span class=p>'</span><span class=fd>SetAttribute</span><span class=p>(</span><span class=o>$</span>name <span class=o>$</span>value<span class=p>)</span>
+<span class=t>IXmlNode</span><span class=p>'</span><span class=fd>SetAttributeInt</span><span class=p>(</span><span class=o>$</span>name value<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p><span class="dll">SetAttribute</span> - adds or replaces an attribute. Ensures 
+  that the element will not have duplicate attributes.</p>
+<p>&nbsp;</p>
+<p><span class="dll">SetAttributeInt</span> - the same, but <b>value</b> must 
+  be an integer number.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Move</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>'</span>parent <span class=t>IXmlNode</span><span class=p>'</span>iafter<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Moves an element to another place. Can be 
+  used only for elements.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>parent</b> - new parent element. If 0, moves within the same parent.</p>
+<p><b>iafter</b> - node after which to insert. If 0, inserts at the beginning.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<a name="GetAll"></a>
+<pre class=cod><span class=fd>GetAll</span><span class=p>(</span>flags <span class=t>ARRAY</span><span class=p>(</span><span class=t>IXmlNode</span><span class=p>)</span><span class=o>&amp;</span>a<span class=p>)</span></pre>
+<p>&nbsp;</p>
+
+<p>Gets all descendants (direct children, 
+  their children, and so on).</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>include attributes.</td>
+</tr>
+<tr>
+<td>2</td> <td>get only direct children.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p> To get all nodes in whole XML, call this function for the virtual root node. 
+  See example at the beginning of this topic.</p>
+<p>&nbsp;</p>
+<p>To get specific nodes, use <a href="IDP_IXML.html#Path" class="dll">Path</a> instead. Example: <span class=cod>x.Path<span class=p>(</span><span class=s>&quot;.//name&quot;</span> a<span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>ChildCount</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+
+<p>Gets number of direct child nodes.</p>
+<p>&nbsp;</p>
+<p>To get number of specific child nodes, instead 
+  use <a href="IDP_IXML.html#Path" class="dll">Path</a> with array. Then the number will be equal 
+  to the array length.</p>
+<p>&nbsp;</p>
+<hr>
+<a name="DeleteChild"></a>
+<pre class=cod><span class=fd>DeleteChild</span><span class=p>(</span><span class=o>$</span>name<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Deletes all child nodes that match <b>name</b>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>name</b> - child node name.</p>
+  <ul>
+    <li> If &quot;*&quot;, deletes all child nodes.</li>
+    <li>Can have a filter expression, like with <a href="IDP_IXML.html#Path" class="dll">Path</a>.</li>
+    <li>Supports <a href="../Functions/IDP_MATCHW.html">wildcard characters</a> in element name.</li>
+  </ul>
+</div>
+<p>&nbsp;</p>
+<p>Not error if there are no matching nodes. Then sets variable <a href="../Language/IDP_SPECVAR.html">_hresult</a> to 1.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.0. In older QM versions would need to find child nodes, for example with <span class="dll">Child</span> or <span class="dll">Path</span>, and call <span class="type">IXml</span>.<span class="dll">Delete</span> for each.</p>
+<p>&nbsp;</p>
+<hr>
+<a name="DeleteAttribute"></a>
+<pre class=cod><span class=fd>DeleteAttribute</span><span class=p>(</span><span class=o>$</span>name<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Deletes an attribute<b></b>.</p>
+<p>&nbsp;</p>
+<p>Not error if the attribute does not exist. Then sets variable <a href="../Language/IDP_SPECVAR.html">_hresult</a> to 1.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.0. In older QM versions would need to call <span class="dll">Attribute</span> and <span class="type">IXml</span>.<span class="dll">Delete</span>.</p>
+<p>&nbsp;</p>
+<h2>Notes</h2>
+<h3>XML encoding</h3>
+<p>&nbsp;</p>
+<p><span class="type">IXml</span> can load ANSI and Unicode XML files. Unicode 
+  can be in UTF-8 or UTF-16 format.</p>
+<p>&nbsp;</p>
+<p> When loading UTF-16 XML file, QM converts the loaded XML to UTF-8.</p>
+<p>&nbsp;</p>
+<p>In <a href="../Other/IDP_UNICODE.html">Unicode</a> mode, when loading ANSI 
+  XML file where 'encoding' attribute in xml declaration is ISO-8859-x or Windows-125x, 
+  QM converts the XML to UTF-8, unless flag 4 is used with <span class="dll">CreateXml</span> 
+  or the encoding is not supported by the OS.</p>
+<p>&nbsp; </p>
+<p>In both cases, if you then call <span class="dll">ToFile</span> or <span class="dll">ToString</span>, 
+  it saves/gets XML in UTF-8 format.</p>
+<p>&nbsp;</p>
+<p>UTF-8 is used everywhere in QM when it is running in Unicode mode. It is also 
+  the default encoding used in XML (used if the XML is not UTF-16 and does not 
+  contain a non UTF-8 'encoding' attribute in xml declaration).</p>
+<p>&nbsp;</p>
+<p> In ANSI mode QM ignores the 'encoding' attribute. It does not convert UTF-8 
+  XML to ANSI.</p>
+<p>&nbsp;</p>
+<p>If you are creating XML while QM is running in ANSI mode, and the XML may contain 
+  non <a href="../Tables/IDP_ASCII.html">ASCII</a> characters, and the XML file 
+  will be used not only in QM on your computer, you should add xml declaration 
+  with 'encoding' attribute. In Unicode mode it is not necessary because QM text 
+  encoding matches XML default text encoding (UTF-8).</p>
+<p>&nbsp;</p>
+<h3>XML validation and errors</h3>
+<p>&nbsp;</p>
+<p>When loading XML file or string, and when adding nodes and setting values, 
+  <span class="type">IXml</span> validates it quite strictly. If the file is not 
+  well formed, or a name/value is invalid, it generates error. In some cases it 
+  silently makes corrections.</p>
+<p>&nbsp;</p>
+<p>Functions that are used to get nodes don't generate error if the node does 
+  not exist. They set  variable <a href="../Language/IDP_SPECVAR.html">_hresult</a> to 1 and return 0.</p>
+<p>&nbsp;</p>
+<h3>Other notes</h3>
+<p>&nbsp;</p>
+<p>These functions are not thread-safe. Don't use a single variable in multiple 
+  threads simultaneously. It can damage data. If need to use in multiple threads, 
+  use <a href="../Commands/IDP_LOCK.html">lock</a>.</p>
+<p>&nbsp;</p>
+<p><span class="type">IXmlNode</span> does not use reference counting. Don't use 
+  variables of this type after the parent <span class="type">IXml</span> variable 
+  is destroyed or cleared or the node is deleted. Declare <span class="type">IXmlNode</span> 
+  variables after (not before) the <span class="type">IXml</span> variable. Otherwise 
+  may be generated exception or damaged data.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
