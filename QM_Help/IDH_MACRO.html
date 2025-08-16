@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Macro</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><img src="../image/icon_macro.gif"> Macro</h1>
+
+<p>A macro is a list of commands, 
+  such as &quot;type text&quot;, &quot;run file&quot;, and other statements. Read 
+  <a href="../Reference/IDP_SYNTAX.html">Syntax</a> and <a href="IDH_TYPEINFO.html">Help 
+  and type-info</a> topics.</p>
+<p>&nbsp;</p>
+<p> You can enter macro commands directly in the editor. You can also <a href="IDH_RECORD.html">record</a> 
+  keys and mouse events, or use dialogs from the code toolbar.</p>
+
+<p>&nbsp;</p>
+<p>When you launch a macro, QM compiles and executes it. The tray icon <img src="../image/qm_icon_running.png"> indicates that a macro 
+  is running. Macro stops when last command was executed, or some command tells 
+  to do so, or when an error occurs. To stop a running macro manually, press the 
+  hotkey that is set in Options (default is Pause).</p>
+<p>&nbsp;</p>
+<p>By default, only a single macro can run 
+  at a time. To run multiple threads simultaneously, set  'Run simultaneously' option, or use a <a href="IDH_FUNCTION.html">function</a> instead.</p>
+<p>&nbsp;</p>
+<p> QM 2.4.2. Added option 'Run simultaneously'. In previous QM versions, to run simultaneously, would need to convert the macro to function. Now you can instead use this option in the Properties dialog. The macro will have some traits of functions:</p>
+<ul>
+  <li>Can start even if a macro is running. Other macros can start while it is running.</li>
+  <li>When it runs, the QM tray icon does not change.</li>
+  <li>The thread (running macro) cannot be ended with the 'End macro' hotkey (Pause by default) or menu command. To end thread you can use the 'Running items' pane or the 'Threads' dialog (look in the QM tray icon menu).</li>
+  <li>When ending thread, does not release modifier keys left pressed by code like <span class=cod><span class=fq>key</span><span class=o>+</span> C</span>.</li>
+  <li>The 'Auto minimize QM' setting is not applied.</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+
+</html>
