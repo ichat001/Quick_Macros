@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>fix</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_FIX"></a>Set string length</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>fix</b>(<i>[</i>length<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>length </b>- new length.</p>
+<ul>
+  <li>Default: -1 - find string 
+  length by searching for null character.</li>
+  <li>Must not exceed the number of bytes in the string buffer (<i>nc</i> <a href="IDP_S_DATA.html">property</a>).</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr>
+<td> 1</td> <td>Don't free extra 
+memory. Without this flag, if <b>length</b> &lt; <i>nc</i>,  may freee extra memory.</td>
+</tr>
+<tr>
+<td>2</td> <td>Limit <b>s</b> length. It changes <b>s</b> length only if <b>length</b> 
+is less than current <b>s</b> length.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>QM 2.3.3. Correct <b>length</b> so that string would not end with an invalid byte. If <b>length</b> is in middle of newline characters, remove whole newline. If in middle of a multibyte UTF-8 character, remove whole character.</td>
+</tr>
+
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p>Sets  <b>s</b> length.</p>
+<p>&nbsp;</p>
+<p>This function can be used to:</p>
+<ul>
+  <li>Set correct string length after allocating string buffer (<a href="IDP_S_ALL.html">str.all</a>). Usually used with dll functions that require a string buffer.</li>
+  <li>To make  string shorter. That is, you can use <span class=cod>s.fix<span class=p>(</span>x<span class=p>)</span></span> instead of <span class=cod>s.left<span class=p>(</span>s x<span class=p>)</span></span>. Or <span class=cod>s.fix<span class=p>(</span><span class=n>0</span><span class=p>)</span></span> instead of <span class=cod>s<span class=o>=</span><span class=s>&quot;&quot;</span></span>.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>length</b> is number of bytes, not characters. In Unicode mode, non-ASCII characters have more than 1 byte. To limit length to a number of characters, use <span class="UDF">LimitLen</span> instead. </p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<pre class=cod><span class=t>int</span> hwnd <span class=o>=</span> <span class=fq>win</span><span class=p>()</span>
+<span class=t>str</span> s
+s.<span class=fq>all</span><span class=p>(</span><span class=n>256</span><span class=p>)</span>
+<span class=t>int</span> i <span class=o>=</span> <span class=fd>GetWindowText</span><span class=p>(</span>hwnd s <span class=n>256</span><span class=p>)</span>
+s.<span class=fq>fix</span><span class=p>(</span>i<span class=p>)</span>
+<span class=c> or:</span>
+<span class=t>str</span> s.<span class=fq>fix</span><span class=p>(</span><span class=fd>GetWindowText</span><span class=p>(</span><span class=fq>win</span><span class=p>()</span> s.<span class=fq>all</span><span class=p>(</span><span class=n>256</span><span class=p>)</span> <span class=n>256</span><span class=p>))</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
