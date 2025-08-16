@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>unicode, ansi</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_ANSI"></a>Convert string to/from Unicode UTF-16</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>unicode</b>(<i>[</i>ss<i>] [</i>codepage<i>] [</i>length<i>]</i>)
+s.<b>ansi</b>(<i>[</i>ss<i>] [</i>codepage<i>]</i><i> [</i>length<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>ss</b> - subject string. Default: <b>s</b>. With <span class="blue">ansi</span>, 
+it can be string or word* or BSTR.</p>
+<p><b>codepage</b> (QM 2.3.0) - <a href="http://www.google.com/search?q=site%3Amicrosoft.com%20code%20page%20identifiers" target="_blank">code 
+page identifier</a>. If omitted or negative, uses the code page that QM uses 
+everywhere, which depends on whether QM is running in Unicode mode. Read more 
+in Remarks.</p>
+<p><b>length</b> - number of characters to get from <b>ss</b>. If omitted or negative, 
+gets whole <b>ss</b>. With <span class="blue">unicode</span> it must be number 
+of bytes (even if there are multibyte characters). With <span class="blue">ansi</span> 
+it must be number of 2-byte characters (even if there are 4-byte characters).</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>To store <a href="../Other/IDP_UNICODE.html">Unicode</a> text, often is used 
+  UTF-16 format, where characters consist of 2 bytes (sometimes 4). It is used 
+  with most COM functions, with Windows API functions whose names end with W, 
+  and with many other functions. However QM functions don't work with UTF-16 strings. 
+  They work with ANSI or UTF-8 strings. Therefore sometimes it is necessary to 
+  convert from/to UTF-16. Although normally str variables store ANSI or UTF-8 
+  strings, they also can store UTF-16 strings.</p>
+<p>&nbsp;</p>
+
+<p> <span class="blue">unicode</span> converts <b>ss</b> from ANSI or UTF-8 to 
+  UTF-16, and stores the result into <b>s</b>.</p>
+
+<p>&nbsp;</p>
+
+<p> <span class="blue">ansi</span> converts <b>ss</b> from UTF-16 to ANSI or UTF-8, 
+  and stores the result into <b>s</b>.</p>
+<p>&nbsp;</p>
+<p> QM 2.3.0. A BSTR variable can be simply passed to <span class="blue">ansi</span>. 
+  Previously you would have to use its pstr member.</p>
+<p>&nbsp;</p>
+<p>If <b>ss</b> is a variable containing binary data (null characters), the functions 
+  get only the part of it until the first null character, unless you explicitly 
+  specify <b>length</b>.</p>
+<p>&nbsp;</p>
+<p>Variables of <a href="../_COM/IDP_OLE_BSTR.html">BSTR</a> type store text in 
+  UTF-16 format. To convert to/from BSTR, also can be used operator =. It uses 
+  default code page (CP_ACP in ANSI mode, CP_UTF8 in Unicode mode). Unlike <span class="blue">ansi</span>/<span class="blue">unicode</span>, 
+  it gets binary data too.</p>
+<p>&nbsp;</p>
+<p>To convert to UTF-16 when calling dll functions, it is more convenient to use 
+  <a href="../Language/IDP_OPUNARY.html">operator @</a>. See example.</p>
+<p>&nbsp;</p>
+<p>Note: For historical reasons these functions are incorrectly named, because 
+  UTF-8 actually is Unicode too. A better name for <span class="blue">unicode</span> 
+  would be something like <span class="blue">toutf16</span>, and for <span class="blue">ansi</span> 
+  - <span class="blue">fromutf16</span>. QM versions before QM 2.3.0 did not support 
+  UTF-8, so these names were good.</p>
+<p>&nbsp;</p>
+<p> If QM is running in ANSI mode (Unicode unchecked in Options), default code 
+  page is CP_ACP (0). It is the current system Windows ANSI code page. To see 
+  the actual value you can use <span class="dll">GetACP</span>. If QM is running 
+  in Unicode mode (Unicode checked in Options), default code page is CP_UTF8. 
+  It is Unicode encoded in UTF-8 format.</p>
+<p>&nbsp;</p>
+<p>To convert string from one ANSI or UTF-8 encoding to another ANSI or UTF-8 
+  encoding, you can use <span class="type">str</span> function <span class="UDF">ConvertEncoding</span> or <span class="UDF">LoadUnicodeFile</span>. See example.</p>
+<p>&nbsp;</p>
+<p>See also: <a href="../Language/IDP_SPECVAR.html"> _unicode variable</a>, <a href="../Tables/IDP_ASCII.html">ANSI 
+  and ASCII characters</a>, <a href="http://www.google.com/search?q=site%3Amicrosoft.com%20code%20page%20identifiers" target="_blank">code 
+  page identifiers</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+<pre class=cod><span class=t>int</span> h<span class=p>;</span> <span class=t>str</span> s1 s2 s3
+s1<span class=o>=</span><span class=s>&quot;QM_Editor&quot;</span>
+s2<span class=o>=</span><span class=s>&quot;QM_Editor&quot;</span>
+
+<span class=c> call a function that uses UTF-16 string as an input parameter</span>
+h<span class=o>=</span><span class=fd>FindWindowW</span><span class=p>(</span><span class=o>+</span>s1.<span class=fq>unicode</span> <span class=n>0</span><span class=p>)</span>
+
+<span class=c> or you can use operator @</span>
+h<span class=o>=</span><span class=fd>FindWindowW</span><span class=p>(</span><span class=o>@</span>s2 <span class=n>0</span><span class=p>)</span>
+
+<span class=c> or you can use operator L, but only with string constants</span>
+h<span class=o>=</span><span class=fd>FindWindowW</span><span class=p>(</span>L<span class=s>&quot;QM_Editor&quot;</span> <span class=n>0</span><span class=p>)</span>
+
+<span class=c> call a function that uses UTF-16 string as an output parameter</span>
+<span class=t>BSTR</span> b.<span class=fq>alloc</span><span class=p>(</span><span class=n>300</span><span class=p>)</span>
+<span class=fd>GetWindowTextW</span> h b <span class=n>300</span>
+s3.<span class=fq>ansi</span><span class=p>(</span>b<span class=p>)</span> <span class=c2>;;note: don't use s3=b because it gets whole buffer</span>
+
+<span class=fq>out</span> s3
+
+<span class=c> convert from current QM encoding to iso-8859-1</span>
+s1.<span class=fu>ConvertEncoding</span><span class=p>(</span>_unicode <span class=n>28591</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
