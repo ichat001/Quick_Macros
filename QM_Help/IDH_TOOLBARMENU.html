@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Toolbar right-click menu</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Toolbar right-click menu</h1>
+
+<p>This popup menu is shown when you right-click a custom <a href="IDH_TOOLBAR.html">toolbar</a>. 
+  It allows you to set some options for the toolbar. <a href="IDH_TOOLBAROPTIONS.html">More 
+  options</a> can be set in the Properties dialog.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Edit toolbar</i> - show QM window and open the toolbar.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Edit macro</i> - if the button is used to run a macro, show QM window and 
+  open the macro.</p>
+
+<p>&nbsp;</p>
+<p> <i>Open file location</i> - open folder that contains button's program/file.</p>
+<!--<p>&nbsp;</p>
+<p><i>Record menus</i> - start recording menus. When you select a menu item in 
+  some window, is inserted the <a href="../Commands/IDP_MEN.html" class="blue">men</a> 
+  command. Not all menus can be recorded. If does not record, it means that <span class="blue">men</span> 
+  cannot be used with that menu.</p>-->
+<h2>Options</h2>
+
+<p> <i>Show text</i> - show text labels.</p>
+
+<p>&nbsp;</p>
+<p> <i>Sizing border</i> - show border. In not checked, you cannot resize the 
+  toolbar.</p>
+<p>&nbsp;</p>
+<p><i>1-pixel border</i> (QM 2.2.0) - show 1-pixel border. The border can be used 
+  to resize the toolbar if <i>Sizing Border</i> is checked.</p>
+<p>&nbsp;</p>
+<p> <i>Auto shrink</i> - different toolbar size when the mouse pointer is inside 
+  and outside the toolbar.</p>
+<p>&nbsp;</p>
+<p> <i>Follow owner window</i> - follow the owner window when it moved or resized.</p>
+<p>&nbsp;</p>
+<p><em>Follow screen size</em> (free toolbars) - move the toolbar if need when screen size (resolution) changed.</p>
+<p>&nbsp;</p>
+<p> <i>Activate owner window on click</i> - clicking the toolbar activates the owner window.</p>
+<p>&nbsp;</p>
+<p><i>Tooltips always</i> - show tooltips even when <i>Show text</i> is checked.</p>
+<p>&nbsp;</p>
+<p> <i>Vertical toolbar</i> - check this if you use the toolbar as vertical 
+  toolbar. It replaces vertical separators with horizontal separators, etc. Note 
+  that it does not change toolbar's width and height. To do it, drag toolbar's 
+  borders.</p>
+<p>&nbsp;</p>
+<p> <i>Equal-size buttons</i> - equal-size buttons when <i>Show Text</i> is checked.</p>
+<p>&nbsp;</p>
+<p><i>3D buttons</i> (QM 2.2.1) - display old-style 3D buttons. Incompatible with 
+  hot item colors. On Vista and later, incompatible with custom font.</p>
+<p>&nbsp;</p>
+<p><i>Open file on drop</i> (QM 2.3.0) - when a file dropped, don't show menu. 
+  If the button runs a program, opens the file in the program. To show menu, drag 
+  and drop with the right mouse button.</p>
+<p>&nbsp;</p>
+<p> <i>Hide if full-screen window</i> (QM 2.3.3) - hide the toolbar when a full-screen window is active. If it is a window-attached toolbar, hides when its owner window is full-screen. Else hides when a full-screen window is active in the same monitor.</p>
+<p>&nbsp;</p>
+<p><i>Other programs cannot hide</i> -  don't allow 
+  other programs to hide the toolbar or move it somewhere. This option is used only with free toolbars (not 
+  window-attached toolbars). For example, a program that creates multiple desktops will not hide the toolbar on inactive desktops. Note that free QM toolbars are always visible on all Windows 10/11 virtual desktops, regardless of this option.</p>
+<p>&nbsp;</p>
+<p><i>On top of topmost windows</i> (QM 2.3.3) - periodically set the toolbar on top of always-on-top windows (in the Z order). If 
+  not checked, the toolbar can be behind another always-on-top window (e.g. taskbar). 
+  Alternatively you can make a toolbar visible by triggering it again. This option is used only with free toolbars (not 
+  window-attached toolbars).</p>
+<p>&nbsp;</p>
+<p><i>Quick icons</i> - load icons quickly. When closing the toolbar, icons 
+  are saved to a single file (cache), and, when opening the toolbar next time, icons are 
+  quickly loaded from that file. This is useful with toolbars that have large 
+  number of icons and therefore are opened slowly. If unchecked, icons everytime 
+  are extracted from associated files. It is slow process (especially if an antivirus 
+  program scans each loaded executable module) and requires more memory.</p>
+<p>&nbsp;</p>
+<p><i>Refresh icons</i> - refresh outdated icons. Useful when <em>Quick icons</em> is 
+  checked.</p>
+<h2> Coordinates</h2>
+<p>If checked <i>Follow owner</i> or <em>Follow screen size</em>, toolbar coordinates are relative to the selected corner of the owner window or screen. If checked <i>Auto 
+  shrink</i>, the expanding direction depends on the selected corner.</p>
+<p>&nbsp;</p>
+<p><i>Auto select</i> - auto-select the nearest corner when moving the toolbar 
+  with the mouse right button.</p>
+<h2>Notes</h2>
+<p>QM 2.4.0. These settings, also toolbar position and size, are saved in the main <a href="IDH_QML.html">QM file</a> when closing the toolbar. Toolbars that are in currently loaded shared files also save in the main file. Older QM versions used the registry.</p>
+<p>&nbsp;</p>
+<p>If you have lost a toolbar (it is running but invisible), check View Active 
+  Items in the Run menu, right click a toolbar in the Running Items list, and 
+  click Move Here. If you click Reset, it closes the toolbar and resets its size, 
+  position and right-click menu settings to the default values.</p>
+<p>&nbsp; </p>
+
+</body>
+
+</html>
