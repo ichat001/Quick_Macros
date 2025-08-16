@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>dllerror</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get dll error description</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>dllerror</b>(<i>[</i>message<i>] </i><i>[</i>dll<i>] </i><i>[</i>errorcode<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>message </b>- string to prepend. Default: &quot;&quot;.</p>
+
+<p> <b>dll</b> - where to search for error description. Default: &quot;&quot;. 
+Possible values:</p>
+<table class="tflags">
+<tr> 
+  <td>&quot;&quot; or omitted</td>
+  <td>search in Windows system dlls (mostly used).</td>
+</tr>
+<tr> 
+  <td>a dll filename or full path</td>
+  <td>search in that dll.</td>
+</tr>
+<tr>
+  <td>&quot;C&quot;</td>
+  <td>get C run-time library (MSVCRT) error description.</td>
+</tr>
+</table>
+<p><b>errorcode</b> - numeric error code. If omitted or 0, calls <span class="dll">GetLastError</span>; it gets error code set by the last called  dll function (or explicitly with <span class="dll">SetLastError</span>) in this thread.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Many Windows dll functions and other functions set an error code (an integer number) when they fail. If you read function documentation, often it says &quot;If the function fails ... call GetLastError.&quot;. Some other functions instead return a nonzero value when they fail, and it usually is an error code. Many error codes are known and have text descriptions. This function gets the description (calls <span class="dll">FormatMessage</span>). If description not found, gets &quot;&quot;.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<pre class=cod><span class=fq>if</span> <span class=fd>CopyFile</span><span class=p>(</span><span class=s>&quot;nosuchfile&quot;</span> <span class=s>&quot;tonosuchfile&quot;</span> <span class=n>1</span><span class=p>)</span> <span class=o>=</span> <span class=n>0</span>
+<span class=i>&#9;</span><span class=t>str</span> s.<span class=fq>dllerror</span><span class=p>(</span><span class=s>&quot;Last dll error: &quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+<span class=c> Output:</span>
+<span class=c> Last dll error: The system cannot find the file specified.</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
