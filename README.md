@@ -1,8 +1,7 @@
-# Quick Macros Online Help
+# QM快宏在线帮助 Quick Macros Online Help
 
-- [概览 Overview](QM_Help/IDH_OVERVIEW.md)
+- [概述 Overview](QM_Help/IDH_OVERVIEW.md)
 - [快速开始 Quick start](QM_Help/IDH_QUICK.md)
-- [新特性 What's new](QM_Help/IDH_WHATSNEW2.md)
 - **界面 Interface**
   - [主窗口 Main window](QM_Help/IDH_INTERFACE.md)
   - [QM窗口工具栏 Toolbars in QM window](QM_Help/IDH_MENU_TOOLBAR.md)
@@ -63,5 +62,4 @@
   - [其他 Other](QM_Help/IDH_OTHER.md)
 - [键码 Key codes](QM_Help/IDH_KEY_CODES.md)
 - [错误信息 Error messages](QM_Help/IDH_ERROR_MESSAGES.md)
-- [许可证 License](QM_Help/IDH_LICENSE.md)
 - [索引 Index](QM_Help/IDH_INDEX.md)
