@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: keyboard (hotkey)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: keyboard (hotkey)</h1>
+
+<p>Launches the macro when you press the specified hotkey. To assign this trigger, 
+  use the <a href="IDH_PROPERTIES.html">Properties</a> dialog or the <a href="../Other/IDP_TRIGGER_CODING.html">Trigger 
+  field</a>.</p>
+
+<p>&nbsp;</p>
+<p>If the Shift button in the Properties dialog is in indeterminate state, the 
+  trigger will work with Shift pressed or released.</p>
+<p>&nbsp;</p>
+<p>If &quot;Eat&quot; is not checked, the trigger 
+  keys are passed to the window that would normally receive them. Triggers with a next key always eat the first  key if there 
+  are macros that have the same first  key and &quot;Eat&quot; checked.</p>
+<p>&nbsp;</p>
+<p>By default, QM does not wait until you release trigger keys, but releases them 
+  itself. In some cases it can cause unexpected effects. For example, if trigger 
+  contains Ctrl and Alt, and macro sends Delete, can be generated Ctrl+Alt+Delete. 
+  If &quot;When released&quot; is checked, macro 
+  starts only when all keys and mouse buttons are released.</p>
+
+<p>&nbsp;</p>
+<p>Two non-disabled macros should not have same hotkey trigger, unless both are 
+  specific to a program or some other condition (see <a href="IDH_TFF.html">filter 
+  functions</a>). On conflict, will run the macro that was above in the list of 
+  macros when QM was started or current file opened, or that is older.</p>
+
+<p>&nbsp;</p>
+<p>Some hotkeys are used by Windows, other programs, shortcuts. For example, 
+  Alt+Tab, Win+R, Win+Shift+M. If you want to use these hotkeys, check &quot;Use 
+  low-level keyboard hook&quot; in <a href="IDH_SETT_TRIGGERS.html">Options</a>. 
+  Low level hooks also make triggers to work in console windows in Windows Vista. 
+  However, low-level keyboard hooks stop working if some macro uses DirectInput 
+  or raw input (like Keyboard Detector) to get keyboard input.</p>
+<p>&nbsp;</p>
+
+<p>Hotkey triggers don't work if there is no active window. It is rare situation, 
+  because some window (e.g. desktop or taskbar) usually is active.</p>
+<p>&nbsp;</p>
+<p>Other type of hotkey - hotkey for shortcut (shortcut itself can be on the 
+  desktop or in the Start menu). Such hotkeys work even when QM is not running, 
+  also they always work in console windows. To create a shortcut with a hotkey, 
+  press the Shortcut button in the Properties dialog, click in the Hotkey field, 
+  press the hotkey, and click OK.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <A href="IDH_TSM.html">autotext</a></p>
+
+</body>
+
+</html>
