@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>User-defined type variable usage</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>User-defined type variable usage</h1>
+
+<p>To access a member of a variable of a user-defined type (UDT variable), use this syntax:</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax>var.member</pre>
+<p>&nbsp;</p>
+
+<p>Here <b>var</b> is name of the variable of user-defined type, <b>member</b> 
+  is member's name. This syntax also is used when <b>var</b> is pointer.</p>
+
+<p>&nbsp;</p>
+
+<p>To access the member of a single-member UDT variable, can by used only <b>var</b>. 
+  Exception is <A href="../_COM/IDP_OLETYPES.html">OLE Automation types</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>User-defined types can contain other user-defined types. Assume that variable 
+  <i>a</i> has member <i>b</i>, and <i>b</i> has member <i>c</i>. To access <i>c</i> 
+  use <span class=cod>a.b.c</span>. If <i>b</i> is <A href="IDP_CLASSES.html">base</a> 
+  of <i>a</i>, <i>c</i> can be accessed using syntax <span class=syntax>a.c</span>.</p>
+<p>&nbsp;</p>
+<p> From a member function, members of variable for which the function is called 
+  can be accessed directly or using syntax <span class=syntax>this.member</span>. 
+  Here <b>this</b> is special variable that can be used only in member functions.</p>
+
+<p>&nbsp;</p>
+<p>UDT variables often are quite large. To avoid copying of whole variable when 
+  passing it to a function, functions usually accept pointer or reference. To 
+  pass a variable to a function that expects pointer, prepend the address-of 
+  operator &amp;.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Declare variable of type RECT (RECT is defined as type RECT left top right bottom):
+</span><span class=t>RECT</span> r
+<span class=c> Use members:
+</span>r.left <span class=o>=</span> <span class=n>100</span>
+r.right <span class=o>=</span> r.left <span class=o>+</span> <span class=n>180</span>
+<span class=c> Copy r to rr:
+</span><span class=t>RECT</span> rr<span class=o>=</span>r
+<span class=c> Pass address of r to function:
+</span><span class=fd>GetWindowRect</span><span class=p>(</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Quick&#34;</span><span class=p>)</span> <span class=o>&#38;</span>r<span class=p>)</span>
+<span class=c> Define type MY:
+</span><span class=fq>type</span> <span class=t>MY</span> <span class=t>word</span><span class=p>'</span>w <span class=t>RECT</span><span class=p>'</span>r <span class=t>byte</span><span class=p>'</span>arr[<span class=n>32</span>]
+<span class=c> Declare variable m of type MY and use members:
+</span><span class=t>MY</span> m
+m.r.left <span class=o>=</span> <span class=n>100</span>
+<span class=t>int</span> i <span class=o>=</span> m.arr[<span class=n>4</span>]
+<span class=t>lpstr</span> s<span class=o>=&#38;</span>m.arr<span class=p>;</span> <span class=fq>out</span> s
+<span class=c> Pointers, references:
+</span><span class=t>MY</span><span class=o>*</span> mp <span class=o>=</span> <span class=o>&#38;</span>m
+i <span class=o>=</span> mp.r.top
+<span class=t>MY</span><span class=o>&#38;</span> mr <span class=o>=</span> <span class=o>&#38;</span>m
+i <span class=o>=</span> mr.r.top</pre>
+
+</body>
+
+</html>
