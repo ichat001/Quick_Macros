@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: user-defined</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: user-defined</h1>
+
+<p>Quick Macros can be extended with new 
+  trigger types. This topic gives information for programmers about creating user-defined 
+  triggers. These triggers can be implemented completely in user-defined functions, 
+  or partially in dlls or COM components. They can be added to the Properties 
+  dialog, so that other QM users can simply download, import and use the triggers 
+  like QM intrinsic triggers.</p>
+<p>&nbsp;</p>
+<p>There are various Windows API functions that allow receiving notifications 
+  about various events. Information about these functions can be found in <a href="../Other/IDP_MSDN.html">MSDN 
+  Library</a>. Other way to create a trigger - periodically check some condition, 
+  say every 1 second, using <a href="../Flow/IDP_REP.html" class="blue">rep</a> 
+  and <a href="../Commands/IDP_WAIT.html" class="blue">wait</a>. Also, on the 
+  Internet you can find <a href="../_COM/IDH_COM.html">COM components</a> that 
+  can be used to receive various system notifications in form of <a href="../_COM/IDP_COM_EVENTS.html">COM 
+  events</a>. Many notifications are provided by WMI.</p>
+<p>&nbsp;</p>
+<p> The main trigger function should start when QM file is loaded and run continuously. 
+  It, for example, can have &quot;QM file loaded&quot; trigger (&quot;Run synchronously&quot; 
+  must be unchecked), or started from the trigger management function (read below) 
+  using <span class="blue">mac</span>.</p>
+<p>&nbsp;</p>
+<p>When your trigger engine is about to start a macro, it should call the <a href="../Commands/IDP_DIS.html" class="blue">dis</a> 
+  function to ensure that the macro and user-defined triggers are enabled. Use, 
+  for example, this code: <span class=cod><span class=fq>if</span><span class=p>(</span><span class=fq>dis</span><span class=p>(</span>macro<span class=p>)</span> <span class=fq>or</span> <span class=fq>dis</span><span class=o>&#38;</span><span class=n>16</span><span class=p>)</span> <span class=fq>ret</span></span>. </p>
+<p>&nbsp;</p>
+<p>To implement some triggers, must be used dlls, because the function that receives 
+  notifications is called in context of other processes. But most notifications 
+  can be received using only QM user-defined functions. QM language has all power 
+  to create any trigger that does not require to be implemented in a dll or driver.</p>
+<p>&nbsp;</p>
+<h3>Integrating with QM</h3>
+<p>&nbsp;</p>
+<p>Your trigger will be easier to use if you integrate it with QM. To integrate 
+  your trigger engine with QM, create a user-defined function (&quot;trigger 
+  management function&quot;), and assign it &quot;Trigger management&quot; trigger. 
+  QM will call the function to communicate with your trigger engine.</p>
+<p>&nbsp;</p>
+<p>At first, about the trigger string. The format of the trigger string that is 
+  displayed in the Trigger field on the toolbar is:</p>
+<p>&nbsp; </p>
+<pre>^Trigger_type trigger data</pre>
+<p>&nbsp;</p>
+<p>Here <b>Trigger_type</b> is the name of the trigger management function, and 
+  <b>trigger data</b> is some trigger-defined string. The trigger data is optional 
+  and is used only by the trigger engine.</p>
+<p>&nbsp;</p>
+<p> The trigger management function must begin with:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> unused1 unused2 action <span class=t>UDTRIGGER</span><span class=o>&#38;</span>p</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p>The first two parameters are always 0.</p>
+<p><b>action</b> - numeric value that defines the purpose for which the function 
+is called.</p>
+<p><b>p</b> - variable of <span class="type">UDTRIGGER</span> type that is used 
+to exchange various information. Its members that are used with different actions 
+are described below.</p>
+</div>
+<p>&nbsp;</p>
+<p> QM calls the trigger management function when:</p>
+<p>&nbsp;</p>
+<p>1. When this trigger type is selected in the Properties dialog.</p>
+<p><b>action</b> - 1.</p>
+<p><b>p.iid</b> - <a href="../Functions/IDP_QMITEM.html">QM item id</a>.</p>
+<p><b>p.hwnd</b> - handle of the &quot;Trigger&quot; property page of the Properties 
+  dialog.</p>
+<p><b>p.tdata</b> - old trigger data string. It is empty (s.lpstr=0) if the macro 
+  does not have a trigger of this type. It is &quot;&quot; if the trigger does 
+  not have a trigger data.</p>
+<p> The function should create and initialize trigger's property page, and return 
+  its window handle. The property page must be modeless dialog, child window of 
+  <b>p.hwnd</b>. Use <span class=cod><span class=fu>ShowDialog</span><span class=p>(</span>x x x p.hwnd <span class=n>1</span> <span class=d>WS_CHILD</span><span class=p>)</span></span>. 
+  If the trigger engine does not provide a property page, the function must just 
+  return 0. Then QM will provide default property page to enter trigger data string.</p>
+<p>&nbsp;</p>
+<p>2. When the Properties dialog is being closed (OK) while this trigger type 
+  is selected. Is called only if the trigger engine provides a property page.</p>
+<p><b>action</b> - 2.</p>
+<p><b>p.iid</b> - QM item id.</p>
+<p><b>p.hwnd</b> - handle of the property page that was returned in action 1.</p>
+<p><b>p.tdata</b> - empty.</p>
+<p>The function must collect data from controls in the property page, format new 
+  trigger data string (if any) and store it into <b>p.tdata</b>. Should not apply 
+  the changes at this moment. Must return 0 if trigger is set, 1 if trigger is 
+  not set, or 2 to not close the Properties dialog.</p>
+<p>&nbsp;</p>
+<p>3. When new trigger string must be validated. Is called after a trigger is 
+  added or changed.</p>
+<p><b>action</b> - 3.</p>
+<p><b>p.iid</b> - QM item id.</p>
+<p><b>p.hwnd</b> - 0.</p>
+<p><b>p.tdata</b> - new trigger data string.</p>
+<p>The function must validate the new trigger data string. It can modify the string 
+  if needed. Should not apply the changes at this moment. Must return 1 if the 
+  string<b> </b> is valid, or 0 otherwise.</p>
+<p>&nbsp;</p>
+<p>4. When all triggers of this type must be applied. Is called when file is opened, 
+  a trigger is added/changed/deleted, macro(s) deleted, and in other cases.</p>
+<p><b>action</b> - 4.</p>
+<p><b>p.iids</b> - array of ids of all macros that have a trigger of this trigger 
+  type.</p>
+<p><b>p.niids</b> - number of elements in the array.</p>
+<p>The function must remove old triggers and apply triggers to the macros whose 
+  ids are in the <b>p.iids</b> array. For example, if the trigger engine uses 
+  internal trigger tables, it must [re]create the tables. To get trigger strings, 
+  use <a href="../str/IDP_S_MACRO.html">str.getmacro</a> or <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a>.</p>
+<p>&nbsp;</p>
+<p>5. When QM needs to display icon of this trigger type.</p>
+<p><b>action</b> - 5.</p>
+<p>The function should return icon handle or 0. The icon is destroyed by QM.</p>
+<p>&nbsp;</p>
+<p>6. When the user requests help for this trigger type.</p>
+<p><b>action</b> - 6.</p>
+<p>The function should provide help. For example, it can display a message box, 
+  or open a web page. Should return 0.</p>
+<p>&nbsp;</p>
+<p>7, 8. When QM or an item is enabled or disabled.</p>
+<p><b>action</b> - 7 if enabled, 8 if disabled.</p>
+<p><b>p.iid</b> - QM item id or 0.</p>
+<p>This notification is rarely useful. The function can just return 0. Return 
+  1 if trigger tables have to be recreated; then QM will call this function (later) 
+  with action=4.</p>
+<p>&nbsp;</p>
+<p>Only actions 3 and 4 must be implemented. For other actions, the function can 
+  just return 0.</p>
+<p>&nbsp;</p>
+<p>The function is always called in QM main thread. If it starts the trigger 
+  engine, it must create new thread for the engine (use <span class="blue">mac</span>). 
+  Never use QM thread for user-defined triggers, because it can make QM unstable.</p>
+<p>&nbsp;</p>
+<p>The function is not called when it itself is changed in some way (disabled, 
+  enabled, deleted, trigger added, removed or changed).</p>
+<p>&nbsp;</p>
+<p> If the function is disabled, it is not called, and does not appear in the 
+  Properties dialog. But triggers of that type are not automatically disabled.</p>
+<p>&nbsp;</p>
+<p>You can find a sample user-defined trigger in the <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
