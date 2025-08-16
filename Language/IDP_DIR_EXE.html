@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#exe</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: <span class="dir">#exe</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#exe</span> option value <i>[</i>resId<i>] [</i>resType<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+<div class="parts">
+<table class="tflags">
+<tr> 
+  <th>option</th>
+  <th>value</th>
+  <th>Description</th>
+</tr>
+<tr> 
+  <td>addfunction</td>
+  <td>Function name.</td>
+  <td>Adds the user-defined function. Usually this is not necessary because 
+    all required functions are added automatically, but in some cases QM cannot 
+    know what function must be added. For example, with <span class="blue">mac</span>, if function name is variable, QM cannot know what function will be used, and 
+    displays a warning. Then use <span class="dir">#exe</span>.</td>
+</tr>
+<tr> 
+  <td>addtextof</td>
+  <td>QM item name.</td>
+  <td><p>Adds text of the QM item (macro, function, etc). Usually this is 
+    not necessary because all required items are added automatically, but in 
+    some cases QM cannot know what item must be added. For example, with str.getmacro, if macro name is variable, QM cannot know what macro will be used, and displays a warning. 
+    Then use <span class="dir">#exe</span>.</p>
+    <p>&nbsp;</p>
+    <p>Automatically adds text of items used with <span class="UDF">ShowDialog</span> (item containing dialog definition or/and menu definition), scripting functions (item containing script), <span class="blue">scan</span> &quot;macro:...&quot; (item containing bitmap), <span class="blue">wait</span> S &quot;macro:...&quot; and some other functions.</p>
+    <p>&nbsp;</p>
+    <p>QM 2.3.5. Also automatically adds text of items from all string constants like &quot;macro:MacroName&quot;. Previously this would work only with <span class="blue">scan</span> and <span class="blue">wait</span>. Multiple items can be added with code like this: <span class=cod>_s<span class=o>=</span><span class=s>&quot;macro:Macro1[]macro:Macro2&quot;</span></span>.</p>
+    <p>&nbsp;</p>
+    <p>QM 2.3.5. If <b>value</b> is &quot;&lt;script&gt;&quot;, adds caller's text if it calls current function with first argument &quot;&quot;, like <span class=cod><span class=fu>VbsExec</span> <span class=s>&quot;&quot;</span></span>.</p></td>
+</tr>
+<tr> 
+  <td>addactivex</td>
+  <td>ActiveX control class in form Typelib.Class.</td>
+  <td>Adds information about an <a href="../User/IDH_DIALOG_EDITOR.html">ActiveX 
+    control</a> class. Usually this is not necessary because QM automatically 
+    adds information about ActiveX controls used in dialogs. You only need to 
+    use addactivex if you create ActiveX controls using <span class="dll">CreateWindowEx</span> 
+    or <span class="UDF">CreateControl</span> (where window class is &quot;ActiveX&quot;), 
+    or create dialog definition at run time. QM 2.2.0: and only if class id 
+    is not included, ie window name is just Typelib.Class, without {clsid}.</td>
+</tr>
+<tr> 
+  <td>addfile</td>
+  <td>File path. Can be full or relative to the folder where the exe file will 
+    be created.</td>
+  <td><p>QM 2.2.0. Adds a file to exe resources.</p>
+    <div class="parts">
+    <p> <b>resId</b> - resource id, 1 to 0xFFFF. Must be unique in resources of this type. Can be string (QM 2.4.0).</p>
+    <p><b>resType</b> (QM 2.3.4) - resource type. Can be integer 1 to 0xFFFF (eg RT_BITMAP) or string (eg &quot;WAVE&quot;). Default (0): RT_RCDATA.</p>
+    </div>
+    <p>&nbsp;</p>
+    <p>At run time you can extract the file 
+      with <a href="../User/IDP_QMDLL.html#ExeExtractFile" class="dll">ExeExtractFile</a>, or 
+      get file data with <a href="../User/IDP_QMDLL.html#ExeGetResourceData" class="dll">ExeGetResourceData</a>, or use a Windows API function that supports resources.</p>
+    <p>&nbsp;</p>
+    <p>QM 2.3.0. Instead can be used syntax &quot;:resourceid filepath&quot; 
+      with file functions. <a href="../QM_Help/IDH_MAKEEXE.html#a3">Read more</a>. 
+      Also, can be used <a href="../str/IDP_S_FILE.html">str.getfile</a> to 
+      get data.</p>
+    <p>&nbsp;</p>
+    <p>QM 2.4.1. Can add a <a href="../Other/IDP_RESOURCES.html">macro resource</a>. See example.</p></td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> Explicitly adds a function, text, ActiveX control class or a file to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>. 
+  Ignored if the macro runs in QM. Can be used in any place.</p>
+<p>&nbsp;</p>
+<p>To disable warnings, use <a href="IDP_DIR_OPT.html">#opt nowarnings 1</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=dir>#exe</span> addfunction <span class=s>&#34;Function5&#34;</span>
+<span class=dir>#exe</span> addtextof <span class=s>&#34;Macro5&#34;</span>
+<span class=dir>#exe</span> addactivex <span class=s>&#34;Typelib.Class&#34;</span>
+<span class=dir>#exe</span> addfile <span class=s>&quot;$my qm$\copy.bmp&quot;</span> <span class=n>10</span> <span class=d>RT_BITMAP</span>
+<span class=dir>#exe</span> addfile <span class=s>&quot;resource:app.ico&quot;</span> <span class=n>10</span> <span class=d>RT_GROUP_ICON</span>
+</pre>
+<p>&nbsp;</p>
+<p>See also code in function <span class="UDF">ExeQmGridDll</span>. It adds a dll to exe, and extracts/loads at run time.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
