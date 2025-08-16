@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>web</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>Open web page</h1>
+<h3>Syntax</h3>
+<pre class=syntax><b>web</b><i> </i>url<i> [</i>flags<i>] [</i>window<i>]</i><i> [</i>url2<i>] [</i>geturl2<i>] [</i>gethwnd<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>url</b> - web page address. Can be any string that you can type in web 
+browser's address bar (&quot;http://...&quot;, &quot;javascript:...&quot;, etc). 
+Also, can be &quot;Back&quot;, &quot;Forward&quot;, &quot;Home&quot;, &quot;Refresh&quot;, 
+&quot;Search&quot;,&quot;Stop&quot;, &quot;Quit&quot;, a local file or an Internet 
+shortcut. If <b>url</b> is &quot;&quot;, nothing is opened, but other features 
+(wait, etc) are applied to current page.</p>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Wait until web page is finished loading and browser isn't 
+    busy.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Open in existing window, or generate error if a compatible window is not 
+    found. Without this flag, if window not found, starts new instance of web 
+    browser. If <b>window</b> is specified, this flag has no effect (the specified 
+    window must exist).</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Open in new popup window.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Open in new instance of Internet Explorer. Use <b>url</b> &quot;&quot; 
+    to open &quot;about:blank&quot;. </td>
+</tr>
+<tr> 
+  <td>12 (4|8)</td>
+  <td>QM 2.2.0. Open in new tab (Internet Explorer 7 and later).</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td><b>url2</b> (final URL) is full or with <a href="../Functions/IDP_MATCHW.html">wildcard 
+    characters</a> (*?).</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>Get &quot;Internet Explore_Server&quot; child window handle instead of 
+    main window handle.</td>
+</tr>
+<tr> 
+  <td>64</td>
+  <td>QM 2.2.0. If new window or tab is opened, don't activate it.</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>QM 2.2.0. Vista. If new IE window must be opened, open it with protected 
+    mode off. Use this if QM fails to determine whether protected mode must 
+    be off, for example when using <span class=cod><span class=fq>web</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=n>8</span><span class=p>)</span></span>. In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> running as administrator 
+    or Low, this flag is ignored, and IE is launched with the same privileges 
+    as of exe.</td>
+</tr>
+<tr> 
+  <td><a href="../Other/IDP_HIWORD.html">high-order word</a></td>
+  <td>Max wait time (s). Default: infinite.</td>
+</tr>
+</table>
+<p> <a href="../Other/IDP_WINDOWEXPRESSION.html"> </a> <a href="../Other/IDP_WINDOWEXPRESSION.html"><b>window</b></a> 
+- open web page in this window. If omitted or &quot;&quot;, opens in default 
+browser. If your default browser is not Internet Explorer but is IE-compatible 
+(has &quot;Internet Explorer_Server&quot; control), its window class should be 
+specified with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>.</p>
+<p><b>url2 </b>- final URL must contain this string. If flag 1 is set, waits while 
+browser is busy, then checks URL, and, if URL does not contain <b>url2</b>, 
+generates error. If flag 1 isn't set, waits for <b>url2</b> even if browser 
+isn't busy. You can use <span class=cod><span class=s>&#34;*&#34;</span></span> to specify 
+that final URL must be same as <b>url</b>. URL is taken from document, not from 
+browser. Sometimes document's URL differs from browser's URL, for example, when 
+error page is displayed. Default: &quot;&quot; (any).</p>
+<p><b>geturl2</b> - str variable that receives final URL. Default: 0.</p>
+<p><b>gethwnd</b> - int variable that receives main window handle. If flag 32 
+is set - &quot;Internet Explore_Server&quot; child window handle. Default: 0.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p> Opens web page. Navigates directly from current page that is displayed in 
+  web browser. Gives more control than <a href="IDP_RUN.html" class="blue">run</a>: 
+  can wait for web page to finish loading, check/get final url, run &quot;javascript:...&quot; 
+  on current page, navigate back, etc, open web page in certain window, always 
+  navigate in current window, always open in new window, access web browser's 
+  object model.</p>
+<p>&nbsp;</p>
+<p>This function works only with Internet Explorer and other windows that display 
+  web page in &quot;Internet Explorer_Server&quot; control. However, if only <b>url</b> 
+  is used, web page is opened in default web browser, whatever it is (otherwise, 
+  opens in Internet Explorer). Some IE-compatible browsers (other than Internet 
+  Explorer) do not support some special strings (e.g., &quot;Quit&quot;).</p>
+<p>&nbsp;</p>
+<p>If used as function, <span class="blue">web</span> returns <span class="type">IDispatch</span> 
+  interface for web browser control, and can be assigned to variable of type <span class="lib">SHDocVw</span>.<span class="type">WebBrowser</span> (or <span class="type">IWebBrowser2</span>).</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<p>Other ways to open web page:</p>
+<p>1. <span class=cod><span class=fq>run</span> url</span> - 
+  opens web page in default web browser.</p>
+<p>2. <span class=cod><span class=fq>run</span> browser url</span> 
+  - opens web page in the specified browser.</p>
+<p>3. Find a link or button in a web page (use <a href="../Functions/IDP_HTM.html" class="blue">htm</a> 
+  or <a href="../Functions/IDP_ACC.html" class="blue">acc</a>), 
+  and programmatically click it. </p>
+<p>4. Use functions of <span class="type">WebBrowser</span> or <span class="type">IHTMLWindow2</span> interface. For example, the <span class="dll">Navigate</span> function of <span class="type">WebBrowser</span> 
+ can open web page in certain frame.</p>
+<p>5. Use functions from System\Functions\Internet folder to download web page 
+  without opening it in web browser.</p>
+<p>&nbsp;</p>
+<p>On Windows Vista and later, if IE protected mode is on, something may not work 
+  well, especially in exe. Also, if you use <span class="blue">_create</span> 
+  to create <span class="type">WebBrowser</span> object, it opens two IE7 instances, 
+  etc. Use <span class="blue">web</span> instead. If you use <span class="type">WebBrowser</span> 
+  functions to navigate to an URL in different zone, another IE7 instance is launched. 
+  IE8 works better. In IE8 tabs belong to different process(es) than the main 
+  IE frame window.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i> To insert <span class="blue">web</span> function, drag and drop 
+  a link or Internet shortcut onto the macro text or onto a toolbar.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=fq>web</span> <span class=s>&#34;http://msdn.microsoft.com/en-us/library/default.aspx&#34;</span> <span class=n>1</span>
+
+<span class=lib>SHDocVw.</span><span class=t>WebBrowser</span> b<span class=o>=</span><span class=fq>web</span><span class=p>(</span><span class=s>&quot;&quot;</span><span class=p>)</span>
+<span class=fq>out</span> b.<span class=fd>LocationURL</span></pre>
+</body>
+</html>
