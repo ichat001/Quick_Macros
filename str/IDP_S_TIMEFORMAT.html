@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>timeformat</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Format date/time string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>timeformat</b>(<i>[</i>frm<i>] [</i>time<i>] [</i>locale<i>] [</i>dateFlags<i>] [</i>timeFlags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>frm </b>- format-control string.</p>
+<ul>
+  <li> If omitted or &quot;&quot;, uses &quot;{D} 
+    {T}&quot; (short date/time, like &quot;08/09/2009 2:25 PM&quot;).</li>
+</ul>
+<p> <b>time</b> - variable of type <A href="../_COM/IDP_OLE_DATE.html">DATE, SYSTEMTIME 
+  or FILETIME</a>, containing date and/or time.</p>
+<ul>
+  <li> If omitted or 0, uses current 
+    local time.</li>
+  <li>QM 2.3.4. Also can be variable of type <span class="type">DateTime</span>, or <span class="type">long</span> in <span class="type">FILETIME</span> format.</li>
+</ul>
+<p> <b>locale </b>- locale identifier. See <a href="javascript:GoogleMS('locale OR language identifiers (Windows)')">table</a>. If omitted, or 0, uses LOCALE_USER_DEFAULT. Read more later in this topic.</p>
+
+<p> <b>dateFlags</b> - <a href="javascript:GoogleMS('GetDateFormat function (Windows)')">GetDateFormat</a> flags.</p>
+
+<p> <b>timeFlags </b>- <a href="javascript:GoogleMS('GetTimeFormat function (Windows)')">GetTimeFormat</a> flags.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p>Added in QM 2.3.1. In older QM versions can be used <a href="IDP_S_TIME.html">str.time</a>.</p>
+<p>&nbsp;</p>
+<p>The function copies <b>frm</b> to <b>s</b>, replacing parts enclosed in {} 
+  to date or time. Certain characters in enclosed parts control the date/time 
+  format. The characters must match case.</p>
+<p>&nbsp;</p>
+<p>In <b>frm</b> can be used  parts of several types:</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+<tr>
+<td>{D}</td> <td>short date, like &quot;08/09/2009&quot;.</td>
+</tr>
+<tr>
+<td>{DD}</td> <td>long date, like &quot;August 9, 2009&quot;.</td>
+</tr>
+<tr>
+<td>{T}</td> <td>time without seconds, like &quot;15:59&quot; or &quot;3:59 PM&quot;.</td>
+</tr>
+<tr>
+<td>{TT}</td> <td>time with seconds, like &quot;15:59:30&quot; or &quot;3:59:30 PM&quot;.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<p>For custom date format can be used the following character sequences. They must be in <b>frm</b> parts enclosed 
+  in { }. They are the same as with <a href="javascript:GoogleMS('GetDateFormat function (Windows)')">GetDateFormat</a>.</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr> 
+    <th>&nbsp;</th>
+    <th>Inserts</th>
+    <th>Example</th>
+  </tr>
+  <tr> 
+    <td>d</td>
+    <td>Day of month as digits.</td>
+    <td>5</td>
+  </tr>
+  <tr> 
+    <td>dd</td>
+    <td>Day of month as digits with leading zero for single-digit days.</td>
+    <td>05</td>
+  </tr>
+  <tr> 
+    <td>ddd</td>
+    <td>Day of week as its abbreviated name.</td>
+    <td>Sun</td>
+  </tr>
+  <tr> 
+    <td>dddd</td>
+    <td>Day of week as its full name.</td>
+    <td>Sunday</td>
+  </tr>
+  <tr> 
+    <td>M</td>
+    <td>Month as digits.</td>
+    <td>4</td>
+  </tr>
+  <tr> 
+    <td>MM</td>
+    <td>Month as digits with leading zero for single-digit months.</td>
+    <td>04</td>
+  </tr>
+  <tr> 
+    <td>MMM</td>
+    <td>Month as its abbreviated name.</td>
+    <td>Apr</td>
+  </tr>
+  <tr> 
+    <td>MMMM</td>
+    <td>Month as its full name.</td>
+    <td>April</td>
+  </tr>
+  <tr> 
+    <td>y</td>
+    <td>Year as last two digits, but with no leading zero for years 
+      less than 10.</td>
+    <td>9</td>
+  </tr>
+  <tr> 
+    <td>yy</td>
+    <td>Year as last two digits, but with leading zero for years less 
+      than 10.</td>
+    <td>09</td>
+  </tr>
+  <tr> 
+    <td>yyyy</td>
+    <td>Full year.</td>
+    <td>2009</td>
+  </tr>
+  <tr> 
+    <td>gg</td>
+    <td>Period/era string.</td>
+    <td>A.D.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>For custom time format can be used the following character sequences. They must be in <b>frm</b> parts enclosed 
+in { }. They are the same as  with <a href="javascript:GoogleMS('GetTimeFormat function (Windows)')">GetTimeFormat</a>.</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr> 
+    <th>&nbsp;</th>
+    <th>Inserts</th>
+  </tr>
+  <tr> 
+    <td>h</td>
+    <td>Hours with no leading zero for single-digit hours; 12-hour 
+      clock.</td>
+  </tr>
+  <tr> 
+    <td>hh</td>
+    <td>Hours with leading zero for single-digit hours; 12-hour clock.</td>
+  </tr>
+  <tr> 
+    <td>H</td>
+    <td>Hours with no leading zero for single-digit hours; 24-hour clock.</td>
+  </tr>
+  <tr> 
+    <td>HH</td>
+    <td>Hours with leading zero for single-digit hours; 24-hour clock. </td>
+  </tr>
+  <tr> 
+    <td>m</td>
+    <td>Minutes with no leading zero for single-digit minutes. </td>
+  </tr>
+  <tr> 
+    <td>mm</td>
+    <td>Minutes with leading zero for single-digit minutes. </td>
+  </tr>
+  <tr> 
+    <td>s</td>
+    <td>Seconds with no leading zero for single-digit seconds. </td>
+  </tr>
+  <tr> 
+    <td>ss</td>
+    <td>Seconds with leading zero for single-digit seconds. </td>
+  </tr>
+  <tr> 
+    <td>t</td>
+    <td>One character time-marker string, such as A or P.</td>
+  </tr>
+  <tr> 
+    <td>tt</td>
+    <td>Multicharacter time-marker string, such as AM or PM. </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>This function cannot format milliseconds. For this you can use class <span class="type">DateTime</span> or  Windows API functions, such as <span class="dll">GetTickCount</span>, <span class="dll">timeGetTime</span>, <span class="dll">GetLocalTime</span>. See example.</p>
+<p>&nbsp;</p>
+<p>If you have a <span class="type">DateTime</span> variable, you can instead call its function <span class="UDF">ToStr</span> or <span class="UDF">ToStrFormat</span> (supports milliseconds etc).</p>
+<p>&nbsp;</p>
+<p>By default, this function uses the date/time format and language from Control Panel -&gt; Regional. Use <b>locale</b> only if you need some other 
+  language/format. A <a href="javascript:GoogleMS('locale OR language identifiers (Windows)')">locale 
+  identifier</a> is a number that includes primary language and sublanguage constants, 
+  like in this example:</p>
+<p>&nbsp;</p>
+
+<span class=cod><span class=fq>out</span> _s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;{DD} {TT}&quot;</span> <span class=n>0</span> <span class=lib>WINAPI.</span><span class=d>LANG_FRENCH</span><span class=o>|</span><span class=p>(</span><span class=lib>WINAPI.</span><span class=d>SUBLANG_FRENCH_CANADIAN</span><span class=o>&lt;&lt;</span><span class=n>10</span><span class=p>))</span></span>
+<p>&nbsp;</p>
+
+<p>This function does not generate errors. If some part or sequence in <b>frm</b> 
+  is incorrect, tries to find the nearest match (eg yyy -&gt; yyyy), or leaves 
+  the part unchanged. If <b>locale</b> is unsupported, uses current locale (LOCALE_USER_DEFAULT). 
+  If replacing some enclosed part fails for other reasons, for example an incorrect 
+  argument value, the enclosed part will be empty, and the function sets <a href="../Language/IDP_SPECVAR.html">_hresult</a> 
+  to 1. Sets it to 0 if all parts were successfully replaced.</p>
+<p>&nbsp;</p>
+<p>To create code for this function, you can use the Text dialog from the code toolbar.</p>
+<p>&nbsp;</p>
+<p>With <a href="../Language/IDP_FSTRING.html">F string</a>, use {{ } for date/time parts, because { } are used for variables. See example.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+<pre class=cod><span class=t>str</span> s
+s.<span class=fq>timeformat</span> <span class=c2>;;same as s.timeformat(&quot;{D} {T}&quot;)</span>
+s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;{D} {TT}&quot;</span><span class=p>)</span>
+s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;Current date is {DD}&quot;</span><span class=p>)</span>
+s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;Current date is {MMM dd yyyy}, {HH 'hours and' mm} minutes&quot;</span><span class=p>)</span>
+s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=n>0</span> <span class=lib>WINAPI.</span><span class=d>LANG_ENGLISH</span><span class=o>|</span><span class=lib>WINAPI.</span><span class=d>SUBLANG_ENGLISH_US</span><span class=p>)</span>
+
+<span class=t>DATE</span> d.<span class=fq>getclock</span> <span class=c2>;;get current time</span>
+d<span class=o>=</span>d<span class=o>+</span><span class=n>1</span> <span class=c2>;;add 1 day</span><span class=c2></span>
+s.<span class=fq>timeformat</span><span class=p>(</span><span class=s>&quot;{DD} {TT}&quot;</span> d<span class=p>)</span>
+
+<span class=t>SYSTEMTIME</span> st
+<span class=fd>GetLocalTime</span> <span class=o>&amp;</span>st
+s.<span class=fq>format</span><span class=p>(</span><span class=s>&quot;%02i:%02i:%02i.%03i&quot;</span> st.wHour st.wMinute st.wSecond st.wMilliseconds<span class=p>)</span>
+
+<span class=t>int</span> var<span class=o>=</span><span class=n>5</span>
+s.<span class=fq>timeformat</span><span class=p>(</span>F<span class=s>&quot;{</span>var<span class=s>}. {{DD}&quot;</span><span class=p>)</span> <span class=c2>;;with F string use {{} for date/time parts</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
