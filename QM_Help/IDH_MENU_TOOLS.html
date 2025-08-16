@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Menu: Run, Debug, Tools, Output</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Menu: Run, Debug, Tools, Output</h1>
+
+<p>Some menu commands are described in the <A href="IDH_MENU_TOOLBAR.html">Toolbar</a> 
+  topic. Others here.</p>
+<h2>Run</h2>
+
+<p><i>Show possible run-time errors</i> - when compiling macros/functions, show  possible run-time errors. Read more in <a href="../Flow/IDP_ERR.html" class="blue">err</a> help.</p>
+<p>&nbsp;</p>
+<p><i>Show unused variables</i> - when compiling macros/functions, show &quot;unused variable&quot; warning when a <a href="../Language/IDP_SCOPE.html">local or thread variable</a> is declared but not used.</p>
+  <ul>
+    <li>QM cannot always detect if a variable is actually used. In some cases there will be more warnings than should be. For example, some dialog variables may trigger this warning. Don't delete variable declarations if you are not sure that the variable is really unused.</li>
+    <li>This warning is not shown for function parameters and for declarations with assignment like <span class=cod><span class=t>int</span> k<span class=o>=</span><span class=n>0</span></span> or <span class=cod><span class=t>str</span> s.<span class=fq>getwintext</span><span class=p>(</span>w<span class=p>)</span></span>.</li>
+    <li>You can use <span class=cod><span class=dir>#opt</span> nowarnings <span class=n>1</span></span> to disable warnings in a function. It can be at the end of function.</li>
+    <li>To avoid this warning when the variable is used only in code that is excluded from compiling (<span class="dir">#if</span> etc), move the variable declaration to the excluded code.</li>
+  </ul>
+<p>&nbsp;</p>
+<p><i>Show declarations from ref files</i> - show declarations retrieved 
+  from <a href="../Language/IDP_REF.html">reference files</a>.</p>
+<p>&nbsp;</p>
+<p><i>Show loaded dlls and type libraries</i> - show names of <a href="../Language/IDP_DLL.html">dlls</a> and <a href="../_COM/IDP_TYPELIB.html">type libraries</a>, when they are actually 
+  loaded.</p>
+<p>&nbsp;</p>
+<p>Declarations and loaded files will be shown in QM output when compiling macros and sometimes when displaying in the code editor.</p>
+<p>&nbsp;</p>
+<p>Tip: You can use <a href="../User/IDP_QMDLL.html#CompileAllItems" class="dll">CompileAllItems</a> to compile multiple functions.</p>
+<p>&nbsp;</p>
+<p><i>View Active Items</i> - show or hide 'Open items' and 'Running items' lists in QM window. In the 'Running items' list you can see currently running <a href="../Other/IDP_THREADS.html">threads</a>, 
+  toolbars, timers, and recently launched items. Right click 
+  an item if you want to end a thread, 
+  find a lost toolbar, stop a timer.</p>
+<p>&nbsp;</p>
+<p><i>Auto Minimize QM</i> - minimize QM when you click the Run button or menu item to run a macro. Only if it is a macro without option 'Run simultaneously'.</p>
+<p>&nbsp;</p>
+<p> <i>Disable triggers</i> - when checked, QM does not respond to most trigger 
+  events (as set in Options).</p>
+  <ul>
+    <li>Other ways to disable-enable QM: the 
+      tray icon menu; middle-click the tray icon; Ctrl+Shift+Alt+D, <a href="../Commands/IDP_DIS.html" class="blue">dis</a>.  </li>
+    <li>To disable triggers only in certain programs, use the <a href="IDH_FOLDERPROP.html">File 
+      Properties</a> dialog.</li>
+    <li> If you hold down F8 when QM starts, you can choose to start QM in safe mode. 
+      When QM runs in safe mode, all triggers are disabled. In safe mode, macros and 
+      functions will not run whatever way is used to launch them.</li>
+  </ul>
+<p>&nbsp;</p>
+<p><i>Make exe, Run exe</i> - <a href="IDH_MAKEEXE.html">create or run .exe file</a> from current macro/function.</p>
+<h2>Debug</h2>
+<p>Run or control macro in <a href="../Flow/IDP_DEB.html">debug mode</a>. Set debug mode options.</p>
+<h2>Tools</h2>
+<p><i>Record menu</i> - records menu command (<a href="../Commands/IDP_MEN.html" class="blue">men</a>) when you click a menu item in some window. Not all menus can be recorded. If does not record, it means that <span class="blue">men</span> 
+  cannot be used with that menu. When recording, the window does not receive menu commands, unless you click with Shift.</p>
+<p>&nbsp;</p>
+<p><i>COM libraries </i>- view registered COM type libraries and ActiveX controls. Insert type library 
+  declaration statement (<A href="../_COM/IDP_TYPELIB.html" class="blue">typelib</a>). 
+  Register/unregister COM components.</p>
+<p>&nbsp;</p>
+<p><i>Portable QM</i> - install <a href="../Other/IDP_PORTABLE.html">portable QM</a> in a removable drive.</p>
+
+<h2> Output</h2>
+
+<p> <i>Open selected item</i> - open QM item whose name is fully selected in the 
+  QM output.</p>
+<p>&nbsp;</p>
+<p><i>Log -&gt; Window events</i> - when a window is activated, created, etc, 
+  display its handle, class and name in the Output. You can use this when it is 
+  difficult to make a window trigger.</p>
+<p>&nbsp;</p>
+<p><i>Log -&gt; Acc. trigger events</i> - log accessible object events to get information 
+  required for accessible object triggers.</p>
+<p>&nbsp;</p>
+<p><i>History</i> - displays last 32 QM output events. You can see where and when was called 
+  <span class="blue">out</span>. For macros running in separate process QM logs less info. Some right-click menu items: 
+  Locate - open the macro/function and show the statement that generated 
+  the output event; Caller - open the macro/function that called that function.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
