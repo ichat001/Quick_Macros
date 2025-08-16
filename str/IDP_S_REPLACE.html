@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>replace</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Replace part of string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>replace</b>(ss <i>[</i>from<i>] [</i>nc<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>ss </b>- replacement string. Can be string or numeric expression.</p>
+
+<p> <b>from </b>- where to do the replacement. 0-based character index in <b>s</b>. 
+Default: 0.</p>
+
+<p> <b>nc </b>- number of characters to replace. Default: -1 (all characters at 
+right from <b>from</b>).</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Replaces range of characters in <b>s</b>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;one two three&quot;</span>
+s.<span class=fq>replace</span><span class=p>(</span><span class=s>&quot;four&quot;</span> <span class=n>4</span> <span class=n>3</span><span class=p>)</span>
+<span class=c> now s is &quot;one four three&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
