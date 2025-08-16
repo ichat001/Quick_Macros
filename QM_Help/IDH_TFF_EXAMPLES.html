@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Filter function examples</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Filter function examples</h1>
+
+<h3>Example1</h3>
+
+<p>&nbsp;</p>
+<p>Assume that you have macro &quot;Macro&quot; that has trigger Cb (Ctrl+B), 
+  and you want that it would work only in Quick Macros window.</p>
+
+<p>&nbsp;</p>
+
+<p>Open the Properties dialog and click the FF button. Click Copy and select &quot;FFT_Window&quot; 
+  from the drop-down list. It is a template filter function. Click OK, and OK 
+  again. New function &quot;FF_Macro&quot; is created. Select it. Initially, text 
+  is:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> iid <span class=t>FILTER</span><span class=o>&#38;</span>f
+<span class=fq>
+if</span><span class=p>(</span><span class=fq>wintest</span><span class=p>(</span>f.hwnd <span class=s>&#34;WindowName&#34;</span> <span class=s>&#34;WindowClass&#34;</span><span class=p>))</span> <span class=fq>ret</span> iid</pre>
+
+
+<p>&nbsp;</p>
+
+<p>Replace &quot;WindowName&quot; with &quot;Quick Macros&quot;, and &quot;WindowClass&quot; 
+  with &quot;QM_Editor&quot; (you can see window name and class in the QM status 
+  bar while the mouse pointer is over that window). If you want to use only window 
+  name or only window class (it is recommended to use only class, unless it is 
+  not unique), delete other string, leaving empty quotes. After editing, the filter 
+  function may look:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> iid <span class=t>FILTER</span><span class=o>&#38;</span>f
+<span class=fq>
+if</span><span class=p>(</span><span class=fq>wintest</span><span class=p>(</span>f.hwnd <span class=s>&#34;&#34;</span> <span class=s>&#34;QM_Editor&#34;</span><span class=p>))</span> <span class=fq>ret</span> iid</pre>
+
+<p>&nbsp;</p>
+
+<p>Now, your filter function allows starting &quot;Macro&quot; when you press 
+  &quot;Ctrl+B&quot; in Quick Macros window, but discards it in other windows.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example2</h3>
+
+<p>&nbsp;</p>
+<p>Assume that you have two macros (&quot;M1&quot; and &quot;M2&quot;), and you 
+  want that &quot;M1&quot; would run when you press F12 in &quot;Notepad&quot; 
+  window, and &quot;M2&quot; when you press the same key in &quot;Internet Explorer&quot;.</p>
+
+<p>&nbsp;</p>
+
+<p>Instead of assigning F12 trigger to each macro, we will create new filter function 
+  and assign F12 trigger to it. The macros should not have a trigger.</p>
+
+<p>&nbsp;</p>
+
+<p>At first, create new filter function: menu File -&gt; New -&gt; Templates -&gt; 
+  Filter Functions -&gt; FF_Window_Dispatcher. Then open the Properties dialog 
+  and assign F12 trigger. Then open the Filter Function dialog, click &quot;Use&quot; 
+  and select the new function itself. Click OK, and OK again. Now, the new function 
+  has hotkey F12 and filter function itself assigned to it. Function's text is:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> iid <span class=t>FILTER</span><span class=o>&#38;</span>f
+<span class=fq>
+sel</span> <span class=fq>wintest</span><span class=p>(</span>f.hwnd <span class=s>&#34;Window1[]Window2[]Window3&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>16</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>1</span> <span class=fq>ret</span> <span class=s>&#34;Macro1&#34;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>2</span> <span class=fq>ret</span> <span class=s>&#34;Macro2&#34;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>3</span> <span class=fq>ret</span> <span class=s>&#34;Macro3&#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<p>After editing, it should be:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> iid <span class=t>FILTER</span><span class=o>&#38;</span>f
+<span class=fq>
+sel</span> <span class=fq>wintest</span><span class=p>(</span>f.hwnd <span class=s>&#34;Notepad[]Internet Explorer&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>16</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>1</span> <span class=fq>ret</span> <span class=s>&#34;M1&#34;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>2</span> <span class=fq>ret</span> <span class=s>&#34;M2&#34;</span></pre>
+
+</body>
+
+</html>
