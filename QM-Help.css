@@ -1,0 +1,161 @@
+body, .normal {
+	font-family: Arial;
+	font-size: 10pt;
+	font-weight: normal;
+}
+
+P {
+	margin-top: 1pt;
+	margin-bottom: 1pt;
+	text-align: left;
+	font-size: 10pt;
+	font-weight: normal;
+}
+
+td,th {
+	text-align: left;
+	font-family: Arial;
+	font-size: 10pt;
+}
+td { font-weight: normal; }
+th { font-weight: bold; }
+
+tr { vertical-align : top; }
+
+TABLE.tflags, TABLE.tnormal {
+	border: 1px solid #D1D7DC;
+	border-collapse: collapse;
+}
+TABLE.tflags td, TABLE.tflags th, TABLE.tnormal td, TABLE.tnormal th {
+	border: 1px solid #D1D7DC;
+	border-collapse: collapse;
+	padding-left: 4px;
+	padding-right: 1em;
+	/*min-width:50px; does not work in IE;*/
+	/*width:50px; not good*/
+}
+TABLE.tflags {
+	margin: 10px;
+}
+TABLE.tnormal {
+	margin-top: 10px; margin-bottom: 10px;
+}
+TABLE.tflags col, TABLE.tnormal col { width:50px; } /*works as min-width. To make first column min 50px, add <col> after <table class=tflags>.*/
+
+H1 {
+	margin-bottom: 16pt;
+	padding: 6pt 4pt 4pt 4pt;
+	text-align: left;
+	font-size: 12pt;
+	font-weight: bold;
+	background-color:#69F;
+}
+
+H2 {
+	margin-top: 14pt;
+	margin-bottom: 6pt;
+	padding: 4pt 4pt 2pt 4pt;
+	text-align: left;
+	font-size: 10pt;
+	font-weight: bold;
+	background-color:#9C6;
+}
+
+H3 {
+	margin-top: 4pt;
+	margin-bottom: 4pt;
+	padding: 1pt;
+	text-align: left;
+	font-size: 10pt;
+	font-weight: bold;
+	font-style: italic;
+	background-color:#eee;
+}
+
+H4 {
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+	text-align: left;
+	font-size: 10pt;
+	font-weight: normal;
+	font-style: italic;
+}
+
+PRE {
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+	font-family: Courier New;
+	font-size: 10pt;
+    tab-size:      4;
+    -moz-tab-size: 4;
+}
+
+tt { font-family: Courier New; font-size: 10pt; }
+
+BLOCKQUOTE {
+	margin: 4pt 0 4pt 2em;
+}
+
+ul {
+	margin-top: 2pt;
+	margin-bottom: 2pt;
+}
+
+A:link,A:visited { color: #008000; }
+H2 A:link, H2 A:visited { color: #000000; }
+
+SPAN.green { color: #00A000; }
+SPAN.red, p.red { color: #ff0000; }
+SPAN.magenta { color: #ff00ff; }
+A.blue,A.blue:link,A.blue:visited,SPAN.blue,td.blue { color: #0000ff; }
+A.dll,A.dll:link,A.dll:visited,SPAN.dll,div.dll A:link,div.dll A:visited, td.dll { color: #8080ff; }
+
+A.UDF,A.UDF:link,A.UDF:visited,SPAN.UDF,td.UDF { color: #0080f0; }
+/*SPAN.UDF:hover { color: #0080f0; text-decoration: underline; }*/
+/*A.UDF,A.UDF:link,A.UDF:visited { color: #0080f0; }
+SPAN.UDF { color: #0080f0; }
+SPAN.UDF:after { content: "tttt"; }*/
+
+A.lib,A.lib:link,A.lib:visited,SPAN.lib,td.lib { color: #808080; }
+A.type,A.type:link,A.type:visited,SPAN.type,td.type { color: #c000c0; }
+A.def,A.def:link,A.def:visited,SPAN.def,td.def { color: #808000; }
+A.dir,A.dir:link,A.dir:visited,SPAN.dir,td.dir { color: #ff0000; }
+
+DIV.expand {
+	display: none;
+	margin-top: .5em;
+	margin-bottom: .10em;
+	padding-top: .75em;
+	padding-right: 6px;
+	padding-left: .75em;
+	padding-bottom: .75em;
+	background-color: #F0F0F0;
+}
+A.expand {
+	color: #008000;
+	border-bottom:1px dashed #008000;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+div.parts { border:#D1D7DC solid 1px; padding: 2pt; }
+div.parts p { margin-top: 2pt; margin-bottom: 2pt; }
+
+/*use with <pre> and <span>*/
+.syntax {
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+	font-family: Courier New;
+	font-size: 10pt;
+}
+/*pre.syntax { border:#D1D7DC solid 1px; padding: 2pt; }*/
+.syntax b { color: #0000ff; font-weight:normal; }
+.syntax i { color: #c0c0c0; }
+.syntax em { color: #008000; font-style:normal; text-decoration:none; } /*at first tried <s>, but then DW fails to validate*/
+
+.f8 { font-size: 8pt; }
+
+/*use .cod with <pre>, <span>, <div>*/
+.cod{background-color:#FFFFFF;border:#D1D7DC;border-style:solid;border-width:1px;padding-left:2px;line-height:normal;color:black}.cod,.cod *{font-family:'Courier New';font-size:100%}.cod .c,.cod .c2{font-family:'Tahoma'}
+
+.cod .c{color:#008000}.cod .c2{color:#008000}.cod .s{color:#a07040}.cod .n{color:#a04000}.cod .o{color:#0000ff}.cod .p{color:#ff0000}.cod .fq{color:#0000ff}.cod .fu{color:#0080f0}.cod .fd{color:#8080ff}.cod .dir{color:#ff4040}.cod .t{color:#c000c0}.cod .d{color:#808000}.cod .lib{color:#808080}.cod .r{color:#008000;font-style:italic}.cod .mi{color:#ff00ff}.cod .i{color:#e0e0e0;text-decoration:underline}
