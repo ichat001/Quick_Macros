@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>but</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Click button, or get checked state</h1>
+
+<h3>Syntax1 - click, check, etc</h3>
+
+<pre class=syntax><b>but</b><i>[</i>+<i>|</i>-<i>|</i>*<i>|</i>%<i>]</i> hwndbutton</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax2 - click, check, etc</h3>
+
+<pre class=syntax><b>but</b><i>[</i>+<i>|</i>-<i>|</i>*<i>|</i>%<i>] </i>id<i>|</i>text window</pre>
+<p>&nbsp;</p>
+<h3>Syntax3 - get checked state</h3>
+<pre class=syntax><i>int </i><b>but</b>(hwndbutton)</pre>
+<p>&nbsp;</p>
+<h3>Syntax4 - get checked state</h3>
+<pre class=syntax><i>int </i><b>but</b>(id<i>|</i>text window)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+
+<p> <b>hwndbutton</b> - button handle. To get button handle, use function <a href="../Functions/IDP_ID.html" class="blue">id</a> 
+  or <a href="../Functions/IDP_CHILD.html" class="blue">child</a>.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+  parent window. The function searches only in the first found matching window.</p>
+
+<p> <b>id</b> - button id.</p>
+
+<p> <b>text</b> - button label. Can be partial, but from beginning. Underlined 
+  characters must be preceded with &amp;. The window must not have other controls 
+  with the same text.</p>
+</div>
+
+<p>&nbsp; </p>
+<h4>Options:</h4>
+<table class="tflags">
+  <tr>
+    <td>Default</td>
+    <td>Click.</td>
+  </tr>
+<tr>
+<td>+</td> <td>Check checkbox.</td>
+</tr>
+<tr>
+<td>-</td> <td>Uncheck checkbox.</td>
+</tr>
+<tr>
+<td>*</td> <td>Toggle checkbox.</td>
+</tr>
+<tr>
+<td>%</td> <td>
+  Click if unchecked.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1 and 2</h4>
+<p>Clicks, checks or unchecks a button, check box or option (radio) button.</p>
+<p>&nbsp;</p>
+<p> Option characters usually are used with check boxes. Option + also can be used with push buttons; often it is more reliable.</p>
+
+<p>&nbsp;</p>
+<h4>Syntax3 and 4</h4>
+<p>Returns check state of check box or radio (option) button: 0 
+  - unchecked, 1 - checked, 2 indeterminate.</p>
+<p>&nbsp;</p>
+<h3>How it works; using in dialog procedure</h3>
+<p>All <span class="blue">but</span> versions can be used everywhere - with windows of other applications and with your custom dialogs.</p>
+<p>&nbsp;</p>
+<p>The 'click' versions (<span class="blue">but</span> and <span class="blue">but%</span>) send BM_CLICK message to the button, which sends WM_LBUTTONDOWN etc and sets focus. May not work if the window is inactive, although may activate it. It seems that Acc.DoDefaultAction also uses this message.</p>
+<p>&nbsp;</p>
+<p>The 'check' versions (<span class="blue">but+</span>, <span class="blue">but-</span>, <span class="blue">but*</span>) send BM_SETCHECK message to the checkbox. It does not set focus. Works with inactive windows.</p>
+<p>&nbsp;</p>
+<p> <span class="blue">but+</span>, <span class="blue">but-</span> and <span class="blue">but%</span> do nothing if the checkbox already is in that state.</p>
+<p>&nbsp;</p>
+<p>All 'click' and 'check' versions send notification (WM_COMMAND) to the parent dialog. To check a checkbox or option button in your dialog without notification, use <span class="dll">CheckDlgButton</span> or <span class="dll">CheckRadioButton</span>, or assign 1 to the dialog variable before <span class="UDF">ShowDialog</span>.</p>
+<p>&nbsp;</p>
+<p>Sends messages asynchronously. For example, if the button shows a dialog, <span class="blue">but</span> does not wait until the dialog is closed. Applies autodelay (<a href="IDP_SPE.html" class="blue">spe</a>). If the target window belongs to current thread, sends synchronously and does not apply autodelay.</p>
+<p>&nbsp;</p>
+<p>The 'get checked state' version (syntax 3 and 4) sends BM_GETCHECK message. The alternatives are <span class="dll">IsDlgButtonChecked</span> and BM_GETSTATE. Look in MSDN Library.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>but</span> <span class=fq>child</span><span class=p>(</span><span class=n>100</span> <span class=n>100</span> <span class=s>&#34;Calc&#34;</span><span class=p>)</span> <span class=c2>;;click button at 100 100 of &#34;Calc&#34; window
+</span><span class=fq>but</span> <span class=fq>id</span><span class=p>(</span><span class=n>306</span> <span class=s>&#34;Calc&#34;</span><span class=p>)</span> <span class=c2>;;click button with id=306 on window &#34;Calc&#34;
+</span><span class=fq>but</span><span class=o>+</span> <span class=n>306</span> <span class=s>&#34;Calc&#34;</span> <span class=c2>;;check check-button with id=306 on window &#34;Calc&#34;
+</span><span class=fq>but</span> <span class=s>&#34;&#38;Open&#34;</span> <span class=s>&#34;Open&#34;</span> <span class=c2>;;click button &#34;Open&#34; on window &#34;Open&#34;
+</span>
+<span class=c> If radio button &#34;Down&#34; in &#34;Find&#34; dialog is unchecked, click it:
+</span><span class=t>int</span> h<span class=o>=</span><span class=fq>child</span><span class=p>(</span><span class=s>&#34;&#38;Down&#34;</span> <span class=s>&#34;Button&#34;</span> <span class=s>&#34;Find&#34;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>but</span><span class=p>(</span>h<span class=p>))</span> <span class=fq>but</span> h</pre>
+</body>
+
+</html>
