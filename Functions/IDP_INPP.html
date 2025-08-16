@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>inpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>Password dialog</h1>
+<h3>Syntax1</h3>
+<pre class=syntax><b>inpp</b> password <i>[</i>text<i>] [</i>caption<i>] [</i>flags<i>] [</i>hwndowner<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Syntax2</h3>
+<pre class=syntax><i>int </i><b>inpp</b>(password <i>[</i>text<i>] [</i>caption<i>] [</i>flags<i>] [</i>hwndowner<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>password</b> - user must enter this password. Can be encrypted (in Options -&gt; Security, use &quot;inpp&quot; 
+as function name).</p>
+<p><b>text</b> - text above password field. Default: &quot;&quot; (&quot;Password:&quot;). Supports <a href="../Other/IDP_SYSLINK.html">links</a>.</p>
+<p><b>caption</b> - dialog box title. Default: &quot;&quot; (&quot;QM - Password&quot;).</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>password is case insensitive.</td>
+</tr>
+
+</table>
+<p> <b>hwndowner</b> (QM 2.2.1) - owner window handle. The dialog box will be 
+on top of the owner window. The owner window, if belongs to the same thread, 
+will be disabled.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Shows password input dialog box. If entered password is incorrect, or pressed 
+  Cancel, ends macro.</p>
+<p>&nbsp;</p>
+<p> If used as function (syntax2), does not end macro, but returns 1 if password is correct, or 0 if not.</p>
+<p>&nbsp;</p>
+<p><i>Tips:</i> You can also encrypt macro in Options -&gt; Security.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Ask for password, and end macro if entered password is not &#34;55hH7pKJ&#34;:
+</span><span class=fq>inpp</span> <span class=s>&#34;55hH7pKJ&#34;</span>
+
+<span class=c> Ask for password, and throw error if entered password is not &#34;bnfg&#34; (in code it is encrypted):
+</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>inpp</span><span class=p>(</span><span class=s>&#34;[*E12073E7509E09F804*]&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>1</span><span class=p>))</span> <span class=fq>end</span> <span class=s>&#34;password incorrect&#34;</span></pre>
+</body>
+</html>
