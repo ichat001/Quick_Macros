@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Functions</h1>
+
+<p> A function is a named piece of code executed as a unit. It can receive several 
+  values (arguments) and return some value. For example, function <span class="blue">win</span> 
+  receives window name, finds the window and returns 
+  window handle. Beside predefined functions (QM intrinsic functions, dll and 
+  COM functions), you can create your own (user-defined) functions. Usually, you 
+  create a function when you want to have a piece of code that can be executed 
+  more than once, in any macro. Instead of placing the same code in each macro, 
+  you place it in a function, and then call the function by name from any macro.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../QM_Help/IDH_FUNCTION.html">Function as QM item 
+  type</a>, <a href="IDP_FUNCTION.html"></a><a href="../QM_Help/IDH_FUNCTIONTIPS.html">function 
+  tips</a>, <a href="IDP_FUNCTION.html">declaration (parameters etc)</a>, <a href="../Other/IDP_FUNCTIONCALL.html">various 
+  ways of calling</a>.</p>
+<h2>Function call syntax</h2>
+
+<p> Global functions (intrinsic, user-defined and dll functions) are called using syntax</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax><span class="UDF">func</span>(<i>[</i>a b <i>...]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<p>Here <span class="UDF">func </span>is function name; a, b and c are arguments.</p>
+
+<p>&nbsp;</p>
+
+<p> If function's return value is not used, parentheses are optional. Function's 
+  return value can be assigned to a variable. Or, function can be an argument 
+  of another function or part of an expression with operators. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fu>Func</span> a b
+variable <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span>a b<span class=p>)</span>
+<span class=fu>Func2</span><span class=p>(</span>a <span class=fu>Func</span><span class=p>(</span>b c<span class=p>))</span>
+d <span class=o>=</span> e <span class=o>+</span> <span class=fu>Func</span><span class=p>(</span>b c<span class=p>)</span> <span class=o>/</span> <span class=n>10</span></pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<p>Member functions of <A href="../str/IDH_STRINGS.html">str</a>, <A href="../_COM/IDP_OLETYPES.html">OLE 
+  types</a>, <A href="IDP_CLASSES.html">user-defined classes</a> and <A href="../_COM/IDP_COM_CALL.html">COM 
+  interfaces</a> are called using syntax:</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax>var.Func(<i>[</i>a b <i>...]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<p> Here var is variable for which is called function Func. Type of var is type 
+  to which belongs function Func. For example, to use str functions, you declare 
+  str variable:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s
+s.format<span class=p>(</span><span class=s>&#34;%i %i&#34;</span> a b<span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<p>User-defined and dll functions also can be called <A href="../Functions/IDP_CALL.html">by 
+  address</a>.</p>
+
+<h2>QM intrinsic functions</h2>
+
+<p><A href="../Reference/IDH_REFERENCE.html">Reference</a>.</p>
+<p>&nbsp;</p>
+<p> In editor QM intrinsic functions have <span class="blue">this color</span>.</p>
+
+<h2>User-defined functions</h2>
+<p>A <A href="../QM_Help/IDH_FUNCTION.html">user-defined function</a> is a macro 
+  that can be called from other macros. In editor user-defined functions have <span class="UDF">this 
+  color</span>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../QM_Help/IDH_FUNCTIONTIPS.html">Function tips</a>, <a href="IDP_DIR_SUB.html">sub-functions</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>To define function's type and parameters, use <A href="IDP_FUNCTION.html" class="blue">function</a>. To return a value, use <A href="../Flow/IDP_RET.html" class="blue">ret</a>. You can get function address with <a href="IDP_OPUNARY.html">&amp; operator</a> and use it as callback function. You can also start a user-defined function 
+  like a macro (not from code). Functions can be recursive (call itself, directly 
+  or through other function). Every running function instance has its own local 
+  variables.</p>
+
+<p>&nbsp;</p>
+
+<p>Below is shown how function is called and executed. Red lines - execution flow 
+  direction. Green lines - passing and returning values. The second parameter is 
+  declared as reference (&amp;), therefore the function receives address of variable 
+  e and can modify its value.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/function.gif"></p>
+
+<h2>User-defined member functions</h2>
+
+<p> <A href="IDP_CLASSES.html">Class member functions</a> are similar to other user-defined functions, but can be called only with 
+  a variable of that type. There are no other ways to execute member functions.</p>
+
+<h2>Dll functions</h2>
+
+<p>You can use Windows API and other dll functions. To <a href="IDP_DECLARATION.html">declare</a> a dll function: <A href="IDP_DLL.html" class="blue">dll</a>. To find dll function help: type/click its name in editor, then press <a href="../Other/IDP_F1.html">F1</a> 
+  and search in <a href="../Other/IDP_MSDN.html">MSDN library</a> or Internet.</p>
+
+<h2>COM functions</h2>
+
+<p>You also can use <A href="../_COM/IDH_COM.html">COM functions</a>.</p>
+
+
+
+</body>
+
+</html>
