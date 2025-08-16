@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>findl</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find n-th line in string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>findl</b>(string <i>[</i>n<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string to search in.</p>
+
+<p> <b>n</b> - 0-based index of line. Default: -1.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns 0-based index of first character of <b>n</b>-th line in <b>string</b>. 
+  If there are less than <b>n</b>+1 lines, returns -1.</p>
+
+<p>&nbsp;</p>
+
+<p>If <b>n</b> is omitted or negative, finds next line. It works in same function only.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Fixed bug: does not work if <b>n</b> omitted.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also</i>: <A href="../str/IDP_S_GETL.html" class="blue">getl</a>, 
+  <a href="IDP_NUMLINES.html" class="blue">numlines,</a> 
+  <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a>, <a href="../Other/IDP_LINEBREAK.html">line 
+  break characters</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> find the second line (line index 1)</span>
+<span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;line0[]line1[]line2&quot;</span>
+<span class=t>int</span> i <span class=o>=</span> <span class=fq>findl</span><span class=p>(</span>s <span class=n>1</span><span class=p>)</span>
+<span class=fq>out</span> i <span class=c2>;;7 (5 characters in the first line, and 2 characters in the line break)</span>
+
+<span class=c> for each line</span>
+<span class=t>int</span> li
+<span class=fq>for</span> li <span class=n>0</span> <span class=n>1000000000</span>
+<span class=i>&#9;</span>i<span class=o>=</span><span class=fq>findl</span><span class=p>(</span>s <span class=o>-</span>li<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>i<span class=o>&lt;</span><span class=n>0</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> i
+</pre>
+
+</body>
+
+</html>
