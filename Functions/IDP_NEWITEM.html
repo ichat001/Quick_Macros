@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>newitem</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Create, modify, copy and delete QM items</h1>
+
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>newitem</b>(<i>[</i>name<i>]</i> <i>[</i>text<i>]</i> <i>[</i>type<i>|</i>template<i>]</i> <i>[</i>trigger<i>]</i> <i>[</i>folder<i>]</i> <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>name</b> - name.</p>
+<ul>
+  <li> Also can be <a href="IDP_QMITEM.html">id</a> (integer) 
+    of existing item (for example, when deleting or replacing).</li>
+  <li> Error if contains 
+    invalid filename characters or is invalid name for function or member function.</li>
+  <li> If &quot;&quot;, uses name of type or template.</li>
+</ul>
+<p> <b>text</b> - item text.</p>
+<ul>
+  <li> For file link item - file path.</li>
+  <li>If &quot;&quot;, copies text of template.</li>
+</ul>
+<p> <b>type</b> - <a href="../QM_Help/IDH_ITEMS.html">QM item type</a>. Can be: &quot;Macro&quot;, &quot;Function&quot;, &quot;Menu&quot;, 
+  &quot;Toolbar&quot;, &quot;Autotext&quot;, &quot;Member&quot;, &quot;Folder&quot;, 
+  &quot;File Link&quot;.</p>
+<ul>
+  <li> If omitted or &quot;&quot;, creates macro.</li>
+  <li>Instead of &quot;Autotext&quot; can be &quot;T.S. Menu&quot; or &quot;TS Menu&quot;, for compatibility with QM versions &lt; 2.3.5.</li>
+</ul>
+<p> <b>template</b> - name or id of an existing item. Its type and other properties will be applied to the new item.</p>
+<ul>
+  <li> Must not be folder. QM 2.3.3: can be folder if using id.</li>
+  <li>QM 2.3.3. Can be file link.</li>
+</ul>
+<p> <b>trigger</b> - <a href="../Other/IDP_TRIGGER_CODING.html">encoded trigger string</a>.</p>
+<ul>
+  <li>QM 2.4.0. If omitted or &quot;&quot;, copies trigger of template.</li>
+  <li>QM 2.3.3. Can be used with folders. Sets scope (programs). Example: &quot;/IEXPLORE,FIREFOX&quot;.</li>
+</ul>
+<p> <b>folder</b> - name or id of folder where new item must be created.</p>
+<ul>
+  <li> Also creates the folder if 
+    does not exist.</li>
+  <li> Can be full path, like
+    &quot;\Folder\Subfolder&quot;.</li>
+  <li> If omitted or &quot;&quot;, creates not in a folder.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td><p>If item with <b>name</b> exists, create new item with unique 
+    name, e.g., &quot;Macro&quot; -&gt; &quot;Macro2&quot;.</p>
+    <ul>
+      <li> Flags 0 - 3 cannot 
+        be used together.</li>
+      <li>QM 2.3.3. Does not make unique name if it is folder.</li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td><p>If item with <b>name</b> exists, replace it.</p>
+    <ul>
+      <li>Cannot replace folder.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>If item with <b>name</b> exists, error.</td>
+</tr>
+<tr> 
+  <td>3</td>
+  <td><p>If item with <b>name</b> exists, replace its text.</p>
+    <ul>
+      <li>The user can Undo if the item is currently open (is in the &quot;Open items&quot; list).</li>
+      <li>Does not replace other properties.</li>
+      <li> Alternatively you can 
+        use <a href="../str/IDP_S_MACROS.html">str.setmacro</a>.</li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Select new item.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Let user edit  name of  new item (if flag 4, and QM window is active).</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Create at the bottom.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td><p>Delete item.</p>
+    <ul>
+      <li> Other flags (except 64), <b>text</b> and <b>trigger</b> 
+        are not used.</li>
+      <li> Not error if item not found. Then the function  returns -1.</li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>64</td>
+  <td>Confirm (with flag 32). Error if user clicks Cancel.</td>
+</tr>
+<tr>
+  <td><p>128</p>
+    <p>(QM 2.3.0)</p></td>
+  <td><p>Temporary. Temporary items disappear when closing file.</p>
+    <ul>
+      <li>QM 2.4.0. Creates in the Temp folder, regardless of <b>folder</b>.</li>
+    </ul></td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>Creates new <a href="../QM_Help/IDH_ITEMS.html">QM item</a>, or replaces/modifies/deletes existing item. Returns <a href="IDP_QMITEM.html">item 
+  id</a>.</p>
+<p>&nbsp;</p>
+<p>Cannot create/replace/modify/delete items in read-only folders. Cannot replace (flag 1), modify (flag 3) or delete (flag 32) 
+  existing item if it is in other folder or has other type, unless item id is 
+  used.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. Can be used encrypted templates. Then the new item also will be encrypted. 
+  Also can replace (flag 1), replace text (flag 3) and delete (flag 32) encrypted 
+  items. If flag 3 used, and the item already exists, it also must be encrypted.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=c> Execute QM macro code that is stored in file &#34;test.txt&#34;. This will create temporary macro with text of file and execute it:
+</span><span class=t>str</span> s.getfile<span class=p>(</span><span class=s>&#34;$desktop$\test.txt&#34;</span><span class=p>)</span>
+<span class=fq>mac</span> <span class=fq>newitem</span><span class=p>(</span><span class=s>&#34;temp_file_text&#34;</span> s <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;\Temp\files&#34;</span> <span class=n>1</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
