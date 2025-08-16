@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>mou</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Mouse move</h1>
+
+<h3>Syntax1 - absolute movement</h3>
+
+<pre class=syntax><b>mou</b><i> [</i>x<i> </i>y<i>] [</i>window<i>] [</i>flags<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - relative movement</h3>
+
+<pre class=syntax><b>mou</b><i>(</i>+<i>|</i>-<i>) </i>x<i> </i>y</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3 - relative movements, used for compact recording</h3>
+
+<pre class=syntax><b>mou</b> &quot;recorded unreadable text&quot;</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax4 - restore mouse position</h3>
+<pre class=syntax><b>mou</b></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>x </b><b>y</b> - mouse pointer <A href="../Other/IDP_PIXELS.html">coordinates</a>.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or child window. If omitted, coordinates are relative to the top-left corner 
+of the screen.</p>
+
+<p> <b>flags</b>: 1 - coordinates are relative to the top-left corner 
+of window's client area. If <b>window</b> is literal 0, the work area. 
+Default: 0.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>+</td> <td>coordinates are relative to 
+the mouse pointer position.</td>
+</tr>
+<tr>
+<td>-</td> <td>coordinates are relative 
+to the previous mouse movement/click command coordinates.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><i>Syntax4:</i> Restores cursor position as it was before first mouse movement/click 
+  command in current macro.</p>
+
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a> and <a href="IDP_OPT.html">opt slowmouse</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>mou</span> <span class=n>500</span> <span class=n>300</span> <span class=c2>;;move the mouse pointer to 500, 300 pixels of the screen
+</span><span class=fq>mou</span> <span class=n>100</span> <span class=n>150</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;move the mouse pointer to 100, 150 pixels of &#34;Notepad&#34; window
+</span><span class=fq>mou</span><span class=o>+</span> <span class=n>20</span> <span class=o>-</span><span class=n>10</span> <span class=c2>;;move the mouse pointer 20, -10 pixels from current position
+</span><span class=fq>mou</span> <span class=c2>;;restore mouse pointer position as it was before first mouse movement/click command in current macro
+</span><span class=c>
+ Move the mouse pointer  in &#34;Notepad&#34; window, x=100 (relative to &#34;Notepad&#34;), don't change y:
+</span><span class=t>int</span> w <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fq>mou</span> <span class=n>100</span> <span class=fq>ym</span><span class=p>(</span><span class=n>0</span> w<span class=p>)</span> w
+<span class=c>
+ Get mouse pointer position, ..., restore mouse pointer position:
+</span><span class=t>int</span> px<span class=p>(</span><span class=fq>xm</span><span class=p>)</span> py<span class=p>(</span><span class=fq>ym</span><span class=p>)</span>
+...
+<span class=fq>mou</span> px py</pre>
+
+</body>
+
+</html>
