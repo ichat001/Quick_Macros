@@ -1,0 +1,615 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>ICsv interface</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>ICsv interface</h1>
+
+
+<p><span class="type">ICsv</span> interface is used to work with <a onClick="doSection(e1)" class="expand">CSV</a> files and CSV-formatted strings. Parses CSV, creates/stores/manages 2-dim table in memory, composes CSV from the table.</p>
+<div id="e1" class="expand">
+  <p>CSV is a simple text format used to store tables. Rows are separated by 
+    new lines, cells by commas. Values containing new lines, commas or double 
+    quotes are enclosed in double quotes. Double quotes are doubled. Spaces around 
+    commas and new lines are ignored. Example:</p>
+  <p>&nbsp;</p>
+  <pre>value1,value2, value3
+11,22,33
+&quot;value, with, commas&quot;,&quot;value with &quot;&quot;quotes&quot;&quot;&quot;,&quot;multiline
+value&quot;
+,,
+,rows with empty values,
+,,
+</pre>
+  <p>The CSV file format is supported by many programs, including Microsoft Excel, 
+    and therefore can be used to exchange data between them. Another popular file format  <a href="IDP_IXML.html">XML</a> 
+     is more powerful but adds much overhead (slower parsing/composing, requires 
+    more space in file and in memory). To store tables, CSV format usually is better 
+    and easier to use.</p>
+  <p>&nbsp;</p>
+  <p> You can find more information about CSV on the Internet.</p>
+  <p>&nbsp;</p>
+  <p>CSV files also can be manipulated using <span class="type">Database</span> 
+    class, but it is slower.</p>
+</div>
+<p>&nbsp;</p>
+<p> Added in QM 2.3.0.</p>
+<p>&nbsp;</p>
+<p> Declare an <span class="type">ICsv</span> variable and call <span class="blue">_create</span>. Then use <span class="type">ICsv</span> interface functions.</p>
+<p>&nbsp;</p>
+<h4>Example 1</h4>
+<pre class=cod><span class=c> a CSV string for testing</span>
+<span class=t>str</span> csv<span class=o>=</span>
+<span class=s> A1, B1, C1</span>
+<span class=s> A2, B2, C2</span>
+
+<span class=c> create ICsv variable and load data</span>
+<span class=t>ICsv</span> x.<span class=fq>_create</span>
+x.<span class=fd>FromString</span><span class=p>(</span>csv<span class=p>)</span>
+
+<span class=c> get a cell</span>
+<span class=t>str</span> cell
+cell<span class=o>=</span>x.<span class=fd>Cell</span><span class=p>(</span><span class=n>1</span> <span class=n>1</span><span class=p>)</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;cell 1 1 was: {</span>cell<span class=s>}&quot;</span>
+
+<span class=c> change cell</span>
+cell<span class=o>=</span><span class=s>&quot;Changed&quot;</span>
+x.<span class=fd>Cell</span><span class=p>(</span><span class=n>1</span> <span class=n>1</span><span class=p>)</span><span class=o>=</span>cell
+
+<span class=c> get CSV data to string</span>
+x.<span class=fd>ToString</span><span class=p>(</span>csv<span class=p>)</span>
+
+<span class=c> results</span>
+<span class=fq>out</span> <span class=s>&quot;changed CSV:&quot;</span>
+<span class=fq>out</span> csv
+</pre>
+<p>&nbsp;</p>
+<h4>Example 2</h4>
+<pre class=cod>
+<span class=c> craete ICsv variable, change separator and load data from file</span>
+<span class=t>str</span> s
+<span class=t>ICsv</span> v.<span class=fq>_create</span>
+v.<span class=fd>Separator</span><span class=o>=</span><span class=s>&quot;;&quot;</span>
+v.<span class=fd>FromFile</span><span class=p>(</span><span class=s>&quot;$my qm$\test.csv&quot;</span><span class=p>)</span>
+
+<span class=c> enumerate rows and columns</span>
+<span class=t>int</span> nr<span class=o>=</span>v.<span class=fd>RowCount</span>
+<span class=t>int</span> nc<span class=o>=</span>v.<span class=fd>ColumnCount</span>
+<span class=t>int</span> r c
+<span class=fq>for</span> r <span class=n>0</span> nr <span class=c2>;;for each row</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;--- row %i ---&quot;</span> r
+<span class=i>&#9;</span><span class=fq>for</span> c <span class=n>0</span> nc <span class=c2>;;for each column</span>
+<span class=i>&#9;&#9;</span>s<span class=o>=</span>v.<span class=fd>Cell</span><span class=p>(</span>r c<span class=p>)</span>
+<span class=i>&#9;&#9;</span><span class=fq>out</span> s
+
+<span class=c> v.ToString(s); out s ;;show CSV</span>
+
+<span class=c> save to file</span>
+v.<span class=fd>ToFile</span><span class=p>(</span><span class=s>&quot;$my qm$\test.csv&quot;</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p><a href="IDP_ICSV.html#Example_AddRow">Examples of adding rows</a></p>
+<p>&nbsp;</p>
+<p>Instead of <span class="blue">_create</span> can be used global function <a onClick="doSection(CreateCsv)" class="expand">CreateCsv</a>. Before QM 2.3.4, <span class="blue">_create</span> could not be used.</p>
+<div id="CreateCsv" class="expand">
+  <p>&nbsp;</p>
+  <pre class=cod><span class=t>ICsv</span><span class=p>'</span><span class=fd>CreateCsv</span> [flags] <span class=c2>;;flags: 1 separator is comma</span></pre>
+  <p>&nbsp;</p>
+  <p>Creates  object and returns <span class="type">ICsv</span> COM interface pointer.</p>
+  <p>&nbsp;</p>
+  <div class="parts">
+    <p><b>flags</b> (QM 2.3.2):</p>
+    <table class="tflags">
+      <col>
+      <tr>
+        <td>1</td>
+        <td><p>Use comma as separator.  Same as <span class=cod>var.Separator<span class=o>=</span><span class=s>&#34;,&#34;</span></span>.</p>
+          <ul>
+            <li>If this flag not used, default separator is as specified in Control Panel. Note that this behavior is different than with <span class="blue">_create</span>, where default separator is comma.</li>
+          </ul></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p>Example: <span class=cod><span class=t>ICsv</span> x<span class=o>=</span><span class=fd>CreateCsv</span><span class=p>(</span><span class=n>1</span><span class=p>)</span></span><br>
+    </p>
+  </div>
+</div>
+<p>&nbsp;</p>
+<h2>ICsv member functions</h2>
+<p>Member functions are called like: variable.Function(arguments). See the example code at the top of this topic. Note that the colored code lines below are not function calling examples. They are copied from interface declaration and used here to show function name, arguments etc.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[p]<span class=fd>Separator</span><span class=p>(</span><span class=o>$</span>sep<span class=p>)</span>
+[g]<span class=o>$</span><span class=fd>Separator</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Sets  or gets (QM 2.3.2) separator that is used 
+  when parsing and composing CSV. Example: <span class=cod>v.<span class=fd>Separator</span><span class=o>=</span><span class=s>&#34;;&#34;</span></span>.</p>
+<p>&nbsp;</p>
+<p>If <b>sep</b> is &quot;&quot;, uses separator specified in Control Panel -&gt; Regional and Language Options -&gt; 
+  Customize... -&gt; List Separator.</p>
+<p>&nbsp;</p>
+<p>Info: Excel, when opening and saving CSV files, also uses the separator that is set in Control Panel.</p>
+<p>&nbsp;</p>
+<p>Initially the variable uses comma if it was created with <span class="blue">_create</span>. Uses &quot;&quot; if  created with <span class="dll">CreateCsv</span> without flag 1.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>FromString</span><span class=p>(</span><span class=o>$</span>s<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Parses  CSV string and creates table 
+  in memory. The <span class="type">ICsv</span> variable manages the table.</p>
+<p>&nbsp;</p>
+<p>Error if the CSV string contains errors. Also, must match separator (see <span class="dll">Separator</span>, above).</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToString</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>so<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Composes  CSV string from the memory table and store an a <span class="type">str</span> variable.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>FromFile</span><span class=p>(</span><span class=o>$</span><span class=lib>file</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Parses  CSV file and creates table in 
+  memory.</p>
+<p>&nbsp;</p>
+<p>Error if the CSV file contains errors or uses different separator.</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToFile</span><span class=p>(</span><span class=o>$</span><span class=lib>file</span> [flags]<span class=p>)</span> <span class=c2>;;flags: 1 append, 0x100 safe, 0x200 safe+backup</span></pre>
+<p>&nbsp;</p>
+<p>Saves to  file in CSV format.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>Append.</td>
+</tr>
+<tr>
+  <td>0x100</td>
+  <td>QM 2.4.0. Safe saving. The file will never be corrupted on power failure etc. Writes to a temporary file, flushes its buffers, and renames the temporary file to <b>file</b>, replacing if exists.</td>
+</tr>
+<tr>
+  <td>0x200</td>
+  <td>QM 2.4.0. Safe saving and backup. Same as 0x100, but also creates a backup file, named <b>file</b>-backup.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Creates parent folder if does not exist.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>FromArray</span><span class=p>(</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>a<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Creates the memory table from 2-dim array.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+<p>&nbsp;</p>
+<p>Note: in 2-dim arrays, the first dimension is for columns, the second for rows.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToArray</span><span class=p>(</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>a<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Creates 2-dim array from the memory table.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+<p>&nbsp;</p>
+<p>Note: in 2-dim arrays, the first dimension is for columns, the second for rows.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>FromQmGrid</span><span class=p>(</span>hwnd [flags]<span class=p>)</span> <span class=c2>;;flags: 1 no first column, 2 no empty rows, 4 selected</span></pre>
+<p>&nbsp;</p>
+<p>Gets cells from <a href="IDP_QMGRID.html">QM_Grid</a> control and creates table in 
+memory.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><strong>hwnd</strong> - control handle.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>don't get first column.</td>
+</tr>
+<tr>
+<td>2</td> <td>don't get empty rows.</td>
+</tr>
+<tr>
+<td>4 (QM 2.3.2)</td> <td>get only selected or checked (depending on style) rows.</td>
+</tr>
+<tr>
+  <td>8 (QM 2.3.4)</td>
+  <td>remove &lt;...&gt; in first column that was used to set row type.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>Does not change <span class="dll">Separator</span> and <span class="dll">RowDataSize</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>ToQmGrid</span><span class=p>(</span>hwnd [flags]<span class=p>)</span> <span class=c2>;;flags: 1 only first column, 2 no first column</span></pre>
+<p>&nbsp;</p>
+<p>Populates  QM_Grid control.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><strong>hwnd</strong> - control handle.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>only first column.</td>
+</tr>
+<tr>
+<td>2</td> <td>except first column.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p>If flag 2   used, does not clear the control. The control must already contain cells in the first column. Cells in other columns can be empty or not.</p>
+<p>&nbsp;</p>
+<p>If flag 1 used, the CSV table should contain 1 column. The grid can contain 1 or more columns.</p>
+<p>If flag 2 used, the CSV table should contain control's column count -1.</p>
+<p>Else the CSV table should contain control's column count.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Clear</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Deletes all rows.</p>
+<p>&nbsp;</p>
+<p> Sets <span class="dll">ColumnCount</span> to 0.</p>
+<p> Does not change <span class="dll">Separator</span> and <span class="dll">RowDataSize</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>RowCount</span><span class=p>()</span>
+[g]<span class=o>#</span><span class=fd>ColumnCount</span><span class=p>()</span>
+[p]<span class=fd>ColumnCount</span><span class=p>(</span>count<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets the number of rows or columns.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2. <span class="dll">ColumnCount</span> also can be used to set column count.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>$</span><span class=fd>Cell</span><span class=p>(</span>row col<span class=p>)</span>
+[p]<span class=fd>Cell</span><span class=p>(</span>row col <span class=o>$</span>value<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets or sets cell value. See the  example at the beginning.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><strong>row</strong> - 0-based row index.</p>
+<p><strong>col</strong> - 0-based column index.</p>
+<p><strong>value</strong> - cell text.</p>
+</div>
+<p>&nbsp;</p>
+<p>The returned string of the &quot;get&quot; function is temporary. It becomes invalid after calling a function that modifies 
+  the table. To use it later, assign it to a <span class="type">str</span> variable, like in the 
+  example.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.3: Can set cell even if cell specified by <strong>row</strong> and <strong>col</strong> does not exist. If <span class="blue">col</span> is &gt; column count, adds more columns. If <strong>row</strong> is = row count or &lt; 0, adds new row. Would be error in older QM.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[g]<span class=o>#</span><span class=fd>CellInt</span><span class=p>(</span>row col<span class=p>)</span>
+[p]<span class=fd>CellInt</span><span class=p>(</span>row col <span class=o></span>value<span class=p>)</span>
+[p]<span class=fd>CellHex</span><span class=p>(</span>row col <span class=o></span>value<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets or sets cell value. The same as <span class="dll">Cell</span> (see above), but converts string to/from number.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><strong>row</strong> - 0-based row index.</p>
+  <p><strong>col</strong> - 0-based column index.</p>
+  <p><strong>value</strong> - an integer value.</p>
+</div>
+<p>&nbsp;</p>
+<p>The &quot;get&quot; function gets cell text and converts to <span class="type">int</span>. Cell text can be a number in decimal or hexadecimal format. Can contain operator |. For example, returns 7 if cell text is &quot;1|2|0x4&quot;. If cell text is empty or does not begin with a number, sets <a href="../Language/IDP_SPECVAR.html">_hresult</a>=1 and returns 0. </p>
+<p>&nbsp;</p>
+<p>There are two &quot;put&quot; functions:</p>
+<ul>
+  <li><span class="dll">CellInt</span> puts <strong>value</strong> converted to decimal format string, like &quot;10&quot;.</li>
+  <li><span class="dll">CellHex</span> puts <strong>value</strong> converted to hexadecimal format string, like &quot;0xA&quot;.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.3.</p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ICsv</span> x.<span class=fq>_create</span>
+x.<span class=fd>FromString</span><span class=p>(</span><span class=s>&quot;one,1[]two,2&quot;</span><span class=p>)</span>
+<span class=t>int</span> i<span class=o>=</span><span class=n>5</span>
+
+x.<span class=fd>CellInt</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span><span class=p>)</span><span class=o>=</span>i <span class=c2>;;the same as x.Cell(0 1)=F&quot;{i}&quot;</span>
+<span class=fq>out</span> x.<span class=fd>Cell</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span><span class=p>)</span> <span class=c2>;;&quot;5&quot;</span>
+
+x.<span class=fd>CellHex</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span><span class=p>)</span><span class=o>=</span>i <span class=c2>;;the same as x.Cell(0 1)=F&quot;0x{i}&quot;</span>
+<span class=fq>out</span> x.<span class=fd>Cell</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span><span class=p>)</span> <span class=c2>;;&quot;0x5&quot;</span>
+
+i<span class=o>=</span>x.<span class=fd>CellInt</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span><span class=p>)</span> <span class=c2>;;the same as i=val(x.Cell(0 1))</span>
+<span class=fq>if</span><span class=p>(</span>_hresult<span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;not a number&quot;</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>out</span> i
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>RemoveRow</span><span class=p>(</span>row<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Removes  row.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><strong>row</strong> - 0-based row index.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>AddRowMS</span><span class=p>(</span>row [nCells] [<span class=o>$</span>cells] [firstCell]<span class=p>)</span>
+<span class=o>#</span><span class=fd>AddRowLA</span><span class=p>(</span>row [nCells] [<span class=t>lpstr</span><span class=o>*</span>cells] [firstCell]<span class=p>)</span>
+<span class=o>#</span><span class=fd>AddRowSA</span><span class=p>(</span>row [nCells] [<span class=t>str</span><span class=o>*</span>cells] [firstCell]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds or inserts  new row.</p>
+<p><em>See also (below):</em> <span class="dll">AddRow1</span>, <span class="dll">AddRow2, AddRow3</span>, <span class="dll">AddRowCSV</span>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>row</b> - 0-based row index where to insert the new row. Use an invalid 
+index (e.g. -1) to add to the end.</p>
+<p><b>nCells</b> - number of cells to add.</p>
+<p><b>cells</b> - cell values.</p>
+<p><b>firstCell</b> (QM 2.3.2) - 0-based column index where to insert the cells.</p>
+</div>
+<p>&nbsp;</p>
+<p> Each of these functions differs only by the format of the values array (<b>cells</b>).</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr>
+    <th>Function</th>
+    <th>cells type</th>
+    <th>Comments</th>
+  </tr>
+  <tr>
+    <td><span class="dll">AddRowMS</span></td>
+    <td class="type">lpstr</td>
+    <td><b>cells</b> must be in multistring format, ie   multiple 
+  null-terminated strings following each other, like &quot;string1[0]string2[0]string3[0]&quot;. See also <span class="dll">GetRowMS</span>, below.</td>
+  </tr>
+  <tr>
+    <td><span class="dll">AddRowLA</span></td>
+    <td><span class="type">lpstr</span>*</td>
+    <td><b>cells</b> must be address of 
+  the first variable in an array of <span class="type">lpstr</span> variables.</td>
+  </tr>
+  <tr>
+    <td><span class="dll">AddRowSA</span></td>
+    <td><span class="type">str</span>*</td>
+    <td><b>cells</b> must be address of 
+  the first variable in an array of  <span class="type">str</span> variables. </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>If the number of columns (<span class="dll">ColumnCount</span>) is still not  set (is 0), sets it to <b>nCells+firstCell</b>. You can also set it with <span class="dll">ColumnCount</span> before adding rows.</p>
+<p>&nbsp;</p>
+<p> If <b>cells</b> or <b>nCells</b> is omitted or 0, adds 1 empty row. You can use <span class="dll">Cell</span> 
+to set cell values.</p>
+<p>&nbsp;</p>
+<p>Cells that are outside  the range  specified by <b>firstClell</b> and <b>nCells</b> will be &quot;&quot;. If some strings in <b>cells</b> are null, the cells will be &quot;&quot;. If <span class="dll">RowDataSize</span> is nonzero, the functions fill row data  with 0.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.3: If <b>nCells+firstCell</b> is &gt; <span class="dll">ColumnCount</span>, adds more columns. Also if <strong>nCells</strong> is 0 and <span class="dll">ColumnCount</span> is 0. In both cases, in older QM would be error (need to set column count with <span class="dll">ColumnCount</span>).</p>
+<p>&nbsp;</p>
+<h4><a name="Example_AddRow"></a>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span>
+<span class=t>ICsv</span> x.<span class=fq>_create</span>
+x.<span class=fd>ColumnCount</span><span class=o>=</span><span class=n>3</span>
+
+<span class=c> ------------</span>
+
+<span class=c> add empty row and use Cell</span>
+<span class=t>int</span> r<span class=o>=</span>x.<span class=fd>AddRowMS</span><span class=p>(</span><span class=o>-</span><span class=n>1</span><span class=p>)</span>
+x.<span class=fd>Cell</span><span class=p>(</span>r <span class=n>0</span><span class=p>)</span><span class=o>=</span><span class=s>&quot;c1&quot;</span><span class=p>;</span> x.<span class=fd>Cell</span><span class=p>(</span>r <span class=n>1</span><span class=p>)</span><span class=o>=</span><span class=s>&quot;c2&quot;</span><span class=p>;</span> x.<span class=fd>Cell</span><span class=p>(</span>r <span class=n>2</span><span class=p>)</span><span class=o>=</span><span class=s>&quot;c3&quot;</span>
+
+<span class=c> MS</span>
+<span class=t>lpstr</span> multistring<span class=o>=</span><span class=s>&quot;ms1[0]ms2[0]ms3&quot;</span>
+x.<span class=fd>AddRowMS</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> <span class=n>3</span> multistring<span class=p>)</span>
+
+<span class=c> LA with array</span>
+<span class=t>str</span> st<span class=o>=</span><span class=s>&quot;a1 a2 a3&quot;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>lpstr</span><span class=p>)</span> a
+<span class=t>int</span> nt<span class=o>=</span><span class=fq>tok</span><span class=p>(</span>st a <span class=n>3</span> <span class=s>&quot;&quot;</span> <span class=n>1</span><span class=p>)</span>
+x.<span class=fd>AddRowLA</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> nt <span class=o>&amp;</span>a[<span class=n>0</span>]<span class=p>)</span>
+
+<span class=c> SA with array</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> as<span class=o>=</span><span class=s>&quot;as1[]as2[]as3&quot;</span>
+x.<span class=fd>AddRowSA</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> as.<span class=fq>len</span> <span class=o>&amp;</span>as[<span class=n>0</span>]<span class=p>)</span>
+
+<span class=c> LA with local variables</span>
+<span class=t>lpstr</span> s1<span class=p>(</span><span class=s>&quot;s1&quot;</span><span class=p>)</span> s2<span class=p>(</span><span class=s>&quot;s1&quot;</span><span class=p>)</span> s3<span class=p>(</span><span class=s>&quot;s1&quot;</span><span class=p>)</span>
+x.<span class=fd>AddRowLA</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> <span class=n>3</span> <span class=o>&amp;</span>s1<span class=p>)</span>
+
+<span class=c> SA with local variables</span>
+<span class=t>str</span> ss1<span class=p>(</span><span class=s>&quot;ss1&quot;</span><span class=p>)</span> ss2<span class=p>(</span><span class=s>&quot;ss1&quot;</span><span class=p>)</span> ss3<span class=p>(</span><span class=s>&quot;ss1&quot;</span><span class=p>)</span>
+x.<span class=fd>AddRowSA</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> <span class=n>3</span> <span class=o>&amp;</span>ss1<span class=p>)</span>
+
+<span class=c> ------------</span>
+
+<span class=t>str</span> s
+x.<span class=fd>ToString</span><span class=p>(</span>s<span class=p>)</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class="fd">AddRow1</span><span class=p>(</span>row <span class=o>$</span>s1<span class=p>)</span>
+<span class=o>#</span><span class="fd">AddRow2</span><span class=p>(</span>row <span class=o>$</span>s1 [<span class=o>$</span>s2]<span class=p>)</span>
+<span class=o>#</span><span class="fd">AddRow3</span><span class=p>(</span>row <span class=o>$</span>s1 [<span class=o>$</span>s2] [<span class=o>$</span>s3]<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p>Adds or inserts  row with 1, 2 or 3 cells. Similar to the above functions. Use when it is more convenient to pass 1, 2 or 3 values than to use an array.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>row</b> - 0-based row index where to insert the new row. Use an invalid 
+    index (e.g. -1) to add to the end.</p>
+  <p><b>s1, s2, s3</b> - cell text.</p>
+</div>
+<p>&nbsp;</p>
+<p><span class="dll">AddRow2</span> added in QM 2.3.4, other functions in QM 2.4.3.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class="fd">AddRowCSV</span><span class=p>(</span>row <span class=o>$</span>s1<span class=p>)</span>
+<span class=o>#</span><span class="fd">ReplaceRowCSV</span><span class=p>(</span>row <span class=o>$</span>s1 [<span class=o>$</span>s2]<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p><span class="dll">AddRowCSV</span> adds or inserts one or more rows, using a CSV string to specify the cells. Returns first new row index.</p>
+<p><span class="dll">ReplaceRowCSV</span> replaces one or more rows, using a CSV string to specify the cells. Returns first replaced row index.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>row</b> - 0-based row index where to insert the new row. Use an invalid 
+    index (e.g. -1) to add to the end.</p>
+  <p><b>csv</b> - CSV string containing one or more rows and any number of columns. Don't forget to &quot;enclose&quot; cells containing commas etc.</p>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.3.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ICsv</span> x.<span class=fq>_create</span>
+x.<span class=fd>FromString</span><span class=p>(</span><span class=s>&quot;A,B[]C,D&quot;</span><span class=p>)</span>
+<span class=fq>out</span> x.<span class=fd>AddRowCSV</span><span class=p>(</span><span class=o>-</span><span class=n>1</span> <span class=s>&quot;E,F&quot;</span><span class=p>)</span>
+x.<span class=fd>ToString</span><span class=p>(</span>_s<span class=p>);</span> <span class=fq>out</span> _s
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>ReplaceRowMS</span><span class=p>(</span>row [nCells] [<span class=o>$</span>cells] [firstCell]<span class=p>)</span>
+<span class=o>#</span><span class=fd>ReplaceRowLA</span><span class=p>(</span>row [nCells] [<span class=t>lpstr</span><span class=o>*</span>cells] [firstCell]<span class=p>)</span>
+<span class=o>#</span><span class=fd>ReplaceRowSA</span><span class=p>(</span>row [nCells] [<span class=t>str</span><span class=o>*</span>cells] [firstCell]<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Replaces  row.</p>
+<p><em>See also (above):</em> <span class="dll">Cell</span>, <span class="dll">ReplaceRowCSV</span>.</p>
+<p>&nbsp;</p>
+<p>Replaces <b>nCells</b> cells of row <b>row</b>, starting from <b>firstCell</b>. Does not change  other cells.  If <b>row</b> does not exist,  adds new row to the end like the AddRowX functions.</p>
+<p>&nbsp;</p>
+<p>Everything else is as with the AddRowMS/LA/SA functions.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>GetRowMS</span><span class=p>(</span>row <span class=t>str</span><span class=o>*</span>cells<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Stores all row cells into a <span class="type">str</span> variable in multistring format.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<p>The variable then can be used to add/insert/replace a row of this or another <span class="type">ICsv</span> variable. Use function <span class="dll">AddRowMS</span> or <span class="dll">ReplaceRowMS</span> (see above).</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>MoveRow</span><span class=p>(</span>row to<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Moves row.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>row</b> - index of row to move.</p>
+<p><b>to</b> - new index of the row.</p>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<!--<hr>
+<pre class=cod><span class=fd>MoveRows</span><span class=p>(</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span><span class=o>&amp;</span>a to<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p>Moves multiple rows.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>a</b> - row indices. Must be in ascending order.</p>
+<p><b>to</b><b></b> - destination row index. To move to the end, use the number of rows.</p>
+</div>
+<p>&nbsp;</p>
+<p>Unlike with <span class="dll">MoveRow</span>, <b>to</b> is destination index before moving. After moving, indices of the moved rows will change.</p>
+<p>&nbsp;</p>
+<p>Does not move rows if <b>to</b> is in the range of rows specified in <b>a</b>. Then sets _hresult variable to 1.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.2.</p>
+<p>&nbsp;</p>-->
+<hr>
+<pre class=cod><span class=fd>InsertColumn</span><span class=p>(</span>col<span class=p>)</span>
+<span class=fd>RemoveColumn</span><span class=p>(</span>col<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p><span class="dll">InsertColumn</span> - inserts 1 empty column. If <b>col</b> is invalid (e.g. -1), adds to the end.</p>
+<p><span class="dll"> RemoveColumn</span> - removes 1 column.</p>
+<p>&nbsp;</p>
+<p> Alternatively you can use <span class="dll">ColumnCount</span> to add or remove  columns.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[p]<span class=fd>RowDataSize</span><span class=p>(</span>nBytes<span class=p>)</span>
+[g]<span class=o>#</span><span class=fd>RowDataSize</span><span class=p>()</span>
+[g]<span class=o>!*</span><span class=fd>RowData</span><span class=p>(</span>row<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p><span class="dll">RowDataSize</span> - sets or gets size of extra memory to  allocate for each row.</p>
+<p><span class="dll">RowData</span> - returns address of extra memory of a row.</p>
+<p>&nbsp;</p>
+<p> Allows to place any data in each row. It simplifies using <span class="type">ICsv</span> as base of new table-based classes. The data exists only in memory.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Sort</span><span class=p>(</span>flags [col]<span class=p>)</span> <span class=c2>;;flags: 0 simple, 1 insens, 2 ling, 3 ling/insens, 4 number/ling/insens, 128 date, 0x100 descending</span></pre>
+<p>&nbsp;</p>
+<p>Sorts rows using text of one of columns.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b>:</p>
+<table class="tflags">
+<tr>
+  <td>0</td>
+  <td>Simple, case sensitive. Uses <a href="IDP_QMDLL.html#StrCompare" class="dll">StrCompare</a> to compare strings.</td>
+</tr>
+<tr>
+  <td>1</td>
+  <td>Simple, case insensitive. Uses <span class="dll">StrCompare</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Linguistic, case sensitive. Uses <span class="dll">StrCmp</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Linguistic, case insensitive. Uses <span class="dll">StrCmpI</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>Number, linguistic, case insensitive. Uses <span class="dll">StrCmpLogicalW</span> to compare strings. It compares numbers in strings as number values, not as strings.</td>
+</tr>
+<tr>
+  <td>128</td>
+  <td>QM 2.3.3. Date.</td>
+</tr>
+<tr>
+  <td>0x100</td>
+  <td>Sort descending.</td>
+</tr>
+</table>
+<p><b>col</b> - 0-based column index.</p>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>Find</span><span class=p>(</span><span class=o>$</span>s [flags] [col] [startRow]<span class=p>)</span> <span class=c2>;;flags: 1 insens, 2 wildcard, 4 beginning, 8 end, 16 middle, 32 rx</span></pre>
+<p>&nbsp;</p>
+<p>Finds row. Returns 0-based row index, or -1 if not found.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>s</b> - cell text.</p>
+<p><b>flags</b> - how to compare strings.</p>
+<p><b>col</b> - 0-based column index.</p>
+<p><strong>startRow</strong> (QM 2.4.3) - 0-based row index from where to start searching.</p>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+<p>&nbsp;</p>
+<h2>Notes</h2>
+<p><span class="type">ICsv</span> functions are not thread-safe. Don't use a single 
+  variable in multiple threads simultaneously. It can damage data. If need to 
+  use in multiple threads, use <a href="../Commands/IDP_LOCK.html" class="blue">lock</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
