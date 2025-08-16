@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>searchpath, expandpath</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> <A name="IDP_S_EXPANDPATH"></a>Find file and get full path; expand special 
+  folder name</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>searchpath</b>(<i>[</i>file<i>]</i> <i>[</i>path<i>]</i>)
+s.<b>expandpath</b>(<i>[</i>file<i>] [</i>flags<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>file </b>- full path or filename (with extension) of file or folder. Also 
+can be drive (should end with \). Default: <b>s</b>.</p>
+<ul>
+  <li> Full path can begin with <a href="https://quickmacros.com/help/str/..\Other\IDP_SEARCHPATHS.html">special 
+    folder name</a> enclosed in $, or <a href="../Language/IDP_SCOPE2.html">environment 
+      variable</a> enclosed in %.</li>
+</ul>
+<p> <b>path </b>- folder where to search. If <b>file</b> contains full path, this 
+  part is ignored. Default: &quot;&quot;.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+<td>1</td>
+<td>Expand all (and only) environment variables. Without this 
+  flag, environment variables are expanded only if <b>file</b> begins with 
+  %.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>QM 2.2.0. Unexpand path. For example, if <b>file</b> is &quot;c:\windows\system32\file.exe&quot;, <b>s</b> will be &quot;$system$\file.exe&quot;.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p> <span class="blue">searchpath</span> searches for <b>file</b> in <b>path</b>. 
+  If <b>path</b> is omitted and <b>file</b> is not full path, searches 
+  in <a href="https://quickmacros.com/help/str/..\Other\IDP_SEARCHPATHS.html">these places</a>. If <b>file</b> 
+  is full path, only tests file existence. If <b>file</b> exists, <b>s</b> will 
+  receive full path, else <b>s</b> will be empty.</p>
+
+<p>&nbsp;</p>
+
+<p> <span class="blue">expandpath</span> only expands special folder name or environment 
+  variable, but does not search. All QM file functions support special folders, 
+  so you don't have to use this function before calling them. You can use it before 
+  calling dll and COM functions.</p>
+<p>&nbsp;</p>
+
+<p> <i>See also: </i><a href="../User/IDP_QMDLL.html#FileExists" class="dll">FileExists</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> If file exists, get full path:</span>
+<span class=t>str</span> s.<span class=fq>searchpath</span><span class=p>(</span><span class=s>&quot;c:\folder\file.txt&quot;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>s.len<span class=p>)</span> <span class=fq>out</span> s <span class=c2>;; &quot;c:\folder\file.txt&quot;</span>
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;not found&quot;</span>
+<span class=c> </span>
+<span class=c> Search for &quot;notepad.exe&quot; and get full path:</span>
+<span class=t>str</span> s.<span class=fq>searchpath</span><span class=p>(</span><span class=s>&quot;notepad.exe&quot;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>s.len<span class=p>)</span> <span class=fq>out</span> s <span class=c2>;;e.g. &quot;c:\windows\system32\notepad.exe&quot;</span>
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;not found&quot;</span>
+
+<span class=c> Get full path when the given path begins with special folder name:</span>
+<span class=t>str</span> s.<span class=fq>expandpath</span><span class=p>(</span><span class=s>&quot;$Desktop$\new file.txt&quot;</span><span class=p>)</span>
+<span class=fq>out</span> s <span class=c2>;;e.g. &quot;c:\windows\desktop\new file.txt&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
