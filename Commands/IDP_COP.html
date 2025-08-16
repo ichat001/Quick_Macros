@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>cop, ren</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Copy, rename or move files and folders</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>cop</b><i>[</i>+<i>|</i>-<i>|</i>!<i>] </i>from to <i>[</i>flags<i>]</i>
+<b>ren</b><i>[</i>*<i>|</i>+<i>|</i>-<i>|</i>!<i>]</i> from to <i>[</i>flags<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>from</b> - source file or folder.</p>
+
+<p> <b>to</b> - destination folder or file. If option * (rename) used, must be 
+new filename without path.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b> - see <a href="IDP_COPFLAGS.html">here</a>.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+
+<table class="tflags">
+<tr>
+<td>Default</td> <td>if destination file already exists, 
+ask what to do (show dialog).</td>
+</tr>
+<tr>
+<td>+</td> <td>if destination file already exists, rename the copied or moved file.</td>
+</tr>
+<tr>
+<td>-</td> <td>if destination file already exists, replace it.</td>
+</tr>
+<tr>
+<td>!</td> <td>if destination file already exists, error. You can use <a href="../Flow/IDP_ERR.html" class="blue">err</a> 
+to continue. This option cannot be used with list of files.</td>
+</tr>
+<tr>
+<td>* (with <span class="blue">ren</span>)</td> <td>rename. Default: move, or move and rename.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">cop</span> copies a file or folder.</p>
+<p><span class="blue">ren</span> moves or/and renames a file or folder.</p>
+<p>&nbsp;</p>
+<p>Like all QM file functions, support <a href="../Other/IDP_SEARCHPATHS.html">special 
+  folders</a>. Also support relative paths (in QM 2.3.0 and above it works better).</p>
+<p>&nbsp;</p>
+<p>To copy or move multiple files, can be used one of the following:</p>
+<p>1. Use <a href="../Other/IDP_WILDCARD.html">wildcard characters</a> in filename 
+  part of <b>from</b>. Then <b>to</b> must be folder. All matching files will 
+  be copied to the folder. To copy matching subfolders too, FOF_FILESONLY flag 
+  must be removed. Use the 'Copy Files' dialog or 'Move/Rename Files' dialog to 
+  insert correct flags.</p>
+<p>2. Use list of files (full paths) in <b>from</b>, one file in a line. Then 
+  <b>to</b> can be either single folder or list of destination files.</p>
+<p>3. Enumerate files. To insert the code, use the 'Enumerate Files' dialog.</p>
+
+<p>&nbsp;</p>
+<p>The functions work in the same way as if the user would do it manually. They 
+  are quite slow with small files, especially on Vista. You can instead use faster 
+  functions: <span class="UDF">FileCopy</span>, <span class="UDF">FileMove</span> 
+  and <span class="UDF">FileRename</span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Removed autodelay.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>Drag and drop a file onto the macro text to insert full path.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Copy file &quot;x.txt&quot; from &quot;c:\a&quot; to &quot;c:\b&quot; folder:</span>
+<span class=fq>cop</span> <span class=s>&quot;c:\a\x.txt&quot;</span> <span class=s>&quot;c:\b\x.txt&quot;</span>
+
+<span class=c> Copy file. If &quot;c:\b\x.txt&quot; already exists, copy with name &quot;Copy of x&quot;:</span>
+<span class=fq>cop</span><span class=o>+</span> <span class=s>&quot;c:\a\x.txt&quot;</span> <span class=s>&quot;c:\b\x.txt&quot;</span>
+
+<span class=c> Copy file. If &quot;c:\b\x.txt&quot; already exists, delete it:</span>
+<span class=fq>cop</span><span class=o>-</span> <span class=s>&quot;c:\a\x.txt&quot;</span> <span class=s>&quot;c:\b\x.txt&quot;</span>
+
+<span class=c> Copy all text files from &quot;c:\a&quot; to &quot;c:\b&quot; folder:</span>
+<span class=fq>cop</span> <span class=s>&quot;c:\a\*.txt&quot;</span> <span class=s>&quot;c:\b&quot;</span>
+
+<span class=c> Copy all files (but not subfolders):</span>
+<span class=fq>cop</span> <span class=s>&quot;c:\a\*.*&quot;</span> <span class=s>&quot;c:\b&quot;</span>
+
+<span class=c> Copy file; use variables:</span>
+<span class=t>str</span> sfrom <span class=o>=</span> <span class=s>&quot;c:\a\x.txt&quot;</span>
+<span class=t>str</span> sto <span class=o>=</span> <span class=s>&quot;c:\b\x.txt&quot;</span>
+<span class=fq>cop</span> sfrom sto
+
+<span class=c> Move file &quot;g.gif&quot; from &quot;c:\a&quot; to &quot;c:\b&quot; folder:</span>
+<span class=fq>ren</span> <span class=s>&quot;c:\a\g.gif&quot;</span> <span class=s>&quot;c:\b&quot;</span>
+
+<span class=c> Rename file g.gif to h.gif:</span>
+<span class=fq>ren</span> <span class=s>&quot;c:\a\g.gif&quot;</span> <span class=s>&quot;c:\a\h.gif&quot;</span>
+
+<span class=c> The same:</span>
+<span class=fq>ren</span><span class=o>*</span> <span class=s>&quot;c:\a\g.gif&quot;</span> <span class=s>&quot;h.gif&quot;</span>
+
+<span class=c> Copy multiple files from My Documents to a folder on desktop:</span>
+<span class=t>lpstr</span> dest<span class=o>=</span><span class=s>&quot;$desktop$\from my doc&quot;</span>
+<span class=fq>mkdir</span> dest
+<span class=t>lpstr</span> files<span class=o>=</span>
+<span class=s> $personal$\book1.xls</span>
+<span class=s> $personal$\page1.htm</span>
+<span class=s> $personal$\document1.doc</span>
+<span class=fq>cop</span> files dest</pre>
+</body>
+
+</html>
