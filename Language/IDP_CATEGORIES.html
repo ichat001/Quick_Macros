@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Categories</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Categories</h1>
+
+<p>Related functions are placed into categories. You can use 
+  syntax <span class=syntax><span class=lib>category</span>.function</span> to access them, and see a  list of functions when you type dot (<tt>.</tt>) after category 
+  name.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/ti_cat_keytext.png"></p>
+
+<p>&nbsp;</p>
+
+<p>To view <a href="../QM_Help/IDH_TYPEINFO.html">list of categories</a>, type 
+  dot somewhere in macro text. Categories are at the top of the list, with <img src="../image/ti/category.gif"> icon.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/ti_globals.png"></p>
+
+<h2>How to define categories</h2>
+<p>A category is a <a href="IDP_TYPE.html">user-defined type</a> declared using 
+  special syntax. In  declaration, instead of (or in addition to) normal member 
+  variables, you can add any  global identifiers (names of functions, classes, etc) as members. Such identifiers aren't true members, 
+  but you can use <span class=syntax><span class=lib>category</span>.identifier</span> 
+  syntax to access them, and see them in function list. In  
+  declaration, names of global identifiers follow optional data members and colon. The colon must be separated by spaces. Instead  of keyword <span class="blue">type</span>  use keyword <span class="blue">category</span>. It just changes icon and placement 
+  in the <a href="../QM_Help/IDH_TYPEINFO.html">popup list of global identifiers</a>. 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> define category files:</span>
+<span class=fq>category</span> <span class=lib>files</span> <span class=p>:</span>
+<span class=i>&#9;</span><span class=fq>run</span> <span class=fq>del</span> <span class=fq>mkdir</span>
+<span class=i>&#9;</span><span class=fu>SetCurDir</span> <span class=fu>GetCurDir</span>
+
+<span class=c> use functions from files category:</span>
+<span class=lib>files.</span><span class=fq>run</span> <span class=s>&quot;abc.exe&quot;</span> <span class=c2>;;same as run &quot;abc.exe&quot;</span>
+<span class=fq>out</span> <span class=lib>files.</span><span class=fu>GetCurDir</span>   <span class=c2>;;same as out GetCurDir</span>
+</pre>
+
+<p>&nbsp;</p>
+
+<p>Syntax <span class=syntax><span class=lib>category</span>.identifier</span> 
+  is equivalent to simply <span class=syntax>identifier</span>. The identifiers aren't strictly attached. Any  identifier may follow category name and dot, and it will not be 
+  error. Category declaration can even include non-existing identifiers.</p>
+<p>&nbsp;</p>
+<p> Category declaration can include other  categories. One category 
+  can be derived from another category.</p>
+
+<p>&nbsp;</p>
+
+<p>Category declaration can include dlls. Will be added all declared functions from them. Dll names must be enclosed in quotes. 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>category</span> <span class=lib>mydll</span> <span class=p>:</span> <span class=s>&#34;dll1&#34;</span> <span class=s>&#34;dll</span><span class=s>2&#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<p>Category declaration can include QM folders. Will be added all functions and classes from them, except from private 
+  subfolders. Folder name or \path must be preceded by &gt; and enclosed in quotes. 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>category</span> <span class=lib>internet</span> <span class=p>:
+</span><span class="i">&#9;</span><span class=s>&#34;&#62;\System\Functions\Internet&#34; &#34;&#62;\User\Functions\Internet&#34;</span>
+<span class="i">&#9;</span><span class=fu>IeWait</span> <span class=t>Ftp</span> <span class=t>Http</span></pre>
+
+<p>&nbsp;</p>
+<p>Default categories are declared in \System\Declarations\Categories. They include folders from  \System\Functions and  \User\Functions folders. If you want to add your functions to the default 
+  categories, do the following: Open System\Declarations\Categories function, 
+  see what folders are defined for user functions, create such folders, and move 
+  your functions there. For example, to add a function to the default <span class="lib">internet</span> 
+  category, create folder User, folder Functions in it, folder Internet in it, 
+  and move the function there.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Category declaration can include class members. Class name and list of its members must be preceded by ? and enclosed in quotes. 
+  If only class name given, adds all its functions. Also can add other strings, for example operators. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>category </span><span class="lib">test </span><span class=p>:</span>
+<span class=i>&#9;</span><span class=s>&#34;?str getclip getsel setclip setsel&#34;</span>
+<span class=i>&#9;</span><span class=s>&#34;?MyClass&#34;</span>
+<span class=i>&#9;</span><span class=fu>Func1 Func2</span>
+<span class=i>&#9;</span><span class=s>&#34;?(operator) + - * / and or&#34;</span></pre>
+<p>&nbsp;</p>
+<hr>
+<p><i>See also:</i> <a href="IDP_DECLARATION.html">declarations</a> <a href="../Other/IDP_IDENTIFIERS.html">scope</a></p>
+<p>&nbsp;</p>
+</body>
+
+</html>
