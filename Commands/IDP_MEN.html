@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>men</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Click menu item, get state</h1>
+
+<h3>Syntax1 - click</h3>
+
+<pre class=syntax><b>men</b><i>[</i>+<i>]</i> menuid<i>|</i>menupath <i>[</i>window<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - get state</h3>
+
+<pre class=syntax><i>int </i><b>men</b>(menuid<i>|</i>menupath <i>[</i>window<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+window with menu. Default: active window.</p>
+
+<p> <b>menuid</b> - menu item identifier. Integer.</p>
+
+<p> <b>menupath</b> - path to menu item, like &quot;&amp;File\&amp;Open&quot;.</p>
+<ul>
+  <li> Menu item labels in the path can be partial, but from the beginning.</li>
+  <li> Underlined characters 
+    must be preceded with &amp;. To see underlined characters, show menu with keyboard, e.g. Alt.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>  +</td> <td>system menu (menu that appears 
+when you right click window title bar).</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1</h4>
+<p>Simulates menu click. It posts WM_COMMAND or WM_SYSCOMMAND message. Usually works even if window is inactive or hidden. Doesn't work with most 
+  nonstandard menus, especially when used <b>menupath</b>.</p>
+<p>&nbsp;</p>
+<p>You can record menu commands. It is the way to know menu item id. To start recording, 
+  click menu Tools -&gt; Record Menu. Not all menus can be 
+  recorded. If does not record, it means that <span class="blue">men</span> cannot 
+  be used with that menu.</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+
+<h4>Syntax2</h4>
+<p>Returns menu item state. It is combination of <span class="def">MF_...</span> <a href="../Other/IDP_FLAGS.html">flags</a>, eg <span class="def">MF_CHECKED</span>, documented in <a href="../Other/IDP_MSDN.html">MSDN library</a>. Often menu items are updated just before showing the menu (not immediately after you click a menu item), therefore to get correct menu item state may need to temporarily show the menu, eg with <span class="blue">key</span>, then call <span class="blue">men</span>.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Click  menu item with id=3 in &#34;Notepad&#34; window:
+</span><span class=fq>men</span> <span class=n>3</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=c> Click menu &#34;Select All&#34; in &#34;Notepad&#34; window:
+</span><span class=fq>men</span> <span class=s>&#34;&#38;Edit\Sel&#34;</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=c> Click menu Options-&#62;Font-&#62;Large in window with class name &#34;HH Parent&#34;:
+</span><span class=fq>men</span> <span class=s>&#34;&#38;Options\&#38;Font\&#38;Large&#34;</span> <span class=s>&#34;+HH Parent&#34;</span></pre>
+
+</body>
+
+</html>
