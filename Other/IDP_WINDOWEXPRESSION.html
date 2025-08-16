@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Window expressions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Window expressions</h1>
+
+<p>When window is required as part of a macro command, you can use:</p>
+
+<p>&nbsp;</p>
+
+<p>1. Window <b>name</b>. Can be partial, must match case. Must be 
+  enclosed in quotes, unless it is variable. QM searches only visible windows, 
+  unless <a href="../Commands/IDP_OPT.html">run-time option</a> <span class=cod><span class=fq>opt</span> hidden <span class=n>1</span></span> is set. Examples:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>act</span> <span class=s>&#34;Notepad&#34;</span>
+
+<span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=fq>act</span> s</pre>
+
+<p>&nbsp;</p>
+
+<p>If <b>name</b> begins with $ (but not with $$), it is interpreted as <A href="../RegExp/IDP_PCRE.html">regular expression</a>. For example, <span class=cod><span class=fq>act</span> <span class=s>&#34;$^A.*Notepad$&#34;</span></span> activates window whose name begins with &quot;A&quot; and ends with &quot;Notepad&quot;. To do case insensitive search, use (?i). For example,</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>act</span> <span class=s>&#34;$(?i)^A.*Notepad$&#34;</span>.</pre>
+
+<p>&nbsp;</p>
+<p>Empty string (<tt>&quot;&quot;</tt>) in most cases is interpreted 
+  as the active window.</p>
+<p>&nbsp;</p>
+
+<p>2. Window <b>class</b> name. Must be full or with wildcard characters (QM 2.3.4), case insensitive, with + prefix. 
+  QM searches all windows. Example:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>act</span> <span class=s>&#34;+ieframe&#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<p>3. List of window names and/or +classnames, delimited by <tt>[]</tt> 
+  (new line). If first window not found, searches for second window, and so on. 
+  Example:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>ifa</span> <span class=s>&#34;Window1[]$Window\d[]+Window3&#34;</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;One of three windows is active&#34;</span></pre>
+
+<p>&nbsp;</p>
+<p>4. Window <b>handle</b>. Unlike window name and class, it can also be used 
+  with user-defined and dll functions. It is an integer value and is returned 
+  by functions <A href="../Functions/IDP_WIN.html" class="blue">win</a>, 
+  <A href="../Functions/IDP_ID.html" class="blue">id</a>, <A href="../Functions/IDP_CHILD.html" class="blue">child</a> and some other. Examples:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span> h <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fq>act</span> h
+
+<span class=fq>act</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+<p>Window expression (handle or name, etc) also can be stored in a variable of 
+  type VARIANT.</p>
+<p>&nbsp;</p>
+<p>With macro commands, if window (still) does not exist, QM waits max 0.5 second, 
+  unless speed (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>) 
+  is 0 or window handle (variable or function except <span class="blue">win</span>) 
+  is used.</p>
+<p>&nbsp;</p>
+<p>Window <b>name</b> is text that is displayed in the title bar.</p>
+
+<p>&nbsp;</p>
+
+<p>Each window or child window belongs to some window <b>class</b> (e.g., &quot;IEFrame&quot;, 
+  &quot;Button&quot;, etc). Window class defines appearance and behavior of all 
+  windows that belong to it. Window class is set by software developer and cannot 
+  be changed. However, some windows are created with different class each time 
+  (e.g., those that begin with &quot;Afx:&quot;). You can see window name and 
+  class name in QM status bar.</p>
+
+<p>&nbsp;</p>
+
+<p>Window <b>handle</b> is an unique numeric value that the system assigns to 
+  each window and child window when creating it. It does not change until 
+  the window is destroyed.</p>
+
+<p>&nbsp;</p>
+
+<p>Child window <b>id</b> is a numeric value that the developer assigns to it. 
+  In most cases, it is unique within its parent window. Sometimes id may be set 
+  at run time and it may be random value.</p>
+<p>&nbsp;</p>
+<p> <i>See also: </i><A href="IDP_WINDOWSTYLES.html">window styles</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
