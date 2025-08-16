@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Folder properties, file properties</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Folder properties, file properties</h1>
+
+<h2>Folder properties</h2>
+
+<p>To show the Folder Properties dialog, right click that folder in the list of 
+  macros and select menu item &quot;Folder properties&quot;.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Description</i> - text that is shown in the QM file viewer when importing 
+  or opening. Also, in tooltips (until first empty line).</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Scope of triggers </i>- one or several programs, with which work or not 
+  work triggers (keyboard, mouse and window) of all items in the folder and subfolders. 
+  Several program names must be separated with comma. Example: NOTEPAD,CALC .</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Read-only </i>- items in this folder and subfolders cannot be modified 
+  (text, properties, etc), deleted, renamed, inserted new items, etc.</p>
+<p>&nbsp;</p>
+<p> <i>Disabled items </i>- all items in the folder and subfolders are disabled.</p>
+<p>&nbsp;</p>
+<p> <i>Private functions </i>- functions from the folder and subfolders are not 
+  displayed in  <a href="IDH_TYPEINFO.html">type-info popup lists</a>, unless 
+  you are editing an item that is in parent folder or its subfolders, or use Ctrl+Shift+. 
+  . These functions still can be used everywhere. Also these functions and other items are hidden or gray in &quot;Running items&quot; pane and Threads dialog.</p>
+<p>&nbsp;</p>
+<p><i>Application </i>- <a onClick="doSection(e1)" class="expand">obsolete</a>.</p>
+<div id="e1" class="expand">
+  <p>This is obsolete and may be incompatible with some other QM features added later. Initially added to create separate scopes for variables, 
+    functions and some declarations. Now instead can be used classes, thread variables, 
+    sub-functions.</p>
+  <p>&nbsp;</p>
+  <p>Adds these features:</p>
+  <p> 1. Functions that are in this folder can be called only from functions that 
+    are in this folder.</p>
+  <p> 2. The first (topmost) function always begins execution. It is like an application's 
+    main function.</p>
+  <p> 3. Local variables declared in the main function can be used in other functions.</p>
+  <p>4. Type libraries and reference files declared in the main function can be used in other functions.</p>
+  <p>&nbsp;</p>
+  <p>Note: Functions that are compiled at run time don't have these features. 
+    For example if a function is called using <span class="blue">call</span> with 
+    function's name as string.</p>
+  <p>&nbsp;</p>
+  <p>Note: Don't call the main function recursively, because then its local variables 
+    are different every time, because of variable <a href="../Language/IDP_SCOPE.html">scope 
+      rules</a> (local variables have higher priority). For example, it happens 
+    if the main function is a dialog procedure that also shows the dialog.</p>
+  <p>&nbsp;</p>
+  <p>QM 2.4.1: Fixed bug: in class member functions the 3 feature did not work.</p>
+</div>
+<p>&nbsp;</p>
+<h2>File properties</h2>
+
+<p>All properties are same as folder properties, but applied are only &quot;Description&quot;, 
+  &quot;Scope&quot;, &quot;Read-only&quot; and &quot;Disabled items&quot;. Other 
+  properties are applied to imported folder when this file is imported into another 
+  file.</p>
+
+</body>
+
+</html>
