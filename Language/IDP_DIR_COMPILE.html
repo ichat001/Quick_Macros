@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#compile</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#compile</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#compile</span><i>[</i>+<i>|</i>*<i>]</i> &quot;macro&quot;</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>macro</b> - name of a macro or function. Also can be <a href="IDP_DIR_SUB.html">sub-function</a>, like &quot;sub.SubName&quot;.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>+</td> <td><b>macro</b> is folder. Compiles all items in it. If <b>macro</b> is &quot;sub&quot;, compiles all sub-functions.</td>
+</tr>
+<tr>
+<td>*</td> <td><p>compile and execute.</p>
+  <ul>
+    <li> <b>macro</b> must be user-defined function or sub-function. It runs 
+      while compiling, in QM main thread.</li>
+    <li> This is useful if you want to set global 
+      or environment variables that are used later while compiling current macro (with <span class="dir">#if</span>, etc).</li>
+  </ul>
+  </td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><a href="../QM_Help/IDH_DEBUG.html">Compiles</a> <b>macro</b>. It does not &quot;include&quot; or call it, but just 
+  compiles, if it is not already compiled. Usually it is used to compile 
+  macros or functions that contain various <a href="IDP_DECLARATION.html">declarations</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_REF.html" class="blue">ref</a>, <a href="../User/IDP_QMDLL.html#CompileAllItems" class="dll">CompileAllItems</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=dir>#compile</span> <span class=s>&#34;toolhelp&#34;</span></pre>
+
+</body>
+
+</html>
