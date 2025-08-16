@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#err</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#err</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#err</span></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2</h3>
+
+<pre class=syntax><span class="dir">#err</span> nlines</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3</h3>
+
+<pre class=syntax><span class="dir">#err</span> function</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>nlines </b> - number of lines to skip if error does not occur. Digits.</p>
+<p><b>function</b> - name of user-defined function.</p>
+<ul>
+  <li>QM 2.4.3. Can be <a href="IDP_DIR_SUB.html">sub-function</a>.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> Handles compile-time error generated in previous statement.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Syntax1:</i> On error, continue. Error is not generated, and statement 
+  with error is excluded.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Syntax2:</i> On error, compile following <b>nlines</b> lines. If error 
+  does not occur, following <b>nlines</b> lines are skipped. If <b>nlines</b> 
+  is 0, on error all following code is not compiled.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Syntax3:</i> On error, call <b>function</b>. It runs synchronously (at 
+  compile time) in QM main thread. If it returns 0, error is generated as usually. 
+  If 1, error is not generated, and statement with error is excluded (same as 
+  #err). If -1, error is generated but not displayed. If -2, error is not generated, 
+  and all following code is not compiled (same as #err 0).</p>
+
+<p>&nbsp;</p>
+
+<p> Special variable <A href="../Flow/IDP_ERR.html">_error</a> is filled with 
+  information about error, and function <b>function</b> 
+  can access it. Currently, <b>code</b> is always 0 on compile-time errors.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also: </i> <A href="../Other/IDP_ERRORS.html">errors</a>, <a href="../Flow/IDP_ERR.html" class="blue">err</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>dll</span> somedll <span class=fd>DllFunctionThatMayBeMissing</span> a b c
+<span class=dir>#err</span> <span class=fu>SayNoFunction</span>
+
+<span class=fq>typelib</span> <span class=lib>VBScript_RegExp</span> {3F4DACA7-160D-11D2-A8E9-00104B365C9F} 1.0
+<span class=dir>#err</span> <span class=n>1</span>
+<span class=fq>typelib</span> <span class=lib>VBScript_RegExp</span> {3F4DACA7-160D-11D2-A8E9-00104B365C9F} 0.0</pre>
+</body>
+
+</html>
