@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>run</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Run or open file, folder, www page, create e-mail message</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>run</b><i> </i>file<i> [</i>par<i>] [</i>verb<i>] [</i>dir<i>] [</i>flags<i>] [</i>window<i>] [</i>hwnd<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>file</b> - <a href="../Other/IDP_SEARCHPATHS.html">full path or filename</a>.</p>
+
+<p> <b>par </b>- command line parameters. Used only with executable files.</p>
+
+<p> <b>verb </b>- &quot;open&quot;, &quot;edit&quot;, &quot;print&quot;, &quot;explore&quot; 
+or other action that is listed in file's right click menu. Not all actions can 
+be used. The default verb string is the one that is bold in the menu. Usually 
+it is &quot;open&quot;. See also flag 0x40000.</p>
+
+<p> <b>dir </b>- default directory.  Use <span class=cod><span class=s>&#34;*&#34;</span></span> 
+to extract from <b>file</b>.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a>:</b></p>
+<table class="tflags">
+<tr> 
+  <td>First 8 bits</td>
+  <td>Window show state: 0 or 1 - normal (default), 2 - minimized, 
+    3 - maximized, 4 - inactive, 7 - min. inactive, 16 - hidden. Most programs 
+    don't support this.</td>
+</tr>
+<tr> 
+  <td>0x100</td>
+  <td>On error, don't show error message box.</td>
+</tr>
+<tr> 
+  <td>0x200</td>
+  <td> <p>Wait for input idle, i.e. until 
+    the program is ready to accept user input (keyboard, mouse). It works not with all windows.</p></td>
+</tr>
+<tr> 
+  <td>0x400</td>
+  <td><p>Wait until the program exits.</p>
+    <ul>
+      <li>Waits only if the program is actually started, and <b>file</b> 
+        is not shortcut.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>0x800</td>
+  <td><p>After the program is started, wait until window<b> window</b> is active.</p>
+    <ul>
+      <li> Waits max 5 minutes (1 minute before QM 2.3.3). Error on timeout.</li>
+      <li>Without this flag, if <b>window</b> and <b>hwnd</b> used, waits until the window is visible (can be inactive). QM 2.3.3: If flag 16 (hidden) used, waits until created (can be invisible).</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>0x1000</td>
+  <td>If window <b>window</b> exists, do nothing. If this flag not used, activates it.</td>
+</tr>
+<tr> 
+  <td>0x2000</td>
+  <td> <p>Run even if window <b>window</b> already exists.</p>
+    <ul>
+      <li>If need to wait for window, waits for another (new) window. Therefore will fail if the attempt to run the program just activated the existing window.</li>
+    </ul></td>
+</tr>
+<tr>
+  <td>0x4000</td>
+  <td>QM 2.3.4. Disable <a href="http://www.google.lt/search?q=file system redirector Wow64" target="_blank">file system redirection</a> on 64-bit Windows. Use this to run 64-bit system programs.</td>
+</tr>
+<tr> 
+  <td>0x10000</td>
+  <td><p>QM 2.2.0. Run as administrator. On administrator account it does not show 
+    a consent or Run As dialog, except in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> 
+    and <a href="../Other/IDP_PORTABLE.html">portable</a>. To show the dialog, use <b>verb</b> &quot;runas&quot; 
+    instead. Read more in remarks.</p></td>
+</tr>
+<tr> 
+  <td>0x20000</td>
+  <td>QM 2.2.0. The same as above, but only on administrator account. On standard 
+    user account the program will run as standard user.</td>
+</tr>
+<tr> 
+  <td>0x30000</td>
+  <td>QM 2.2.0. Run as administrator if QM is running as administrator.</td>
+</tr>
+<tr>
+  <td>0x40000</td>
+  <td>QM 2.4.1. Support verbs from shell menu extensions, including &quot;Properties&quot;.</td>
+</tr>
+</table>
+<p> <a href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - a 
+window of the program.</p>
+<ul>
+  <li> If the window exists, <span class="blue">run</span> only activates it 
+    (unless used <b>flags</b> 0x1000 or 0x2000).</li>
+  <li> Otherwise runs <b>file</b>. If used flag 0x800 or <b>hwnd</b>, waits for the window.</li>
+</ul>
+<p><b>hwnd</b> - int variable that receives handle of window <b>window</b>.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <b>file</b> can be program, document, shortcut, folder or Internet resource 
+  (&quot;http://...&quot;, &quot;mailto:...&quot;, etc). To open web pages, you 
+  can also use <a href="IDP_WEB.html" class="blue">web</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>When using as function, <span class="blue">run</span> returns  handle of the started process (running program) or -1. Later it must be closed with <span class="dll">CloseHandle</span>, unless assigned to a __Handle variable. Example: <span class=cod><span class=t>__Handle</span> h<span class=o>=</span><span class=fq>run</span><span class=p>(</span><span class=s>&quot;notepad.exe&quot;</span><span class=p>);</span> <span class=fq>wait</span> <span class=n>0</span> H h<span class=p>;</span> <span class=fq>out</span> <span class=s>&quot;closed&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p>When using as function with flag 0x400 (wait for exit), <span class="blue">run</span> returns program's 
+  exit code.</p>
+
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<p>To run/open objects that cannot be specified by path (e.g., Control Panel objects), 
+  can be used <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST string</a>.</p>
+<p>&nbsp;</p>
+<p>Class id strings in format &quot;::{XXXX}\{XXXX}&quot; also are supported. 
+  Starting from QM 2.2.0, some other functions also can use it, e.g. can get icon, 
+  create shortcut.</p>
+<p>&nbsp;</p>
+<p>If <a href="../Other/IDP_VISTA.html">UAC</a> is on, most programs 
+  don't have administrator privileges even on administrator account. They have Medium integrity level (IL). If a program 
+  has Administrator IL, programs launched from it also run as administrator. 
+  However <span class="blue">run</span> behaves differently, except in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> and <a href="../Other/IDP_PORTABLE.html">portable</a>. Even when QM 
+  is running as administrator, programs launched by <span class="blue">run</span> 
+  have Medium IL. To run a program as administrator, use flags 0x10000-0x30000. 
+  Function <a href="IDP_WEB.html" class="blue">web</a> also launches IE as not 
+  administrator. Functions <a href="../User/IDP_QMDLL.html#StartProcess" class="dll">StartProcess</a> and 
+  <span class="UDF">RunAs</span> also can launch 
+  programs with different IL. Other functions (<span class="UDF">RunConsole2</span>, 
+  <span class="dll">CreateProcess</span>, etc) launch programs with the same IL 
+  as of QM, but without uiAccess.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+
+
+<p>You can drag and drop a file onto the macro text to insert <span class="blue">run</span> 
+  command for that file. Ctrl can be used to insert shortcut path instead of target 
+  path. You also can drag Internet links, virtual folders/objects, multiple files. 
+  You can also drop onto a toolbar.</p>
+<p>&nbsp;</p>
+<p>If <b>file</b> is document,  opens it in default program for that file type. To open in certain program, use  program in <b>file</b> and document in <b>par</b>. Example: <span class=cod><span class=fq>run</span> <span class=s>&quot;wordpad.exe&quot;</span> <span class=s>&quot;c:\x.txt&quot;</span></span>.</p>
+<p>&nbsp;</p>
+
+<p>If macro intends to do something with new window, but program loads slowly, 
+  try flag 0x200, or/and <b>window</b> together with flag 0x800. Or, after <span class="blue">run</span> 
+  include <a href="IDP_WAIT.html" class="blue">wait</a> or <a href="IDP_WAIT_FOR.html">wait for</a> command (&quot;wait&quot;, 
+  &quot;wait for active window&quot;, etc).</p>
+<p>&nbsp;</p>
+
+<p>Sometimes, program started by <span class="blue">run</span>  shows a 
+  dialog. Macro should close the dialog, but <span class="blue">run</span> waits 
+  until you manually close the dialog. In such case, create a function that closes 
+  the dialog, and start it from the macro using <span class="blue">mac</span>. 
+  See example.</p>
+<p>&nbsp;</p>
+<p>To run a console program and capture its output, use <span class="UDF">RunConsole2</span> 
+  instead.</p>
+<p>&nbsp;</p>
+<p>To run a program as another user, use <span class="UDF">RunAs</span> instead. 
+  It does not require user interaction if you specify encrypted password. It cannot 
+  be used to run as current user with elevated privileges (instead use 
+  <span class="blue">run</span> with flags 0x10000-0x30000 or <b>verb</b> &quot;runas&quot;, 
+  or <a href="../User/IDP_QMDLL.html#StartProcess" class="dll">StartProcess</a>).</p>
+<p>&nbsp;</p>
+<p>64-bit Windows has two System32 and Program Files folders. <a href="../Other/IDP_VISTA.html">Read more</a>.</p>
+<p>&nbsp;</p>
+<p>Before QM 2.3.3, did not support <a href="../Other/IDP_SEARCHPATHS.html">relative path</a> for files in QM folder.</p>
+<p>&nbsp;</p>
+<p>How to know if a program is running? Search for its window with <a href="../Functions/IDP_WIN.html" class="blue">win</a>. If does not have windows, use function <a href="../User/IDP_QMDLL.html#ProcessNameToId" class="dll">ProcessNameToId</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>run</span> <span class=s>&#34;c:\f\text.txt&#34;</span> <span class=c2>;;open text.txt
+</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=c2>;;run Notepad
+</span><span class=fq>run</span> <span class=s>&#34;c:\f\my file.lnk&#34;</span> <span class=c2>;;run shortcut</span><span class=fq></span><span class=c2>
+</span><span class=fq>run</span> <span class=s>&#34;c:\m&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;explore&#34;</span> <span class=c2>;;explore folder
+</span><span class=fq>run</span> <span class=s>&#34;c:\t.txt&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;print&#34;</span> <span class=c2>;;print &#34;t.txt&#34;
+</span><span class=fq>run</span> <span class=s>&#34;control&#34;</span> <span class=s>&#34;appwiz.cpl&#34;</span> <span class=c2>;;open Control Panel &#34;Add/Remove Programs&#34;
+</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>3</span> <span class=c2>;;run Notepad, maximized
+</span><span class=c>
+ Run or activate Notepad:
+</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=c>
+ Run Notepad with parameters &#34;s.cpp&#34;, default directory &#34;c:\f&#34;:
+</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=s>&#34;s.cpp&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;c:\f&#34;</span>
+
+<span class=c> Run program and wait max. 15 s until CPU usage is &lt; 10%:
+</span><span class=fq>run</span> <span class=s>&#34;app.exe&#34;</span><span class=p>;</span> <span class=fq>wait</span> <span class=n>15</span> P <span class=n>10</span>
+<span class=fq>
+run</span> <span class=s>&#34;http://www.aaa.com&#34;</span> <span class=c2>;;open web page
+</span><span class=fq>run</span> <span class=s>&#34;mailto:name@isp.com&#34;</span> <span class=c2>;;create new e-mail message
+</span><span class=fq>run</span> <span class=s>&#34;mailto:name@isp.com?subject=Question&#34;</span> <span class=c2>;;create new e-mail message
+</span><span class=c>
+ Run program with command line with variables:
+</span><span class=t>str</span> x.expandpath<span class=p>(</span><span class=s>&#34;$documents$\test.txt&#34;</span><span class=p>)</span>
+<span class=t>int</span> y<span class=o>=</span><span class=n>5</span>
+<span class=t>str</span> cl<span class=o>=</span>F<span class=s>&#34;/X ''{x}'' /Y {y}&#34;</span>
+<span class=fq>run</span> <span class=s>&#34;zzz.exe&#34;</span> cl
+<span class=c>
+ Run Notepad and wait untill its process ends:
+</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0x400</span>
+
+<span class=c> Run program that shows a dialog at startup, which causes run to wait:
+</span><span class=fq>mac</span> <span class=s>&#34;CloseDialog&#34;</span>
+<span class=fq>run</span> <span class=s>&#34;program&#34;</span>
+...
+<span class=c> _________________________________________
+ Function CloseDialog:
+</span><span class=fq>wait</span><span class=p>(</span><span class=n>10</span> <span class=s>&#34;Dialog Name&#34;</span><span class=p>);</span> <span class=fq>err</span> <span class=fq>ret</span>
+<span class=fq>key</span> Y</pre>
+</body>
+
+</html>
