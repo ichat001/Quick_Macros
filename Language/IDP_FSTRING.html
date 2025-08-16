@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Strings with variables</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Strings with variables</h1>
+<p>QM 2.3.2.</p>
+<p>&nbsp;</p>
+<p>Use operator F to insert variables and other expressions in strings. Enclose variables in { }.</p>
+<p>&nbsp;</p>
+<span class=cod><span class=o>F</span><span class=s>&quot;text{</span>variable1<span class=s>}text{</span>variable2<span class=s>}&quot;</span></span>
+<p>&nbsp;</p>
+<p>To define custom format, after variable insert  <a href="../Tables/IDP_PRINTF.html">format field</a> with two %.</p>
+<p>&nbsp;</p>
+<span class=cod><span class=o>F</span><span class=s>&quot;text{</span>variable1<span class=s>%%-20s}text&quot;</span></span>
+<p>&nbsp;</p>
+<p>Default format depends on variable type:</p>
+<table class="tnormal">
+  <tr>
+    <td>int, word, byte, pointers</td>
+    <td>%i. For 0x{variable}  uses %X instead.</td>
+  </tr>
+  <tr>
+    <td>str, lpstr</td>
+    <td>%s</td>
+  </tr>
+  <tr>
+    <td>long</td>
+    <td>%I64i. For 0x{variable}  uses I64X instead.</td>
+  </tr>
+  <tr>
+    <td>double</td>
+    <td>%.15G</td>
+  </tr>
+  <tr>
+    <td>Other types</td>
+    <td>Not supported.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Variables also can be used in <a href="IDP_CONSTANT.html">multiline strings</a>. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s<span class=o>=</span>
+<span class=o>F</span>
+<span class=s> text{</span>variable1<span class=s>}text</span>
+<span class=s> text{</span>variable2<span class=s>}text</span></pre>
+<p>&nbsp;</p>
+<p>Escape sequences are replaced only in text parts of quoted strings. As escape sequence for {  can be used {{. The {{ escape sequence also can be used in multiline strings.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. In variable fields can be used strings enclosed in ` (grave accent). In multiline strings use &quot; instead.</p>
+<p>&nbsp;</p>
+<p>Strings with variables  cannot be used in strings that must be constant, such as dll names and <span class="blue">case</span> strings.</p>
+<p>&nbsp;</p>
+<p>Strings with variables, when used for macro names and file names, prevent automatic adding these macros and files to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>50</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;stringvar&quot;</span>
+<span class=t>double</span> d<span class=o>=</span><span class=n>3.1415926535897932384626433832795</span>
+<span class=t>str</span> sv<span class=o>=F</span><span class=s>&quot;variables: i={</span>i<span class=s>}, s=''{</span>s<span class=s>}'', d={</span>d<span class=s>%%.5G}, sum={</span>i<span class=o>+</span>d<span class=s>}, function={</span>_s.<span class=fq>from</span><span class=p>(</span><span class=s>`string`</span> i<span class=p>)</span><span class=s>}&quot;</span>
+<span class=fq>out</span> sv <span class=c2>;;variables: i=50, s=&quot;stringvar&quot;, d=3.1416, sum=53.1415926535898, function=string50</span>
+
+<span class=c> also can use F&quot;string&quot; with key</span>
+<span class=fq>key</span> TT <span class=o>F</span><span class=s>&quot;variables: 0x{</span>i<span class=s>} {</span>s<span class=s>%%20s} {</span>d<span class=s>}&quot;</span> Y</pre>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../str/IDP_S_FORMAT.html">str.format</a>, <a href="IDP_CONSTANT.html">string constants and escape sequences</a>, <a href="../str/IDP_S_ESCAPE.html">str.escape</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
