@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>remove</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Remove part of string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>remove</b>(from <i>[</i>nc<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>from </b>- 0-based index of first character to remove.</p>
+
+<p> <b>nc </b>- number of characters to remove. Default: -1 (remove all characters 
+at right (like <a href="IDP_S_FIX.html">str.fix</a>)).</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Removes <b>nc</b> characters from middle of <b>s</b>.</p>
+
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;My dog and cat&quot;</span>
+s.<span class=fq>remove</span><span class=p>(</span><span class=n>2</span> <span class=n>8</span><span class=p>)</span>
+<span class=c> now s is &quot;My cat&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
