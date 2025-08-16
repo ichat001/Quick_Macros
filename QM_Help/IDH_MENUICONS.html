@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Menu and toolbar icons</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Menu and toolbar icons</h1>
+
+<p>Use the <a href="IDH_ICONS.html">Icons</a> dialog to find or create icons and 
+  assign them to menu items and toolbar buttons.</p>
+<p>&nbsp;</p>
+<p>You can specify icon file after *. Also can be specified 0-based icon index. 
+  If icon is not specified, is used default icon. Use ** to prevent adding an 
+  icon. To prevent adding icons to all menu items, check 'No Icons' in Properties.</p>
+<p>&nbsp;</p>
+
+<p>Examples:</p>
+
+<pre class=cod>Macro5 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span><span class=mi> * Shell32.dll * 5</span>
+Macro5 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span><span class=mi> * Shell32.dll,5</span>
+Select All <span class=p>:</span><span class=fq>key</span> Ca<span class=mi> * C:\Icons\Select All.ico</span>
+<span class=p>:</span><span class=t>int</span> i<span class=o>=</span><span class=n>2</span><span class=o>*</span><span class=n>2</span><span class=p>;</span> <span class=fq>paste</span><span class=p>(</span>i <span class=o>*</span> <span class=n>10</span><span class=p>)</span><span class=mi> * iconinmyqmfolder.ico</span>
+Macro5 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span><span class=mi> * $desktop$\ic1.ico</span>
+Macro5 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span><span class=mi> * &quot;resource:&lt;Macro5&gt;ic1.ico&quot;</span>
+Macro5 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span><span class=mi> **</span></pre>
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<p>QM 2.3.0. Icon index also can be specified using syntax iconfile,iconindex 
+  (example 2).</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a>. If resource or file (full path) is enclosed in &quot;, displays the icon in the code editor.</p>
+<p>&nbsp;</p>
+<p>With menus created at run time (<span class="UDF">DynamicMenu</span>), instead 
+  of icon file can be used icon handle. To retrieve icon handle, use <a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a> 
+  or <a href="../User/IDP_QMDLL.html#GetWindowIcon" class="dll">GetWindowIcon</a> or Windows API functions. <a onClick="doSection(e1)" class="expand">Example</a>. 
+  Icon handles can be used with toolbars too. The icons must not be destroyed until 
+  the toolbar is closed. </p>
+<div id="e1" class="expand">
+<pre class=cod><span class=c> Shows dynamically created menu of windows.</span>
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span> aw<span class=p>;</span> <span class=fu>GetMainWindows</span> aw
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>__Hicon</span><span class=p>)</span> ai.<span class=fq>create</span><span class=p>(</span>aw.<span class=fq>len</span><span class=p>)</span>
+<span class=t>str</span> s t
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>0</span> aw.<span class=fq>len</span>
+<span class=i>&#9;</span>ai[i]<span class=o>=</span><span class=fd>GetWindowIcon</span><span class=p>(</span>aw[i]<span class=p>)</span>
+<span class=i>&#9;</span>t.<span class=fq>getwintext</span><span class=p>(</span>aw[i]<span class=p>)</span>
+<span class=i>&#9;</span>t.<span class=fq>findreplace</span><span class=p>(</span><span class=s>&quot; :&quot;</span> <span class=s>&quot; [91]58]&quot;</span><span class=p>)</span> <span class=c2>;;escape :</span>
+<span class=i>&#9;</span>t.<span class=fq>escape</span><span class=p>(</span><span class=n>1</span><span class=p>)</span> <span class=c2>;;escape &quot; etc</span>
+<span class=i>&#9;</span>s<span class=o>+F</span><span class=s>&quot;{</span>t<span class=s>} :act {</span>aw[i]<span class=s>}; err * {</span>ai[i]<span class=s>}[]&quot;</span>
+<span class=c> out s</span>
+i<span class=o>=</span><span class=fu>DynamicMenu</span><span class=p>(</span>s <span class=s>&quot;&quot;</span> <span class=n>1</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=p>)</span> <span class=fu>outw</span> aw[i<span class=o>-</span><span class=n>1</span>]
+</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
