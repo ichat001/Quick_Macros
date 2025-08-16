@@ -1,0 +1,649 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<script type="text/javascript" src="http://www.quickmacros.com/com/grid.h"></script>
+
+<title>ShowDropdownList; QM_ComboBox and QM_Edit controls</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>ShowDropdownList; QM_ComboBox and QM_Edit controls</h1>
+
+<p><a href="IDP_QMCOMBOBOX.html#ShowDropdownList" class="dll">ShowDropdownList</a></p>
+<p><a href="IDP_QMCOMBOBOX.html#QM_ComboBox">QM_ComboBox control</a></p>
+<p><a href="IDP_QMCOMBOBOX.html#QM_Edit">QM_Edit control</a></p>
+<p><a href="IDP_QMCOMBOBOX.html#IQmDropdown" class="type">IQmDropdown</a></p>
+<p><a href="IDP_QMCOMBOBOX.html#exe">Using in exe</a></p>
+<h2><a name="ShowDropdownList"></a>Function <span class="dll">ShowDropdownList</span></h2>
+<pre class=cod><span class=i></span><span class=o>#</span><span class=fd>ShowDropdownList</span> <span class=t>ICsv</span><span class=p>'</span>csv [<span class=t>int</span><span class=o>&amp;</span>iSelected] [<span class=t>ARRAY</span><span class=p>(</span><span class=t>byte</span><span class=p>)</span><span class=o>&amp;</span>aChecked] [funcFlags] [hwndHost] [<span class=t>RECT</span><span class=o>&amp;</span>rDD] [cbFunc] [cbParam] [<span class=t>IQmDropdown</span><span class=o>&amp;</span>dd]
+<span class=i></span><span class=o>#</span><span class=fd>ShowDropdownListSimple</span> <span class=o>$</span>csv [<span class=t>int</span><span class=o>&amp;</span>iSelected] [<span class=t>ARRAY</span><span class=p>(</span><span class=t>byte</span><span class=p>)</span><span class=o>&amp;</span>aChecked] [funcFlags] [hwndHost] [<span class=t>RECT</span><span class=o>&amp;</span>rDD]
+</pre>
+<p>&nbsp;</p>
+<p>Shows a temporary top-level window containing a list of items that can be selectable (like in ComboBox controls), check box (more like in multi-select ListBox controls) or disabled (can be used as headers, separators etc). By default all items are selectable. Items can have icons, colors, etc.</p>
+<p>&nbsp;</p>
+<p><span class="dll">ShowDropdownListSimple</span> is a simplified version of <span class="dll">ShowDropdownList</span>. It uses a CSV string as its first parameter, and several parameters are removed. Everything else is identical.</p>
+<p>&nbsp;</p>
+<p> Returns one or more of these values (as <a href="../Other/IDP_FLAGS.html">flags</a>):</p>
+<table class="tflags">
+  <col>
+  <tr>
+    <td><strong>flag name</strong></td>
+    <td><strong>flag value</strong></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="def">QMDDRET_SELOK</td>
+    <td>1</td>
+    <td>Selected a selectable item (clicked or with Enter or Tab).</td>
+  </tr>
+  <tr>
+    <td class="def">QMDDRET_CHECKCHANGED</td>
+    <td>2</td>
+    <td>Changed check box states.</td>
+  </tr>
+  <tr>
+    <td class="def">QMDDRET_SELCHANGED</td>
+    <td>4</td>
+    <td>Changed the selected item. Can be only together with <span class="def">QMDDRET_SELOK</span>.</td>
+  </tr>
+  <tr>
+    <td class="def">QMDDRET_NOERRORS</td>
+    <td>0x100</td>
+    <td>DDL was shown (no errors).</td>
+  </tr>
+</table>
+<p>Returns 0 if DDL could not be shown. For example, an invalid argument.</p>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+  <p><strong>csv</strong> - sets control properties, adds list items. With <span class="dll">ShowDropdownList</span> it is an <a href="IDP_ICSV.html" class="type">ICsv</a> variable; it  also receives results, if <strong>iSelected</strong>/<strong>aChecked</strong> not used. With <span class="dll">ShowDropdownListSimple</span> it is a <a href="IDP_ICSV.html">CSV</a> string. Below is described the CSV format of the <span class="type">ICsv</span> variable or CSV string.</p>
+  <p>&nbsp;</p>
+<p>First row - control properties. Columns:</p>
+    <ul>
+      
+      <li> 0 - selected item index.
+        <ul>
+          <li>No selection if empty or -1.</li>
+          <li>If used control flag 2 (see below), this cell contains the 32-bit number for checked items.</li>
+          <li>This function uses and updates this cell if <strong>iSelected</strong> not used.</li>
+        </ul>
+      </li>
+      <li> 1 - imagelist. Can be:
+        <ul>
+          <li> Imagelist file or <a href="../Other/IDP_RESOURCES.html">resource</a> name (if single line). To create imagelists you can use QM Imagelist Editor, look in code toolbar.</li>
+          <li> List of icon files or resources (if multiple lines or ends with a newline character), enclosed in double quotes.</li>
+          <li> Imagelist handle (if a number). The function does not copy or destroy the imagelist. To load/create/destroy imagelists, you can use <span class="type">__ImageList</span> variables.</li>
+      </ul>
+      <li> 2 - control <a href="../Other/IDP_FLAGS.html">flags</a>:
+        <ul>
+          <li> 1 - with check boxes. To get/set check states, use <strong>aChecked</strong> or item flags (see below).</li>
+          <li> 2 - with check boxes. To get/set check states, use a 32-bit number where bits of checked items are 1. The number is stored in the place of the selected item index (<strong>iSelected</strong> or cell 0 0). Flag 1 and <strong>aChecked</strong> are not used.</li>
+          <li>4 - don't close drop-down list when mouse is far.</li>
+          <li>8 - auto colors. Text of disabled items will be gray. Background of &quot;header&quot; items (item flags 2|4|8) will be green. Not if item colors are explicitly specified.</li>
+          <li> 0x10 -  multiple columns, horizontal scrollbar.</li>
+          <li> 0x20 - order items left to right, then top to bottom.</li>
+          <li> 0x40 - use <strong>hwndHost</strong>/<strong>rDD</strong> width as minimal DDL width (not exact width). Calculate real width from list item strings.</li>
+          <li>0x80 - fast drop-down (no animation).</li>
+        </ul>
+      </li>
+      <li> 3 - unused.</li>
+      <li> 4 - list text <a href="../Other/IDP_COLOR.html">color</a> in 0xBBGGRR format.</li>
+      <li> 5 - list background color in 0xBBGGRR format.</li>
+      <li>6 - column width, if used flag 0x10 or 0x20. Pixels if &gt;0; dialog units if &lt;0. Also sets minimal drop-down list width.</li>
+      <li> 7 - maximal number of list items to show vertically in one scroll page.</li>
+    </ul>
+<p>&nbsp; </p>
+    <p>Other CSV rows - list items. Columns:</p>
+  <ul>
+      <li> 0 - item text.</li>
+      <li> 1 - item image index in imagelist. No image if empty or -1.
+        <ul>
+          <li>If imagelist not used, you can use this column for any purpose, for example as an item id to find it in CSV.</li>
+        </ul>
+      </li>
+      <li> 2 - item <a href="../Other/IDP_FLAGS.html">flags</a>:
+        <ul>
+          <li> 1 checked. The function updates this flag, if need. Also adds/removes this flag: 0x80 changed check state.</li>
+          <li> 2 no check box. The item is selectable (if not disabled).</li>
+          <li> 4 disabled (cannot be selected).</li>
+          <li> 8 bold font. For example, for header items you can use item flags 0xE (no check box, disabled, bold font).</li>
+          <li>16 selectable even if has check box. Click the check box to check/uncheck; click item text to select and close.</li>
+          <li>32 group. Checking the item unchecks adjacent items that have this flag.</li>
+        </ul>
+  </li>
+      <li> 3 - item tooltip text.</li>
+      <li> 4 - item text <a href="../Other/IDP_COLOR.html">color</a>, in 0xBBGGRR format.</li>
+      <li> 5 - item background color, in 0xBBGGRR format.</li>
+      <li> 6 - item indent.</li>
+      <li> 7 - item data. Any text or number that you can use for any purpose. The function does not use it.</li>
+    </ul>
+<p>&nbsp;</p>
+    <p> With <span class="dll">ShowDropdownListSimple</span>, <strong>csv</strong> must be valid <a href="IDP_ICSV.html">CSV</a> string. If a cell text contains special characters (comma (,), double quote (&quot;), new line), it must be enclosed in double quotes. Double quotes in cell text must be replaced with two double quotes.</p>
+  <p>&nbsp;</p>
+    <p>In numeric cells you can use decimal numbers, hexadecimal numbers (like &quot;0xE&quot;), and expressions with operator | (like &quot;1|4|0x300&quot;).</p>
+    <p>&nbsp;</p>
+    <p>CSV control flags and item flags have numeric <a href="../Language/IDP_DEF.html">named constants</a>, defined in \System\Declarations\QmDll. The names can be used in CSV if it is <a href="../Language/IDP_FSTRING.html">F-string</a>, for example <span class=cod><span class=t>str</span> csv<span class=o>=F</span><span class=s>&quot;,,{</span><span class=d>QMDD_CHECKBOXES1</span><span class=o>|</span><span class=d>QMDD_AUTOCOLORS</span><span class=s>}[]...&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p><strong>iSelected</strong> - variable that sets and receives selected item index.</p>
+  <ul>
+    <li>If omitted or 0, the function uses (gets/sets) <strong>csv</strong> cell 0 0.</li>
+    <li>If used control flag 2, this variable (or <strong>csv</strong> cell 0 0) is used to store the 32-bit number for checked items.</li>
+  </ul>
+  <p><strong>aChecked</strong> - array variable that sets checked item states. Elements of checked items contain flag 1.</p>
+  <ul>
+    <li>The function updates <strong>aChecked</strong> elements if need. Elements will contain these flags: 1 checked, 0x80 changed check state.</li>
+    <li>If omitted or 0, the function uses item flags in <strong>csv</strong>.</li>
+    <li>If the array is empty or smaller, the function creates it if using check boxes.</li>
+  </ul>
+  <p><strong>funcFlags</strong> - function <a href="../Other/IDP_FLAGS.html">flags</a>:</p>
+  <ul>
+    <li><span class="def">QMDDFF_CSVINPUT</span> (1) use <strong>iSelected</strong>/<strong>aChecked</strong> only for output, and <strong>csv</strong> for input.</li>
+    <li> <span class="def">QMDDFF_SORT</span> (8) - sort <strong>csv</strong> rows. Also  updates cell 0 0 and <strong>iSelected</strong> to match the new selected item index. Not used with CSV flag 2 or if <strong>aChecked</strong> is used for input.</li>
+  </ul>
+  <p><strong>hwndHost</strong> - host control handle. The DDL will be below or above the host control, and will have its width and font.</p>
+  <p><strong>rDD</strong> - a <span class="type">RECT</span> variable. If used:</p>
+  <ul>
+    <li>The DDL will be in this rectangle on screen, an will have <strong>rDD</strong> width.</li>
+    <li>If <strong>rDD</strong> width or/and height is 0, it does not limit DDL width or/and height.</li>
+    <li>If <strong>rDD</strong> and <strong>hwndHost</strong> not used, the DDL will be by the mouse cursor.</li>
+    <li>If DDL width specified by function parameters (<strong>rDD</strong>, <strong>hwndHost</strong> width etc) is less than height of two list items, the functions ignores it and calculates DDL width from list item strings.</li>
+  </ul>
+  <p><a onClick="doSection(otherParams)" class="expand">Other parameters</a></p>
+  <div id="otherParams" class="expand">
+    <p><strong>cbFunc</strong>, <strong>cbParam</strong> - address of a callback function, and a value to pass to it. It will be called to notify about various events. Must begin with:</p>
+    <blockquote>
+      <pre class=cod><span class=fq>function</span><span class=o>#</span> cbParam <span class=t>QMDROPDOWNCALLBACKDATA</span><span class=o>&amp;</span>x</pre>
+    </blockquote>
+    <div class="parts">
+      <blockquote>
+        <p><strong>cbParam</strong> - <strong>cbParam</strong> of <span class="dll">ShowDropdownList</span>.</p>
+        <p><strong>x</strong> - event info.</p>
+        <blockquote>
+          <pre class=cod><span class=fq>type</span> <span class=t>QMDROPDOWNCALLBACKDATA</span> <span class=t>IQmDropdown</span><span class=p>'</span>dd code itemIndex itemState</pre>
+          <p><strong>dd</strong> - <a href="IDP_QMCOMBOBOX.html#IQmDropdown" class="type">IQmDropdown</a> variable. You can call functions x.dd.<span class="UDF">Check</span>, x.dd.<span class="UDF">IsChecked</span> etc.</p>
+          <p><strong>code</strong> - event code:</p>
+          <ul>
+            <li>1,2 - a check box state changed. <strong>itemIndex</strong> is item index. <strong>itemState</strong> is 1 if the item now is checked, 0 if not. When the user checks/unchecks, <strong>code</strong> is 1; when function <span class="UDF">Check</span> does it, <strong>code</strong> is 2. Return 0.</li>
+          </ul>
+        </blockquote>
+      </blockquote>
+    </div>
+    <blockquote>
+      <p>&nbsp;</p>
+    </blockquote>
+    <p><strong>dd</strong> - a variable that receives <a href="IDP_QMCOMBOBOX.html#IQmDropdown" class="type">IQmDropdown</a> interface pointer. Valid only while the DDL is visible. When <span class="dll">ShowDropdownList</span> returns, it sets the variable to 0. For example, if you call <span class="dll">ShowDropdownList</span> in a dialog procedure, and want to close the DDL when the procedure receives some message, you can call dd.<span class="UDF">Close</span> then. Also you can call dd.<span class="UDF">Check</span>, dd.<span class="UDF">IsChecked</span> etc.</p>
+  </div>
+</div>
+<p>&nbsp;</p>
+<h3>Other features</h3>
+<p>Keyboard shortcuts (can use them only if <strong>hwndHost</strong> is used and is active and belongs to current thread):</p>
+<ul>
+  <li> Down/Up/PgDn/PgUp - highlight items.</li>
+  <li> Spacebar - toggle check state of the highlighted item.</li>
+  <li> Enter or Tab - close the drop-down-list. The return value will contain <span class="def">QMDDRET_SELOK</span> (1); it also can contain <span class="def">QMDDRET_CHECKCHANGED</span> (2) or/and <span class="def">QMDDRET_SELCHANGED</span> (4).</li>
+  <li> Esc or Alt - close the drop-down-list. The return value will not contain <span class="def">QMDDRET_SELOK</span>, <span class="def">QMDDRET_SELCHANGED</span>; it can contain <span class="def">QMDDRET_CHECKCHANGED</span>.</li>
+</ul>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Shows drop-down list and gets the selected item index.</span>
+<span class=t>str</span> imagelist<span class=o>=</span><span class=s>&quot;$qm$\il_qm.bmp&quot;</span> <span class=c2>;;tip: to see images in QM code editor, check toolbar button &quot;Images in code editor&quot;</span>
+<span class=t>str</span> csv<span class=o>=</span>
+<span class=o>F</span>
+<span class=s> ,{</span>imagelist<span class=s>}</span>
+<span class=s> one,1</span>
+<span class=s> two,2</span>
+<span class=s> three</span>
+
+<span class=t>int</span> iSelected
+<span class=t>int</span> R<span class=o>=</span><span class=fd>ShowDropdownListSimple</span><span class=p>(</span>csv iSelected<span class=p>)</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;R=0x{</span>R<span class=s>}, selected={</span>iSelected<span class=s>}&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Shows drop-down list with check boxes; uses a 32-bit variable to get checked items.</span>
+<span class=t>str</span> icons<span class=o>=</span><span class=s>&quot;$qm$\new.ico[]$qm$\copy.ico[]$system$\shell32.dll,4&quot;</span>
+<span class=t>str</span> csv<span class=o>=</span>
+<span class=o>F</span>
+<span class=s> ,&quot;{</span>icons<span class=s>}&quot;,2</span>
+<span class=s> one,1</span>
+<span class=s> two,2</span>
+<span class=s> three,,1</span>
+
+<span class=t>int</span> checked
+<span class=t>int</span> R<span class=o>=</span><span class=fd>ShowDropdownListSimple</span><span class=p>(</span>csv checked<span class=p>)</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;R=0x{</span>R<span class=s>} checkBoxes=0x{</span>checked<span class=s>}&quot;</span>
+
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>0</span> <span class=n>3</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>checked<span class=o>&gt;&gt;</span>i<span class=o>&amp;</span><span class=n>1</span><span class=p>)</span> <span class=fq>out</span> <span class=o>F</span><span class=s>&quot;item {</span>i<span class=s>} is checked&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Shows drop-down list with check boxes and gets checked items from CSV.</span>
+<span class=t>str</span> csv<span class=o>=</span>
+<span class=s> ,,1</span>
+<span class=s> one,1</span>
+<span class=s> two,2</span>
+<span class=s> three,,1</span>
+
+<span class=t>ICsv</span> x.<span class=fq>_create</span><span class=p>;</span> x.<span class=fd>FromString</span><span class=p>(</span>csv<span class=p>)</span>
+
+<span class=t>int</span> R<span class=o>=</span><span class=fd>ShowDropdownList</span><span class=p>(</span>x<span class=p>)</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;R=0x{</span>R<span class=s>}&quot;</span>
+<span class=c> x.ToString(_s); out _s</span>
+
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>1</span> x.<span class=fd>RowCount</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>x.<span class=fd>CellInt</span><span class=p>(</span>i <span class=n>2</span><span class=p>)</span><span class=o>&amp;</span><span class=n>1</span><span class=p>)</span> <span class=fq>out</span> <span class=o>F</span><span class=s>&quot;item {</span>i<span class=o>-</span><span class=n>1</span><span class=s>} is checked&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<h2><a name="QM_ComboBox"></a>QM_ComboBox control</h2>
+<p>Controls of window class QM_ComboBox are ComboBox controls with a better drop-down list. Can have images, check boxes (multiple selections), etc. For the drop-down list part the control uses function <span class="dll">ShowDropdownList</span>.</p>
+<p>&nbsp;</p>
+<p>To add a QM_ComboBox control to a dialog, use the <a href="IDH_DIALOG_EDITOR.html">Dialog Editor</a>. To set and get control data (properties and list items), use dialog variables created by the Dialog Editor.</p>
+<p>&nbsp;</p>
+<h3>Example dialog</h3>
+<p>&nbsp;</p>
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=s> 3 QM_ComboBox 0x54230243 0x0 8 8 96 213 &quot;&quot;</span>
+<span class=s> 4 QM_ComboBox 0x54230242 0x0 8 28 96 213 &quot;&quot;</span>
+<span class=s> 5 QM_ComboBox 0x54230243 0x0 8 48 96 213 &quot;&quot;</span>
+<span class=s> 6 QM_ComboBox 0x54230243 0x0 8 68 96 213 &quot;&quot;</span>
+<span class=s> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=s> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=s> END DIALOG</span>
+<span class=s> DIALOG EDITOR: &quot;&quot; 0x2040300 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;3 4 5 6&quot;</span>
+<span class=t>str</span> qmcb3 qmcb4 qmcb5 qmcb6
+<span class=c> Simplest. Adds three items and selects Mercury (index 0).</span>
+qmcb3<span class=o>=</span><span class=s>&quot;0[]Mercury[]Venus[]Earth&quot;</span>
+<span class=c> With icons. Adds three items, selects Mercury, and in the drop-down list displays the first three images from the imagelist file.</span>
+<span class=t>str</span> imagelist<span class=o>=</span><span class=s>&quot;$qm$\il_qm.bmp&quot;</span> <span class=c2>;;tip: to see images in QM code editor, check toolbar button &quot;Images in code editor&quot;</span>
+qmcb4<span class=o>=F</span><span class=s>&quot;0,{</span>imagelist<span class=s>}[]Mercury,0[]Venus,1[]Earth,2&quot;</span>
+<span class=c> With check boxes. Adds three items, checks Mercury (its item flags contain 1), and sets control text to &quot;Mercury&quot;.</span>
+qmcb5<span class=o>=</span><span class=s>&quot;,,1[]Mercury,,1[]Venus,,0[]Earth&quot;</span>
+<span class=c> With check boxes, using a 32-bit number to check items. Adds three items, checks Mercury and Earth (first and third bits in 0x5 are 1), and sets control text to &quot;Mercury, Earth&quot;.</span>
+qmcb6<span class=o>=</span>
+<span class=s> 0x5,,3</span>
+<span class=s> Mercury</span>
+<span class=s> Venus</span>
+<span class=s> Earth</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=n>0</span> <span class=o>&amp;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=fq>out</span> qmcb3
+<span class=fq>out</span> qmcb4
+<span class=fq>out</span> qmcb5
+<span class=fq>out</span> qmcb6
+</pre>
+<p>&nbsp;</p>
+<h3>How to set control properties and list items</h3>
+<p>Assign  a <a href="IDP_ICSV.html">CSV</a> string to the dialog control variable before calling <a href="IDH_DIALOG_EDITOR.html" class="UDF">ShowDialog</a>.</p>
+<p>&nbsp;</p>
+<p>First CSV row - control properties. Columns:</p>
+<ul>
+  <li>  0 - selected item index.
+    <ul>
+      <li>No selection if empty or -1.</li>
+      <li>If like &quot;-1 text&quot;, sets editable control text. Or can be just &quot;text&quot;, if the text does not begin with a number. Only if the control is without check boxes.</li>
+      <li>If used control flag 2 (see below), this cell contains the 32-bit number for checked items.</li>
+    </ul>
+  </li>
+  <li>  1 - imagelist. Can be:
+  <ul>
+    <li>   Imagelist file or <a href="../Other/IDP_RESOURCES.html">resource</a> name (if single line). To create imagelists you can use QM Imagelist Editor, look in code toolbar.</li>
+    <li>  List of icon files or resources (if multiple lines or ends with a newline character), enclosed in double quotes.</li>
+    <li>  Imagelist handle (if a number). The control does not copy or destroy the imagelist; it means that the imagelist should be alive until the control is destroyed or its items replaced or deleted. To load/create/destroy imagelists, you can use <span class="type">__ImageList</span> variables.</li>
+  </ul>
+  <li>  2 - control <a href="../Other/IDP_FLAGS.html">flags</a>:
+<ul>
+      <li>  1 - with check boxes. Use item flags to get/set check states. Control text format: list of checked item labels like &quot;Item1, Item2&quot;.
+      </li>
+      <li>  2 - with check boxes. To get/set check states, use CSV cell 0 0. It is a 32-bit number where bits of checked items are 1. Control text format depends on flags 1 and 0x800, default is hex number.</li>
+      <li>  4 - don't close drop-down list when mouse is far.</li>
+      <li>8 - auto colors. Text of disabled items will be gray. Background of &quot;header&quot; items (item flags 2|4|8) will be green. Not if item colors are explicitly specified.</li>
+      <li>  0x10 -  multiple columns, horizontal scrollbar.</li>
+      <li>  0x20 - order items left to right, then top to bottom.</li>
+      <li>0x40 - use control width as minimal drop-down list width (not exact width). Calculate real width from list item strings.</li>
+      <li> 0x80 - fast drop-down (no animation).</li>
+      <li>  0x100 - for a dialog variable get CSV. Read more below.</li>
+      <li>  0x200 - on click don't select all text in Edit control.</li>
+      <li>  0x400 - don't clear Edit control text when setting selected item = none or setting control data where checked items = none.</li>
+      <li>0x800 - when flag 2 used, display checked items like &quot;1|2|4|0x300&quot; instead of &quot;0x307&quot;.</li>
+      <li>0x1000 - auto-add unknown items to the list from Edit text. Adds before showing drop-down list and before getting control data. Selects or checks the added items. Not used with flag 2.</li>
+    </ul>
+  </li>
+  <li>  3 - cue banner text. It is a brighter text displayed in the control when it is not focused and its text is empty.</li>
+  <li>  4 - list text <a href="../Other/IDP_COLOR.html">color</a> in 0xBBGGRR format.</li>
+  <li>  5 - list background color in 0xBBGGRR format.</li>
+  <li>  6 - column width, if used flag 0x10 or 0x20. Pixels if &gt;0; dialog units if &lt;0. Also sets minimal drop-down list width.</li>
+  <li>  7 - maximal number of list items to show vertically in one scroll page.</li>
+</ul>
+<p>&nbsp;  </p>
+<p>Other CSV rows - list items. Columns:</p>
+<ul>
+  <li>  0 - item text.</li>
+  <li>  1 - item image index in imagelist. No image if empty or -1.
+    <ul>
+      <li>If imagelist not used, you can use this column for any purpose, for example as an item id to find it in CSV.</li>
+    </ul>
+  </li>
+  <li>  2 - item <a href="../Other/IDP_FLAGS.html">flags</a>:
+  <ul>
+    <li>  1 checked.</li>
+    <li>  2 no check box. The item is selectable (if not disabled).</li>
+    <li>  4 disabled (cannot be selected).</li>
+    <li>  8 bold font. For example, for header items you can use flags 0xE (no check box, disabled, bold font).</li>
+    <li>32 group. Checking the item unchecks adjacent items that have this flag.</li>
+    </ul>
+  </li>
+  <li>  3 - item tooltip text.</li>
+  <li>  4 - item text <a href="../Other/IDP_COLOR.html">color</a>, in 0xBBGGRR format.</li>
+  <li>  5 - item background color, in 0xBBGGRR format.</li>
+  <li>  6 - item indent.</li>
+  <li>  7 - item data. An integer number to use with messages CB_GETITEMDATA and CB_SETITEMDATA. If you don't use these messages, it can be any text too, the control does not use it.</li>
+</ul>
+<p>&nbsp;</p>
+<p>  It must be valid <a href="IDP_ICSV.html">CSV</a> string.  If a cell text contains special characters (comma (,), double quote (&quot;), new line), it must be enclosed in double quotes. Double quotes in cell text must be replaced with two double quotes. To create valid CSV at run time, use an <a href="IDP_ICSV.html" class="type">ICsv</a> variable.</p>
+<p>&nbsp;</p>
+<p>In numeric cells you can use decimal numbers, hexadecimal numbers (like &quot;0xE&quot;), and expressions with operator | (like &quot;1|4|0x300&quot;).</p>
+<p>&nbsp;</p>
+<p>  List items in the CSV are optional. For example, you may want just to set control properties. You can add items later, when handling CBN_DROPDOWN notification in dialog procedure. If on CBN_DROPDOWN you don't add items, the control will not show a drop-down list. On CBN_DROPDOWN you can instead call <span class="dll">ShowDropdownList</span>, or show a message box, popup menu, whatever, or do nothing; but for this purpose probably it is better to use QM_Edit control.</p>
+<p>&nbsp;</p>
+<p>If you want to set control data in dialog procedure, use function <span class="UDF">DT_SetControl</span> or <span class="UDF">CB_Add</span> or CB_INSERTITEM messages. Function <a href="../str/IDP_S_WINDOW.html">str.setwintext</a> sets editable control text.</p>
+<p>&nbsp;</p>
+<h3>How to get control data</h3>
+<p>When <span class="UDF">ShowDialog</span> returns on OK, the dialog control variable contains a string in a format that depends on control style and flags.</p>
+<p>&nbsp;</p>
+<p>By default it is:</p>
+<ul>
+  <li>If the control is editable: control text.</li>
+  <li>Else if the control is without check boxes: selected item index (-1 if none selected). Use <a href="../Functions/IDP_VAL.html" class="blue">val</a> to convert to int.</li>
+  <li>  Else (if with check boxes):
+    <ul>
+      <li>  If used control flag 2: the 32-bit number (read more above). Use <span class="blue">val</span> to convert to int.</li>
+      <li>  Else: string consisting of '1' characters for checked items and '0' characters for unchecked. For example, if there are 3 items and only the first item is checked, the string is &quot;100&quot;.</li>
+    </ul>
+  </li>
+</ul>
+<p>  If used control flag 0x100, it is initial CSV string (you can use <a href="IDP_ICSV.html" class="type">ICsv</a> to parse it), modified depending on user-made selection:</p>
+<ul>
+  <li>If the control is without check boxes:
+    <ul>
+      <li>If the control is read-only: CSV cell 0 0 is the selected item index (-1 if none selected).</li>
+      <li>Else (if editable): CSV cell 0 0 is the selected item index followed by control text, like &quot;0 First item&quot; or &quot;-1 any text&quot;.</li>
+    </ul>
+  </li>
+  <li>  Else (if with check boxes):
+    <ul>
+      <li>  If used control flag 2: CSV cell 0 0 is the 32-bit number (read more above).</li>
+      <li>  Else: item flags (column 2 of list items) of checked items have flag 1; item flags of changed-check-state items have flag 0x80.</li>
+    </ul>
+  </li>
+</ul>
+<p>&nbsp;</p>
+<p>If you want to get control data in dialog procedure, use function <span class="UDF">DT_GetControl</span>. Function <a href="../str/IDP_S_WINDOW.html">str.getwintext</a> gets control text.</p>
+<p>&nbsp;</p>
+<h3>Styles, messages and notifications</h3>
+<p>The control is based on standard ComboBox control (except the drop-down list part) and supports the most important its features.</p>
+<p>&nbsp;</p>
+<p>  Supported ComboBox styles: CBS_DROPDOWN (editable), CBS_DROPDOWNLIST (read-only), CBS_SORT, CBS_AUTOHSCROLL, CBS_LOWERCASE, CBS_UPPERCASE. Cannot be CBS_SIMPLE or owner-draw.</p>
+<p>&nbsp;  </p>
+<p>Supported ComboBox messages: CB_GETDROPPEDSTATE, CB_ADDSTRING, CB_INSERTSTRING, CB_DELETESTRING, CB_RESETCONTENT, CB_GETCOUNT, CB_GETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA, CB_GETLBTEXT, CB_GETLBTEXTLEN, CB_SHOWDROPDOWN, CB_GETCOMBOBOXINFO, CB_GETCUEBANNER, CB_GETEDITSEL, CB_LIMITTEXT, CB_SETCUEBANNER, CB_SETEDITSEL.</p>
+<p>&nbsp;</p>
+<p>  The control supports QM CB_ functions (<span class="UDF">CB_SelectedItem</span> etc). The functions send the above messages.</p>
+<p>&nbsp;</p>
+<p>  Partially supported ComboBox messages: CB_GETITEMHEIGHT, CB_SETITEMHEIGHT - only if wParam is -1. Messages that modify the list fail and return -1 when the list is dropped down. CB_GETDROPPEDWIDTH and CB_SETDROPPEDWIDTH not supported but automatic width can be specified in CSV (column 6, flag 0x40).</p>
+<p>&nbsp;</p>
+<p>  Other messages: LB_SETSEL sets item check state. LB_GETSEL gets item check state.</p>
+<p>&nbsp;</p>
+<p>  Supported ComboBox notifications: CBN_CLOSEUP, CBN_DROPDOWN, CBN_EDITCHANGE, CBN_EDITUPDATE, CBN_KILLFOCUS, CBN_SELCHANGE, CBN_SELENDCANCEL, CBN_SELENDOK, CBN_SETFOCUS.</p>
+<p>&nbsp;</p>
+<p>  The above messages, notifications and styles are documented in the MSDN Library.</p>
+<p>&nbsp;</p>
+<p><a onClick="doSection(otherNotif)" class="expand">Other notifications</a></p>
+<div id="otherNotif" class="expand"><p>The control also sends other notifications using WM_NOTIFY message, where lParam is address of a <span class="type">NMQMCB</span> variable. Its first member hdr is of type <span class="type">NMHDR</span> (documented in MSDN). Values of other members depend on notification code (hdr.code).</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>NMQMCB</span> <span class=t>NMHDR</span><span class=p>'</span>hdr <span class=t>IQmDropdown</span><span class=p>'</span>dd itemIndex itemState</pre>
+<p>&nbsp;</p>
+<p>Notification codes:</p>
+<ul>
+  <li>  1 - the user checked or unchecked a check box in the drop-down list. The notification is not sent when message LB_SETSEL or function dd.<span class="UDF">Check</span> does it. Members of the  <span class="type">NMQMCB</span> variable:
+
+<div class="parts">
+<p><strong>itemIndex</strong> - item index.</p>
+<p><strong>itemState</strong> - 1 if the item now is checked, 0 if not.</p>
+<p><strong>dd</strong> - <a href="IDP_QMCOMBOBOX.html#IQmDropdown" class="type">IQmDropdown</a> variable. You can call functions dd.<span class="UDF">Check</span>, dd.<span class="UDF">IsChecked</span> etc.</p>
+</div>
+</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+
+<h3>Other features</h3>
+<p>  Incremental search. When the user changes editable control text while the drop-down list is shown, the control highlights the first item whose text begins with or contains the new text. Use Enter or Tab to select it. Only if without check boxes.</p>
+<p>&nbsp;</p>
+<p>  Adds large number of items much faster than ComboBox.</p>
+<p>&nbsp;</p>
+<p>Shows &quot;...&quot; and infotip for clipped items.</p>
+<p>&nbsp;</p>
+<p>  Keyboard and mouse shortcuts:</p>
+<ul>
+  <li>  Down/Up/PgDn/PgUp - show drop-down list.</li>
+  <li>Middle-click - clear editable control text.</li>
+</ul>
+<p>&nbsp;  </p>
+<p>Keyboard shortcuts in drop-down list:</p>
+<ul>
+  <li>  Down/Up/PgDn/PgUp - highlight items.</li>
+  <li>  Spacebar - toggle check state of the highlighted item.</li>
+  <li>  Enter or Tab - select the highlighted selectable item and close the drop-down-list. Apply new check box states.</li>
+  <li>  Esc or Alt - close the list without selecting. Apply new check box states if there are no selectable items.</li>
+</ul>
+<p>&nbsp;</p>
+<h2><a name="QM_Edit"></a>QM_Edit control</h2>
+<p>Controls of window class QM_Edit are Edit controls that can have one or two buttons next to the edit field.</p>
+<p>&nbsp;</p>
+<p>By default the control has an arrow button, similar as in ComboBox controls. When pressed, the control sends <span class="def">CBN_DROPDOWN</span> command message to the parent dialog. The dialog procedure then can show a drop-down list (see example) or do whatever, and then set control text if need. The control itself does not show a drop-down list etc.</p>
+<p>&nbsp;</p>
+<p>The control also can have another button (<em>user button</em>). When clicked, the control sends <span class="def">BN_CLICKED</span> command message to the parent dialog. The dialog procedure then can do whatever, for example show a &quot;Open file&quot; dialog (see example<span class="UDF"></span>) and set control text.</p>
+<p>&nbsp;</p>
+<p>To add a QM_Edit control to a dialog, use the <a href="IDH_DIALOG_EDITOR.html">Dialog Editor</a>. To set/get control text before/after <a href="IDH_DIALOG_EDITOR.html" class="UDF">ShowDialog</a>, use dialog variables created by the Dialog Editor. Dialog variables contain control text. To set/get control text in dialog procedure, you can use <a href="../str/IDP_S_WINDOW.html">str.setwintext/str.getwintext</a> or <span class="UDF">DT_SetControl</span>/<span class="UDF">DT_GetControl</span>.</p>
+<p>&nbsp;</p>
+<p>The control supports all Edit control styles, messages and notifications.</p>
+<p>&nbsp;</p>
+<p>Messages specific to QM_Edit control: </p>
+<ul>
+  <li><span class="def">QMEM_SETBUTTON</span> - adds/removes buttons and sets user button image (16x16 pixels).
+    <ul>
+      <li><strong>wParam</strong> - <a href="../Other/IDP_FLAGS.html">flags</a>:
+  <ul>
+    <li>Flags 0, 1 and 2 are used to set user button image:
+      <ul>
+        <li>0 - <strong>lParam</strong> is icon file path or <a href="../Other/IDP_RESOURCES.html">resource</a> name. Can be 0.</li>
+        <li>1 - <strong>lParam</strong> is icon handle. The control makes its own copy of the icon.</li>
+        <li>2 - <strong>lParam</strong> is imagelist handle. High-order word of <strong>flags</strong> is image index. Use <span class=cod><span class=fu>MakeInt</span><span class=p>(</span>flags index<span class=p>)</span></span>. The control makes its own copy of the image. To create imagelists you can use QM Imagelist Editor, look in code toolbar. To load or create from icons, use class <span class="type">__ImageList</span>. </li>
+      </ul>
+    </li>
+    <li>0x100 - don't remove arrow button. The control will have both buttons.</li>
+    <li>0x200 - remove user button.</li>
+    </ul>
+      </li>
+    <li><strong>lParam</strong> - depends on <strong>wParam</strong>. If <strong>lParam</strong> is 0, the control will draw an &quot;open folder&quot; image.</li>
+    </ul>
+  </li>
+</ul>
+<p>&nbsp;</p>
+<p> <span class="def">WM_COMMAND</span> notifications specific to QM_Edit control:</p>
+<ul>
+  <li><span class="def">CBN_DROPDOWN</span> - the user pressed the arrow button or Down/Up/PgDn/PgUp key. The dialog procedure can show a drop-down list or whatever, as described above. See example.</li>
+  <li><span class="def">BN_CLICKED</span> - the user clicked the user button or pressed Enter (if available in that window) or Alt+Enter.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Keyboard and mouse shortcuts:</p>
+<ul>
+  <li> Down/Up/PgDn/PgUp - generate <span class="def">CBN_DROPDOWN</span> notification, like when the user presses the arrow button. Need Alt if the control is multiline.</li>
+  <li>Enter - generate <span class="def">BN_CLICKED</span> notification, like when the user clicks the user button. Need Alt if the control is multiline or if Enter closes the parent window.</li>
+  <li>Middle-click - clear text.</li>
+</ul>
+<p>&nbsp;</p>
+<p>You can replace existing Edit controls with QM_Edit controls:</p>
+<ul>
+  <li>Replace Edit with QM_Edit in dialog definition.</li>
+  <li>Add code to handle the notifications (<span class="def">CBN_DROPDOWN</span> or/and <span class="def">BN_CLICKED</span>). See example.</li>
+  <li>Optionally set button image etc (<span class="def">QMEM_SETBUTTON</span>) under <span class="def">WM_INITDIALOG</span>.</li>
+  <li>Don't need more changes in your code, because QM_Edit controls work like Edit controls, they just have buttons added.</li>
+</ul>
+<p>&nbsp;</p>
+<p>To create a multiline control, add styles <span class="def">ES_MULTILINE</span>, <span class="def">ES_WANTRETURN</span>, <span class="def">ES_AUTOVSCROLL</span>, <span class="def">WS_VSCROLL</span> and <span class="def">WS_EX_LEFTSCROLLBAR</span>. Remove <span class="def">ES_AUTOHSCROLL</span> if need to wrap lines.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=s> 3 QM_Edit 0x56030080 0x200 8 8 96 12 &quot;&quot;</span>
+<span class=s> 4 QM_Edit 0x56030080 0x200 8 28 208 12 &quot;&quot;</span>
+<span class=s> 1 Button 0x54030001 0x0 168 116 48 14 &quot;OK&quot;</span>
+<span class=s> END DIALOG</span>
+<span class=s> DIALOG EDITOR: &quot;&quot; 0x2040300 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;3 4&quot;</span>
+<span class=t>str</span> qme3 qme4
+qme3<span class=o>=</span><span class=s>&quot;zero&quot;</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=o>&amp;</span><span class=fu>sub.DlgProc</span> <span class=o>&amp;</span>controls _hwndqm<span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>out</span> qme3
+<span class=fq>out</span> qme4
+
+
+<span class=dir>#sub</span> DlgProc
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=fd>SendDlgItemMessage</span> hDlg <span class=n>4</span> <span class=d>QMEM_SETBUTTON</span> <span class=n>0</span> <span class=n>0</span> <span class=c2>;;add user button &quot;open folder&quot; and remove arrow</span>
+<span class=i>&#9;</span><span class=fd>SendDlgItemMessage</span> hDlg <span class=n>4</span> <span class=d>EM_SETCUEBANNER</span> <span class=n>0</span> <span class=o>@</span><span class=s>&quot; File&quot;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=fq>ret</span>
+<span class=c> messages2</span>
+<span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>CBN_DROPDOWN</span><span class=o>&lt;&lt;</span><span class=n>16</span><span class=o>|</span><span class=n>3</span> <span class=c2>;;pressed the arrow button</span>
+<span class=i>&#9;</span><span class=c> show drop-down list, like ComboBox</span>
+<span class=i>&#9;</span><span class=t>lpstr</span> o<span class=o>=</span><span class=s>&quot;:5 $qm$\il_qm.bmp&quot;</span>
+<span class=i>&#9;</span><span class=t>str</span> s<span class=o>=F</span><span class=s>&quot;0,{</span>o<span class=s>}[]zero,1[]one,2[]two,28&quot;</span>
+<span class=i>&#9;</span><span class=t>ICsv</span> x.<span class=fq>_create</span><span class=p>;</span> x.<span class=fd>FromString</span><span class=p>(</span>s<span class=p>)</span>
+<span class=i>&#9;</span><span class=t>int</span> i R<span class=o>=</span><span class=fd>ShowDropdownList</span><span class=p>(</span>x i <span class=n>0</span> <span class=n>1</span> lParam<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>R<span class=o>&amp;</span><span class="d">QMDDRET_SELOK</span><span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>ret</span>
+<span class=i>&#9;</span>s<span class=o>=</span>x.<span class=fd>Cell</span><span class=p>(</span>i<span class=o>+</span><span class=n>1</span> <span class=n>0</span><span class=p>);</span> s.<span class=fq>setwintext</span><span class=p>(</span>lParam<span class=p>)</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>4</span> <span class=c2>;;clicked the user button (BN_CLICKED)</span>
+<span class=i>&#9;</span><span class=t>str</span> sFile
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=fu>OpenSaveDialog</span><span class=p>(</span><span class=n>0</span> sFile<span class=p>))</span> sFile.<span class=fq>setwintext</span><span class=p>(</span>lParam<span class=p>)</span>
+<span class=fq>ret</span> <span class=n>1</span>
+</pre>
+<p>&nbsp;</p>
+<h2><a name="IQmDropdown"></a>Interface <span class="type">IQmDropdown</span></h2>
+<p>Can be used in callbacks, notifications, etc, while the drop-down list is shown.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>interface</span><span class=o>#</span> <span class=t>IQmDropdown</span> <span class=p>:</span><span class=t>IUnknown</span>
+<span class=i>&#9;</span>Check<span class=p>(</span>i flags<span class=p>)</span>
+<span class=i>&#9;</span><span class=o>#</span>IsChecked<span class=p>(</span>i<span class=p>)</span>
+<span class=i>&#9;</span><span class=o>#</span>Select<span class=p>(</span>i [flags]<span class=p>)</span>
+<span class=i>&#9;</span>Close<span class=p>(</span>[flags]<span class=p>)</span>
+<span class=i>&#9;</span>Update<span class=p>(</span>iFirst [iLast] [flags]<span class=p>)</span>
+<span class=i>&#9;</span>[g]<span class=o>#</span>Hwnd<span class=p>()</span>
+<span class=i>&#9;</span>[g]<span class=o>#</span>HwndLV<span class=p>()</span>
+<span class=i>&#9;</span>[g]<span class=o>#</span>SelectedItem<span class=p>()</span>
+<span class=i>&#9;</span>[g]<span class=t>ARRAY</span><span class=p>(</span><span class=t>byte</span><span class=p>)</span>ItemStates<span class=p>()</span>
+<span class=i>&#9;</span>[g]<span class=t>ICsv</span><span class=p>'</span>Csv<span class=p>()</span>
+<span class=i>&#9;</span><span class=s>{A461B246-3C33-4398-915B-0B834A60A670}</span>
+</pre>
+<p>&nbsp;</p>
+<hr>
+<p><span class="cod">Check<span class=p>(</span>i flags<span class=p>)</span></span></p>
+<p>&nbsp;</p>
+<p>Changes checkbox state of item <strong>i</strong>.</p>
+<p>Returns 1. Returns 0 if <strong>i</strong> is invalid or the item is not a check box.</p>
+<p><strong>flags</strong>: 0 uncheck, 1 check, 2 toggle, 0x100 don't call <strong>cbFunc</strong>.</p>
+<hr>
+<p><span class="cod"><span class=o>#</span>IsChecked<span class=p>(</span>i<span class=p>)</span></span></p>
+<p>&nbsp;</p>
+<p>Returns 1 if item <strong>i</strong> is checked, 0 if not.</p>
+<hr>
+<p><span class="cod"><span class=o>#</span>Select<span class=p>(</span>i [flags]<span class=p>)</span></span></p>
+<p>&nbsp;</p>
+<p>Selects/highlights item <strong>i</strong>.</p>
+<p>Returns new selected item index.</p>
+<p><strong>flags</strong>: 1 don't ensure visible, 2 skip disabled down, 4 skip disabled up.</p>
+<p>If <strong>i</strong> is invalid (eg -1), removes selection and returns -1. Also if the item is disabled, if not used flag 2 or 4.</p>
+<p>Does not close the window. Call <span class="UDF">Close</span> for it. </p>
+<hr>
+<p><span class="cod">Close<span class=p>(</span>[flags]<span class=p>)</span></span></p>
+<p>&nbsp;</p>
+<p>Closes the DDL window.</p>
+<p><strong>flags</strong>: 1 OK (close like when the user clicks a selectable item or presses Enter or Tab).</p>
+<hr>
+<p><span class="cod">Update<span class=p>(</span>iFirst [iLast] [flags]<span class=p>)</span></span></p>
+<p>&nbsp;</p>
+<p>Redraws one or more list items.</p>
+<p>Call this function to apply changes to item properties in <strong>csv</strong> that you get with <span class="UDF">Csv</span>.</p>
+<p><strong>iFirst</strong> - 0-based index of first item to update.</p>
+<p><strong>iLast</strong> - 0-based index of last item to update. If omitted or &lt;= <strong>iFirst</strong>, updates only <strong>iFirst</strong>.</p>
+<p><strong>flags</strong>: 1 item flags (third column) changed in <strong>csv</strong>. Don't need this flag if changed other columns (colors, text etc).</p>
+<hr>
+<p><span class="cod">[g]<span class=o>#</span>Hwnd<span class=p>()</span></span></p>
+<p>&nbsp;</p>
+<p>Gets drop-down window handle. It is a top-level window.</p>
+<hr>
+<p><span class="cod">[g]<span class=o>#</span>HwndLV<span class=p>()</span></span></p>
+<p>&nbsp;</p>
+<p>Gets listview control handle. It is a child window.</p>
+<hr>
+<p><span class="cod">[g]<span class=o>#</span>SelectedItem<span class=p>()</span></span></p>
+<p>&nbsp;</p>
+<p>Gets the currently highlighted item index or -1.</p>
+<hr>
+<p><span class="cod">[g]<span class=t>ARRAY</span><span class=p>(</span><span class=t>byte</span><span class=p>)</span>ItemStates<span class=p>()</span></span></p>
+<p>&nbsp;</p>
+<p>Gets array of item check states and other states/styles. Elements contain item flags from <strong>csv</strong> passed to <span class="dll">ShowDropdownList</span> (or from CSV string passed to QM_ComboBox control). These flags are updated: 1 checked, 0x80 check box state changed.</p>
+<hr>
+<p><span class="cod">[g]<span class=t>ICsv</span><span class=p>'</span>Csv<span class=p>()</span></span></p>
+<p>&nbsp;</p>
+<p>Gets the <strong>csv</strong> variable passed to <span class="dll">ShowDropdownList</span> (or an <span class="type">ICsv</span> variable created from CSV string passed to QM_ComboBox control). You can change item text, icon, tooltip, colors and indent: modify item cells in <strong>csv</strong> and call <span class="UDF">Update</span>. You can add more columns, but don't add/remove rows and don't modify the first row (control properties).</p>
+<h2><a name="exe"></a>How to use in exe</h2>
+<p>All these functions, iterfaces and controls can be used in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> too. All they live in a QM dll qmgrid.dll, which it is not available on computers where QM is not installed.</p>
+<p>&nbsp;</p>
+<p>You can add the dll to exe. Add this line somewhere near the beginning of exe code:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fu>ExeQmGridDll</span><span class=n></span>
+</pre>
+<p>&nbsp;</p>
+<p>When creating exe, it adds  qmgrid.dll to exe resources. At run time it extracts to the temporary folder and loads.</p>
+<p>&nbsp;</p>
+<p>If you don't want to add the dll to exe: take qmgrid.dll from QM folder; add to a zip file or setup program together with exe; on other computers extract them to the same folder. If you use the controls in dialogs or with <span class="UDF">CreateControl</span>, exe loads the dll when need, else you can load it with <span class="dll">LoadLibrary</span>.</p>
+<p>&nbsp;</p>
+<p>You can add imagelist and icon files to exe resources. In &quot;Make Exe&quot; dialog check &quot;Auto add files...&quot; and in macro add unique resource id numbers to file paths, like &quot;:5 $my qm$\imagelist.bmp&quot;. Alternatively you can use <a href="../Other/IDP_RESOURCES.html">macro resources</a>. In the Resources dialog you can import files and create a resource string like &quot;resource:&lt;macro5&gt;image:imagelist&quot; or &quot;image:imagelist&quot;. The file/resource name must be in a separate variable (see example), not directly in CSV string. If you don't want to add files to exe, make sure that they are available on computers where exe will run.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<pre class=cod><span class=t>str</span> imagelist<span class=o>=</span><span class=s>&quot;:5 $qm$\il_qm.bmp&quot;</span> <span class=c2>;;5 is a resource id, can be 1-0xffff</span>
+<span class=t>str</span> csv<span class=o>=</span>
+<span class=o>F</span>
+<span class=s> ,{</span>imagelist<span class=s>}</span>
+<span class=s> one,1</span>
+<span class=s> two,2</span>
+<span class=s> three</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
