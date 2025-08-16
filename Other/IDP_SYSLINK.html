@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Links in mes, inp and other dialogs</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Links in mes, inp and other dialogs</h1>
+<p>QM 2.4.1. These standard dialog functions support links in static text: <span class="blue">mes</span>, <span class="blue">inp</span>, <span class="blue">inpp</span>, <span class="UDF">InputBox</span>, <span class="UDF">ListDialog</span>, <span class="UDF">MsgBoxAsync</span>, <span class="UDF">ErrMsg</span>. You can use links to show more info/help, run a file, open a web page, show a menu in <span class="blue">inp</span>, add more choices in <span class="blue">mes</span>, etc.</p>
+<p>&nbsp;</p>
+<p>To enable links, the static text must begin with &quot;&lt;&gt;&quot;. To insert links, you can use tags of 2 types:</p>
+<ul>
+  <li>&lt;a id=&quot;retVal&quot;&gt;link text&lt;/a&gt;.</li>
+  <li>&lt;a href=&quot;callbackAddress&quot;&gt;link text&lt;/a&gt; or &lt;a href=&quot;callbackAddress params&quot;&gt;link text&lt;/a&gt;.</li>
+</ul>
+<p>&nbsp;</p>
+<p>The id links are like simple buttons. On click the dialog is closed and the dialog function returns <b>retVal</b> (a nonzero number). With <span class="blue">mes</span>,  values 1-15 are mapped to button characters that match Windows API standard button constants, eg IDOK to 'O', IDCANCEL to 'C'.</p>
+<p>&nbsp;</p>
+<p>The href links are used to execute any code. On click is called your callback function whose address is <b>callbackAddress</b>.</p>
+<p>&nbsp;</p>
+<p>The callback function must begin with <span class=cod><span class=fq>function</span><span class=o>#</span> hwnd <span class=o>$</span>params</span>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - dialog window handle.</p>
+<p><b>params</b> - tag text that follows <b>callbackAddress</b> and space.</p>
+</div>
+<p>&nbsp;</p>
+<p>If the callback function returns a nonzero value, the dialog is closed and the dialog function (<span class="blue">mes</span> etc) returns the value.</p>
+<p>&nbsp;</p>
+<p>By default, text in these dialogs is displayed in Static control. Text with links is displayed in SysLink control. SysLink is unavailable in exe without manifest.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> add more choices in message box</span>
+<span class=fq>sel</span> <span class=fq>mes</span><span class=p>(</span><span class=s>&quot;&lt;&gt;Question.[][]Other choices:[]&lt;a id=''1000''&gt;Maybe&lt;/a&gt;&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;YN?&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>'Y'</span> <span class=fq>out</span> <span class=s>&quot;Yes&quot;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>'N'</span> <span class=fq>out</span> <span class=s>&quot;No&quot;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>1000</span> <span class=fq>out</span> <span class=s>&quot;Maybe&quot;</span>
+
+<span class=c> add popup menu in input box</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>inp</span><span class=p>(</span>s <span class=o>F</span><span class=s>&quot;&lt;&gt;&lt;a href=''{</span><span class=o>&amp;</span><span class=fu>sub.inp_link</span><span class=s>}''&gt;select&lt;/a&gt;&quot;</span><span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>out</span> s
+
+<span class=dir>#sub</span> inp_link
+<span class=fq>function</span><span class=o>#</span> hwnd <span class=o>$</span>params
+<span class=t>str</span> items<span class=o>=</span>
+<span class=s> one</span>
+<span class=s> two</span>
+<span class=s> three</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fu>ShowMenu</span><span class=p>(</span>items hwnd <span class=n>0</span> <span class=n>2</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span>i<span class=p>)</span> <span class=fq>ret</span>
+<span class=t>str</span> si.<span class=fq>getl</span><span class=p>(</span>items i<span class=o>-</span><span class=n>1</span><span class=p>)</span>
+<span class=fd>EditReplaceSel</span> hwnd <span class=n>4</span> si <span class=n>3</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
