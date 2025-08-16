@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>deb</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Set debug mode</h1>
+
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax><b>deb</b><i>[</i>+<i>|</i>-<i>] [</i>speedMS<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p><b>speedMS</b> - time, in milliseconds, to wait before executing a statement. 
+Default: -1 (infinite).</p>
+</div>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>Default</td> <td>Start debug/step mode.</td>
+</tr>
+<tr>
+<td>+ (QM 2.3.1)</td> <td>Start debug mode and run until a breakpoint, then start step mode.</td>
+</tr>
+<tr>
+<td>-</td> <td>End step mode and run until a breakpoint. Does not start/end debug mode. Does not use <b>speedMS</b>.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Sets debug mode for current <a href="../Other/IDP_THREADS.html">thread</a> 
+  (running macro).</p>
+<p>&nbsp;</p>
+<p>Also you can run current macro in debug mode from the Debug menu. Then don't need <span class="blue">deb</span>.</p>
+<p>&nbsp;</p>
+<p> In debug mode you can execute statements in steps, see variables, etc. While 
+  a thread is running in debug mode, several buttons are added to the toolbar, 
+  and optionally Debug window is shown.</p>
+<p>&nbsp;</p>
+<p>In debug mode, the thread can run in step mode or not. In step mode, before 
+  each statement the thread waits <b>speedMS</b> milliseconds. If <b>speedMS</b> is 
+  omitted or -1, waits until you click one of Debug menu items or toolbar 
+  buttons.</p>
+<p>&nbsp;</p>
+<p><span class="blue">deb</span> sets step mode. <span class="blue">deb</span>- 
+  ends step mode. <span class="blue">deb</span>+ also ends step mode. To set step 
+  mode also can be used breakpoints and menu Debug -&gt; Options -&gt; Break on error. 
+  Read more below. To start/end step mode, also can be used Debug menu/toolbar items. Using all these features, you can execute some parts of macro in 
+  step mode, and other parts not in step mode.</p>
+<p>&nbsp;</p>
+<p>Statements in not expanded folders are executed not in step mode. This makes debugging easier because skips System functions and other low-level functions, unless you expand the folder where the function is (or use &quot;Step Into&quot; button).</p>
+<p>&nbsp;</p>
+<p>Menu/toolbar items:</p>
+<p>&nbsp;</p>
+<p><i>Step</i> - executes the statement that is marked with a yellow arrow, and 
+  stops at the next statement. Then marks the executed statement with a green 
+  marker. If the statement calls a user-defined function, opens the function. 
+  Skips functions that are not in expanded folders.</p>
+<p>&nbsp;</p>
+<p><i>Step Into</i> - the same as above, but does not skip functions that are 
+  not in expanded folders.</p>
+<p>&nbsp;</p>
+<p><i>Step Out</i> - continues not in step mode, but stops when the function returns. 
+  Usually stops at the next statement in the caller function.</p>
+<p>&nbsp; </p>
+<p><i>Run to Cursor</i> - runs the macro (or continues) not in step mode, but stops (starts step mode) at the statement 
+  that contains the text cursor (caret). Also stops at breakpoints.</p>
+<p>&nbsp;</p>
+<p><i>Run to Breakpoint</i> - runs the macro (or continues) not in step mode, until a breakpoint or until the end. The same as <span class=cod><span class=fq>deb</span><span class=o>+</span></span> or <span class=cod><span class=fq>deb</span><span class=o>-</span></span>.</p>
+<p>&nbsp;</p>
+<p><i>End</i> - end threads that are being debugged, and turn off the debug mode.</p>
+<p>&nbsp;</p>
+<p>If <b>speedMS</b> is &gt;= 0, before each statement the thread waits for minimum 
+  <b>speedMS</b> milliseconds.</p>
+<p>&nbsp;</p>
+<p>While the thread is waiting before executing a statement, it is not completely 
+  blocked. It allows to call callback functions, process dialog messages, COM 
+  events, etc. These callback functions then run not in step mode, even if they 
+  call <span class="blue">deb</span> or contain breakpoints.</p>
+<p>&nbsp;</p>
+<p>Also you can use breakpoints. To add or remove a breakpoint, 
+  middle click the selection bar or use the Debug menu. Breakpoints are marked with 
+  brown circle markers in the selection bar. A breakpoint is similar to <span class="blue">deb</span>. However breakpoints are activated only in debug mode, ie if the macro executed <span class="blue">deb</span> 
+  or <span class="blue">deb</span>+ before, or you started it from the Debug 
+  menu. Breakpoints disappear when you close the macro or exit QM.</p>
+<p>&nbsp;</p>
+<p> You should not put breakpoints on some flow-control statements (<span class="blue">err</span>, 
+  empty <span class="blue">case</span>, etc), because there they may behave not 
+  as you expect. Breakpoints in lines that are not executed at run time (comments, 
+  declarations, directives, etc) break at the next statement.</p>
+<p>&nbsp;</p>
+<p> In debug mode, the debug hotkeys (F5, etc) are temporarily registered as global 
+  hotkeys and work regardless whether QM is active. Hotkeys F5 (Step), Ctrl+F5 
+  (Run to Breakpoint) and Shift+F5 (Run to Cursor) are always available in QM window. For 
+  example, you can press F5 to run the current macro in debug step mode, or Ctrl+F5 
+  to run it in debug mode and stop at the first breakpoint.</p>
+<p>&nbsp;</p>
+<p>In menu Debug -&gt; Options you can set some options that are active in debug mode. If 'Break' checked, 
+  stops (starts step mode) on run-time errors. If 'Display' checked, displays 
+  <a href="IDP_ERR.html">handled</a> errors in QM output.</p>
+<p>&nbsp;</p>
+<p>If menu Debug -&gt; Options -&gt; Show Debug Window is checked, QM will show Debug 
+  window when starting debug mode. Read more below.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>You can place <span class="blue">deb</span> in several places in macro. It 
+  allows you to debug parts of macro in different speeds or turn on/off 
+  step mode.</p>
+<p>If you want to debug only certain message in dialog box procedure, don't forget 
+  to place <span class="blue">deb</span>- when leaving the code.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../QM_Help/IDH_DEBUG.html">other debug functions</a>.</p>
+<p>&nbsp;</p>
+<h3>The Debug window</h3>
+<h4>Function call stack</h4>
+<p>&nbsp;</p>
+<p> At the top is the current function. At the bottom is the <a href="../Other/IDP_THREADS.html">thread</a> 
+  entry function.</p>
+<p>&nbsp;</p>
+<p> You can click a function to see its variables. Double click to open.</p>
+<p>&nbsp;</p>
+<h4>Variables</h4>
+<p>&nbsp;</p>
+<p> Background colors:</p>
+<p> blue - <a href="../Language/IDP_CLASSES.html">member variables</a> (this);</p>
+<p> green - <a href="../Language/IDP_FUNCTION.html">parameters</a>;</p>
+<p> wheat - <a href="../Language/IDP_SCOPE.html">thread variables</a>;</p>
+<p> yellow - variables inherited from <a href="../Language/IDP_DIR_SUB.html">sub-function</a> parent or <a href="../QM_Help/IDH_FOLDERPROP.html">application folder</a> main function.</p>
+<p>&nbsp;</p>
+<p> Text colors:</p>
+<p> purple - changed in previous step;</p>
+<p> gray - hidden.</p>
+<p>&nbsp;</p>
+<p>Variables are shown only in step mode (and not if <b>speedMS</b> used).</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>deb</span> <span class=c2>;;set debug mode; stop before each statement</span>
+<span class=fq>deb</span> <span class=n>500</span> <span class=c2>;;set debug mode; wait before each statement for minimum 500 ms</span>
+<span class=fq>deb</span> <span class=n>0</span> <span class=c2>;;set debug mode; don't wait before statements but mark them while they are executed </span>
+<span class=fq>deb</span><span class=o>-</span> <span class=c2>;;continue; ignored if not in debug mode</span>
+<span class=fq>deb</span>+ <span class=c2>;;set debug mode and immediately continue</span></pre>
+</body>
+
+</html>
