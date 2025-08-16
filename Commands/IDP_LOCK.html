@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>lock</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> Prevent simultaneous execution of  code by multiple threads</h1>
+
+<h3>Syntax1 - lock</h3>
+
+<pre class=syntax><b>lock</b><i> [</i>name<i>] [</i>mutex<i>] [</i>timeoutMS<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax2 - unlock</h3>
+<pre class=syntax><b>lock</b>- <i>[</i>name<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>name</b><b></b> - name of this lock. Must be like a <a href="../Other/IDP_IDENTIFIERS.html">variable 
+name</a>, without quotes. Used to identify the same lock in multiple 
+functions (or macros, etc). Can be omitted or literal 0 if this lock is 
+used only in current function.</p>
+<p><b>mutex</b> - mutex name. String. Case sensitive. Can contain any characters 
+except \. Can have &quot;Global\&quot; or &quot;Local\&quot; prefix. Read more 
+in remarks.</p>
+<p><b>timeoutMS</b> - max time (milliseconds) to wait in case another thread is executing 
+locked code. Integer. On timeout throws error that can be handled by <a href="../Flow/IDP_ERR.html" class="blue">err</a>. 
+If omitted or -1, waits infinitely. To just check whether the code is locked, 
+use 0.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>unlock.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Added in QM 2.2.0.</p>
+<p>&nbsp;</p>
+<p>A <a href="../Other/IDP_THREADS.html">thread</a> is a running function or 
+  macro. Multiple threads can run simultaneously. It means that two or more threads 
+  can execute the same code block at the same time. Sometimes it is important 
+  to prevent this. For example, if one thread is writing to a file (e.g. using 
+  str.setfile), another thread would fail to open the file at that time. Or, if 
+  one thread is modifying a global variable, the value of the variable may become 
+  incorrect if another thread also modifies it at the same time. Use <span class="blue">lock</span> 
+  to avoid this.</p>
+<p>&nbsp;</p>
+<h4>Syntax1</h4>
+<p>Locks the following block of code (code from <span class="blue">lock</span> 
+  to <span class="blue">lock</span>- or to the end of the function). It means 
+  that the code cannot be executed by more than one thread at a time. If thread2 
+  wants to execute the code while thread1 is executing it, thread2 waits until 
+  thread1 finishes executing the code.</p>
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p>Unlocks the code block that was locked by <span class="blue">lock</span>. Unlocking 
+  in many cases is not necessary. QM automatically unlocks the code when the function 
+  exits.</p>
+<p>&nbsp;</p>
+<p>If <b>name</b> was used with <span class="blue">lock</span>, use the same name 
+  with <span class="blue">lock</span>-.</p>
+<p>&nbsp;</p>
+<p><span class="blue">lock</span>- unlocks the code only if <span class="blue">lock</span>- was actually executed. 
+  For example, if you <span class="blue">goto</span> somewhere without executing 
+  <span class="blue">lock</span>-, the code remains locked.</p>
+<p>&nbsp;</p>
+<p>------</p>
+<p>&nbsp;</p>
+<p>You can use the same named lock (the same <b>name</b>) in multiple functions. 
+  For example, while one thread is executing locked code in function1, other threads 
+  also will not be able to execute locked code in function2 if the code is locked 
+  with the same named lock.</p>
+<p>&nbsp;</p>
+<p>Don't use multiple <span class="blue">lock</span> without <span class="blue">lock</span>-. 
+  The lock count is incremented (by 1) by <span class="blue">lock</span> and decremented 
+  (by 1) by <span class="blue">lock</span>- and when the function exits. If the 
+  lock count is more than 1 when the function exits, all code locked by that lock 
+  object remains locked. To reset, you can execute <span class="blue">lock</span>- 
+  somewhere else, or restart QM.</p>
+<p>&nbsp;</p>
+<p>Be careful using <span class="blue">lock</span>. Two threads can lock each 
+  other, causing both to wait forever. Example: Thread1 is executing locked code 
+  and sends message to a window of thread2. Thread2 receives the message and tries 
+  to execute the same code (or other code locked by the same named lock). Result: 
+  Thread1 waits in <span class="dll">SendMessage</span> (because thread2 waits 
+  in <span class="blue">lock</span>), and thread2 waits in <span class="blue">lock</span> 
+  (because thread1 waits in <span class="dll">SendMessage</span>). To reset, restart 
+  QM.</p>
+<p>&nbsp;</p>
+<p>While waiting in <span class="blue">lock</span>, the thread does not process 
+  messages, even if <span class="blue">opt</span> waitmsg 1 used.</p>
+<p>&nbsp;</p>
+<p>If <b>mutex</b> is omitted or &quot;&quot;, the lock synchronizes only 
+  threads in current process (running program, ie QM or exe). With mutex 
+  it can synchronize threads in multiple processes. It can be useful, for example, 
+  if 'Run in separate process' is checked (see <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>). <span class="blue">lock</span> creates or opens the mutex. The mutex name must be an unique string, like &quot;QM_mutex_macroname_8469&quot;. 
+  Error if a kernel object of other type with the same name exists in the system. 
+  A mutex with &quot;Global\&quot; prefix can be used by processes in multiple 
+  user sessions. 
+  With mutex <span class="blue">lock</span> is about 8 times slower. You can read more about mutexes and other kernel synchronization objects in <a href="http://www.google.com/search?q=site%3Amicrosoft.com synchronization objects" target="_blank">MSDN library</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>lock</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&#34;test&#34;</span>
+s.setfile<span class=p>(</span><span class=s>&#34;$desktop$\test.txt&#34;</span><span class=p>)</span>
+<span class=fq>lock</span><span class=o>-</span>
+
+<span class=fq>lock</span> <span class=n>0</span> <span class=s>&#34;QM_mutex_test1&#34;</span>
+<span class=c> ...
+</span><span class=fq>lock</span><span class=o>-</span>
+
+<span class=fq>lock</span> <span class=n>0</span> <span class=s>&#34;&#34;</span> <span class=n>1000</span><span class=p>;</span> <span class=fq>err</span> <span class=fq>end</span> <span class=s>&#34;the code is locked more than 1 s&#34;</span>
+<span class=c> ...
+</span><span class=fq>lock</span><span class=o>-</span>
+
+<span class=fq>lock</span> shared_lock_object
+<span class=c> ...
+</span><span class=fq>lock</span><span class=o>-</span> shared_lock_object</pre>
+</body>
+
+</html>
