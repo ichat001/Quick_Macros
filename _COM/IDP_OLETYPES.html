@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Variable types defined by QM</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>OLE Automation variable types and other types defined by QM</h1>
+
+<p><i>See also:</i> <a href="../Language/IDH_VARIABLES.html">intrinsic 
+types</a></p>
+<p>&nbsp;</p>
+<p>QM   supports 7 
+  OLE-Automation types: FLOAT, <A href="IDP_OLE_CDV.html">CURRENCY, 
+  DECIMAL, VARIANT</a>, <A href="IDP_OLE_BSTR.html">BSTR</a>, <A href="IDP_OLE_DATE.html">DATE</a> 
+  and <A href="IDP_OLE_ARRAY.html">ARRAY</a>. The first 6 types are mostly used with COM functions. Actually they are user-defined 
+  types but in most cases are interpreted  like intrinsic 
+  types. For example, QM automatically <A href="../Tables/IDP_VARTABLE.html">converts</a> 
+  between intrinsic types and OLE-Automation types when necessary. However, only few QM intrinsic 
+  functions support these types. Other functions convert them to intrinsic types. 
+  In expressions with operators, OLE-Automation types are converted to double. For better 
+  precision, use <A href="IDP_OLE_CDV.html">member functions</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>The table shows  properties of OLE-Automation types and how they are related to 
+  and C++ and C# variable types.</p>
+
+<table class="tnormal">
+
+<tr>
+<td><b>
+Type</b></td>
+<td><b>
+FLOAT</b></td>
+<td><b>
+CURRENCY</b></td>
+<td><b>
+DECIMAL</b></td>
+<td><b>
+VARIANT</b></td>
+<td><b>
+BSTR</b></td>
+<td><b>
+DATE</b></td>
+<td><b>
+ARRAY</b></td></tr>
+
+<tr>
+<td>
+<i>Numeric</i></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>*</td>
+<td>&nbsp;</td>
+<td>Yes</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>String</i></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>*</td>
+<td>Yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+    <td> <i>Can be x.x</i></td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>Yes</td>
+<td>*</td>
+<td>&nbsp;</td>
+    <td>Yes</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>Signed</i></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>*</td>
+<td>&nbsp;</td>
+<td>Yes</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>Size (bytes)</i></td>
+<td>4</td>
+<td>8</td>
+<td>16<br> (2 unused)</td>
+<td>16**</td>
+<td>4**</td>
+<td>8</td>
+<td>4**</td></tr>
+
+<tr>
+<td>
+<i>Precision</i></td>
+<td>&lt; double</td>
+<td>~ double</td>
+<td>&gt; double</td>
+<td>*</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+<tr>
+  <td><i>C++</i></td>
+  <td>float</td>
+  <td>CY</td>
+  <td>DECIMAL</td>
+  <td>VARIANT</td>
+  <td>BSTR</td>
+  <td>DATE,<br>
+    double</td>
+  <td>SAFEARRAY*</td>
+</tr>
+
+<tr>
+<td>
+<i>C#</i></td>
+<td>float</td>
+<td>&nbsp;</td>
+<td>decimal</td>
+<td>object</td>
+<td>string</td>
+<td>&nbsp;</td>
+<td>arrays</td></tr>
+</table>
+
+<p>* A variable of VARIANT type can contain value of various types.</p>
+
+<p>** A variable of BSTR type is pointer (4 bytes) to length-prefixed Unicode 
+  UTF-16 (double-byte) string, so whole size is 4 + 4 + (num. characters * 2) 
+  + 2 bytes. A variable of type VARIANT also can contain BSTR or pointer to data 
+  of other type. A variable of type ARRAY is pointer (4 bytes) to array descriptor, 
+  which has pointer to array data. Size of array descriptor depends on array type 
+  and number of dimensions.</p>
+
+<p>&nbsp;</p>
+
+<p>QM also defines several other types and interfaces: <A href="../Functions/IDP_QMITEM.html">QMITEM</a>, 
+  <A href="../QM_Help/IDH_TFF.html">FILTER</a>, <A href="../Flow/IDP_ERR.html">QMERROR</a>, 
+  <a href="../Functions/IDP_XMYM.html">POINT</a>, <a href="../Functions/IDP_SCAN.html">RECT</a>, 
+  <A href="IDP_OLE_DATE.html">SYSTEMTIME, FILETIME</a>, <A href="../RegExp/IDP_FINDRXSTRUCT.html">FINDRX, CHARRANGE</a>, <A href="../RegExp/IDP_REPLACERXSTRUCT.html">REPLACERX, REPLACERXCB</a>, 
+  <A href="../RegExp/IDP_CALLOUT.html">CALLOUT</a>, <A href="../Functions/IDP_FINDT.html">FINDWORDN</a>, 
+  <a href="../Functions/IDP_MES.html">MES</a>, <a href="../QM_Help/IDH_TRIG_EXT.html">UDTRIGGER</a>, 
+  <a href="../Commands/IDP_KEY.html">KEYEVENT</a>, <a href="../Functions/IDP_UUIDOF.html">GUID</a>, <A href="IDP_INTERFACE.html">IUnknown, IDispatch</a> <a href="../Functions/IDP_ACCESSIBLE.html">IAccessible</a> and several other.</p>
+
+<p>&nbsp;</p>
+</body>
+
+</html>
