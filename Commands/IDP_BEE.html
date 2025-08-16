@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>bee</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Sound</h1>
+
+<h3>Syntax1 - play one of standard sounds</h3>
+
+<pre class=syntax><b>bee</b> <i>[</i>sound<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - play wave file</h3>
+
+<pre class=syntax><b>bee</b><i>[</i>+<i>] </i>wavefile</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3 - PC speaker</h3>
+
+<pre class=syntax><b>bee</b><i> </i>frequency duration</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>sound</b> - one of standard Windows sounds that are specified in Control Panel.</p>
+<table class="tflags">
+  <tr>
+    <td> 0 (default)</td>
+    <td>Default Beep.</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Critical Stop (error).</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Question. In latest Windows versions this sound is disabled by default.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Exclamation (warning).</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Asterisk (information).</td>
+  </tr>
+  <tr>
+    <td>-1</td>
+    <td><p>A simple beep. If the sound card is not available, the sound is generated   using the speaker.</p></td>
+  </tr>
+</table>
+<p> <b>wavefile</b> - sound file <A href="../Other/IDP_SEARCHPATHS.html">path.</a></p>
+
+<p> <b>frequency</b> -  frequency,  37 - 32767 Hz.</p>
+
+<p> <b>duration</b> -  duration, ms.</p>
+</div>
+
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags">
+  <tr>
+    <td> Default</td>
+    <td>Play asynchronously (continue macro immediately).</td>
+  </tr>
+<tr>
+<td>+</td>
+<td>Play synchronously (wait until sound stops).</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <i>Syntax2: </i>Supported are only .wav files. If <b>wavefile</b> 
+  not found, plays default sound. If <b>wavefile</b> is &quot;&quot;, stops currently 
+  playing sound.</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources (QM 2.3.4).</p>
+<p>&nbsp;</p>
+<p>Note: By default <span class="blue">bee</span> does not wait until finished playing. In exe the sound stops as soon as exe process ends.</p>
+<p>&nbsp;</p>
+<p><i>Syntax3:</i> On Windows 7 uses soundcard instead. On Vista does not work. On older Windows, if there is no PC speaker, uses soundcard or does not work.</p>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <span class="UDF">Play</span> (play audio file of any format).</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>bee</span> <span class=c2>;;default sound</span>
+<span class=fq>bee</span> <span class=n>1</span> <span class=c2>;;play one of default sounds (0 to 4)</span>
+<span class=fq>bee</span> <span class=s>&#34;c:\m\moo.wav&#34;</span> <span class=c2>;;play file</span>
+<span class=fq>bee</span> <span class=s>&#34;$windows$\Media\chimes.wav&#34;</span> <span class=c2>;;play file in Windows media folder</span>
+<span class=fq>bee</span> <span class=s>&#34;&#34;</span> <span class=c2>;;stop sounds</span></pre>
+
+</body>
+
+</html>
