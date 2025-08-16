@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>numlines</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get number of lines in string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>numlines</b>(s)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - string.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns number of lines in <b>s</b>. Does not include last empty line. Lines 
+  can be delimited by carriage-return/new-line characters (<tt>[]</tt>) 
+  or only new-line characters (<tt>[10]</tt>).</p>
+<p>&nbsp;</p>
+<p>See also: <a href="IDP_FINDL.html" class="blue">findl</a>, <a href="../str/IDP_S_GETL.html" class="blue">getl</a>, 
+  <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a>, <a href="../Other/IDP_LINEBREAK.html">line 
+  break characters</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>out</span> <span class=fq>numlines</span><span class=p>(</span><span class=s>&#34;one[]two&#34;</span><span class=p>)</span>
+<span class=fq>out</span> <span class=fq>numlines</span><span class=p>(</span><span class=s>&#34;one[]two[]&#34;</span><span class=p>)</span>
+<span class=fq>out</span> <span class=fq>numlines</span><span class=p>(</span><span class=s>&#34;&#34;</span><span class=p>)</span>
+<span class=c> Output:
+ 2
+ 2
+ 0
+</span></pre>
+
+</body>
+
+</html>
