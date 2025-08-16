@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>zip</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compress/extract files</h1>
+
+<h3>Syntax1 - compress</h3>
+
+<pre class=syntax><b>zip</b> <i></i>zipfile files <i>[</i>flags<i>]</i> <i>[</i>warnings<i>] [</i>nozipext<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Syntax2 - extract</h3>
+<pre class=syntax><b>zip</b>- zipfile folder <i>[</i>flags2<i>]</i> <i>[</i>warnings<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p><b>zipfile</b> - standard zip file.</p>
+<p><b>files</b> - file or folder to compress. Supports <a href="../Other/IDP_WILDCARD.html">wildcard 
+characters</a>. Can also be list of files/folders. In the list, lines beginning 
+with &gt; character are skipped.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr> 
+  <td>1</td>
+  <td>Minimal compression level (faster).</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Store full paths.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Don't store relative paths when adding folder.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>(QM 2.3.0) Add files but don't compress. Don't use together with flag 
+    1. </td>
+</tr>
+</table>
+<p><b>warnings</b> - str variable that receives list of errors (&quot;file not 
+found&quot;, etc). If used, files failed to add/extract are skipped. If not 
+used or is 0, on failure is generated error.</p>
+<p><b>nozipext</b> - (QM 2.3.0) comma-separated list of filename extensions. Files 
+of these types will be added but not compressed. Example: &quot;mp3,rar,jpg,chm&quot;.</p>
+</div>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>folder</b> - folder where to extract files.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags2</a></b> - combination of the 
+following values. Default: 0.</p>
+<table class="tflags">
+<tr> 
+  <td>1</td>
+  <td>Overwrite read-only files.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p><i>Syntax1:</i> Creates new zip file <b>zipfile</b> and adds <b>files</b> 
+  to it. If the specified zip file already exists, overwrites.</p>
+<p>&nbsp;</p>
+<p><i>Syntax2:</i> Extracts all files from zip file <b>zipfile</b> to the specified 
+  folder.</p>
+<p>&nbsp;</p>
+<p>Zip file format does not support Unicode filenames within zip files. When QM 
+  runs in ANSI mode, Unicode characters are converted to similar ANSI characters 
+  or ?, and therefore the zip file may be invalid. To partially support Unicode, 
+  when QM runs in Unicode mode, it adds/extracts UTF-8 file names. Then the zip 
+  file is always valid, although other programs will not decode UTF-8. Generally 
+  you should not use Unicode filenames with zip.</p>
+<p>&nbsp;</p>
+<p>Cannot create or extract zip files bigger than 2 GB.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+<pre class=cod><span class=t>str</span> zf<span class=o>=</span><span class=s>&#34;$desktop$\test.zip&#34;</span>
+<span class=t>str</span> sf.getmacro<span class=p>(</span><span class=s>&#34;List of files to zip&#34;</span><span class=p>)</span>
+<span class=t>str</span> sw
+
+<span class=fq>out</span> <span class=s>&#34;zip&#34;</span>
+<span class=fq>zip</span> zf sf <span class=n>0</span> sw
+<span class=fq>if</span><span class=p>(</span>sw.len<span class=p>)</span> <span class=fq>out</span> sw
+
+<span class=fq>out</span> <span class=s>&#34;unzip&#34;</span>
+<span class=fq>zip</span><span class=o>-</span> zf <span class=s>&#34;$desktop$\unzip&#34;</span> <span class=n>0</span> sw
+<span class=fq>if</span><span class=p>(</span>sw.len<span class=p>)</span> <span class=fq>out</span> sw</pre>
+</body>
+
+</html>
