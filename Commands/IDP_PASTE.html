@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>paste</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Paste text</h1>
+
+<h3>Syntax1</h3>
+
+<pre class=syntax><b>paste</b><i>[</i>+<i>]</i> expression</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2</h3>
+
+<pre class=syntax><b>paste</b><i>[</i>+<i>]</i> formatstring <i>...</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3 - the paste keyword is optional</h3>
+<pre class=syntax><b></b>&quot;text&quot;
+&quot;formatstring&quot; <i>...</i></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>expression </b>- any expression (string, number, variable, etc).</p>
+
+<p> <b>formatstring </b>- string with <A href="../Tables/IDP_PRINTF.html">format 
+fields</a>, as with <A href="../str/IDP_S_FORMAT.html">str.format</a>. 
+Cannot be variable.</p>
+
+<p> <b>...</b> - variables or other values that will replace format fields in <b>formatstring</b>. Must be of <a href="../Language/IDH_VARIABLES.html">intrinsic  types</a>.</p>
+</div>
+
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags">
+  <tr>
+    <td> Default</td>
+    <td>Paste through clipboard.</td>
+  </tr>
+  <tr>
+    <td>+</td>
+    <td><p>QM 2.3.3. Hybrid paste. If text is short, instead sends keys. Read more below.</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>The <span class="blue">paste</span> keyword added in QM 2.3.3. It is the same as <span class="blue">outp</span>, which can be used for backward compatibility.</p>
+
+<p>&nbsp;</p>
+
+<p> <span class="blue">paste</span> stores text into the clipboard 
+  and sends keys Ctrl+V.</p>
+<p>&nbsp;</p>
+<p><span class="blue">paste</span>+ (hybrid paste) uses clipboard only if  text length is &gt;100 or contains new lines. Else instead sends keys, like <span class=cod><span class=fq>key</span> <span class=s>&quot;text&quot;</span></span>. Sends keys fast, as if with <a href="IDP_OPT.html" class="blue">opt</a> keysync 1, keychar 1, keymark 1, slowkeys 0.</p>
+<p>&nbsp;</p>
+<p>In Options -&gt; General you can set to use hybrid paste in menu, toolbar and autotext list items where <span class="blue">paste</span> is omitted (syntax3), like <span class=cod><span class=p>:</span><span class=s>&quot;text&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p> If <b>expression</b> or <b>formatstring</b> is simple text in double quotes, keyword <span class="blue">paste</span> can be omitted (syntax3).</p>
+<p>&nbsp;</p>
+<p>Restores previous clipboard content 
+  (text only), unless <a href="IDP_OPT.html">run-time option</a> <span class=cod><span class=fq>opt</span> clip <span class=n>1</span></span> is 
+  set.</p>
+<p>&nbsp;</p>
+<p>In console windows uses different method to paste, because Ctrl+V does not work.</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../str/IDP_S_CLIP.html">str.setsel, str.getsel, str.getclip, 
+  str.setclip </a>, <a href="IDP_KEY.html" class="blue">key</a>, <a href="../Language/IDP_FSTRING.html">variables in strings</a>, <a href="../Language/IDP_CONSTANT.html">escaping special 
+  characters</a>, <a href="../Other/IDP_VISTA.html">UAC</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>paste</span> <span class=s>&quot;text&quot;</span> <span class=c2>;;paste simple text</span>
+<span class=s>&quot;text&quot;</span> <span class=c2>;;the same</span>
+<span class=fq>paste</span> x <span class=c2>;;paste variable x</span>
+<span class=fq>paste</span> <span class=s>&quot;%i[]&quot;</span> x <span class=c2>;;paste int variable x and new line</span>
+<span class=fq>paste</span> <span class=o>F</span><span class=s>&quot;{</span>x<span class=s>}[]&quot;</span> <span class=c2>;;paste variable x and new line</span>
+</pre>
+
+</body>
+
+</html>
