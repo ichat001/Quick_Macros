@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Window/object enumeration callback function</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> Window/object enumeration callback function</h1>
+<p>A callback function is a user-defined function. You pass its address to a function that supports callback functions, and then that function calls your callback function, usually multiple times, for example for each found object of some kind, providing information about the object.</p>
+<p>&nbsp;</p>
+<p>In this topic described callback functions used with functions <span class="blue">win</span>, <span class="blue">child</span>, <span class="blue">acc</span> and <span class="type">Acc</span>.<span class="UDF">Find</span>. Some other functions also support callback functions in a similar way.</p>
+<p>&nbsp;</p>
+<p>Callback functions can be used when you need to: 1. Get array of windows/objects. 2. Compare more properties of windows/objects. 3. Display list or tree. 4. Make faster by skipping some big useless objects. 5. ...</p>
+<p>&nbsp;</p>
+<p>The callback function is called for each window/object whose all specified properties match. To call the callback function for all windows/objects, all other arguments should be empty (&quot;&quot; or 0). With <span class="blue">win</span>, to include hidden windows, 
+insert <span class=cod><span class=fq>opt</span> hidden <span class=n>1</span></span> before.</p>
+<h2><span class="blue">win</span>, <span class="blue">child</span></h2>
+<p>With functions <span class="blue">win</span> and <span class="blue">child</span>, callback function and its argument can be specified in <b>propCSV</b>, like <span class="cod"><span class=o>F</span><span class=s>&quot;callback={</span><span class=o>&amp;</span><span class=fu>Function</span><span class=s>} {</span>aValue<span class=s>}&quot;</span></span>. Before QM 2.3.4, used <b>x y</b> and flag 
+0x8000.</p>
+<p>&nbsp;</p>
+<p>When searching, <span class="blue">win</span> and <span class="blue">child</span> 
+  functions enumerate top-level or child windows. The callback 
+  function is called for each matching window.</p>
+<p>&nbsp;</p>
+<p>The callback function must begin with:</p>
+<p>&nbsp;</p>
+<p> <span class=cod><span class=fq>function#</span> hwnd cbParam</span></p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> -  handle of the found window.</p>
+<p> <b>cbParam</b> - callback function argument passed to <span class="blue">win</span> 
+  or <span class="blue">child</span>.</p>
+</div>
+<p>&nbsp;</p>
+<p> The callback function can return 1 to continue 
+  enumeration or 0 to stop (let <span class="blue">win</span> or <span class="blue">child</span> 
+  return <b>hwnd</b>). For example, it can test some additional window properties 
+  (rectangle, text inside, etc) and, if they match, return 0, else return 1.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<h2><span class="blue">acc</span>, <span class="type">Acc</span>.<span class="UDF">Find</span></h2>
+<p>Similarly, with functions <span class="blue">acc</span> and <span class="type">Acc</span>.<span class="UDF">Find</span>, the callback function 
+  must begin with:</p>
+<p>&nbsp;</p>
+<p><span class=cod><span class=fq>function#</span> <span class=t>Acc</span><span class=o>&#38;</span>a level cbParam</span></p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>a</b> - the found object.</p>
+<p> <b>level</b> - its level in the hierarchy. If <b>class</b> is specified, it is level beginning from that child window. When searching in web page (flag 0x2000), it is level from the root object of the web page (DOCUMENT or PANE).</p>
+<p> <b>cbParam</b> - <b>y</b> argument of <span class="blue">acc</span><span class="blue"></span>.</p>
+</div>
+<p>&nbsp;</p>
+<p> The callback function can return 0 to stop searching, 1 to continue and search 
+  possible children, or 2 to continue and skip children.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
