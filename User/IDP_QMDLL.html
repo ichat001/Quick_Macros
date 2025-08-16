@@ -1,0 +1,2126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Dll functions exported by QM</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Dll functions exported by QM</h1>
+
+
+<p>These dll functions and interfaces are provided by qm.exe.</p>
+<p>&nbsp;</p>
+<p> In some function descriptions is specified QM version when the function has been added. If not specified - added before QM 2.2.0.</p>
+<p>&nbsp;</p>
+<p>Almost all functions support <a href="../str/IDP_S_UNICODE.html">Unicode</a>. If a function does not support Unicode, it is specified in its description.</p>
+<p>&nbsp;</p>
+<p> All file functions support special folders.</p>
+<p>&nbsp;</p>
+<h2>Interfaces</h2>
+<p>&nbsp;</p>
+<p><a href="IDP_ISTRINGMAP.html" class="type">IStringMap</a>, <span class="dll">CreateStringMap</span></p>
+<p>&nbsp;</p>
+<p> String map object. A string map is an array of string pairs.</p>
+<p>&nbsp;</p>
+<hr>
+<p><a href="IDP_ICSV.html" class="type">ICsv</a>, <span class="dll">CreateCsv</span></p>
+<p>&nbsp;</p>
+<p> CSV object. CSV is a text file format used to save tables.</p>
+<p>&nbsp;</p>
+<hr>   
+<p> <a href="IDP_IXML.html" class="type">IXml, IXmlNode</a>, <span class="dll">CreateXml</span> </p>
+  <p>&nbsp;</p>
+<p> XML object. XML is a text file format used to save  settings and  data.</p>
+<p>&nbsp;</p>
+<hr>
+<p><a href="IDP_QMFILE.html">QM file management functions</a></p>
+<p>&nbsp;</p>
+<h2>Functions</h2>
+<div class="dll">
+<p>String:
+<a href="IDP_QMDLL.html#StrCompare">StrCompare</a>,
+<a href="IDP_QMDLL.html#StrCompareN">StrCompareN</a>, 
+<a href="IDP_QMDLL.html#MemCompare">MemCompare</a>,
+<a href="IDP_QMDLL.html#q_stricmp">q_stricmp, q_strnicmp, q_memicmp</a>,
+<a href="IDP_QMDLL.html#StrCompareEx">StrCompareEx</a>,
+<a href="IDP_QMDLL.html#q_sort">q_sort</a>,
+<a href="IDP_QMDLL.html#DetectStringEncoding">DetectStringEncoding</a>
+</p>
+<p>Character type:
+<a href="IDP_QMDLL.html#isdigit">isdigit</a>, 
+<a href="IDP_QMDLL.html#isalnum">isalnum</a>,
+<a href="IDP_QMDLL.html#iscsym">iscsym</a>
+</p>
+<p>Memory:
+<a href="IDP_QMDLL.html#q_malloc">q_malloc</a>,
+<a href="IDP_QMDLL.html#q_calloc">q_calloc</a>, 
+<a href="IDP_QMDLL.html#q_realloc">q_realloc</a>,
+<a href="IDP_QMDLL.html#q_free">q_free</a>, 
+<a href="IDP_QMDLL.html#q_msize">q_msize</a>,
+<a href="IDP_QMDLL.html#q_strdup">q_strdup</a>
+</p>
+<p>Keys:
+<a href="IDP_QMDLL.html#QmKeyCodeToVK">QmKeyCodeToVK</a>,
+<a href="IDP_QMDLL.html#QmKeyCodeFromVK">QmKeyCodeFromVK,</a>
+<a href="IDP_QMDLL.html#RealGetKeyState">RealGetKeyState</a>,
+<a href="IDP_QMDLL.html#GetMod">GetMod</a>,
+<a href="IDP_QMDLL.html#FormatKeyString">FormatKeyString</a>
+</p>
+<p>QM items:
+<a href="IDP_QMDLL.html#SilentImport">SilentImport</a>,
+<a href="IDP_QMDLL.html#SilentExport">SilentExport</a>,
+<a href="IDP_QMDLL.html#GetQmItemsInFolder">GetQmItemsInFolder</a>
+</p>
+<p>QM threads:
+<a href="IDP_QMDLL.html#IsThreadRunning">IsThreadRunning</a>,
+<a href="IDP_QMDLL.html#EnumQmThreads">EnumQmThreads</a>,
+<a href="IDP_QMDLL.html#GetQmThreadInfo">GetQmThreadInfo</a>
+</p>
+<p>QM menus and toolbars:
+<a href="IDP_QMDLL.html#GetToolbarOwner">GetToolbarOwner</a>, 
+<a href="IDP_QMDLL.html#GetLastSelectedMenuItem">GetLastSelectedMenuItem</a>
+</p>
+<p>Standard menu:
+<a href="IDP_QMDLL.html#MenuSetString">MenuSetString</a>,
+<a href="IDP_QMDLL.html#MenuGetString">MenuGetString</a>
+</p>
+<p>Window:
+<a href="IDP_QMDLL.html#SubclassWindow">SubclassWindow</a>,
+<a href="IDP_QMDLL.html#SetWinStyle">SetWinStyle</a>, 
+<a href="IDP_QMDLL.html#IsWindow64Bit">IsWindow64Bit</a>,
+<a href="IDP_QMDLL.html#AdjustWindowPos">AdjustWindowPos</a>,
+<a href="IDP_QMDLL.html#WinTest">WinTest</a>
+</p>
+<p>Multiple monitors:
+<a href="IDP_QMDLL.html#MonitorFromIndex">MonitorFromIndex</a>, 
+<a href="IDP_QMDLL.html#MonitorIndex">MonitorIndex</a>,
+</p>
+<p>DPI-scaled windows: <a href="../Other/IDP_DPI.html">DpiIsWindowScaled, DpiGetWindowRect, DpiClientToScreen, DpiScreenToClient, DpiMapWindowPoints, DpiScale, DpiGetDPI, DpiGetWindowDPI, DpiGetMonitorDPI</a>
+</p>
+<p>Rich edit:
+<a href="IDP_QMDLL.html#RichEditLoad">RichEditLoad</a>,
+<a href="IDP_QMDLL.html#RichEditSave">RichEditSave</a>
+</p>
+<p>Performance - system:
+<a href="IDP_QMDLL.html#GetCPU">GetCPU</a>,
+<a href="IDP_QMDLL.html#GetDiskUsage">GetDiskUsage</a>
+</p>
+<p>Performance - code:
+<a href="IDP_QMDLL.html#PerfFirst">PerfFirst</a>,
+<a href="IDP_QMDLL.html#PerfNext">PerfNext</a>,
+<a href="IDP_QMDLL.html#PerfOut">PerfOut</a>
+</p>
+<p>Session:
+<a href="IDP_QMDLL.html#IsLoggedOn">IsLoggedOn</a>,
+<a href="IDP_QMDLL.html#EnsureLoggedOn">EnsureLoggedOn</a>
+</p>
+<p>System/user info:
+<a href="IDP_QMDLL.html#IsUserAdmin">IsUserAdmin</a>,
+<a href="IDP_QMDLL.html#GetUserInfo">GetUserInfo</a> 
+</p>
+<p>Process info:
+<a href="IDP_QMDLL.html#GetProcessUacInfo">GetProcessUacInfo</a>, 
+<a href="IDP_QMDLL.html#GetProcessIntegrityLevel">GetProcessIntegrityLevel</a>, 
+<a href="IDP_QMDLL.html#EnumProcessesEx">EnumProcessesEx</a>,
+<a href="IDP_QMDLL.html#ProcessNameToId">ProcessNameToId</a>, 
+<a href="IDP_QMDLL.html#ProcessHandleToId">ProcessHandleToId</a>, 
+<a href="IDP_QMDLL.html#GetProcessExename">GetProcessExename</a>
+</p>
+<p>Run program:
+<a href="IDP_QMDLL.html#StartProcess">StartProcess</a>,
+<a href="IDP_QMDLL.html#AllowActivateWindows">AllowActivateWindows</a>
+</p>
+<p>File system:
+<a href="IDP_QMDLL.html#FileExists">FileExists</a>, 
+<a href="IDP_QMDLL.html#GetFileOrFolderSize">GetFileOrFolderSize</a>, 
+<a href="IDP_QMDLL.html#GetFullPath">GetFullPath</a>, 
+<a href="IDP_QMDLL.html#PidlToStr">PidlToStr</a>,
+<a href="IDP_QMDLL.html#PidlFromStr">PidlFromStr</a> 
+</p>
+<p>Shortcut:
+<a href="IDP_QMDLL.html#CreateShortcutEx">CreateShortcutEx</a>,
+<a href="IDP_QMDLL.html#GetShortcutInfoEx">GetShortcutInfoEx</a>
+</p>
+<p>Icon, image:
+<a href="IDP_QMDLL.html#GetFileIcon">GetFileIcon</a>,
+<a href="IDP_QMDLL.html#SaveBitmap">SaveBitmap</a>,
+<a href="IDP_QMDLL.html#LoadPictureFile">LoadPictureFile</a>
+</p>
+<p>Drag and drop:
+<a href="IDP_QMDLL.html#QmRegisterDropTarget">QmRegisterDropTarget</a>, 
+<a href="IDP_QMDLL.html#QmUnregisterDropTarget">QmUnregisterDropTarget</a>
+</p>
+<p>Exe:
+<a href="IDP_QMDLL.html#GetExeResHandle">GetExeResHandle</a>,
+<a href="IDP_QMDLL.html#ExeExtractFile">ExeExtractFile</a>, 
+<a href="IDP_QMDLL.html#ExeGetResourceData">ExeGetResourceData</a>
+</p>
+<p>Math:
+<a href="IDP_QMDLL.html#Crc32">Crc32</a>,
+<a href="IDP_QMDLL.html#Round">Round</a>, 
+<a href="IDP_QMDLL.html#RandomNumber">RandomNumber</a>,
+<a href="IDP_QMDLL.html#RandomInt">RandomInt</a>,
+<a href="IDP_QMDLL.html#ConvertSignedUnsigned">ConvertSignedUnsigned</a>
+</p>
+<p>Tools:
+<a href="IDP_QMDLL.html#GetQmCodeEditor">GetQmCodeEditor</a>,
+<a href="IDP_QMDLL.html#InsertStatement">InsertStatement</a>, 
+<a href="IDP_QMDLL.html#HtmlHelp">HtmlHelp</a>, 
+<a href="IDP_QMDLL.html#RecGetWindowName">RecGetWindowName</a>, 
+<a href="IDP_QMDLL.html#EditReplaceSel">EditReplaceSel</a>, 
+<a href="IDP_QMDLL.html#QmCodeToHtml">QmCodeToHtml</a>
+</p>
+<p>Debug:
+<a href="IDP_QMDLL.html#CompileAllItems">CompileAllItems</a>, 
+<a href="IDP_QMDLL.html#OutWinMsg">OutWinMsg</a>,
+<a href="IDP_QMDLL.html#Statement">Statement</a>,
+<a href="IDP_QMDLL.html#GetCallStack">GetCallStack</a>,
+<a href="IDP_QMDLL.html#q_printf">q_printf</a>
+</p>
+<p>Other:
+<a href="IDP_QMDLL.html#SetPrivilege">SetPrivilege</a>,
+<a href="IDP_QMDLL.html#RegisterComComponent">RegisterComComponent</a>,
+<a href="IDP_QMDLL.html#UnloadDll">UnloadDll</a>,
+<a href="IDP_QMDLL.html#RtOptions">RtOptions</a>,
+<a href="IDP_QMDLL.html#QmSetWindowClassFlags">QmSetWindowClassFlags</a>,
+<a href="IDP_QMDLL.html#IsValidCallback">IsValidCallback</a>,
+<a href="IDP_QMDLL.html#RedirectQmOutput">RedirectQmOutput,</a>
+<a href="IDP_QMDLL.html#InitWindowsDll">InitWindowsDll</a>
+</p>
+</div>
+<p>&nbsp;</p>
+<p>Note that the colored code lines below are not function calling examples. They are copied from declarations and used here to show function name, arguments etc.</p>
+<p>&nbsp;</p>
+<p>Where the return value is not documented, it means that either the return value is not used or the function returns 1 if succeeded, 0 if failed.</p>
+<p>&nbsp;</p>
+<p>Tip: For pointer parameters you can pass variables without operator &amp; (QM 2.4.1).</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="StrCompare"></a><span class=o>#</span><span class=fd>StrCompare</span> <span class=o>$</span>s1 <span class=o>$</span>s2 [insens]</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Compares two strings.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="StrCompareN"></a><span class=o>#</span><span class=fd>StrCompareN</span> <span class=o>$</span>s1 <span class=o>$</span>s2 n [insens]</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Compares maximum <b>n</b> characters (bytes) of two strings.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="MemCompare"></a><span class=o>#</span><span class=fd>MemCompare</span> <span class=o>$</span>s1 <span class=o>$</span>s2 n [insens]</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Compares  <b>n</b> bytes of two memory blocks. Unlike the StrX functions, can compare binary data. The StrX functions never compare memory after the <a href="../str/IDH_STRINGS.html">terminating null character</a>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>s1</b>, <b>s2</b> - strings. Can be str or lpstr variables or string constants. 
+With <span class="dll">MemCompare</span>, also can be pointers of any type.</p>
+<p><b>n</b> - number of bytes to compare.</p>
+<p><b>insens</b> - case insensitive if nonzero.</p>
+</div>
+<p>&nbsp;</p>
+<p>These functions return:</p>
+<table class="tflags">
+  <col>
+  <tr>   <td>0</td>
+    <td><b>s1</b> and <b>s2</b> are equal. <a href="../str/IDH_STRINGS.html">Null</a>     and &quot;&quot; are considered equal.</td>
+  </tr>
+  <tr>   <td>1</td>
+    <td><b>s1</b> is &gt; <b>s2</b>. It means that <b>s1</b> would be below <b>s2</b>     in a sorted list.</td>
+  </tr>
+  <tr>
+    <td>-1</td>
+    <td><b>s1</b> is &lt; <b>s2</b>. It means that <b>s1</b> would be above <b>s2</b>     in a sorted list.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p> These functions should be used instead of similar Windows API and msvcrt.dll functions, because:</p>
+<p>&nbsp;</p>
+<p> 1. Support <a href="../Other/IDP_UNICODE.html">Unicode</a> (when QM is running in Unicode mode).</p>
+<p>2. Case insensitive comparison is much faster, especially when the strings are ASCII.</p>
+<p>3. Don't afraid null strings. Null and &quot;&quot; are considered equal.</p>
+<p>4. The return value is strictly 0 or 1 or -1.</p>
+<p>&nbsp; </p>
+<p>To compare strings, you can also use <span class="blue">matchw</span>, <span class="blue">findrx</span>, <span class="blue">sel</span>, <span class="UDF">SelStr</span>, some str functions and operators. However they cannot be used in sorting.</p>
+<p>&nbsp;</p>
+<p>To compare strings also can be used <span class="dll">CompareString, lstrcmp</span>, other Windows API and msvcrt.dll functions, all documented in <a href="../Other/IDP_MSDN.html">MSDN Library</a>. Note that the case insensitive ANSI versions cannot compare UTF-8 text containing non ASCII characters. In QM, text normally is UTF-8 in Unicode mode.</p>
+<p>&nbsp;</p>
+<p><a name="q_stricmp"></a>The following 3 functions exist for backward compatibility. Use the above functions instead.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=o>#</span><span class=fd>q_stricmp</span> <span class=o>$</span>s1 <span class=o>$</span>s2</pre>
+<pre class=cod><span class=o>#</span><span class=fd>q_strnicmp</span> <span class=o>$</span>s1 <span class=o>$</span>s2 count</pre>
+<pre class=cod><span class=o>#</span><span class=fd>q_memicmp</span> <span class=o>$</span>s1 <span class=o>$</span>s2 count</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="StrCompareEx"></a><span class=o>#</span><span class=fd>StrCompareEx</span> <span class="o">$</span>s1 <span class="o">$</span>s2 compare <span class=c2>;;compare: 0 simple, 1 insens, 2 ling, 3 ling/insens, 4 number/ling/insens, 128 date</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Compares two strings. Same as <span class="dll">StrCompare</span> but has more options.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>compare</b>:</p>
+<table class="tflags">
+<tr>
+  <td>0</td>
+  <td>Simple, case sensitive. Uses <span class="dll">StrCompare</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>1</td>
+  <td>Simple, case insensitive. Uses <span class="dll">StrCompare</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Linguistic, case sensitive. Uses <span class="dll">StrCmp</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Linguistic, case insensitive. Uses <span class="dll">StrCmpI</span> to compare strings.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>Number, linguistic, case insensitive. Uses <span class="dll">StrCmpLogicalW</span> to compare strings. It compares numbers in strings as number values, not as strings.</td>
+</tr>
+<tr>
+  <td>128 (flag)</td>
+  <td>QM 2.3.3. Date. Converts strings to DATE and compares. If cannot convert both strings, compares like without this flag.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="q_sort"></a><span class=o>#</span><span class=fd>q_sort</span> <span class=o>!*</span>base num width func <span class=o>[!*</span>param]</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Same as <span class="dll">qsort</span>, but allows you to pass some value to the callback function. Read more about <span class="dll">qsort</span> in MSDN. The callback function must begin with:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span>[c]<span class=o>#</span> param <span class=t>TYPE</span><span class=o>&#38;</span>a <span class=t>TYPE</span><span class=o>&#38;</span>b</pre>
+<p>&nbsp;</p>
+<p>Here TYPE is  type of array elements.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../_COM/IDP_OLE_ARRAY.html">ARRAY.sort</a>, <a href="../Language/IDP_DIR_SUB.html">sub-functions</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="DetectStringEncoding"></a><span class=o>#</span><span class=fd>DetectStringEncoding</span> <span class=o>$</span>s <span class=c2>;;returns: 0 ASCII, 1 UTF8, 2 other</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Scans the string to determine its character encoding.</p>
+<p>&nbsp;</p>
+<p>Returns:</p>
+<table class="tflags"><col>
+<tr>
+<td>0</td> <td>all characters are ASCII  (character codes &lt;=127).</td>
+</tr>
+<tr>
+<td>1</td> <td>found <a href="../Other/IDP_UNICODE.html">UTF-8</a> characters or BOM, and the string can be considered    UTF-8.</td>
+</tr>
+<tr>
+<td>2</td> <td>found characters  in range 128-255 that are not valid UTF-8 characters.</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="isdigit"></a><span class=o>#</span><span class=fd>isdigit</span> char</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Returns a nonzero value if <b>char</b> is a digit '0' to '9'. This function replaces the msvcrt.dll function because the later also would return nonzero for superscript characters.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="isalnum"></a><span class=o>#</span><span class=fd>isalnum</span> char</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Returns a nonzero value if <b>char</b> is a digit '0' to '9' or a letter (including non ASCII). This function replaces the msvcrt.dll function because the later also would return nonzero for superscript characters.</p>
+<p>&nbsp;</p>
+<p>The return value consists of flags: C1_DIGIT (4), C1_ALPHA (0x100), C1_UPPER (1), C1_LOWER (2).</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="iscsym"></a><span class=o>#</span><span class=fd>iscsym</span> char <span class=c2>;;ASCII letter, digit or _ </span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p> Returns 1 if <b>char</b> is a valid character for a QM or C++ <a href="../Other/IDP_IDENTIFIERS.html">identifier</a>, or 0 if not. This function replaces the msvcrt.dll function because the later also would return nonzero for some non ASCII characters.</p>
+<p>&nbsp;</p>
+<p>For other character types, can be used similar msvcrt.dll functions, for example <span class="dll">isalpha</span>, <span class="dll">isprint</span>. Also can be used Windows API functions, for example <span class="dll">IsCharAlpha</span>, <span class="dll">GetStringType</span>. All documented in <a href="../Other/IDP_MSDN.html">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+<p> These functions don't support <a href="../Other/IDP_UNICODE.html">Unicode</a>. To get Unicode UTF-16 character type, use W versions of Windows API functions, for example <span class="dll">IsCharAlphaW</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="q_malloc"></a><span class=o>!*</span><span class=fd>q_malloc</span> size <span class=c2>;;QM malloc </span></pre>
+<p>&nbsp; </p>
+<p>Allocates <b>size</b> bytes of memory. Returns pointer to the allocated memory block.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="q_calloc"></a><span class=o>!*</span><span class=fd>q_calloc</span> elemcount elemsize <span class=c2>;;QM calloc </span></pre>
+<p>&nbsp;</p>
+<p>Allocates <b>elemcount</b>*<b>elemsize</b> bytes of memory and fills with 0. Returns pointer to the allocated memory block.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="q_realloc"></a><span class=o>!*</span><span class=fd>q_realloc</span> <span class=o>!*</span>mem size <span class=c2>;;QM realloc </span></pre>
+<p>&nbsp;</p>
+<p>Allocates more or less memory. <b>mem</b> can be memory allocated with one of these functions, or 0. Returns pointer to the allocated memory block. It can be different or the same as <b>mem</b>.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="q_free"></a><span class=fd>q_free</span> <span class=o>!*</span>mem <span class=c2>;;QM free </span></pre>
+<p>&nbsp;</p>
+<p>Frees memory allocated with one of these functions. <b>mem</b> can be 0.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="q_msize"></a><span class=o>#</span><span class=fd>q_msize</span> <span class=o>!*</span>mem <span class=c2>;;QM _msize </span></pre>
+<p>&nbsp;</p>
+<p>Gets size of memory allocated with one of these functions.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="q_strdup"></a><span class=o>$</span><span class=fd>q_strdup</span> <span class=o>$</span>s <span class=c2>;;QM _strdup </span></pre>
+<p>&nbsp;</p>
+<p>Allocates duplicate string. <b>s</b> can be any string, not necessary allocated with one of these functions. The function allocates memory using <span class="dll">q_malloc</span> and copies <b>s</b> there.</p>
+<p>&nbsp;</p>
+<p>These functions also can be used with memory that is allocated or will be freed by <a href="../str/IDP_S_DATA.html">str variables</a>. For this purpose don't use <span class="dll">malloc</span> and other functions from msvcrt.dll, because QM uses other memory allocation functions.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_MEMORY.html">other memory allocation functions</a></p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="QmKeyCodeToVK"></a><span class=o>#</span><span class=fd>QmKeyCodeToVK</span> <span class=o>$</span>qmkey <span class=t>int</span><span class=o>&amp;</span>vk <span class=c2>;;Returns number of characters eaten. </span></pre>
+<p>&nbsp;</p>
+    
+<p>Converts from <a href="../Tables/IDP_KEYCODES.html">QM key code</a> (string) to <a href="../Tables/IDP_VIRTUALKEYS.html">Windows virtual-key code</a> (integer). <b>qmkey</b> may contain more than one QM key code. The function stores virtual-key code of the first QM key code into variable <b>vk</b>, and returns number of parsed characters (eg 3 for F12). If <b>qmkey</b> is invalid, <b>vk</b> receives 0.</p>
+      <p>&nbsp;</p>
+      <p>QM 2.2.1: Instead can be used <a href="../Commands/IDP_KEY.html" class="blue">key</a>.       It converts multiple key codes, variables, etc. However then the QM key codes cannot be a variable string.</p>
+<p>&nbsp;</p>
+  <pre class=cod><a name="QmKeyCodeFromVK"></a><span class=fd>QmKeyCodeFromVK</span> virtualkey <span class=t>str</span><span class=o>&amp;</span>qmkey</pre>
+<p>&nbsp;</p>
+    <p>Converts virtual-key code to QM key code.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="RealGetKeyState"></a><span class=o>#</span><span class=fd>RealGetKeyState</span> vk <span class=c2>;;Returns 1 if the key is pressed. If vk contains flag 0x100 - if toggled. vk is virtual-key code. </span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.1.</p>
+<p> Checks if the specified key or mouse button is pressed or toggled. Can be used instead of <a href="../Flow/IDP_IFK.html" class="blue">ifk</a>. More reliable than <span class="dll">GetKeyState</span> and <span class="dll">GetAsyncKeyState</span>.</p>
+      <p>&nbsp;</p>
+      <p> Returns 1 if the key is pressed, 0 if not. If <b>vk</b> contains flag       0x100 (eg VK_CAPITAL|0x100), returns 1 if the key is toggled, 0 if not.</p>
+      <p>&nbsp;</p>
+<div class="parts">
+    <p><b>vk</b> - <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key code</a>     1 to 255. Add flag 0x100 to check toggled state.</p>
+</div>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="GetMod"></a><span class=o>#</span><span class=fd>GetMod</span> <span class=c2>;;Returns: 1 Shift, 2 Ctrl, 4 Alt, 8 Win. </span></pre>
+<p>&nbsp;</p>
+    <p>Checks whether modifier keys are pressed. The return value is combination       of the following values: 1 - Shift is pressed, 2 - Ctrl is pressed, 4       - Alt is pressed, 8 Win is pressed. For example, if Ctrl and Alt are pressed,       the return value is 6.</p>
+    <p>&nbsp;</p>
+    <h4>Example</h4>
+    <p>&nbsp;</p>
+<pre class=cod><span class=fq>if</span><span class=p>(</span><span class=fd>GetMod</span><span class=o>&amp;</span><span class=n>2</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;Ctrl pressed&quot;</span></pre>
+<p>&nbsp;</p>
+  <hr>
+  <pre class=cod><a name="FormatKeyString"></a><span class=fd>FormatKeyString</span> <span class=o>!</span>vk <span class=o>!</span>mod <span class=t>str</span><span class=o>&amp;</span>s <span class=c2>;;mod:   1 Shift, 2 Ctrl, 4 Alt, 8 Win.</span></pre>
+  <p>&nbsp;</p>
+<p> Gets key name for a key and/or modifiers. The text will be like &quot;Ctrl+Page   Up&quot;.</p>
+  <p>&nbsp;</p>
+<div class="parts">
+<p><b>vk</b> - <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key code</a>.</p>
+<p><b>mod</b> - modifiers. See <a href="IDP_QMDLL.html#GetMod" class="dll">GetMod</a>.</p>
+<p><b>s</b> - variable that receives the text. If the variable initially is not empty, appends to the end.</p>
+</div>
+  <p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="SilentImport"></a><span class=o>#</span><span class=fd>SilentImport</span> <span class=o>$</span>_file [flags] <span class=c2>;;_file: qml file to import; flags: 1 add shared, 2 at bottom. Returns 1 if successful. </span></pre>
+<p>&nbsp;</p>
+<p>Imports a <a href="../QM_Help/IDH_QML.html">QM file</a>. Same as menu File -&gt; Import, but without the File Viewer.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><strong>_file</strong> - full path of .qml file.</p>
+<p><strong>flags</strong> - see above.</p>
+</div>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+  
+<pre class=cod><a name="SilentExport"></a><span class=o>#</span><span class=fd>SilentExport</span> <span class=o>$</span>item <span class=o>$</span>_file [flags] <span class=c2>;;item: qm item or folder name or +id; _file: folder or qml file; flags: 1 no import, 2 no open, 4 no shared, 8 no partial/renamed, 16 read-only, 0x100 make zip. Returns 1 if successful. </span></pre>
+<p>&nbsp;</p>
+<p>Exports a <a href="../QM_Help/IDH_ITEMS.html">QM item or folder</a> to a <a href="../QM_Help/IDH_QML.html">QM file</a>. Same as menu File -&gt; Export, but without the Export dialog.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><strong>item</strong> - QM item or folder. Can be <a href="../Functions/IDP_QMITEM.html">name, path, GUID or +id</a>.</p>
+<ul>
+  <li>QM 2.4.3.8: can be a list of QM items or/and folders, like &quot;Func1[]Func2[]\Functions\Public&quot;.</li>
+</ul>
+<p><strong>_file</strong> - full path of .qml file to create. If does not end with &quot;.qml&quot; - folder where to create .qml file.</p>
+<p><strong>flags</strong> - see above. The same as the checkboxes in the Export dialog.</p>
+</div>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="GetQmItemsInFolder"></a><span class=o>#</span><span class=fd>GetQmItemsInFolder</span> <span class=o>$</span>folder <span class=t>ARRAY</span><span class=p>(</span><span class=t>QMITEMIDLEVEL</span><span class=p>)</span><span class=o>&amp;</span>a [flags] <span class=c2>;;1 only direct children</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.4.1.</p>
+<p>Gets array of <a href="../QM_Help/IDH_ITEMS.html">QM items</a> in a folder in the list of QM items.</p>
+<p>Returns 0 if folder not found. Else returns 1.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>folder</b> - folder name, path or +id. Gets all if <b>folder</b> is &quot;&quot;.</p>
+  <p><b>a</b> - variable that receives id and level of QM items that are in <b>folder</b> and its subfolders. The order will be the same as in the list of QM items. Levels are<b> </b>0-based, relative to <b>folder</b>. To get item properties, use <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a> or <a href="../str/IDP_S_MACRO.html">str.getmacro</a>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>QMITEMIDLEVEL</span><span class=p>)</span> a<span class=p>;</span> <span class=t>int</span> i
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fd>GetQmItemsInFolder</span><span class=p>(</span><span class=s>&quot;\System\Functions&quot;</span> <span class=o>&amp;</span>a<span class=p>))</span> <span class=fq>end</span> <span class=s>&quot;failed&quot;</span>
+<span class=fq>for</span> i <span class=n>0</span> a.<span class=fq>len</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;%.*m%s&quot;</span> a[i].level <span class=n>9</span> _s.<span class=fq>getmacro</span><span class=p>(</span>a[i].id <span class=n>1</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+
+<hr>
+<pre class=cod><a name="IsThreadRunning"></a><span class=o>#</span><span class=fd>IsThreadRunning</span> <span class=o>$</span>threadName <span class=c2>;;Returns number of threads.  name can be QM item name or +id.</span></pre>
+<p>&nbsp;</p>
+<p>Returns the number of <a href="../Other/IDP_THREADS.html">threads</a> (running instances) of the function or macro.</p>
+<p>&nbsp;</p>
+<p><b>threadName</b> - QM item name or <a href="../Functions/IDP_QMITEM.html">id</a>. If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, can be like &quot;ParentName:SubName&quot;.</p>
+<p>&nbsp;</p>
+<p>To get the number of threads of current function, instead use <a href="../Functions/IDP_GETOPT.html">getopt nthreads</a>, it's faster and don't need to specify name.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>mac</span> <span class=s>&quot;FunctionX&quot;</span> <span class=c2>;;run function &quot;FunctionX&quot; in separate thread</span>
+<span class=fq>wait</span> <span class=n>5</span>
+<span class=fq>if</span><span class=p>(</span><span class=fd>IsThreadRunning</span><span class=p>(</span><span class=s>&quot;FunctionX&quot;</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;FunctionX is running&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="EnumQmThreads"></a><span class=o>#</span><span class=fd>EnumQmThreads</span> [<span class=t>QMTHREAD</span><span class=o>*</span>arr] [nelem] [flags] [<span class=o>$</span>threadName] <span class=c2>;;flags: must be 0 </span></pre>
+
+<p>&nbsp;</p>
+<p>Gets information about currently running QM <a href="../Other/IDP_THREADS.html">threads</a>, except special threads. Returns the number of threads.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>arr</b> - caller-allocated array of <b>nelem</b> elements of <span class="type">QMTHREAD</span> 
+type. Can be 0. See example.</p>
+<p><b>nelem</b> - number of elements in <b>arr</b>.</p>
+<p> <b>flags</b> - currently not used and must be 0.</p>
+<p><b>threadName</b> (2.2.0) - QM item name or 
+<a href="../Functions/IDP_QMITEM.html">id</a>. Use 0 or &quot;&quot; if need all threads. If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, can be lik &quot;ParentName:SubName&quot;.</p>
+</div>
+<p>&nbsp;</p>
+<p>This type is used with <span class="dll">EnumQmThreads</span> and <a href="IDP_QMDLL.html#GetQmThreadInfo" class="dll">GetQmThreadInfo</a>:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>QMTHREAD</span> qmitemid threadid threadhandle flags tuid</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>qmitemid</b> - QM item id. Can be used to display item name (str.getmacro 
+or <span class="blue">qmitem</span>) or end thread (<span class="blue">shutdown</span>).</p>
+<p><b>threadid</b> - thread id. Can be used with <span class="blue">shutdown</span> 
+-6 (end thread) and with Windows API functions.</p>
+<p><b>threadhandle</b> - thread handle. Can be used with <span class="blue">wait</span> 
+(wait until thread exits), <span class="blue">shutdown</span> -6, and with Windows 
+API functions.</p>
+<p><b>flags</b> - currently is not used.</p>
+<p><b>tuid</b> (QM 2.2.0) - unique thread id. Can be used with <span class="blue">shutdown</span> 
+-6. Cannot be used with Windows API functions. Unlike thread id and handle, 
+the same unique id value is not reused for new threads.</p>
+</div>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Display all threads
+</span><span class=t>int</span> i n<span class=o>=</span><span class=fd>EnumQmThreads</span><span class=p>(</span><span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>QMTHREAD</span><span class=p>)</span> a.create<span class=p>(</span>n<span class=p>)</span>
+<span class=fq>for</span> i <span class=n>0</span> <span class=fd>EnumQmThreads</span><span class=p>(</span><span class=o>&#38;</span>a[<span class=n>0</span>] n <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> _s.getmacro<span class=p>(</span>a[i].qmitemid <span class=n>1</span><span class=p>)</span>
+
+<span class=c> Is Function55 running?
+</span><span class=fq>if</span><span class=p>(</span><span class=fd>EnumQmThreads</span><span class=p>(</span><span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=s>&#34;Function55&#34;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;running&#34;</span></pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetQmThreadInfo"></a><span class=o>#</span><span class=fd>GetQmThreadInfo</span> handle <span class=t>QMTHREAD</span><span class=o>&amp;</span>qt <span class=c2>;;Returns 1 on success, 0 on failure. handle=0 - current thread. </span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Gets information about a QM <a href="../Other/IDP_THREADS.html">thread</a>. It must not be a special thread.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>handle</b> - thread handle. For example, <a href="../Commands/IDP_MAC.html" class="blue">mac</a> 
+returns thread handle when you use it to run a function. If 0 - current thread.</p>
+<p><b>qt</b> - variable<b> </b>of type <span class="type">QMTHREAD</span> (described above) that receives the info.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetToolbarOwner"></a><span class=o>#</span><span class=fd>GetToolbarOwner</span> hwndTb <span class=c2>;;Returns handle of a QM toolbar's owner window </span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Returns handle of the window to which the <a href="../QM_Help/IDH_TOOLBAR.html">toolbar</a> is attached. Returns 0 if the toolbar is not attached to a window. Use this function instead of <span class="dll">GetWindow</span> or other Windows API, because QM toolbars are not owned as Windows interprets it.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwndTb</b> - toolbar window handle. Note that it is handle of toolbar, not 
+of its owner window.</p>
+</div>
+<p>&nbsp;</p>
+<h4>Example (in a toolbar)</h4>
+<p>&nbsp;</p>
+<pre class=cod>out my owner <span class=p>:</span><span class=t>int</span> w<span class=o>=</span><span class=fd>GetToolbarOwner</span><span class=p>(</span><span class=fu>TriggerWindow</span><span class=p>);</span> <span class=fu>outw</span> w
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetLastSelectedMenuItem"></a><span class=fd>GetLastSelectedMenuItem</span> <span class=t>str</span><span class=o>&amp;</span>label [<span class=t>str</span><span class=o>&amp;</span>command] [flags] <span class=c2>;;flags: 1 get pidl always </span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Yo can call this function after showing a <a href="../QM_Help/IDH_POPUP.html">popup menu</a> to get clicked item string. To show menu, use <a href="../Commands/IDP_MAC.html" class="blue">mac</a> as function. If <span class="blue">mac</span> returns a nonzero value, call this function. See example.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>label</b> - variable that receives selected menu item label string. Can be 0.</p>
+<p><b>command</b> - variable that receives selected menu item code string. With an expand-folder 
+menu - selected file path or <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST 
+string</a>. Can be 0.</p>
+</div>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Show menu &#34;Drives&#34; and get selected item info
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;Drives&#34;</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=t>str</span> s
+<span class=i>&#9;</span><span class=fd>GetLastSelectedMenuItem</span> <span class=n>0</span> s <span class=n>0</span>
+<span class=i>&#9;</span><span class=fq>mes</span> s</pre>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="MenuSetString"></a><span class=fd>MenuSetString</span> hMenu item <span class=o>$</span>s <span class=c2>;;item: &#62; 0 id, &#60;=0 -position </span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Changes menu item text.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="MenuGetString"></a><span class=o>#</span><span class=fd>MenuGetString</span> hMenu item <span class=t>str</span><span class=o>&amp;</span>s <span class=c2>;;item: &#62; 0 id, &#60;=0 -position. Returns 1 on success, 0 on failure. </span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Gets menu item text.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hMenu</b> - menu handle.</p>
+<p><b>item</b> - menu item id or negative position.</p>
+<p><b>s</b> - sets or receives menu item text.</p>
+</div>
+<p>&nbsp;</p>
+<p> The menu cannot be a QM user-defined popup menu.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="SubclassWindow"></a><span class=o>#</span><span class=fd>SubclassWindow</span> hwnd newWndProc</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Replaces window procedure. Returns address of old procedure. Read more about subclassing in <a href="../Other/IDP_MSDN.html">MSDN Library</a>.
+</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - window handle. The window must belong to qm/exe process.</p>
+<p><b>newproc</b> - address of new window procedure (a user-defined function).</p>
+<ul>
+  <li> The function must begin with <span class=cod><span class=fq>function</span> hWnd message wParam lParam</span>.</li>
+  <li>The function must end with <span class=cod><span class=fq>ret</span> <span class=fd>CallWindowProcW</span><span class=p>(</span>oldproc hWnd message wParam lParam<span class=p>)</span></span>.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p>Note: If the window is Unicode (<span class="dll">IsWindowUnicode</span> returns 1), the new window procedure receives Unicode UTF-16 strings in standard text messages such as WM_SETTEXT. Most window classes are Unicode. If you instead use <span class="dll">SetWindowLong</span>/<span class="dll">CallWindowProc</span> (ANSI versions), Windows automatically converts Unicode/ANSI, however it is not recommended.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. You should instead use <span class="dll">SetWindowSubclass</span>. It is safer and easier to use.  It is a Windows API, documented in MSDN. A template window procedure is available in menu File -&gt; New.</p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="SetWinStyle"></a><span class=fd>SetWinStyle</span> hwnd style [flags] <span class=c2>;;flags: 0 set, 1 add, 2 remove, 4 exstyle, 8 update nonclient, 16 update client</span></pre>
+<p>&nbsp;</p>
+<p>Changes window style or extended style.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - window handle. Can be top-level or child window.</p>
+<p><b>style</b> - style or extended style.</p>
+<ul>
+  <li> Window styles are documented in <a href="../Other/IDP_MSDN.html">MSDN   Library</a>.</li>
+  <li> To view available styles and extended styles, type <span class=cod>.WS_</span> .</li>
+</ul>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>0</td> <td>set.</td>
+</tr>
+<tr>
+<td>1</td> <td>add.</td>
+</tr>
+<tr>
+<td>2</td> <td>remove.</td>
+</tr>
+<tr>
+<td>4</td> <td><b>style</b> is extended style.</td>
+</tr>
+<tr>
+<td>8</td> <td>update 
+nonclient area.</td>
+</tr>
+<tr>
+<td>16</td> <td>update client area (QM 2.2.1).</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p><em>See also:</em> <span class="UDF">GetWinStyle</span></p>
+<p>&nbsp; </p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> remove Notepad's title bar:
+</span><span class=t>int</span> h<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fd>SetWinStyle</span> h <span class=d>WS_CAPTION</span> <span class=n>2</span><span class=o>|</span><span class=n>8</span></pre>
+<p>&nbsp; </p>
+  
+<hr>
+<pre class=cod><a name="IsWindow64Bit"></a><span class=o>#</span><span class=fd>IsWindow64Bit</span> hwnd [flags] <span class=c2>;;flags: 1 hwnd is process id</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Returns 1 if the window belongs to a 64-bit process.</p>
+<p>&nbsp;</p>
+<p>Before QM 2.4.3 this function returned -1 if failed. Now returns 0.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>hwnd</b> - window handle. If <b>flags</b> 
+includes 1 - process id.</p>
+</div>
+<p>&nbsp;</p>
+<p> <em>See also:</em> <a href="../Language/IDP_SPECVAR.html">_win64</a>
+</p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="WinTest"></a><span class=o>#</span><span class=fd>WinTest</span> hwnd <span class=o>$</span>cls</pre>
+<p>&nbsp;</p>
+<p>QM 2.4.3.</p>
+<p>Gets window class name and compares with the specified string. Returns 1 if matches, 0 if not. Returns 0 if <strong>hwnd</strong> is 0 or invalid.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><strong>hwnd</strong> - window handle. Can be any window (top-level or child).</p>
+<p><strong>cls</strong> - a string to compare with window class name.</p>
+<ul>
+<li>Can contain <a href="../Other/IDP_WILDCARD.html">wildcard characters</a> *?.</li>
+<li>Can be a list, like <span class=cod><span class=s>&quot;Class1[]Class2&quot;</span></span>. Then returns 1-based index of matching string.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p>In programming often need just to compare window class name. Then <span class="dll">WinTest</span> is easier to use than <a href="../Functions/IDP_WIN.html" class="blue">wintest</a>, which has more parameters and throws error when the handle is invalid.</p>
+<p>&nbsp;</p>
+
+<hr>
+<pre class=cod><a name="AdjustWindowPos"></a><span class=fd>AdjustWindowPos</span> hwnd <span class=t>RECT</span><span class=o>&amp;</span>r [flags] [monitor] <span class=c2>;;flags: 1 work area, 2 actually move, 4 raw x y, 8 only move into screen, 16 can resize, 32 monitor is hmonitor. monitor: 0 primary, 1-30 index, -1 mouse, -2 active window, -3 primary, or window handle</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.2.1.</p>
+<p> Adjusts window or rectangle coordinates like <span class="blue">mes</span> and other QM functions do. If negative, adjusts so that the window would be at the right or bottom of the screen. If 0, adjusts so that the window would be at the center of the screen. Ensures that whole window is in the screen. Ensures that the window will be in the specified monitor.</p>
+<p>&nbsp;</p>
+<p>If the window is minimized, does not restore it but ensures that the window will be in correct position when restored. If the window is maximized, does not change its position and size, except when need to move to another monitor, but ensures that the window will be in correct position when restored to normal. All this is if <b>hwnd</b> is nonzero and flag 2 used. If <b>hwnd</b> is nonzero, the function always returns rectangle of normal (not minimized or maximized) window, regardless of its current state.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>hwnd</b> - window handle. Can be 0 if you only need to adjust <b>r</b>.</p>
+  <p><b>r</b> - a RECT variable or 0.</p>
+  <ul>
+    <li> On input, the variable must contain requested   window coordinates in r.left and r.top. If <b>hwnd</b> is 0, r.right and r.bottom   also must be specified, else they are not used. The coordinates are relative   to the monitor, except when flag 8 used.</li>
+    <li> On output, the variable   will contain normal coordinates, ie relative to the primary monitor.</li>
+    <li> Can be   0 if flag 8 used or to use r.left= 0 and r.top=0.</li>
+  </ul>
+  <p><b>flags</b>:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>1</td>
+      <td>when calculating new coordinates, use work area instead of whole screen.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>actually move the window. By default, only modifies <b>r</b>.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>use raw <b>x y</b> relative to the monitor. Negative and 0 <b>x y</b> don't 
+        have special meaning.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>only move the window or rectangle to the nearest position in the work area, 
+        if it is not completely there. If <b>hwnd</b> is not 0, <b>r</b> is not used 
+        and can be 0. Else <b>r</b> must contain normal coordinates. If <b>monitor</b> is 0, uses the monitor that contains the biggest part of the window or rectangle, 
+        or is nearest.</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>resize if needed. By default the function can only move. Should be used 
+        only with flag 8.</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td><b>monitor</b> is monitor handle.</td>
+    </tr>
+  </table>
+  <p><b>monitor</b> -  monitor. The same as with <a href="IDP_QMDLL.html#MonitorFromIndex" class="dll">MonitorFromIndex</a> and <a href="../Language/IDP_SPECVAR.html">_monitor</a>.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="MonitorFromIndex"></a><span class=o>#</span><span class=fd>MonitorFromIndex</span> [monitor] [flags] [<span class=t>RECT</span><span class=o>&amp;</span>r] <span class=c2>;;flags: 1 work area, 32 monitor is hmonitor. monitor: 0 primary, 1-30 index, -1 mouse, -2 active window, -3 primary, or window handle</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.1.</p>
+<p> Returns handle of monitor that is specified by index or some other property. Also can get monitor coordinates.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>monitor</b> -  monitor. Like with <a href="../Language/IDP_SPECVAR.html">_monitor</a>, 
+it can be monitor index 1-30, or 0 (primary), -1 (mouse), -2 (active window), 
+-3 (primary), or window handle.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>get work area coordinates.</td>
+</tr>
+<tr>
+<td>32</td> <td><b>monitor</b> is monitor handle.</td>
+</tr>
+</table>
+
+<p><b>r</b> - variable that receives monitor coordinates, relative to the primary monitor. Can be 0 if don't need.</p>
+</div>
+<p>&nbsp;</p>
+<p>Other functions that can be used to get monitor handle: <span class="dll">MonitorFromWindow</span>, <span class="dll">MonitorFromPoint</span>, <span class="dll">MonitorFromRect</span>. Documented in <a href="../Other/IDP_MSDN.html">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="MonitorIndex"></a><span class=o>#</span><span class=fd>MonitorIndex</span> hmonitor <span class=c2>;;Returns 1-based monitor index.</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.1.</p>
+<p> Returns 1-based monitor index. Returns 0 if the handle is invalid.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hmonitor</b> - monitor handle.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="RichEditLoad"></a><span class=o>#</span><span class=fd>RichEditLoad</span> hwndRE <span class=o>$</span>_file <span class=c2>;;Returns 1 if successful.</span></pre>
+<p>&nbsp;</p>
+<p>Loads a file to a rich edit control.</p>
+
+<p>&nbsp;</p>
+<pre class=cod><a name="RichEditSave"></a><span class=o>#</span><span class=fd>RichEditSave</span> hwndRE <span class=o>$</span>_file <span class=c2>;;Returns 1 if successful.</span></pre>
+<p>&nbsp;</p>
+<p>Saves rich edit control text to a file.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwndRE</b> - control handle.</p>
+<p><b>_file</b> - file. If ends with .rtf, uses RTF format, else text format.</p>
+</div>
+<p>&nbsp;</p>
+<p>Rich edit control's class usually is RichEdit20A or RichEdit20W. The control must belong to qm/exe process.</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources.</p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="GetCPU"></a><span class=o>#</span><span class=fd>GetCPU</span> <span class=c2>;;Returns % CPU usage, 0 to 100.</span></pre>
+
+<p>&nbsp;</p>
+<p>Returns % of processor usage since last call. When calling first time in thread, result is undefined.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetDiskUsage"></a><span class=o>#</span><span class=fd>GetDiskUsage</span> <span class=c2>;;Returns % disk usage, 0 to 100.</span></pre>
+
+<p>&nbsp;</p>
+<p>Returns % of disk usage (all physical disks) since last call. That is, % of time spent in disk read/write mode. When calling first time in thread, result is undefined. Should not be called too frequently (with &lt; 100 ms period), or results may be incorrect.</p>
+<p>&nbsp;</p>
+<p>This function should work only for administrators and users in the Performance Log Users group. In my tests it was true on Windows Vista, but the function always works on Windows 7 and 8.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="PerfFirst"></a><span class=fd>PerfFirst</span></pre>
+<pre class=cod><a name="PerfNext"></a><span class=fd>PerfNext</span></pre>
+<pre class=cod><a name="PerfOut"></a><span class=fd>PerfOut</span> [flags] [<span class=t>str</span><span class=o>&amp;</span>sOut] <span class=c2>;;flags: 1 begin collect, 2 collect, 3 out collected</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.5.</p>
+<p>Measures and shows time spent executing parts of macro code. Unit - microseconds.</p>
+<p>&nbsp;</p>
+<p><span class="dll">PerfFirst</span> and <span class="dll">PerfNext</span> get current time and store in internal global variables.</p>
+<p><span class="dll">PerfOut</span> displays times between <span class="dll">PerfFirst</span> and max 10 following <span class="dll">PerfNext</span>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b>: 1 - 3 can be used to measure time spent in parts of repeatedly executed code. Instead of displaying time in each loop, <span class=cod><span class=fd>PerfOut</span> <span class=n>2</span></span> collects times, and finally <span class=cod><span class=fd>PerfOut</span> <span class=n>3</span></span> displays sums. Insert <span class=cod><span class=fd>PerfOut</span> <span class=n>1</span></span> at the very beginning.</p>
+<p><b>sOut</b> - variable that receives string containing times. If omitted or 0, the function displays the string in QM output.</p>
+</div>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Functions/IDP_PERF.html" class="blue">perf</a></p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> simple</span>
+<span class=fd>PerfFirst</span>
+<span class=fq>rep</span> <span class=n>1000</span>
+<span class=i>&#9;</span><span class=fq>find</span><span class=p>(</span><span class=s>&quot;one two three four&quot;</span> <span class=s>&quot;four&quot;</span><span class=p>)</span>
+<span class=fd>PerfNext</span>
+<span class=fq>rep</span> <span class=n>1000</span>
+<span class=i>&#9;</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&quot;one two three four&quot;</span> <span class=s>&quot;four&quot;</span><span class=p>)</span>
+<span class=fd>PerfNext</span>
+<span class=fd>PerfOut</span>
+
+<span class=c> with collecting times</span>
+<span class=fd>PerfOut</span> <span class=n>1</span> <span class=c2>;;start collecting</span>
+<span class=fq>rep</span> <span class=n>10</span>
+<span class=i>&#9;</span><span class=fd>PerfFirst</span>
+<span class=i>&#9;</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=s>&quot;Shell_TrayWnd&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fd>PerfNext</span>
+<span class=i>&#9;</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;not found&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fd>PerfNext</span>
+<span class=i>&#9;</span><span class=fd>PerfOut</span> <span class=n>2</span> <span class=c2>;;collect. Does not show times now.</span>
+<span class=i>&#9;</span><span class=n>0.001</span> <span class=c2>;;can be more code, its time will not be included</span>
+<span class=fd>PerfOut</span> <span class=n>3</span> <span class=c2>;;show collected</span>
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="IsLoggedOn"></a><span class=o>#</span><span class=fd>IsLoggedOn</span> <span class=c2>;;Returns: 0 not logged on, 1 normal, 2 locked, 3 switched off, 4 custom desktop.</span></pre>
+
+<p>&nbsp;</p>
+<p>Checks whether QM is running on interactive desktop. Returns 0 if not logged on, 1 if normal (runs on interactive desktop), 2 if locked (directly or by a secure screen saver), 3 if switched off, 4 custom desktop.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="EnsureLoggedOn"></a><span class=o>#</span><span class=fd>EnsureLoggedOn</span> [unlock] <span class=c2>;;Returns: 0 cannot ensure, 1 normal, 2 successfully unlocked.</span></pre>
+
+<p>&nbsp;</p>
+<p>Checks whether QM is running on interactive desktop. If computer is locked, and <b>unlock</b> is nonzero, attempts to unlock. Returns 0 if cannot ensure interactive desktop, 1 if normal, 2 if successfully unlocked. The unlock method and settings are the same as specified in the <a href="../Other/IDP_QMTL.html">Unlock Computer</a> dialog.</p>
+<p>&nbsp;</p>
+<p>Unlocking is unavailable in exe and in portable QM. Then <b>unlock</b> value is ignored.</p>
+<p>&nbsp;</p>
+<p> Some triggers (scheduler, event log, etc) may launch the macro while QM is not running on interactive desktop (e.g., while computer is locked). Then the macro runs in the background. However, many commands (keyboard, mouse, etc) then don't work, because background users cannot access keyboard, mouse and monitor. To ensure that the macro will not run in the background, you can check the checkboxes in Properties -&gt; Macro properties or use <span class="dll">EnsureLoggedOn</span> or <a href="IDP_QMDLL.html#IsLoggedOn" class="dll">IsLoggedOn</a> in the macro.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> If QM is not running on interactive desktop, try to unlock computer; if it fails, exit
+</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fd>EnsureLoggedOn</span><span class=p>(</span><span class=n>1</span><span class=p>))</span> <span class=fq>ret</span></pre>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="GetUserInfo"></a><span class=o>#</span><span class=fd>GetUserInfo</span> <span class=t>str</span><span class=o>&amp;</span>s [flags] <span class=c2>;;flags: 0 user name, 1 computer name</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Gets user name or computer name.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>s</b> - variable that receives it.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="IsUserAdmin"></a><span class=o>#</span><span class=fd>IsUserAdmin</span> <span class=c2>;;Returns 1 if QM (or exe) is running as administrator</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Returns 1 if current process (QM or exe) is running as administrator.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetProcessUacInfo"></a><span class=o>#</span><span class=fd>GetProcessUacInfo</span> hwnd [flags] <span class=c2>;;returns: 0 failed, 1 UAC off or non-admin account, 2 admin, 3 uiAccess, 4 user; flags: 1 hwnd is process id (0 = current process)</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Returns some <a href="../Other/IDP_VISTA.html">UAC</a> info of a process (running program):</p>
+<p>&nbsp;</p>
+<p>Return values:</p>
+<table class="tflags"><col>
+<tr>
+<td>0</td> <td>Older OS (not Vista+), or failed.</td>
+</tr>
+<tr>
+<td>1</td> <td>UAC turned off, or the process is running as standard user on standard 
+user account.</td>
+</tr>
+<tr>
+<td>2</td> <td>The process is running as administrator.</td>
+</tr>
+<tr>
+<td>3</td> <td>The process is running not as administrator but has uiAccess privileges.</td>
+</tr>
+<tr>
+<td>4</td> <td>The process is running on administrator account but not as administrator.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - handle of a window that belongs to the process. If <b>flags</b> 
+includes 1, then <b>hwnd</b> must be process id. You can use process id 0 to 
+specify current process.</p>
+</div>
+<p>&nbsp;</p>
+<p> <em>See also:</em> <a href="IDP_QMDLL.html#IsUserAdmin" class="dll">IsUserAdmin</a> (see above)</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetProcessIntegrityLevel"></a><span class=o>#</span><span class=fd>GetProcessIntegrityLevel</span> hwnd [flags] <span class=c2>;;returns: 0 failed, 1 Low, 2 Medium, 3 High, 4 System; flags: 1 hwnd is process id (0 = current process)</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Returns <a href="../Other/IDP_VISTA.html">integrity level</a> of a process:</p>
+<table class="tflags"><col>
+<tr>
+<td>0</td> <td>Older OS (not Vista+), or failed.</td>
+</tr>
+<tr>
+<td>1</td> <td>Low.</td>
+</tr>
+<tr>
+<td>2</td> <td>Medium.</td>
+</tr>
+<tr>
+<td>3</td> <td>Administrator or uiAccess.</td>
+</tr>
+<tr>
+<td>4</td> <td>System.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - handle of a window that belongs to the process. If <b>flags</b> 
+includes 1, then <b>hwnd</b> must be process id. You can use process id 0 to 
+specify current process.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="EnumProcessesEx"></a><span class=fd>EnumProcessesEx</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span><span class=o>&amp;</span>pids [<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>names] [flags] <span class=c2>;;flags: 1 full path, 2 current user session only</span></pre>
+<p>&nbsp;</p>
+    <p>Gets names and/or process ids of all processes (running programs).</p>
+      <p>&nbsp;</p>
+<div class="parts">
+  <p><b>pids</b> - variable that receives process ids. Can be 0 if don't need.</p>
+    <p><b>names</b> - variable that receives process names. Can be 0     if don't need.</p>
+    <p><b>flags</b>:</p>
+<table class="tflags"><col>
+  <tr>
+<td>1</td> <td><p>get full paths.</p>
+  <ul>
+    <li> Note: cannot get full paths of processes running     in other user sessions if QM is running not as administrator.</li>
+  </ul></td>
+</tr>
+  <tr>
+<td>2 (QM 2.2.0)</td> <td>enumerate only processes running in current user session   (fast user switching).</td>
+</tr>
+
+</table>
+</div>
+      <p>&nbsp;</p>
+      
+<h4>Example</h4>
+      <p>&nbsp;</p>
+      <pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a
+<span class=fd>EnumProcessesEx</span> <span class=n>0</span> <span class=o></span>a <span class=n>0</span>
+<span class=fq>for</span><span class=p>(</span>_i <span class=n>0</span> a.len<span class=p>)</span> <span class=fq>out</span> a[_i]</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="ProcessNameToId"></a><span class=o>#</span><span class=fd>ProcessNameToId</span> <span class=o>$</span>exename [<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span><span class=o>&amp;</span>allPids] [flags] <span class=c2>;;allpids can be 0; flags: 1 current user session only</span></pre>
+<p>&nbsp;</p>
+    <p>Returns process id.</p>
+    <p>Returns 0 if the process does not exist (the program is not running).</p>
+      
+<p>&nbsp;</p>
+<p>QM 2.2.0. Added  parameter <b>flags</b>.</p>
+<p>&nbsp;</p>
+<div class="parts">
+    <p> <b>exename</b> - program name or full path.</p>
+  <p><b>allPids</b> - variable that receives process ids of all matching processes. Can be 0 if don't need.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>find only processes running in current user session.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="ProcessHandleToId"></a><span class=o>#</span><span class=fd>ProcessHandleToId</span> hProcess</pre>
+    <p>&nbsp;</p>
+    <p>QM 2.4.2.</p>
+    <p>Gets process id from process handle.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>__Handle</span> hp<span class=o>=</span><span class=fq>run</span><span class=p>(</span><span class=s>&quot;notepad.exe&quot;</span><span class=p>)</span>
+<span class=t>int</span> pid<span class=o>=</span><span class=fd>ProcessHandleToId</span><span class=p>(</span>hp<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetProcessExename"></a><span class=o>#</span><span class=fd>GetProcessExename</span> pid <span class=t>str</span><span class=o>&amp;</span>exename flags <span class=c2>;;flags: 1 full path. Returns: 1 success, 0 failed.</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.1.</p>
+<p>Gets name or full path of the executable file that started specified process (running program).</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>pid</b> - process id.</p>
+<p><b>exename</b> - variable that receives the name.</p>
+</div>
+<p>&nbsp;</p>
+<p> The process here must be identified using process id. To use window instead, can be used <a href="../str/IDP_S_WINDOW.html">str.getwinexe</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_SPECVAR.html">_qmdir</a></p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="StartProcess"></a><span class=o>#</span><span class=fd>StartProcess</span> flags <span class=o>$</span>path [<span class=o>$</span>cl] [<span class=o>$</span>defDir] [<span class="t">int</span><span class=o>&amp;</span>hProcess] <span class=c2>;;flags: 0 as QM, 1 medium, 2 high, 3 high with consent, 4 low, 5 as QM -uiAccess, 16 get process id, hibyte showcmd</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p> Runs a program with specified privileges (administrator, user, etc). Mostly useful on <a href="../Other/IDP_VISTA.html">Vista and later</a>, but can be used on all OS.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b> - integrity level (IL) that you need, and other flags, see above. The IL values are described in 
+the <a href="../QM_Help/IDH_MAKEEXE.html#a8">Make Exe topic</a>.</p>
+<p><b>path</b> - executable file path.</p>
+<p><b>cl</b> - command line.</p>
+<p><b>defDir</b> - default directory.</p>
+<p><b>hProcess</b> - variable that receives process handle. 
+Later close it with <span class="dll">CloseHandle</span>. With 
+flag 16, gets process id instead; don't close it.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.2.1. The highest byte of <b>flags</b> can contain suggested window state (maximized, hidden, etc), like with <a href="../Commands/IDP_RUN.html" class="blue">run</a>. To store a value to the highest byte, use <span class=cod>value<span class=o>&#60;&#60;</span><span class=n>24</span></span>. For example, to run the program hidden, use <span class=cod>flags<span class=o>|</span><span class=p>(</span><span class=n>16</span><span class=o>&#60;&#60;</span><span class=n>24</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p> There are some limitations in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="AllowActivateWindows"></a><span class=o>#</span><span class=fd>AllowActivateWindows</span> <span class=c2>;;Returns 1 if successful</span></pre>
+
+<p>&nbsp;</p>
+<p>By default, Windows does not allow background programs to activate windows. QM is usually running in the background. Use this function to temporarily allow QM to activate windows.</p>
+<p>&nbsp;</p>
+<p>Tip: After calling this function, you also can call <span class=cod><span class=fd>AllowSetForegroundWindow</span> <span class=o>-</span><span class=n>1</span></span> to allow other processes activate windows.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="FileExists"></a><span class=o>#</span><span class=fd>FileExists</span> <span class=o>$</span>_file [flags] <span class=c2>;;flags: 0 file, 1 folder, 2 file or folder.   Returns: 0 not found, 1 file, 2 folder.</span></pre>
+    
+<p>&nbsp;</p>
+<p>QM 2.4.0.</p>
+<p> Checks if the specified file, folder or drive exists.</p>
+<table class="tflags">
+  <col>
+  <tr>
+    <td>0</td>
+    <td>Does not exist, or failed.</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Exists, and is file.</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Exists, and is folder or drive.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<div class="parts">
+  <p> <b>_file</b> - full or relative path of a file, folder or drive.</p>
+  <p><b>flags</b>:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>0 (default)</td>
+      <td>Must be file. Return 0 if exists but is folder or drive.</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Must be folder or drive. Return 0 if exists but is file.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Can be file, folder or drive.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Internally uses Windows API function <span class="dll">GetFileAttributes</span>. Returns 0 if it fails for any reason, eg when the file exists but cannot be accessed because of security settings. Does not support wildcard characters, use <span class="type">Dir</span> class instead (dialog &quot;Get file info&quot;).</p>
+<p>&nbsp;</p>
+  
+  <hr>
+<pre class=cod><a name="GetFileOrFolderSize"></a><span class=o>%</span><span class=fd>GetFileOrFolderSize</span> <span class=o>$</span>file</pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.0.</p>
+<p> Returns  size of the specified file, folder or drive.</p>
+<p>&nbsp;</p>
+<p>If folder, calculates sum of sizes of all files in the folder and subfolders. It is slow.</p>
+<p>&nbsp;</p>
+<p>If drive, gets used size. It is fast. Uses Windows API function <span class="dll">GetDiskFreeSpaceEx</span>, except for network drives.</p>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="GetFullPath"></a><span class=fd>GetFullPath</span> <span class=o>$</span>sAny <span class=t>str</span><span class=o>&amp;</span>sFull</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Gets full path of a file or folder. Expands special folders, replaces &quot;..&quot;, etc. Does not check whether the file or folder exists.</p>
+<p>&nbsp; </p>
+<div class="parts">
+<p><b>sAny</b> - full or relative path. If it is relative path, prepends current 
+directory. Can contain &quot;..&quot; (parent folder), &quot;.&quot; (same folder). 
+If it is a drive letter without &quot;\&quot;, appends &quot;\&quot;. Read more: 
+<a href="http://www.google.lt/search?q=site%3Amicrosoft.com%20File%20Names%20Paths" target="_blank">File 
+names and paths</a>. </p>
+<p><b>sFull</b> - variable that receives full path.</p>
+</div>
+<p>&nbsp;</p>
+<p>This function can be used to create full path from user-entered file name. For example, if user entered &quot;..\f3\file.txt&quot;, and your default folder is &quot;c:\f1\f2\&quot;, join them (&quot;c:\f1\f2\..\f3\file.txt&quot;) and pass to <span class="dll">GetFullPath</span>. Result will be &quot;c:\f1\f3\file.txt&quot;.</p>
+<p>&nbsp;</p>
+<p> To know whether a file path is full or relative, can be used function <span class="dll">PathIsRelative</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="PidlToStr"></a><span class=o>#</span><span class=fd>PidlToStr</span> <span class=t>ITEMIDLIST</span><span class=o>*</span>pidl <span class=t>str</span><span class=o>&amp;</span>s flags <span class=c2>;;Returns 1 if successful.  flags: 1 must be path, 2 must be &quot;:: ITEMIDLIST&quot;, 4 path can be URL, 8 path can be &quot;::{CLSID}&quot;, 16 path must be display name</span></pre>
+<p>&nbsp;</p>
+<p>Converts <span class="type">ITEMIDLIST</span> to string - file system path, &quot;:: ITEMIDLIST&quot;, URL,  &quot;::{CLSID}&quot; or display name. Variable <b>s</b> receives the string.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_SEARCHPATHS.html">Read more</a>.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.5. Added flags 4, 8, 16.</p>
+<p>&nbsp;</p>
+<p>If used flag 2, gets &quot;:: ITEMIDLIST&quot;.</p>
+<p>Else if used flag 16, gets display name, eg &quot;qm.exe&quot; or &quot;Control Panel&quot;.</p>
+<p>Else if <strong>pidl</strong> is of a file system object, gets its path.</p>
+<p>Else if <strong>pidl</strong> is of a URL and used flag 4, gets the URL.</p>
+<p>Else if <strong>pidl</strong> is of a virtual object that has a CLSID and used flag 8, gets &quot;::{CLSID}&quot;.</p>
+<p>Else if not used flag 1, gets &quot;:: ITEMIDLIST&quot;.</p>
+<p>Else fails.</p>
+<p>&nbsp;</p>
+<pre class=cod><a name="PidlFromStr"></a><span class=t>ITEMIDLIST</span><span class=o>*</span><span class=fd>PidlFromStr</span> <span class=o>$</span>s</pre>
+<p>&nbsp;</p>
+<p>Converts path to <span class="type">ITEMIDLIST</span>. Use <span class="dll">CoTaskMemFree</span> to free it.</p>
+<p>&nbsp;</p>
+<p><strong>s</strong> can be a file system path, &quot;:: ITEMIDLIST&quot;, URL or &quot;::{CLSID}&quot;. Cannot be a display name, like &quot;Control Panel&quot;.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_SEARCHPATHS.html">Read more</a>.</p>
+
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="CreateShortcutEx"></a><span class=o>#</span><span class=fd>CreateShortcutEx</span> <span class=o>$</span>shortcut <span class=t>SHORTCUTINFO</span><span class=o>&amp;</span>si <span class=c2>;;Returns 1 if successful.</span></pre>
+<p>&nbsp;</p>
+<p>Creates shortcut. All <b>si</b> members except <b>target</b> are optional. You can also use simpler function <span class="UDF">CreateShortcut</span>. </p>
+
+<p>&nbsp;</p>
+<pre class=cod><a name="GetShortcutInfoEx"></a><span class=o>#</span><span class=fd>GetShortcutInfoEx</span> <span class=o>$</span>shortcut <span class=t>SHORTCUTINFO</span><span class=o>&amp;</span>si <span class=c2>;;Returns 1 if successful.</span></pre>
+<p>&nbsp;</p>
+<p>Gets shortcut's parameters (target path, icon, etc).</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>shortcut</b> - shortcut file (.lnk) path.</p>
+<p><b>si</b> - variable that contains or receives shortcut properties.</p>
+</div>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>SHORTCUTINFO</span> <span class=o>~</span>target <span class=o>~</span>param <span class=o>~</span>initdir <span class=o>~</span>descr <span class=o>~</span>iconfile iconindex showstate <span class=o>@</span>hotkey</pre>
+<p>&nbsp; </p>
+<p>Some members:</p>
+<div class="parts">
+<p><b>target</b> - file/folder path, or <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST 
+string</a>.</p>
+<p><b>hotkey</b> - hotkey.</p>
+<ul>
+  <li> The <a href="../Other/IDP_HIWORD.html">low-order</a> byte is <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key   code</a>.</li>
+  <li> The high-order byte is combination of <a href="../Other/IDP_FLAGS.html">flags</a> <span class="def">HOTKEYF_ALT</span>,   <span class="def">HOTKEYF_CONTROL</span>, <span class="def">HOTKEYF_SHIFT</span>,   <span class="def">HOTKEYF_EXT</span>.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Create shortcut with all possible attributes
+</span><span class=t>SHORTCUTINFO</span> si.target<span class=o>=</span><span class=s>&#34;$system$\notepad.exe&#34;</span>
+si.iconfile<span class=o>=</span><span class=s>&#34;shell32.dll&#34;</span>
+si.iconindex<span class=o>=</span><span class=n>4</span>
+si.descr<span class=o>=</span><span class=s>&#34;test descr&#34;</span>
+si.hotkey<span class=o>=</span>HOTKEYF_CONTROL<span class=o>&#60;&#60;</span><span class=n>8</span><span class=o>|</span><span class=d>VK_F6</span>
+si.initdir<span class=o>=</span><span class=s>&#34;$my qm$&#34;</span>
+si.param<span class=o>=</span><span class=s>&#34;-p&#34;</span>
+si.showstate<span class=o>=</span><span class=d>SW_MAXIMIZE</span>
+<span class=fd>CreateShortcutEx</span><span class=p>(</span><span class=s>&#34;$desktop$\test.lnk&#34;</span> <span class=o></span>si<span class=p>)</span></pre>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="GetFileIcon"></a><span class=o>#</span><span class=fd>GetFileIcon</span> _file [index] [flags] <span class=c2>;;Returns icon handle if successful. Later call DestroyIcon. flags: 1 large, 2 don't use shell icon, 4 cursor, 8 create empty if fails</span></pre>
+
+<p>&nbsp;</p>
+<p>Extracts icon from an icon file, or gets icon for a file that itself does not contain icons. Returns icon handle. Later destroy it using <span class="dll">DestroyIcon</span>. Or assign to a <span class="type">__Hicon</span> variable.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>_file</b> - any file or folder.</p>
+<ul>
+  <li>Can be full path, <a href="../Other/IDP_SEARCHPATHS.html">filename</a> or <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST 
+    string</a>.</li>
+  <li>Can be just file type extension, like &quot;.txt&quot;. Gets icon of that file type.</li>
+</ul>
+<p> <b>index</b> - 0, or icon index (0-based).</p>
+<ul>
+  <li> If negative, <b>index</b> is interpreted   as negative resource id.</li>
+  <li> Alternatively, icon index or -id can be appended to <b>_file</b>. Example: &quot;shell32.dll,3&quot;.</li>
+</ul>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>Get large icon (32x32). By default, gets small icon (16x16).</td>
+</tr>
+<tr>
+<td>2</td> <td>Don't use shell icon. Read more below.</td>
+</tr>
+<tr>
+<td>4 (QM 2.3.0)</td> <td>Get cursor. Returns cursor handle. Later destroy it with <span class="dll">DestroyCursor</span>.</td>
+</tr>
+<tr>
+  <td>8 (QM 2.4.3)</td>
+  <td>Create empty/transparent icon if failed or if <strong>_file</strong> string is &quot;&quot;.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p> For ico files, always extracts icon from the file. For other files, extracts icon from the file if <b>index</b> is nonzero, or icon index is appended to <b>_file</b>, or flag 2 used. Otherwise, gets shell icon (icon that would be displayed in Windows Explorer).</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources. Adds (to exe) images of all sizes and colors that are in the icon file or resource, not only of the specified size.</p>
+<p>&nbsp; </p>
+<p>QM 2.3.0. You can specify custom size in <a href="../Other/IDP_HIWORD.html">high-order</a> word of <b>flags</b>. Flag 1 then is ignored.  If icon of that size is unavailable, gets icon of nearest available size.</p>
+<p>&nbsp;</p>
+<p><em>See also:</em> <span class="UDF">GetWindowIcon</span>.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> hi<span class=o>=</span><span class=fd>GetFileIcon</span><span class=p>(</span><span class=s>&quot;shell32.dll,3&quot;</span> <span class=n>0</span> <span class=n>1</span><span class=p>)</span>
+<span class=t>int</span> dc<span class=o>=</span><span class=fd>GetDC</span><span class=p>(</span><span class=fd>GetQmCodeEditor</span><span class=p>)</span>
+<span class=fd>DrawIconEx</span> dc <span class=n>100</span> <span class=n>100</span> hi <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=d>DI_NORMAL</span>
+<span class=fd>ReleaseDC</span> <span class=n>0</span> dc
+<span class=fd>DestroyIcon</span> hi
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="SaveBitmap"></a><span class=o>#</span><span class=fd>SaveBitmap</span> hbitmap <span class=o>$</span>_file [flags] <span class=c2>;;Returns 1 if successful. flags: 1 _file is IStream.</span></pre>
+
+<p>&nbsp;</p>
+<p>Saves bitmap to a file.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hbitmap</b> - bitmap handle.</p>
+<p><b>_file</b> - .bmp file.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="LoadPictureFile"></a><span class=o>#</span><span class=fd>LoadPictureFile</span> _file [flags] <span class=c2>;;Returns bitmap handle. flags: 1 return IPicture</span></pre>
+
+<p>&nbsp;</p>
+<p>Loads bitmap from a bmp, jpg or gif file. QM 2.3.4: also can be png.</p>
+<p>&nbsp;</p>
+<p>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="QmRegisterDropTarget"></a><span class=o>#</span><span class=fd>QmRegisterDropTarget</span> hwndTarget hwndNotify flags <span class=c2>;;flags: 1 notify on enter, 2 notify on over, 4 notify on leave, 16 need only files, 32 need .lnk</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.0.</p>
+<p> Registers a window as an OLE drag and drop target. Returns 1 on success, 0 on failure.</p>
+      <p>&nbsp;</p>
+      
+<p> Can be used to receive paths of dropped files, other shell objects (<a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST</a>) and Internet links. Also can be used to receive dropped data of other formats (text, HTML, etc).</p>
+<p>&nbsp;</p>
+<p>Unlike WM_DROPFILES, this method works well on Windows <a href="../Other/IDP_VISTA.html">Vista</a> and later. WM_DROPFILES does not work under UAC, because it does not allow to drag and drop files between processes of different integrity level (IL). QM normally has high IL, but Windows Explorer has medium IL. However in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> running with high IL this method does not work too.</p>
+      <p>&nbsp;</p>
+      
+<p>The information below may be hard to understand. Also, most of it is not useful in most cases. You can start from the example. Also, you can ask about it in the QM forum.</p>
+      <p>&nbsp;</p>
+      <p><span class="dll">QmRegisterDropTarget</span> parameters:</p>
+      <p>&nbsp;</p>
+<div class="parts">
+  <p><b>hwndTarget</b> -  handle of the target window. It can be a top     level window (e.g. a custom dialog) or a child window (e.g. an edit control     in a dialog).</p>
+  <p><b>hwndNotify</b> -  handle of the window that will receive notifications.     For example, if the target is a control in a dialog, you'll probably want     to receive notifications in the dialog procedure, and therefore use hDlg for <b>hwndNotify</b>. Can be 0 if it is the same window as <b>hwndTarget</b>.</p>
+    
+<p><b>flags</b>:</p>
+<table class="tflags">
+<tr>
+<td> 1</td> <td>notify on enter.</td>
+</tr>
+<tr>
+<td>2</td> <td>notify on over.</td>
+</tr>
+<tr>
+<td> 4</td> <td>notify on leave.</td>
+</tr>
+<tr>
+<td> 16</td> <td>need 
+only files.</td>
+</tr>
+<tr>
+<td> 32</td> <td>need .lnk (don't extract shortcut target).</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+    
+<p>On drag and drop events, the <b>hwndNotify</b> window receives <span class="def">WM_QM_DRAGDROP</span> 
+message. By default, the message is sent only on drop, unless flags 1, 2, and/or 
+4 are used. The message is sent with the following info:</p>
+    <p>&nbsp;</p>
+<div class="parts">
+    <p> <b>wParam</b> - 0 on drag enter, 1 on drag over, 2 on drag leave, 3     on drop.</p>
+    <p><b>lParam</b> - address of variable of QMDRAGDROPINFO type.</p>
+</div>
+    <p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>QMDRAGDROPINFO</span> hwndTarget <span class=t>IDataObject</span><span class=p>'</span>dataObj <span class=t>ARRAY</span><span class=p>(</span><span class=t>FORMATETC</span><span class=p>)</span>formats keyState <span class=t>POINT</span><span class=p>'</span>pt effect <span class=t>str</span><span class=p>'</span>files</pre>
+    <p>&nbsp;</p>
+<div class="parts">
+  <p><b>hwndTarget</b> - target window handle.</p>
+    
+<p><b>dataObj</b> - IDataObject interface pointer. Available on drag enter and 
+drop. Can be used to extract data of various formats. In QM, only GetData function 
+is valid, and can retrieve only data described as TYMED_HGLOBAL. In exe, dataObj 
+is fully valid.</p>
+  <p><b>formats</b> - array of available formats. Available on drag enter and drop. A format is described by a FORMATETC type.</p>
+  <p><b>keyState</b> - modifier keys and mouse buttons.</p>
+  <p><b>pt</b> - mouse pointer position.</p>
+    <p><b>effect</b> - combination of available drop effects (copy, move, link,     etc). Available on drag enter, over and drop. If you did not use flag     16, you should remove effects you don't accept. To remove, use the &amp;     operator.</p>
+    <p><b>files</b> - list of dropped files, other shell objects and Internet     links. Valid only on drop. In most cases, it is the only member you need.</p>
+</div>
+      <p>&nbsp;</p>
+      
+<p> IDataObject, FORMATETC, keyState, effect are documented in <a href="../Other/IDP_MSDN.html">MSDN Library</a>. Look for IDropTarget and IDataObject interfaces. In most cases you will not need it.</p>
+      <p>&nbsp;</p>
+      <p>Usually you'll need only <b>files</b>. To register drop target window,       call <span class="dll">QmRegisterDropTarget</span> with <b>flags</b> 16.       Then the message will be sent only on drop, and QM sets proper effect.       In the window or dialog procedure, assign lParam to a QMDRAGDROPINFO*       variable, get <b>files</b>, and return 0. See example.</p>
+      <p>&nbsp;</p>
+      <p>If you also need other notifications, set other flags. Also, on <span class="def">WM_QM_DRAGDROP</span>       return 1. To return 1 from a dialog procedure, use <span class=cod><span class=fq>ret</span> <span class=fu>DT_Ret</span><span class=p>(</span>hDlg <span class=n>1</span><span class=p>)</span></span>. Always return 1 if you have modified <b>effect</b>.</p>
+      <p>&nbsp;</p>
+      
+<p>Toolbars: By default, the child toolbar control is a drop target. To replace default drag and drop feature, use something like this in <a href="../QM_Help/IDH_EXTOOLBAR.html">hook procedure</a> on <span class="def">WM_INITDIALOG</span>: <span class=cod><span class=fd>QmRegisterDropTarget</span><span class=p>(</span>wParam hWnd <span class=n>16</span><span class=p>)</span></span>. Or you can register the toolbar window (<span class=cod><span class=fd>QmRegisterDropTarget</span><span class=p>(</span>hWnd <span class=n>0</span> <span class=n>16</span><span class=p>)</span></span>) as a drop target. It is covered by the child toolbar control, so you would have to make the control smaller. On <span class="def">WM_INITDIALOG</span>, resize the control (<span class="blue">siz</span>), and on <span class="def">WM_SIZE</span> 
+</p>
+      <p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<p>Function DropTargetExampleDialog</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c>\Dialog_Editor
+</span><span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+<span class=fq>if</span><span class=p>(</span>hDlg<span class=p>)</span> <span class=fq>goto</span> messages
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&#34;3&#34;</span>
+<span class=t>str</span> e3
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;DropTargetExampleDialog&#34;</span> <span class=o>&#38;</span><span class=fu>DropTargetExampleDialog</span> <span class=o>&#38;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=c> BEGIN DIALOG
+ 0 &#34;&#34; 0x90C80A44 0x100 0 0 223 41 &#34;Dialog&#34;
+ 1 Button 0x54030001 0x4 4 22 46 14 &#34;OK&#34;
+ 2 Button 0x54030000 0x4 54 22 46 14 &#34;Cancel&#34;
+ 3 Edit 0x54030080 0x200 4 4 216 14 &#34;&#34;
+ END DIALOG
+ DIALOG EDITOR: &#34;&#34; 0x2020006 &#34;&#34; &#34;&#34;
+</span>
+<span class=fq>ret</span>
+<span class=c> messages
+</span><span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=fd>QmRegisterDropTarget</span><span class=p>(</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>)</span> hDlg <span class=n>16</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_QM_DRAGDROP</span>
+<span class=i>&#9;</span><span class=t>QMDRAGDROPINFO</span><span class=o>&#38;</span> di<span class=o>=+</span>lParam
+<span class=i>&#9;</span><span class=c> set edit box
+</span><span class=i>&#9;</span><span class=t>str</span> s.getl<span class=p>(</span>di.files <span class=n>0</span><span class=p>)</span> <span class=c2>;;get first file
+</span><span class=i>&#9;</span>s.setwintext<span class=p>(</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>))</span>
+<span class=i>&#9;</span><span class=c> to get all dropped files, you can use eg foreach. Example: foreach(s di.files) out s
+</span><span class=fq>ret</span>
+<span class=c> messages2
+</span><span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDOK</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDCANCEL</span>
+<span class=fq>ret</span> <span class=n>1</span></pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="QmUnregisterDropTarget"></a><span class=o>#</span><span class=fd>QmUnregisterDropTarget</span> hwndTarget</pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.0.</p>
+<p> Unregisters drop target. Optional. Returns 1 on success, 0 on failure.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="GetExeResHandle"></a><span class=o>#</span><span class=fd>GetExeResHandle</span></pre>
+
+<p>&nbsp;</p>
+<p> Returns module handle that can be used with API resource functions. Useful in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<ul>
+  <li>When the macro runs as separate exe file, gets exe module handle, which is the same as <a href="../Language/IDP_SPECVAR.html">_hinst</a>.</li>
+  <li>When the macro runs in separate process and uses .qmm file, gets .qmm file handle.</li>
+  <li>When the macro runs in QM and there is associated .exe or .qmm file, gets .exe or .qmm module handle.</li>
+  <li>Else returns 0.</li>
+</ul>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="ExeExtractFile"></a><span class=o>#</span><span class=fd>ExeExtractFile</span> resId <span class=o>$</span>dest [flags] [resType] <span class=c2>;;Returns: 1 success, 0 failed. flags: must be 0</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.0.</p>
+<p> Extracts a file added to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>. The file can be added to exe using syntax &quot;:resourceid filepath&quot; (QM 2.3.0), or <a href="../Language/IDP_DIR_EXE.html">#exe addfile</a>, or using a resource editor. Returns 1 on success, 0 on failure. This function works only in exe. It should not be used when the macro runs in QM.</p>
+      <p>&nbsp;</p>
+      
+<div class="parts">
+<p><b>resId</b> - resource id. Use the same <b>resId</b> as with <span class="dir">#exe</span> 
+addfile or in &quot;:resourceid filepath&quot;.</p>
+  <p><b>dest</b> - destination file. To extract to exe's folder, use &quot;$qm$\filename.ext&quot;     or just &quot;filename.ext&quot;. To extract to temporary folder, use     for example &quot;$temp qm$\myexename\filename.ext&quot;. If the folder does     not exist, creates. If the file already exists, compares resource data     with existing file data, and replaces existing file only if it is different. </p>
+    <p><b>flags</b>:</p>
+    <table class="tflags">
+      <col>
+      <tr>
+        <td>1</td>
+        <td>QM 2.3.4. Load dll and return handle.</td>
+      </tr>
+    </table>
+    <p><b>resType</b> (QM 2.3.4) - resource type. If omitted or 0, uses RT_RCDATA (10).</p>
+</div>
+      <p>&nbsp;</p>
+      <p><b>resType</b> and/or <b>resId</b> can be integer 1 to 0xFFFF or string (eg &quot;WAVE&quot;).</p>
+      <p>&nbsp;</p>
+<h4>Example</h4>
+      <p>&nbsp;</p>
+      
+<pre class=cod><span class=dir>#if</span> <span class=d>EXE</span><span class=o>=</span><span class=n>1</span> <span class=c2>;;EXE is 1 if compiling exe, 2 if qmm, 0 if the macro runs in QM</span>
+
+<span class=dir>#exe</span> addfile <span class=s>&#34;$desktop$\test.txt&#34;</span> <span class=n>1</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fd>ExeExtractFile</span><span class=p>(</span><span class=n>1</span> <span class=s>&#34;$temp qm$\testexe\test.txt&#34;</span><span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>run</span> <span class=s>&#34;$temp qm$\testexe\test.txt&#34;</span>
+
+<span class=dir>#else</span>
+
+<span class=fq>run</span> <span class=s>&#34;$desktop$\test.txt&#34;</span>
+
+<span class=dir>#endif</span></pre>
+<p>&nbsp;</p>
+<p>See also code in function <span class="UDF">ExeQmGridDll</span>. It adds a dll to exe, and extracts/loads at run time.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="ExeGetResourceData"></a><span class=o>#</span><span class=fd>ExeGetResourceData</span> resType resId <span class=t>str</span><span class=o>&amp;</span>data <span class=t>int</span><span class=o>*</span>size <span class=c2>;;Returns: 1 success, 0 failed. resType: if 0, uses RT_RCDATA</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.0.</p>
+<p> Loads <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resource data. Returns 1 on success, 0 on failure.</p>
+<p>&nbsp;</p>
+<p> This function is used in exe. It also works while the macro runs in QM, if the exe is already created. </p>
+      <p>&nbsp;</p>
+<div class="parts">
+  <p><b>resType</b> - resource type. If 0, uses RT_RCDATA.</p>
+  <p><b>resId</b> - resource id.</p>
+  <p><b>data</b> - variable that receives data.</p>
+  <ul>
+    <li>Can be 0. Then the function returns pointer to resource data in memory. It is read-only.</li>
+  </ul>
+<p><b>size</b> (QM 2.3.4) - variable that receives resource size. Use when you need resource size when <b>data</b> is 0.</p>
+</div>
+      <p>&nbsp;</p>
+      <p><b>resType</b> and/or <b>resId</b> can be integer 1 to 0xFFFF or string (eg &quot;WAVE&quot;).</p>
+      <p>&nbsp;</p>
+<h4>Example</h4>
+      <p>&nbsp;</p>
+      <pre class=cod><span class=dir>#exe</span> addfile <span class=s>&#34;$desktop$\test.txt&#34;</span> <span class=n>1</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fd>ExeGetResourceData</span><span class=p>(</span><span class=n>0</span> <span class=n>1</span> <span class=o></span>s<span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+  
+<hr>
+<pre class=cod><a name="Crc32"></a><span class=o>#</span><span class=fd>Crc32</span> <span class=o>!*</span>data nbytes [flags] <span class=c2>;;Returns CRC of data. If data is string, nbytes can be string length or -1.  flags: 1 data is file (nbytes not used).</span></pre>
+
+<p>&nbsp;</p>
+<p>Calculates CRC checksum (hash) of a string or binary data.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b> (QM 2.3.2):</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td><b>data</b> is file path. Calculates CRC of file data. <strong>nbytes</strong> not used and can be 0.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p> <em>See also:</em> <a href="../str/IDP_S_ENCRYPT.html">str.encrypt</a> (MD5).</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="Round"></a><span class=o>^</span><span class=fd>Round</span> <span class=o>^</span>number [cDec] <span class=c2>;;Returns number rounded to cDec digits after decimal point</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.1.</p>
+<p> Returns <b>number</b> rounded to <b>cDec</b> digits after decimal point. Can be used to convert a floating-point (double) value to nearest int value.</p>
+      <p>&nbsp;</p>
+      
+<p>This and other math functions are added to the <span class="lib">math</span> <a href="../Language/IDP_CATEGORIES.html">category</a>.</p>
+      <p>&nbsp; </p>
+      <h4>Examples</h4>
+      <p>&nbsp; </p>
+      <pre class=cod><span class=t>int</span> i
+i<span class=o>=</span><span class=n>1.1</span> <span class=c2>;;1
+</span>i<span class=o>=</span><span class=n>1.9</span> <span class=c2>;;1
+</span>i<span class=o>=</span><span class=fd>Round</span><span class=p>(</span><span class=n>1.1</span> <span class=n>0</span><span class=p>)</span> <span class=c2>;;1
+</span>i<span class=o>=</span><span class=fd>Round</span><span class=p>(</span><span class=n>1.9</span> <span class=n>0</span><span class=p>)</span> <span class=c2>;;2
+</span>i<span class=o>=</span><span class=fd>Round</span><span class=p>(</span><span class=n>1.5</span> <span class=n>0</span><span class=p>)</span> <span class=c2>;;2 (.5 rounds to the nearest even number)
+</span>i<span class=o>=</span><span class=fd>Round</span><span class=p>(</span><span class=n>2.5</span> <span class=n>0</span><span class=p>)</span> <span class=c2>;;2 (.5 rounds to the nearest even number)
+</span><span class=t>double</span> d<span class=o>=</span><span class=fd>Round</span><span class=p>(</span><span class=n>1.5555</span> <span class=n>2</span><span class=p>)</span> <span class=c2>;;1.56
+</span></pre>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="RandomNumber"></a><span class=o>^</span><span class=fd>RandomNumber</span> <span class=c2>;;Returns random number between 0.0 and 1.0, not including them</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.1.</p>
+<p> Random number generator. Returns a random value between 0 and 1, not including them. The value can be multiplied to get a random double number in any range.</p>
+<p>&nbsp;</p>
+  <hr>
+<pre class=cod><a name="RandomInt"></a><span class=o>#</span><span class=fd>RandomInt</span> bound1 bound2 <span class=c2>;;Returns random number between bound1 and bound2, including them</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.2.1.</p>
+<p> Returns a random integer value between <b>bound1</b> and <b>bound2</b>, including them.</p>
+<p>&nbsp;</p>
+
+<hr>
+<pre class=cod><a name="ConvertSignedUnsigned"></a><span class=o>%</span><span class=fd>ConvertSignedUnsigned</span> <span class=t>int</span><span class=p>'</span>value [valueType] <span class=c2>;;valueType: 0 unsigned int, 1 signed byte (char), 2 signed word (short)</span></pre>
+<p>&nbsp;</p>
+<p> QM 2.3.2.</p>
+<p>Converts from an integer type unavailable in QM  to  <span class="blue">long</span> (64-bit integer).</p>
+<p>&nbsp;</p>
+<p> QM does not have these integer types:</p>
+<ul>
+  <li> 32-bit unsigned. In C++ it is DWORD, UINT, unsigned int, WPARAM, etc. The  matching QM type is <span class="blue">int</span>, but it is signed.</li>
+  <li>8-bit signed. In C++ it is char. The  matching QM type is <span class="blue">byte</span>, but it is unsigned.</li>
+  <li> 16-bit signed. In C++ it is short. The  matching QM type  is <span class="blue">word</span>, but it is unsigned.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Values of these types can be returned by dll functions. Variables of the matching QM types can store them. However, when assigning to a bigger type using operator =, possible incorrect conversion. This function converts correctly.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>valueType</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>0</td> <td><b>value</b> is unsigned 32-bit integer. The return value must be stored into a <span class="blue">long</span> variable.</td>
+</tr>
+<tr>
+<td>1</td> <td><b>value</b> is signed 8-bit integer. The return value must be stored into a <span class="blue">int</span> or <span class="blue">long</span> variable.</td>
+</tr>
+<tr>
+<td>2</td> <td><b>value</b> is signed 16-bit integer. The return value must be stored into a <span class="blue">int</span> or <span class="blue">long</span> variable.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> i<span class=p>;</span> <span class=t>long</span> lo
+i<span class=o>=</span><span class=n>0xffffffff</span>
+lo<span class=o>=</span>i<span class=p>;</span> <span class=fq>out</span> lo <span class=c2>;;-1</span>
+lo<span class=o>=</span><span class=fd>ConvertSignedUnsigned</span><span class=p>(</span>i<span class=p>);</span> <span class=fq>out</span> lo <span class=c2>;;4294967295</span>
+
+<span class=t>word</span> w<span class=p>;</span> <span class=t>int</span> j
+w<span class=o>=</span><span class=n>0xffff</span>
+j<span class=o>=</span>w<span class=p>;</span> <span class=fq>out</span> j <span class=c2>;;65535</span>
+j<span class=o>=</span><span class=fd>ConvertSignedUnsigned</span><span class=p>(</span>w <span class=n>2</span><span class=p>);</span> <span class=fq>out</span> j <span class=c2>;;-1</span>
+
+<span class=t>byte</span> c<span class=p>;</span> <span class=t>int</span> k
+c<span class=o>=</span><span class=n>0xff</span>
+k<span class=o>=</span>c<span class=p>;</span> <span class=fq>out</span> k <span class=c2>;;255</span>
+k<span class=o>=</span><span class=fd>ConvertSignedUnsigned</span><span class=p>(</span>c <span class=n>1</span><span class=p>);</span> <span class=fq>out</span> k <span class=c2>;;-1</span></pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetQmCodeEditor"></a><span class=o>#</span><span class=fd>GetQmCodeEditor</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Returns QM code editor control handle. If there are two controls, returns one that is currently active, ie has focus or had focus more recently. Use this function instead of <span class=cod><span class=fq>id</span><span class=p>(</span><span class=n>2210</span> _hwndqm<span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>In QM 2.3.0 and later, QM code editor, output and some other controls are based on Scintilla control. In older versions - rich edit control. Therefore, if you have macros created in older QM versions that use rich edit control messages with these controls, they may stop working. Also, str.getwintext and str.setwintext now does not work because the new control does not support WM_GETTEXT and WM_SETTEXT messages. Now use <a href="http://scintilla.sourceforge.net/ScintillaDoc.html" target="_blank">Scintilla messages</a>. The required constants are in SCI reference file. Also, control id 2203 has been changed to 2210 (primary) and 2211 (right/bottom). See also: <span class="dll">InsertStatement</span> (below).</p>
+<p>&nbsp;</p>
+<p><a href="http://scintilla.sourceforge.net/" target="_blank">Scintilla</a> is a free source code editing control created by Neil Hodgson. QM currently uses Scintilla version 3.3.9, upgraded from 2.23 in QM 2.4.1.</p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s
+<span class=t>int</span> h<span class=o>=</span><span class=fd>GetQmCodeEditor</span>
+<span class=t>int</span> lens<span class=o>=</span><span class=fd>SendMessage</span><span class=p>(</span>h <span class=lib>SCI.</span><span class=d>SCI_GETTEXTLENGTH</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+s.fix<span class=p>(</span><span class=fd>SendMessage</span><span class=p>(</span>h <span class=lib>SCI.</span><span class=d>SCI_GETTEXT</span> lens<span class=o>+</span><span class=n>1</span> s.all<span class=p>(</span>lens<span class=p>)))</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="InsertStatement"></a><span class=fd>InsertStatement</span> <span class=o>$</span>s [label] [icon] [flags] <span class=c2>;;flags: 1 simple, 2 set focus, 4 don't indent</span></pre>
+<p>&nbsp;</p>
+    
+<p>QM 2.3.0.</p>
+<p> Inserts one or more lines of QM code in the QM editor, at current position. Inserts as separate line(s), properly indents, etc.</p>
+      <p>&nbsp;</p>
+<div class="parts">
+  <p><b>s</b> - one or more QM statements (commands).</p>
+    <p><b>label</b> - label of menu item or toolbar button. Default: &quot;Label&quot;.     With other item types, it is appended as comments.</p>
+  <p><b>icon</b> - icon file.</p>
+    <p><b>flags</b>:</p>
+<table class="tflags"><col>
+  <tr>
+<td>1</td> <td>simply insert the string in current position, not necessary   as separate line.</td>
+</tr>
+  <tr>
+<td>2</td> <td>set focus.</td>
+</tr>
+  <tr>
+<td>4</td> <td>don't indent.</td>
+</tr>
+
+</table>
+</div>
+      <p>&nbsp;</p>
+      <p>When inserting multiline text in menu/toolbar/autotext, creates new <a href="../Language/IDP_DIR_SUB.html">sub-function</a> with m attribute.</p>
+      <p>&nbsp;</p>
+      <p>QM uses this function to insert code created by the code toolbar dialogs, recorded code, etc.</p>
+      <p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+      <p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="HtmlHelp"></a><span class=o>#</span><span class=fd>HtmlHelp</span> hwndCaller <span class=o>$</span>pszFile uCommand dwData <span class=c2>;;HtmlHelp that supports UTF-8. For reference, search for HtmlHelp in MSDN Library.</span></pre>
+
+<p>&nbsp;</p>
+<p>Controls HTML help. For reference, search for HtmlHelp in <a href="../Other/IDP_MSDN.html">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="RecGetWindowName"></a><span class=o>#</span><span class=fd>RecGetWindowName</span> hwnd <span class=t>str</span><span class=o>&amp;</span>s [flags] [<span class=t>str</span><span class=o>&amp;</span>sParent]<span class=c2></span> [<span class=t>str</span><span class=o>&amp;</span>sComments] [<span class=t>str</span><span class=o>&amp;</span>sComments2]</pre>
+
+<p>&nbsp;</p>
+<p>Gets window or child window expression as it would be recorded. Can be <span class="blue">win</span>, <span class="blue">child</span> or <span class="blue">id</span> function. Returns 1, or 0 if failed.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hwnd</b> - window handle.</p>
+<p><b>s</b> - variable that receives the string.</p>
+<p><b>flags</b> - not used, must be 0.</p>
+<p><b>sParent</b> (QM 2.3.4) - if used, for child windows receives &quot;win(...)&quot; string (parent window), and <b>s</b> will be like &quot;id(5 {window})&quot;; for top-level windows will be empty.</p>
+<p><b>sComments</b> (QM 2.3.4) - if used, receives child window description.</p>
+<p><b>sComments2</b> (QM 2.3.4) - if used,  receives description of child accessible object from mouse.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Works well with child windows too. Formats either <span class="blue">id</span> or <span class="blue">child</span> function, which is better in that case.</p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="EditReplaceSel"></a><span class=fd>EditReplaceSel</span> hDlg cid <span class=o>$</span>s [flags] <span class=c2>;;flags: 1 replace all, 2 set focus, 4 move caret to end</span></pre>
+
+<p>&nbsp;</p>
+<p>QM 2.3.0.</p>
+<p> Inserts or replaces text in an Edit control. Unlike str.setwintext, can replace only selection, or just insert if there is no selection. Also, Undo will work. The function is intended to use in QM dialogs, but also works with edit controls in other threads and processes, except flag 2.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hDlg</b>, <b>cid</b> - can be one of:</p>
+<ul>
+  <li> Edit control handle and 0.</li>
+  <li>Parent window   handle and Edit control id.</li>
+</ul>
+<p><b>s</b> - text.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="QmCodeToHtml"></a><span class=fd>QmCodeToHtml</span> <span class=o>$</span>sIn <span class=t>str</span><span class=o>&amp;</span>sOut itemId bbcode flags</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Formats HTML or BBCode or QM forum code from string containing QM code, like menu -&gt; Edit -&gt; Other Formats.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>sIn</b> - string containing QM code.</p>
+  <p> <b>sOut</b> - variable that receives the formatted string.</p>
+  <p> <b>itemId</b>: 0 macro/function, -1 menu/toolbar, -2 autotext list. Or <a href="../Functions/IDP_QMITEM.html">QM item id</a>.</p>
+  <p><b>bbcode</b>: 0 HTML, 1 qm forum code, 2 standard bbcode.</p>
+  <p> <b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>with css.</td>
+</tr>
+<tr>
+<td>2</td> <td>with &lt;pre&gt;.</td>
+</tr>
+<tr>
+<td>4</td> <td>don't escape tabs/spaces.</td>
+</tr>
+<tr>
+<td>8</td> <td>&lt;span&gt; instead of &lt;div&gt;.</td>
+</tr>
+
+</table>
+  <ul>
+    <li> All flags used only with HTML. </li>
+  </ul>
+</div>
+
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="CompileAllItems"></a><span class=fd>CompileAllItems</span> <span class=o>$</span>folder [<span class=o>$</span>excludeList]<span class=c2></span></pre>
+<p>&nbsp;</p>
+<p><a href="../QM_Help/IDH_DEBUG.html">Compiles</a> multiple macros and functions. Purpose - quickly check for errors multiple macros and functions.</p>
+<p>&nbsp;</p>
+<p> <b>folder</b> - name or id (&lt;0x10000) of folder to compile. If 0, compiles all. If it is not folder, compiles all starting from item with this name/id.</p>
+<p><b>excludeList</b> (QM 2.3.4) - multiline list of names of functions and macros that the function must not compile.</p>
+<p>&nbsp;</p>
+<p>Compiles only macros, functions and member functions. Not menus, toolbars, autotexts. Does not recompile if already compiled. Should be called soon after QM startup.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_DIR_COMPILE.html" class="dir">#compile</a></p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="OutWinMsg"></a><span class=fd><span class="o">$</span>OutWinMsg</span> message wParam lParam [<span class=t>str</span><span class=o>&amp;</span>sOut] [hwnd]</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.1.</p>
+<p> Formats string from a Windows message. Can be used in window and dialog procedures to display received messages.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>message</b> - message.</p>
+<p><b>wParam</b> and <b>lParam</b> - message parameters. The function uses them 
+to get command/notification codes of some special messages, such as WM_COMMAND 
+and WM_NOTIFY.</p>
+<p><b>sOut</b> - variable that receives the string. If omitted or 0, the function displays the string in QM output.</p>
+<p><b>flags</b> (QM 2.4.1) - a window handle. The function will append it and window class and name to the string.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Returns the formatted string. If <b>sOut</b> is +2, does not display it in QM output.</p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="Statement"></a><span class=o>#</span><span class=fd>Statement</span> [caller] [statOffset] [<span class=t>str</span><span class=o>&amp;</span>statement] [<span class="t">int</span><span class=o>&amp;</span>itemId] [flags] <span class=c2>;;flags: 1 include indirect callers</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.1. Added to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> in QM 2.4.3.4.</p>
+<p>&nbsp;</p>
+<p> Gets currently executing <a href="../Reference/IDP_SYNTAX.html">statement</a> info.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>caller</b> - 0 current function, 1 caller, 2 caller's caller, and so on.</p>
+<p> <b>statOffset</b> - 0 current statement, 1 next, -1, previous, etc. If out 
+of range, gets nearest (first or last) statement. Note that some statements, 
+eg declarations, are not used at run time. To see used statements, run the macro 
+in debug mode.</p>
+<p> <b>statement</b> - variable that receives statement code (text). Can be 0 if don't need (faster). Not used in exe.</p>
+<p> <b>itemId</b> - variable that receives QM item id. Can be 0 if don't need.</p>
+<p> <b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td><p>include indirect callers.</p>
+  <ul>
+    <li> <a href="../Other/IDP_FUNCTIONCALL.html">Direct 
+    caller</a> is macro or function     that explicitly called current function by name.</li>
+  </ul></td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp; </p>
+<p>Returns:</p>
+<table class="tflags"><col>
+<tr>
+<td>&gt;=0</td> <td>Offset of the statement in code.</td>
+</tr>
+<tr>
+<td>-1</td> <td>There is no caller at the specified depth.</td>
+</tr>
+<tr>
+<td>-2</td> <td>The QM item is deleted or encrypted. Gets only <b>itemId</b>.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<p>The results may be incorrect if code of the function changed after compiling.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Flow/IDP_DEB.html" class="blue">deb</a>, <span class="dll">GetCallStack</span> (see below), <a href="../QM_Help/IDH_DEBUG.html">other debug functions</a>, <a href="../Functions/IDP_GETOPT.html">getopt nargs</a></p>
+
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="GetCallStack"></a><span class=o></span><span class=fd>GetCallStack</span> [<span class=t>str</span><span class=o>&amp;</span>cs] [flags] <span class=c2>;;flags: 1 no code, 2 no formatting</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.5.</p>
+<p> Gets function call stack.</p>
+<p>&nbsp;</p>
+<p>It is a multiline list of function names. The first is current function, then its caller, caller's caller and so on.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>cs</b><b></b> - variable that receives results. If omitted or 0, displays in QM output.</p>
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+  <tr>
+  <td>1</td> <td><p>Get only function names. By default also gets current statement code (text). In exe never gets code.</p></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Get plain text. By default the text is formatted for QM output.</td>
+  </tr>
+  
+</table>
+</div>
+<p>&nbsp;</p>
+<p> The statement code may be incorrect if code of the functions changed after compiling.</p>
+<p>&nbsp;</p>
+<p>Names of <a href="../Language/IDP_DIR_SUB.html">sub-functions</a> are full (like &quot;&lt;00001&gt;SubName&quot;) with flag 2. Without this flag, names are like &quot;SubName&quot;.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Flow/IDP_DEB.html" class="blue">deb</a>, <span class="dll">Statement</span> (see above), <a href="../QM_Help/IDH_DEBUG.html">other debug functions</a>, <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a>, <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a>, <a href="../str/IDP_S_MACRO.html">str.getmacro</a></p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="q_printf"></a><span class=fd>q_printf</span> <span class=o>$</span>format ...</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Shows formatted text in QM output like <span class="blue">out</span>. Use this function where you cannot use <span class="blue">out</span>. For example in C compiled code (<span class="type">__Tcc</span>) instead of <span class="dll">printf</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="SetPrivilege"></a><span class=o>#</span><span class=fd>SetPrivilege</span> <span class=o>$</span>privilege <span class=c2>;;Returns 1 if successful.</span></pre>
+<p>&nbsp;</p>
+<p>Some Windows API functions require certain privileges. This function enables a privilege in current process. Note that not all privileges can be enabled, especially when QM is running not as administrator.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="RegisterComComponent"></a><span class=o>#</span><span class=fd>RegisterComComponent</span> <span class=o>$</span>path flags <span class=c2>;;flags: 1 unregister, 2 check extension (must be dll or ocx), 4 run as admin, 8 show error/success message box</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.2.0.</p>
+<p>Registers or unregisters a COM component (dll, ocx). Returns 1 if successful, 0 if not.</p>
+<p>&nbsp;</p>
+<p> Requires admin privileges. Use flag 4 to run as admin (possibly with a &quot;run as&quot; or consent dialog, especially in exe).</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1. Internally runs regsvr32.exe. Now can also register 64-bit dlls. Added flag 8.</p>
+<p>&nbsp;</p>
+<p>To register .NET COM components, instead use regasm.exe; it is in .NET runtime folder; more info is on the internet.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../_COM/IDP_COM_USAGE.html">using COM components without registration</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="UnloadDll"></a><span class=o>#</span><span class=fd>UnloadDll</span> <span class=o>$</span>dllName</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2.</p>
+<p>Unloads a delay-loaded dll (declared with <a href="../Language/IDP_DLL.html" class="blue">dll</a>-).</p>
+<p>Returns 1 if successfully unloaded or still not loaded.</p>
+<p>Returns 0 if the dll is not declared or is declared as not delay-loaded.</p>
+<p>&nbsp;</p>
+<p>When you declare a dll with <span class="blue">dll</span>-, QM loads it on demand: when a delay-loaded function from it is called first time. Unloads when QM exits or when you open another or reopen current <a href="../QM_Help/IDH_QML.html">QM file</a>. This function allows you to unload the dll at any time. It does not remove the dll declaration. The functions   can be loaded on demand again.</p>
+<p>&nbsp;</p>
+<p>This function is not thread-safe. If other threads use functions of this dll at the same time, QM may crash etc. Use it only when debugging a dll, for example a dll created at run time with <span class="type">__Tcc</span> class. Don't need to unload dlls for other purposes.</p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<hr>
+
+<pre class=cod><a name="RtOptions"></a><span class=fd>RtOptions</span> mask <span class=t>RTOPTIONS</span><span class=o>&amp;</span>x <span class=c2>;;mask: 0 get all, 1 flags, 2 spe_for_macros, 4 waitcpu_time, 8 waitcpu_threshold, 16 web_browser_class, 32 net_clr_version, 64 opt_</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.4.</p>
+<p>Sets or gets global run-time options. You will probably call this function from <span class="UDF">init2</span> or other function that runs when QM or your exe starts.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>mask</b> - which options to change. One or more flags listed above.</p>
+<p><b>x</b> - variable that contains or receives run-time options. The function uses only members specified in <b>mask</b>. If <b>mask</b> is 0, the variable receives current options.</p>
+</div>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>__RTO_OPT</span> <span class=o>!</span>keysync <span class=o>!</span>keymark <span class=o>!</span>keychar <span class=o>!</span>hungwindow <span class=o>!</span>clip
+<span class=fq>type</span> <span class=t>RTOPTIONS</span>
+<span class=i>&#9;</span>flags spe_for_macros waitcpu_time waitcpu_threshold
+<span class=i>&#9;</span><span class=t>str</span><span class=p>'</span>web_browser_class <span class=t>str</span><span class=p>'</span>net_clr_version
+<span class=i>&#9;</span><span class=t>__RTO_OPT</span><span class=p>'</span>opt_macro_function <span class=t>__RTO_OPT</span><span class=p>'</span>opt_menu_toolbar <span class=t>__RTO_OPT</span><span class=p>'</span>opt_autotext
+</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b>:</p>
+<table class="tflags">
+<col>
+<tr>
+  <td>0x8000</td>
+  <td><p>Prevent activating message box (<span class="blue">mes</span>) windows by default.</p></td>
+</tr>
+</table>
+<p><b>spe_for_macros</b> - default <a href="../Commands/IDP_SPE.html">autodelay</a> for macros and menu/toolbar/autotext items. Not applied to functions. Default 100.</p>
+<p><b>waitcpu_time</b> - additional autodelay, applied only after <a href="../Commands/IDP_OPT.html"> <span class="blue">opt </span> waitcpu 1</a>. Default 1000.</p>
+<p><b>waitcpu_threshold</b> - default CPU threshold, %. Used by <span class="blue">opt</span> waitcpu 1 and <span class="blue">wait</span> ... P (wait for CPU). Default 
+20.</p>
+<p><b>web_browser_class</b> - class name of your default web 
+browser window. Used by <span class="blue"><a href="../Commands/IDP_WEB.html" class="blue">web</a></span> and <a href="../Functions/IDP_HTM.html" class="blue">htm</a>, 
+when window not specified. Use only if your default web browser is not Internet Explorer but is IE-based. Don't use for Firefox, Chrome, Opera.</p>
+<p><b>net_clr_version</b> (QM 2.4.1) - .NET CLR version to load when/if will need it. Used by <span class="type">CsScript</span> class and related functions (compile/execute C# or VB.NET code).</p>
+<ul>
+<li>Can be:
+<ul>
+  <li>&quot;v2.0.50727&quot; - use .NET framework version 3.5. This is default if .NET 4.x is unavailable.</li>
+  <li>&quot;v4.0.30319&quot; - use .NET framework version 4.x (4.0, 4.5 etc, which is installed). This is default if .NET 4.x is available.</li>
+</ul>
+</li>
+<li>Once a CLR is loaded in current process, it cannot be unloaded or changed. If need, restart QM or run macros in separate process.</li>
+</ul>
+<p><b>opt_macro_function, opt_menu_toolbar, opt_autotext</b> (QM 2.4.2) - initial run-time options for different <a href="../QM_Help/IDH_ITEMS.html">QM item</a> types, as with <a href="../Commands/IDP_OPT.html" class="blue">opt</a>.</p>
+<ul>
+  <li>This function changes only options that are specified with non-zero values. To set an option to 0, assign 0x80.</li>
+  <li>All default initial options are 0, except <b>opt_autotext.keymark</b>.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<pre class=cod><span class=t>RTOPTIONS</span> x
+x.spe_for_macros<span class=o>=</span><span class=n>25</span>
+x.opt_autotext.keysync<span class=o>=</span><span class=n>1</span>
+x.opt_macro_function.hungwindow<span class=o>=</span><span class=n>3</span>
+x.opt_menu_toolbar.hungwindow<span class=o>=</span><span class=n>3</span>
+x.opt_autotext.hungwindow<span class=o>=</span><span class=n>3</span>
+<span class=fd>RtOptions</span> <span class=n>2</span><span class=o>|</span><span class=n>64</span> x
+</pre>
+<p>&nbsp;</p>
+<hr>
+
+<pre class=cod><a name="QmSetWindowClassFlags"></a><span class=o>#</span><span class=fd>QmSetWindowClassFlags</span> <span class=o>$</span>cls flags <span class=c2>;;flags: 0x80000000 get, 1 use dialog variables, 2 use dialog definition text, 4 disable text editing in Dialog Editor, 8 supports &quot;WM_QM_GETDIALOGVARIABLEDATA&quot;</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.4.</p>
+<p>Sets or gets flags for a window class. The flags are used only with QM functions, not by Windows.</p>
+<p>&nbsp;</p>
+<p><b>cls</b> - class name.</p>
+<p><b>flags</b>:</p>
+<table class="tflags">
+  <col>
+  <tr>
+    <td>1</td>
+    <td><p>Dialog Editor adds variables for controls of this class.</p></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><p><span class="UDF">ShowDialog</span> passes dialog definition text to controls of this class when creating them. Dialog Editor too.</p>
+      <ul>
+        <li>By default, does it only for some known classes, eg Button, Static, Group, readonly Edit. For other controls, eg editable Edit, text can be changed only with dialog variables or setwintext.</li>
+        <li>This flag is ignored for some known classes.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Disable text editing in Dialog Editor.</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td><p>QM 2.4.3. The control supports &quot;WM_QM_DIALOGCONTROLDATA&quot; message registered with <span class="dll">RegisterWindowMessage</span>. Use when you create a custom control that supports dialog variables, and don't want to use WM_SETTEXT and WM_GETTEXT messages to exchange control data with dialog variables.</p>
+      <p>&nbsp;</p>
+      <p>QM functions <span class="UDF">ShowDialog</span>, <span class="UDF">DT_SetControl</span>, <span class="UDF">DT_SetControls</span>, <span class="UDF">DT_GetControl</span> and <span class="UDF">DT_GetControls</span> send this message to controls that support it, to set and get control data from/to dialog variables. If your control does not support it, sends WM_SETTEXT and WM_GETTEXT instead.</p>
+      <p>&nbsp;</p>
+      <p>&quot;WM_QM_DIALOGCONTROLDATA&quot; message parameters:</p>
+      <p><strong>lParam</strong> - address of dialog variable.</p>
+      <p><strong>wParam</strong>:</p>
+    <p> 1 - need to set control data. The variable contains text stored in it before calling <span class="UDF">ShowDialog</span> etc.</p>
+    <p>0 - need to get control data. Your window procedure stores control data in the variable and returns 1. The data must be a string  in control-defined format.</p>
+    <p>&nbsp;</p>
+    <p><em>Example window procedure of your control</em></p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> hwnd message wParam lParam
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_NCCREATE</span>
+<span class=i>&#9;</span><span class=t>int</span><span class=o>-</span> t_WM_QM_DIALOGCONTROLDATA<span class=o>=</span><span class=fd>RegisterWindowMessage</span><span class=p>(</span><span class=s>&quot;WM_QM_DIALOGCONTROLDATA&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=c> ...</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>if</span> message<span class=o>=</span>t_WM_QM_DIALOGCONTROLDATA
+<span class=i>&#9;&#9;</span><span class=t>str</span><span class=o>&amp;</span> dialogVar<span class=o>=+</span>lParam
+<span class=i>&#9;&#9;</span><span class=fq>sel</span> wParam
+<span class=i>&#9;&#9;&#9;</span><span class=fq>case</span> <span class=n>0</span> <span class=fq>ret</span> <span class=fu>sub.MyGetControlData</span><span class=p>(</span>dialogVar<span class=p>)</span>
+<span class=i>&#9;&#9;&#9;</span><span class=fq>case</span> <span class=n>1</span> <span class=fq>ret</span> <span class=fu>sub.MySetControlData</span><span class=p>(</span>dialogVar<span class=p>)</span>
+<span class=fq>ret</span> <span class=fd>DefWindowProcW</span><span class=p>(</span>hwnd message wParam lParam<span class=p>)</span></pre>
+    <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td>0x80000000</td>
+    <td>Get. The function returns flags, does not set.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<hr>
+
+<pre class=cod><a name="IsValidCallback"></a><span class=o>#</span><span class=fd>IsValidCallback</span> addr nBytesParam</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.5.</p>
+<p>Can be used in functions that want to validate a callback-function-address parameter.</p>
+<p>&nbsp;</p>
+<p>Returns:</p>
+<p>0 - invalid memory address, or the user-defined function has incorrect number of parameters.</p>
+<p>1 - it is a user-defined function with correct number of parameters.</p>
+<p>-1 - valid (readable) memory address, but it is not a user-defined function. It may be a dll function, other valid code, or not a valid code.</p>
+<p>&nbsp;</p>
+<p><b>addr</b> - function address.</p>
+<p><b>nBytesParam</b> - total size of parameters that the function must have.</p>
+<ul>
+  <li> Function parameters are aligned at 4 bytes, and size of a single parameter usually is &lt;=4, therefore <b>nBytesParam</b> usually must be the number of parameters multiplied by 4.</li>
+  <li> Note that callback functions cannot have parameters of str and other composite types. Parameters of such types, as well as of other types of size&gt;4, should be reference or pointer. For example, callback function can begin with: <span class=cod><span class=fq>function</span> <span class=t>str</span><span class=o>&amp;</span>r</span>. To call it: <span class=cod><span class=fq>call</span><span class=p>(</span>addr <span class=o>&amp;</span>strVariable<span class=p>)</span></span>.</li>
+  <li> Not used when the address is not of a user-defined function.</li>
+</ul>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Functions/IDP_CALL.html" class="blue">call</a></p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="RedirectQmOutput"></a><span class=fd>RedirectQmOutput</span> <span class=o>*</span>redirFunc</pre>
+<p>&nbsp;</p>
+<p>QM 2.4.1.</p>
+<p>Sets callback function to intercept QM output. The callback function will be called when <a href="../Commands/IDP_OUT.html" class="blue">out</a> or QM sends text to QM output. Also when <span class="blue">out</span> or <span class="UDF">ClearOutput</span> clears QM output.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>redirFunc</b> - address of callback function, or 0.</p>
+</div>
+<p>&nbsp;</p>
+<p>The callback function must begin with:</p>
+<p><span class=cod><span class=fq>function</span><span class=o>#</span> <span class=t>str</span><span class=o>&amp;</span>s reserved</span></p>
+<p>&nbsp;</p>
+<p><b>s</b> - text to be displayed in QM output.</p>
+<ul>
+  <li>The callback function can change it.</li>
+  <li>&amp;s is 0 when the callback function is called to clear output.</li>
+</ul>
+<p><b>reserved</b> - currently not used.</p>
+<p>&nbsp;</p>
+<p>The callback function can return:</p>
+<ul>
+  <li>0 - to send the text (possibly changed) to QM output. When clearing - to clear.</li>
+  <li>1 - to not send. When clearing - not clear.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Usage examples:</p>
+<ul>
+  <li>Create an output window in exe.</li>
+  <li>Write output text to a file etc.</li>
+  <li>Search for certain strings in output text, and run code depending on it.</li>
+  <li>Add number, date, etc to the output text.</li>
+</ul>
+<p>&nbsp;</p>
+<p>The callback function is called in the same <a href="../Other/IDP_THREADS.html">thread</a> that sends text. It can be any thread.</p>
+<p>&nbsp;</p>
+<p>In the callback function <span class="blue">out</span> is not redirected.</p>
+<p>&nbsp;</p>
+<p>If the output text begins with &quot;&lt;&gt;&quot;, it is with <a href="../Other/IDP_F1.html">tags</a>. If you modify it, don't insert your text before the &quot;&lt;&gt;&quot;. Also be careful to not break tags.</p>
+<p>&nbsp;</p>
+<p>Multiple callback functions are not supported. This function replaces previous callback function. This function is used by <span class="UDF">ExeOutputWindow</span> and <span class="UDF">ExeConsoleRedirectQmOutput</span>, therefore only one of these 3 functions can be used in an exe.</p>
+<p>&nbsp;</p>
+<h4>Example callback function</h4>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> <span class=t>str</span><span class=o>&amp;</span>s reserved
+
+<span class=fq>if</span> <span class=o>&amp;</span>s
+<span class=i>&#9;</span><span class=fd>OutputDebugString</span> s
+<span class=i>&#9;</span><span class=c> s+&quot; &lt;MODIFIED&gt;&quot;</span>
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fd>OutputDebugString</span> <span class=s>&quot;&lt;CLEAR&gt;&quot;</span>
+
+<span class=fq>ret</span> <span class=n>1</span>
+</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><a name="InitWindowsDll"></a><span class=o>#</span><span class=fd>InitWindowsDll</span> what <span class=c2>;;what: 0 winsock, 1 GDI+</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.4.1.</p>
+<p>Calls an API function to initialize a Windows dll that requires it. The API will be called once in process; does nothing if already called. On exit process will be called corresponding API function to uninitialize the dll.</p>
+<p>&nbsp;</p>
+<p><b>what</b>:</p>
+<ul>
+  <li>0 - call <span class="dll">WSAStartup</span> to initialize ws2_32.dll (Windows sockets). Uses version 0x202.</li>
+  <li>1 - call <span class="dll">GdiplusStartup</span> to initialize gdiplus.dll (GDI+). Uses default GdiplusStartupInput (version 1).</li>
+</ul>
+<p>&nbsp;</p>
+<hr>
+
+<h2>Controls</h2>
+<p><a href="IDP_QMGRID.html">QM Grid control</a></p>
+<p><a href="IDP_QMCOMBOBOX.html">QM ComboBox and drop-down list controls</a></p>
+<p>&nbsp;</p>
+</body>
+
+</html>
