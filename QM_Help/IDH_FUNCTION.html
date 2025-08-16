@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Function</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1><img src="../image/icon_function.gif"> Function</h1>
+<p><i>See also:</i> <a href="IDH_FUNCTIONTIPS.html">function tips</a>, <A href="../Language/IDH_FUNCTIONS.html">about 
+  functions</a>, <a href="../Language/IDP_FUNCTION.html">declaration (parameters etc)</a>, <a href="../Reference/IDH_PROGRAMMING.html">programming in QM</a>, <a href="../Language/IDP_CLASSES.html">class member functions</a>, <a href="../Language/IDP_DIR_SUB.html">sub-functions</a></p>
+<p>&nbsp;</p>
+
+<p>A user-defined function is a <A href="IDH_MACRO.html">macro</a> that can be 
+  called from other macros.</p>
+<p>&nbsp;</p>
+<p> Differences between macros and 
+  functions:</p>
+
+<ol>
+  <li>Functions can be called from macros and functions. It allows you 
+    to reuse the same code in multiple places: use function's name instead 
+    of all the code. A function can <a href="../Language/IDP_FUNCTION.html">receive 
+      arguments</a> and <a href="../Flow/IDP_RET.html">return some value</a>. In code, 
+    function names have <span class="UDF">this color</span>.</li>
+  <li> Like macros, functions also can be started by the user or a trigger. Function can run simultaneously with other functions or macro.</li>
+  <li> When a function runs, the QM tray icon does not become red.</li>
+  <li> You cannot stop a  running function by pressing Pause key. Use the Threads dialog (in the tray icon menu) 
+    or the Running Items list (menu Run -&gt; View Active Items). Also, you can 
+    use special code, like <span class=cod><span class=fq>ifk</span><span class=p>(</span>C<span class=p>)</span> <span class=fq>break</span></span> (if Ctrl pressed, exit <span class="blue">for</span> 
+    or <span class="blue">rep</span> loop).</li>
+  <li> Initial macro speed is 100. Initial function 
+    speed is 0 (no autodelays). It can be changed with <a href="../Commands/IDP_SPE.html" class="blue">spe</a>.</li>
+</ol>
+
+<p>By default, functions can be launched by the user or a trigger, like macros. 
+  Often you want to prevent launching a function accidentally, because the function 
+  is designed to be called from code. Use the Properties dialog, which inserts 
+  special line at the beginning of function's text. If the line begins with space 
+  and slash ( / ), the function runs only if it is called as function (from macro, 
+  other function, or as callback function). If you start it using the Run button, 
+  trigger, <span class="blue">mac</span>, etc, it does not run. Example (beginning 
+of function's text):</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span> ...
+...</pre>
+
+<p>&nbsp;</p>
+
+<p>If function (or macro, or member function) begins with space, slash and name 
+  of other item, then, when you press the Run button, runs that item. This is 
+  useful when debugging a function that must be called from code. Example (beginning 
+  of function's text):</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /test
+</span><span class=fq>function</span> ...
+...</pre>
+<p>&nbsp;</p>
+
+
+<p>When you launch this function, runs macro &quot;test&quot;, that may call this 
+  function. If backslash ( \ ) is used, it only prevents starting the function 
+  when you press the Run button, but the function can be started using e.g. <span class="blue">mac</span> 
+  or trigger.</p>
+
+<p>&nbsp;</p>
+<p>QM <a href="IDH_DEBUG.html">compiles</a> functions and macros on demand.</p>
+<p>&nbsp;</p>
+<p>It is possible to change (edit and save) function's code at run time, but changes 
+  are not applied while that function (or a function it called) is running. For 
+  example, if you edit/save a running function that repeatedly executes code using 
+  <span class="blue">rep</span>, the changes are applied only when you run the 
+  function next time. But if you edit/save a running function that contains a 
+  dialog procedure, the changes are applied immediately, because the function 
+  is called repeatedly and usually quickly returns.</p>
+</body>
+
+</html>
