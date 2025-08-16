@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Unary operators</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Unary operators</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>[</i>+<i>][</i>@<i>]</i><i>[</i>!<i>][</i>~<i>][</i>-<i>][</i>*<i>][</i>*<i>][</i>*<i>][</i>&amp;<i>]</i>operand</pre>
+<p>&nbsp;</p>
+<p>Example: <span class=cod><span class=o>-</span><span class=n>10</span></span>. Here <tt>-</tt> 
+  is <b>operator</b>, <tt>10</tt> is <b>operand</b>.</p>
+<p>&nbsp;</p>
+<p>Operators:</p>
+
+<table class="tnormal"><col>
+  <tr> 
+    <td><tt>!</tt></td>
+    <td>The logical-negation (logical-NOT) operator produces the value 
+      0 if its operand is true (nonzero) and the value 1 if its operand is false 
+      (0). The result has int type.</td>
+  </tr>
+  <tr> 
+    <td><tt>~</tt></td>
+    <td>The bitwise-complement (bitwise-NOT) operator produces the bitwise 
+      complement of its operand. The result has the type of the operand.</td>
+  </tr>
+  <tr> 
+    <td><tt>-</tt></td>
+    <td>The arithmetic-negation operator produces the negative of its 
+      operand. The result has the type of the operand.</td>
+  </tr>
+  <tr> 
+    <td><tt>*</tt></td>
+    <td>The indirection operator accesses a value indirectly, through 
+      a <A href="IDH_POINTERS.html">pointer</a>. The operand must be a pointer 
+      value. The result is the value at the address to which operand points. The 
+      type of the result is the type that the operand addresses.</td>
+  </tr>
+  <tr> 
+    <td><tt>&amp;</tt></td>
+    <td> <p> The address-of operator gives the address of its operand. 
+        The operand can be either a variable or a function name. The result is 
+        a pointer to (address of) the operand. If operand is non-initialized reference-variable, 
+        result is 0.</p></td>
+  </tr>
+  <tr> 
+    <td><tt>+</tt></td>
+    <td>The type cast operator. Can be used in some assignment operations (=, <span class="blue">ret</span>, 
+      function arguments) to avoid &quot;type mismatch&quot; error. With interface pointers, it queries interface at run time. With lpstr and pointers, it simply passes raw value. It does not convert number to string; instead assign the number to a str variable and use it. It does not convert string to number; instead use function <span class="blue">val</span>.</td>
+  </tr>
+  <tr>
+    <td><tt>@</tt></td>
+    <td>QM 2.3.0. Converts string to <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+      UTF-16. The operand must be a string (lpstr or str). The result is Unicode 
+      UTF-16 string. Use when calling dll and COM functions that accept UTF-16 strings. Parameter type usually is @* (word pointer; in C++ would 
+      be LPWSTR, OLECHAR* or similar), but also can be BSTR or int (for example 
+      with SendMessageW). <a href="../str/IDP_S_UNICODE.html">Example</a>.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3> Remarks</h3>
+
+<p> Unary operators must be placed immediately before <b>operand</b>. With operators <tt>!</tt>, <tt>~</tt> 
+   and <tt>-</tt>, <b>operand</b> can be any <A href="../Other/IDP_EXPRESSION.html">expression</a>. 
+  With operator *, <b>operand</b> can be any expression that has pointer type.</p>
+<p>&nbsp;</p>
+<p>Unary operators are applied before <a href="IDH_OPERATORS.html">binary operators</a>, 
+  but after operators <tt>.</tt> (member access) and <tt>[]</tt> 
+  (array element access). If used more than one unary operator with the same operand, 
+  they must be in the order specified above, and are applied from right to left. 
+</p>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDH_POINTERS.html">pointer and reference variables</a>, <a href="IDP_DLL.html">set dll function address</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod>a <span class=o>=</span> <span class=o>-</span>b
+<span class=fq>if</span><span class=p>(</span>c <span class=o>&#62;</span> <span class=o>-</span><span class=n>10</span><span class=p>)</span> a <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span><span class=o>-</span><span class=n>10</span> <span class=o>~</span><span class=p>(</span>d<span class=o>|</span>e<span class=p>))</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;Notepad window not found&#34;</span>
+<span class=t>int</span><span class=o>*</span> ip <span class=o>=</span> <span class=o>&#38;</span>i
+j <span class=o>=</span> <span class=o>*</span>ip
+<span class=o>*</span>ip <span class=o>=</span> <span class=n>10</span>
+<span class=t>POINT</span> p<span class=p>;</span> <span class=fd>GetCursorPos</span><span class=p>(</span><span class=o>&#38;</span>p<span class=p>)</span></pre>
+
+</body>
+
+</html>
