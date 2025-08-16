@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>findb</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find string in binary data</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>findb</b>(string substring<i> [</i>len<i>] [</i>from<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string to search in. Must be str variable.</p>
+
+<p> <b>substring</b> - substring to find. Can be string or pointer to binary data.</p>
+
+<p> <b>len</b> - number of bytes in <b>substring</b>. Default: if <b>substring</b> is string - <b>substring</b> length, otherwise this parameter is required.</p>
+
+<p> <b>from</b> - 0-based character index, from which to start search. Default 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns 0-based index of first character of <b>substring</b> in <b>string</b>. 
+  If not found, returns -1. Both strings can contain binary data (null characters).</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;one two&#34;</span><span class=p>;</span> s[<span class=n>3</span>]<span class=o>=</span><span class=n>0</span>
+<span class=c> now s contains null character at position 3
+</span><span class=t>int</span> i<span class=o>=</span><span class=fq>findb</span><span class=p>(</span>s <span class=s>&#34;e[0]t&#34;</span> <span class=n>3</span><span class=p>)</span>
+<span class=c> now i is 2
+</span></pre>
+
+</body>
+
+</html>
