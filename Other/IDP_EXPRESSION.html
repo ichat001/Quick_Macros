@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Expressions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Expressions</h1>
+
+<p>An expression is something that has some value (variable, constant) or returns 
+  some value as result of function call (e.g., <span class="UDF">Func</span>(a 
+  b)) or calculation with operators (e.g., a + b).</p>
+<p>&nbsp;</p>
+
+<p>You can assign expressions to variables (variable = expression), return from 
+  functions (<span class="blue">ret</span> expression), use expressions as arguments 
+   of commands/functions,  and as parts of other expressions. Expressions that contain 
+  operators and spaces must be enclosed in parentheses when passing to a function.</p>
+<p>&nbsp;</p>
+<p> Examples:</p>
+<p>&nbsp;</p>
+
+<pre class=cod>a <span class=o>=</span> <span class=n>10</span>
+b <span class=o>=</span> a
+s <span class=o>=</span> <span class=s>&#34;string&#34;</span>
+a <span class=o>=</span> b <span class=o>+</span> <span class=p>(</span>c <span class=o>*</span> <span class=n>5</span><span class=p>)</span> <span class=o>-</span> <span class=n>1</span>
+<span class=fq>def</span> <span class=d>C5</span> <span class=p>(</span>c <span class=o>*</span> <span class=n>5</span><span class=p>)</span>
+a <span class=o>=</span> b <span class=o>+</span> <span class=d>C5</span> <span class=o>-</span> <span class=n>1</span>
+a <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span>b c<span class=p>)</span>
+a <span class=o>=</span> <span class=fu>Func2</span><span class=p>(</span>b <span class=n>1.5</span> <span class=p>(</span>c <span class=o>+</span> <span class=n>1</span><span class=p>)</span> <span class=fu>Func</span><span class=p>(</span>d <span class=n>10</span><span class=p>)</span> s<span class=p>)</span>
+a <span class=o>=</span> <span class=fu>Func2</span><span class=p>(</span>b <span class=n>1.5</span> c<span class=o>+</span><span class=n>1</span> <span class=fu>Func</span><span class=p>(</span>d <span class=n>10</span><span class=p>)</span> s<span class=p>)</span>
+<span class=fq>ret</span> a <span class=o>+</span> <span class=n>10</span>
+<span class=fq>out</span> <span class=fu>Func</span><span class=p>(</span>a b<span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<p>Here a, b, c, d and s are variables; <span class="UDF">Func</span> and <span class="UDF">Func2</span> 
+  are functions. </p>
+
+</body>
+
+</html>
