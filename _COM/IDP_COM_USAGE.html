@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Using COM components</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Using COM components</h1>
+
+<h2>About COM components</h2>
+<p>COM components (also known as ActiveX components or ActiveX controls) provide 
+  various useful functions. For example, the Wsh (Windows Script Host) component 
+  provides many file, drive, network and other functions that are not available 
+  as intrinsic QM functions. In the web browser control, for example, you can 
+  display web pages in dialogs. Working with COM components requires minimum programming 
+  knowledge. You can simply select functions from the list, without even reading 
+  help files.</p>
+<p>&nbsp;</p>
+<p> There are two main types of COM components - ActiveX controls, and non-control 
+  components. ActiveX controls provide graphical user interface and are used in 
+  dialogs. Other components are invisible but provide various useful functions. 
+  Controls are added to dialogs using the <a href="../User/IDH_DIALOG_EDITOR.html">Dialog 
+  Editor</a>. Non-controls are created using <a href="IDP_COM_FUNC.html">_create</a> 
+  or other functions.</p>
+<p>&nbsp;</p>
+<p>Most COM components provide type libraries. Type libraries contain declarations 
+  of coclasses, interfaces and functions provided by these components, making 
+  available them to other programs, including QM.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDH_COM.html">COM support in QM</a></p>
+<h2>The 'COM Libraries (Type Libraries, ActiveX Controls)' dialog</h2>
+<p>Here you can see registered (installed) type libraries. 
+  You also can register new components and separate type libraries. The main purpose 
+  of the dialog - find a component's type library and insert <a href="IDP_TYPELIB.html" class="blue">typelib</a> 
+  declaration statement in current macro. Declaration is needed to use the component 
+  in macros.</p>
+<p>&nbsp;</p>
+<ul>
+  <li><i>Find</i> - search the list of type library names or control names. Selects 
+    next item that contains the above text.</li>
+  <li><i>Insert declaration from list</i> - insert type library declaration in current 
+    macro. What to do with it - read the &quot;Using COM components&quot; chapter 
+    below in this topic.</li>
+  <li><i>Use file path</i> - if checked, the declaration will use <a href="IDP_TYPELIB.html">syntax2</a>. 
+    By default is used syntax1.</li>
+  <li><i>Insert declaration from file...</i> - locate a type library file and insert 
+    declaration statement in current macro. The library may or may not be in the 
+    list. This does not register the type library or component.</li>
+  <li><i>Register..., Unregister...</i> - register (install) or unregister (uninstall) 
+    a component or separate type library. Registers/unregisters only dll and ocx 
+    components. Registers/unregisters type libraries in any files that contain them.</li>
+  <li><i>Libraries</i> - view registered type libraries. The list includes type libraries 
+    for ActiveX controls and other COM components, and other type libraries.</li>
+  <li><i>Controls</i> - view registered ActiveX controls. When you select a control, 
+    is shown some info from its type library, if available. When you click Insert 
+    Declaration From List, is inserted its type library declaration. </li>
+  <li><i>Preview</i> - see how looks selected control. Not all controls will look 
+    as they look at run time because some features must be activated by calling 
+    their functions at run time (in macro).</li>
+  <li><i>Add control to dialog</i> - adds selected control to dialog. Available when 
+    opened from the dialog editor.</li>
+</ul>
+<p>&nbsp;</p>
+<p>The path of the file that contains the selected type library is displayed at 
+  the bottom of the dialog. If there are separate type libraries for several languages, 
+  you can select language.</p>
+<p>&nbsp;</p>
+<p>At the right side is displayed some information from the type library: name 
+  (although you can use any name), coclasses (types of COM objects) and interfaces 
+  (collections of functions that can be used with these COM objects).</p>
+<h2>Finding and installing COM components</h2>
+<p>Many COM components are installed and used by Windows and various applications. 
+  Some of them also can be useful in QM. Many other COM components are on the Internet.</p>
+<p>&nbsp;</p>
+<p> It is not easy to find a good component on the Internet, especially if you 
+  want a freeware component. Many components are too simple to be useful, 
+  or have bugs, or are too big, or too 
+  expensive, or depend on various runtime files.</p>
+<p>&nbsp;</p>
+<p>New (downloaded) COM components must be registered (installed). Some downloaded 
+  components have setup programs and are installed like any other software. Then 
+  you can find component's type library in the COM Libraries dialog. Other components 
+  came without a setup program, as an ocx or dll file in a zip file. To install 
+  a component that does not have a setup program, use the Register button in the 
+  COM Libraries dialog. It is possible to use COM components without registering; read next chapter.</p>
+<p>&nbsp;</p>
+<p> Usually type libraries are embedded in component files (dll, ocx) and are 
+  registered together with component. If you have downloaded a separate type library 
+  (tlb, olb, dll), register it using the Register button.</p>
+<p>&nbsp;</p>
+<p>If you move a component file to a different location, you have to Register 
+  it again (it will not be reregistered automatically).</p>
+<p>&nbsp; </p>
+<p>Registered type libraries can be declared using GUID (<a href="IDP_TYPELIB.html">syntax1</a>) 
+  or file path (syntax2). Unregistered - only by path.</p>
+<h2>Distributing macros that use COM components</h2>
+<p>If you want to distribute macros that use a COM component, make sure that users have the component. Also, they must have compatible version. The macro 
+  will work if they have type library with same major version as 
+  in <span class="blue">typelib</span> statement, and same or higher minor version. This is actual even if you distribute 
+  <a href="../QM_Help/IDH_MAKEEXE.html">exe file</a>. 
+  You can distribute the component 
+  with your macros.</p>
+<p>&nbsp;</p>
+<p>If you distribute a COM component with your macros, users or your setup 
+  macro/program must register it on that computer. COM components can be registered/unregistered 
+  using the COM Libraries dialog (see above) or function <a href="../User/IDP_QMDLL.html#RegisterComComponent" class="dll">RegisterComComponent</a>. Usually, when registering a component, it also registers 
+  its type library. To register .NET COM components, instead use regasm.exe; it is in .NET runtime folder; more info is on the internet.</p>
+<p>&nbsp;</p>
+<p>It is possible to use COM components without registering. There are 2 ways:</p>
+<ul>
+  <li> QM 2.3.4. Specify dll/ocx path with <a href="IDP_COM_FUNC.html" class="blue">_create</a> or in <a href="../User/IDH_DIALOG_EDITOR.html#a15">dialog definition</a>.</li>
+  <li>QM 2.3.5. Use manifest and <span class="type">__ComActivator</span> class.</li>
+</ul>
+<p>The first way is easier, but does not work with .NET COM components and some other components. The second way works with all components.</p>
+<p>&nbsp;</p>
+<p><a onClick="doSection(downl)" class="expand">Example of downloading automatically</a>. </p>
+<div id="downl" class="expand">
+<p>Components can be downloaded automatically, using function <span class="UDF">DownloadComponent</span>. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>typelib</span> <span class=lib>MSScript</span> {0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC} 1.0 0 1
+<span class=dir>#err</span> <span class=fu>MSScriptDownload</span></pre>
+<p>&nbsp;</p>
+<p>Function MSScriptDownload:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> s<span class=o>=</span><span class=s>&#34;$system$\msscript.ocx&#34;</span>
+<span class=fq>if</span><span class=p>(</span><span class=fd>FileExists</span><span class=p>(</span>s<span class=p>))</span> <span class=fq>ret</span>
+<span class=t>int</span> fa<span class=o>=&#38;</span><span class=fd>RegisterComComponent</span>
+<span class=fq>mac</span> <span class=s>&#34;DownloadComponent&#34;</span> <span class=s>&#34;&#34;</span> s <span class=s>&#34;http://www.quickmacros.com/com/msscript.zip&#34;</span> <span class=s>&#34;Microsoft Windows Script Control&#34;</span> <span class=n>43</span> fa <span class=n>6</span>
+<span class=fq>ret</span> <span class=o>-</span><span class=n>1</span></pre>
+<p>&nbsp;</p>
+<p>It runs at compile time. The typelib statement throws error if the COM component is not installed. The next statement handles the error and calls function that downloads and registers the component. However this cannot be used in exe; will need to somehow detect unavailable component at run time, for example if _create fails.</p>
+</div>
+<h2>Using COM components</h2>
+<p>To use a component, its type library must be <a href="IDP_TYPELIB.html">declared</a>. 
+  The declaration statement can be in the same macro, or in other macro, e.g., 
+  in <span class="UDF">init2</span> function or some other function that runs 
+  at startup (has &quot;QM file loaded&quot; trigger). Several type libraries 
+  are already declared by QM, and you can see them at the bottom of the list when 
+  you type dot.</p>
+<p>&nbsp;</p>
+<p> When just evaluating new component, you can simply create new macro, insert 
+  the type library declaration statement (using the COM Libraries dialog), and 
+  run the macro, or just compile (Ctrl+Shift+R). Then you can type the library 
+  name in the next line, type dot, and see what classes are available. Classes 
+  are listed at the top of the list. When you double click a class in the list, 
+  its name is inserted in the macro. If it is an ActiveX control class, you usually 
+  can see &quot;;;ActiveX control&quot; in QM status bar. Some controls also can 
+  be used as non-control components, that is, created using <a href="IDP_COM_FUNC.html">_create</a>, 
+  not in a dialog.</p>
+<p>&nbsp;</p>
+<p>The following are two examples how new COM components are typically installed 
+  and used. Steps 1 and 2 are omitted if you have found the component on your 
+  computer (in the COM Libraries dialog).</p>
+<h2>Example1: installing and using a non-control component</h2>
+<p>1. Find it on the Internet, and download. When searching, you can include keywords 
+  &quot;COM component&quot;, &quot;ActiveX component&quot;, &quot;ActiveX DLL&quot;, 
+  &quot;ActiveX control&quot;.</p>
+<p>2. Install the component using the setup program or the Register button in 
+  the COM Libraries dialog.</p>
+<p>3. Insert type library declaration: In the COM Libraries dialog, find component's 
+  type library and click Insert Declaration From List. If you cannot find it in 
+  the list, try Insert Declaration From File.</p>
+<p>4. Run or compile the macro where you have inserted the declaration (<span class="blue">typelib</span> 
+  ...). If you have placed the declaration in the <span class="UDF">init2</span> 
+  function or some other function that runs at startup (has &quot;QM file loaded&quot; 
+  trigger), it is compiled automatically. Normally, you don't have to somehow 
+  separately compile just to run the macro, but while creating the macro you cannot 
+  see the available classes and functions until the declaration is not compiled.</p>
+<p>5. Type the library name (it is the first word after <span class="blue">typelib</span>). 
+  Then type dot, and double click a coclass (coclasses are at the top of 
+  the list). If there are several coclasses, pick one that have a meaningful name, 
+  eg something similar to the component name.</p>
+<p>6. Declare a variable of that class, and call <a href="IDP_COM_FUNC.html">_create</a>.</p>
+<p>7. Then you can call component's functions, and/or set events. Available functions 
+  are shown when you type dot after variable name. Those with green brick 
+  icon are methods. Gray icons - properties. Lightning icons - <a href="IDP_COM_EVENTS.html">events</a>.</p>
+<p>&nbsp;</p>
+<p> Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=lib>Excel.</span><span class=t>Application</span> a._create
+a.SomeMethod<span class=p>(</span>arguments<span class=p>)</span>
+somevariable<span class=o>=</span>a.SomeProperty
+a.SomeProperty<span class=o>=</span>somevalue</pre><h2>Example2: installing and using an ActiveX control</h2>
+<p>1. Find it on the Internet, and download. When searching, you can include keywords 
+  &quot;ActiveX control&quot;.</p>
+<p>2. Install. Same as above.</p>
+<p>3. Create or open the smart dialog where you will place the ActiveX control.</p>
+<p>4. In the Dialog Editor, click &quot;ActiveX controls...&quot; in the list. 
+  It opens the COM Libraries dialog that displays available (registered) ActiveX 
+  controls.</p>
+<p>5. In the COM Libraries dialog, select the control and click Add Control To 
+  Dialog. Click Yes if prompts to insert type library declaration.</p>
+<p>6. It adds the control or its placeholder to the dialog. You can move/resize/zorder 
+  it like any other control.</p>
+<p>7. If you want to use events, click the control in the Dialog Editor and click 
+  Events. It inserts a statement that declares an interface pointer variable for 
+  the control, and another statement that calls <a href="IDP_COM_FUNC.html">_getcontrol</a> 
+  function. It also gives you instructions how to set events. The declaration 
+  is inserted under WM_INITDIALOG. If you will use the control under other case 
+  statements too, use the _getcontrol function everywhere to initialize the variable.</p>
+<p>8. Then you can call component's functions, and/or set events. Same as step 
+  7 above.</p>
+<p>&nbsp; </p>
+<p><a href="../User/IDH_DIALOG_EDITOR.html">Example</a></p>
+<p>&nbsp;</p>
+<p>&nbsp; </p>
+
+</body>
+
+</html>
