@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>BSTR</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable type BSTR</h1>
+
+<p>With COM functions usually are used strings of type BSTR. It is <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+  UTF-16 string.</p>
+<p>&nbsp;</p>
+<p>The BSTR type supports operator = (assign). You can assign values of intrinsic 
+  types (str, int, etc) and other OLE types (VARIANT, DATE, etc). They are automatically 
+  converted to BSTR. A BSTR variable itself can be assigned to a str or other 
+  variable. Read more about <a href="../str/IDP_S_UNICODE.html">converting to/from 
+  UTF-16</a>.</p>
+
+<h2>Functions</h2>
+<p> Here <b>var</b> is a 
+  variable of type BSTR. Where the return type is not specified, the function 
+returns <b>var</b> itself.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>add</b>(<i>[</i>left<i>]</i> right)</pre>
+
+<p>&nbsp;</p>
+<p>Joins <b>left</b> and <b>right</b> (var = left + right). Arguments can have 
+  any type. If <b>left</b> is omitted, <b>var</b> is used (var = var + right).</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>int </i>var.<b>cmp</b>(string <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Compares <b>var</b> and <b>string</b>. Returns -1 if <b>var</b> is less than 
+  <b>string</b>, 0 if equal, 1 if greater.</p>
+<p>&nbsp;</p>
+<p>Here &quot;less&quot; means that <b>var</b> would be above <b>string</b> in a sorted list.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Added <b>flags</b>. Flag 1 - case insensitive. Other flags are rarely used and are the same as with <span class="dll">VarBstrCmp</span>, documented in the MSDN Library.</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>alloc</b>(nchar)</pre>
+
+<p>&nbsp;</p>
+<p>Allocates memory for a string of <b>nchar</b> characters, and appends <a href="../str/IDH_STRINGS.html">null 
+  character</a>.</p>
+<p>&nbsp;</p>
+<p>If the variable was empty, the function sets the first character in the allocated 
+  memory to 0 (QM 2.3.0). The remaining part is not initialized.</p>
+<p>&nbsp;</p>
+<p>If the variable was not empty, preserves the string, but no more than <b>nchar</b> 
+  characters. The remaining part is not initialized.</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>free</b></pre>
+
+<p>&nbsp;</p>
+<p>Frees string.</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>int </i>var.<b>len</b></pre>
+
+<p>&nbsp;</p>
+<p>Returns string length. It is number of 2-byte characters, not including the 
+  terminating null character.</p>
+<p>&nbsp;</p>
+<p> To get UTF-16 string length also can be used function <a href="../Functions/IDP_LEN.html" class="blue">len</a> 
+  (QM 2.3.0) or <span class="dll">wcslen</span>. They calculate string length 
+  by searching for the terminating null character, and therefore may return different 
+  value if the string contains binary data (null characters in middle).</p>
+<p>&nbsp;</p>
+<h2>Examples</h2>
+
+<pre class=cod><span class=t>BSTR</span> a <span class=o>=</span> <span class=s>&#34;string1&#34;</span>
+<span class=t>BSTR</span> b.add<span class=p>(</span>a <span class=s>&#34; string2&#34;</span><span class=p>)</span>
+<span class=c> now b is &#34;string1 string2&#34;
+</span><span class=t>str</span> s <span class=o>=</span> a
+a <span class=o>=</span> s</pre>
+
+</body>
+
+</html>
