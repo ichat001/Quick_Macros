@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>shutdown</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Shutdown Windows, QM, macro, etc</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>shutdown</b><i> </i>action<i> [</i>flags<i>] [</i>computer<i>|</i>command<i>|</i>threadname<i>] [</i>wait_<i>|</i>threadid<i>] [</i>message<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>action</b> - one of values below.</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td>Log off Windows.</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td>Shut down Windows.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Restart Windows (reboot).</td>
+</tr>
+<tr> 
+  <td>3</td>
+  <td>Shut down and power off.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Hibernate.</td>
+</tr>
+<tr> 
+  <td>5</td>
+  <td>Suspend (sleep, standby).</td>
+</tr>
+<tr> 
+  <td>6</td>
+  <td>Lock computer or switch user.</td>
+</tr>
+<tr> 
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr> 
+  <td>-1</td>
+  <td>Exit Quick Macros. In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> - exit the exe process (QM 2.2.0).</td>
+</tr>
+<tr> 
+  <td>-2</td>
+  <td>Restart Quick Macros.</td>
+</tr>
+<tr> 
+  <td>-3</td>
+  <td>Hide Quick Macros.</td>
+</tr>
+<tr> 
+  <td>-4</td>
+  <td>Show Quick Macros.</td>
+</tr>
+<tr> 
+  <td>-5</td>
+  <td>Reload current <a href="../QM_Help/IDH_QML.html">QM file</a>.</td>
+</tr>
+<tr> 
+  <td colspan=1
+rowspan=1
+style="width: 75px; ">-6</td>
+  <td colspan=1
+rowspan=1
+style="width: 349px; "><p>End currently running macro, or specified <a href="../Other/IDP_THREADS.html">thread</a>. Read more below.</p></td>
+</tr>
+<tr> 
+  <td colspan=1
+rowspan=1
+style="width: 75px; ">-7</td>
+  <td colspan=1
+rowspan=1
+style="width: 349px; ">Softly end current thread. Read more below.</td>
+</tr>
+</table>
+
+<p>Actions -2, -3, -4 and -5 not available in exe. RT error if used.</p>
+<p>&nbsp;</p>
+<p><b>flags</b> - see below. Depends on <b>action</b>. With other actions 
+should be 0 or omitted. Default: 0.</p>
+<table class="tflags">
+<tr> 
+  <th>action</th>
+  <th>flags</th>
+  <th>&nbsp;</th>
+</tr>
+<tr> 
+  <td>0 - 5</td>
+  <td>0</td>
+  <td>Applications are allowed to cancel the operation. For example, if an application 
+    shows a &quot;Save?&quot; message box, you can click Cancel to stop the 
+    shutdown.</td>
+</tr>
+<tr> 
+  <td>0 - 5</td>
+  <td>1</td>
+  <td>Does not allow to cancel. When used with actions 0 - 3, forces all applications 
+    to terminate, which can cause them to lose data. This value also should 
+    be used if the computer is locked.</td>
+</tr>
+<tr> 
+  <td>0 - 3</td>
+  <td>2</td>
+  <td>Forces to terminate only hung applications.</td>
+</tr>
+<tr> 
+  <td>-6</td>
+  <td>1-8</td>
+  <td>Read in Remarks.</td>
+</tr>
+<tr> 
+  <td>-7</td>
+  <td>1</td>
+  <td>End thread immediately. Read more in Remarks.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<div class="parts">
+<p>These three parameters  are used with action 1 and 2:</p>
+<p>&nbsp;</p>
+<p> <b>computer</b> - computer name. Default: &quot;&quot; 
+- this computer.</p>
+<ul>
+  <li> To shut down other computer, your user account must have administrator 
+    rights on that computer.</li>
+</ul>
+<p> <b>wait_</b> - time (seconds) to wait. A shutdown dialog box or other notification is displayed. 
+  Default: 0 (no dialog box).</p>
+<ul>
+  <li>Tip: To cancel the shutdown, use function <span class="dll">AbortSystemShutdown</span>.</li>
+</ul>
+<p> <b>message</b> - text to display in the shutdown dialog. Default: &quot;&quot;.</p>
+</div>
+<p>&nbsp;</p>
+
+<div class="parts">
+<p><b>command</b> - <A href="../QM_Help/IDH_TRIG_COMMANDLINE.html">QM command line</a>. 
+Used with action -2 (restart QM). For example, it can be <span class=cod><span class=s>&#34;V&#34;</span></span> 
+to restart visible.</p>
+
+<p> <b>threadname </b>- QM item name or <a href="../Functions/IDP_QMITEM.html">id</a>. 
+Used with action -6 (end threads). Read more in Remarks.</p>
+<p><b>threadid</b> (QM 2.2.0) - thread handle, id or unique id (depends on <b>flags</b>). 
+Used with action -6 (end threads). Read more in Remarks.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>This command is asynchronous. It tells QM to perform the specified action but 
+  does not wait until the action is finished. With many actions, it should be 
+  the last command in the macro.</p>
+
+<p>&nbsp;</p>
+<p>Use action -6 to end a <a href="../Other/IDP_THREADS.html">thread</a>. 
+  <a onClick="doSection(e1)" class="expand">Read more</a>. </p>
+<div id="e1" class="expand">
+<p>QM 2.3.3. You can instead use function <span class="UDF">EndThread</span>. It works like <span class="blue">shutdown</span> -6.</p>
+<p>&nbsp;</p>
+<p><b>flags</b>:</p>
+<table class="tflags">
+  <tr>
+    <td>0</td>
+    <td>QM 2.2.0. <b>threadid</b> is thread handle. Read more below.</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>QM 2.2.0. <b>threadid</b> is thread id.</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>QM 2.2.0. <b>threadid</b> is thread unique id.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>QM 2.3.2. If a function has &quot;End thread&quot; trigger for the thread, run it.</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>QM 2.3.2. Synchronous. Wait until the thread is ended.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>If <b>threadname</b> and <b>threadid</b> are not used (omitted, 0 or &quot;&quot;), 
+  ends the currently running macro. If only <b>threadname</b> 
+  used, ends all threads (all running instances of the function). If <b>threadid</b> used, ends 
+  only that instance (<b>threadname</b>, if used, also must match). Not error if the thread is not running. Cannot 
+  end <a href="../Other/IDP_THREADS.html">special threads</a>. Cannot 
+  close toolbars (use <span class="blue">clo</span> instead). Don't use this to end current thread; instead use <span class="blue">ret</span>, 
+  <span class="blue">end</span>, <span class="blue">shutdown</span> -7, etc.</p>
+<p>&nbsp;</p>
+<p> To get thread handle, id or unique id, use <a href="IDP_MAC.html" class="blue">mac</a>, <a href="../User/IDP_QMDLL.html#EnumQmThreads" class="dll">EnumQmThreads</a> 
+  or <a href="../User/IDP_QMDLL.html#GetQmThreadInfo" class="dll">GetQmThreadInfo</a>. Don't use <span class="dll">GetCurrentThread</span> or <span class="dll">DuplicateHandle</span>. 
+  A thread handle identifies thread only while it is running. Later (after &gt; 
+  3 seconds) the same value can be reused (assigned to a new thread). Thread id 
+  also can be reused. Unique thread id is not reused.</p>
+<p>&nbsp;</p>
+<p> If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, <b>threadname</b> can be like &quot;ParentName:SubName&quot;.<br>
+</p>
+</div>
+<p>&nbsp;</p>
+<p>Use action -7 to end current thread when you don't know if it has windows. 
+  Differently than <a href="../Flow/IDP_END.html" class="blue">end</a>, it closes 
+  all thread's windows, giving them chance to free allocated memory, etc. When 
+  <span class="blue">shutdown</span> returns, windows are already destroyed. If 
+  <b>flags</b> is 1, ends thread immediately after destroying windows. If 0 - 
+  gives 0.5 s (or <b>wait_</b> ms, if used) to finish naturally. This action for 
+  example can be used in a function that doesn't know how to properly 
+  end current thread. </p>
+<p>&nbsp;</p>
+<p>Depending on operating system, hardware and security settings, some features 
+  may not work.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=fq>shutdown</span> <span class=n>3</span> <span class=c2>;;shut down; allow to cancel
+</span><span class=fq>shutdown</span> <span class=n>2</span> <span class=n>1</span> <span class=c2>;;reboot; don't allow to cancel
+</span><span class=fq>shutdown</span> <span class=n>1</span> <span class=n>0</span> <span class=s>&#34;&#34;</span> <span class=n>30</span> <span class=s>&#34;QM&#34;</span> <span class=c2>;;shut down after 30 s
+</span><span class=fq>shutdown</span> <span class=o>-</span><span class=n>1</span> <span class=c2>;;exit QM
+</span><span class=fq>shutdown</span> <span class=o>-</span><span class=n>6</span> <span class=c2>;;end currently running macro
+</span><span class=fq>shutdown</span> <span class=o>-</span><span class=n>6</span> <span class=n>0</span> <span class=s>&#34;Func&#34;</span> <span class=c2>;;end all threads (running instances) of function Func
+</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
