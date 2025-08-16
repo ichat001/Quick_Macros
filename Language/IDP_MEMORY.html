@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Memory allocation functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Memory allocation functions</h1>
+<p>Normally, memory for variables is allocated automatically. Alternatively, you 
+  can allocate variables in dynamic memory (heap) using these functions.</p>
+<p>&nbsp;</p>
+<p>These functions can be used to allocate and free memory for variables of any 
+  types, including composite types (str, VARIANT, etc) and types that have constructors/destructors. 
+  They are similar to C++ operators <span class="blue">new</span> and <span class="blue">delete</span>. 
+  To simply allocate memory also can be used <a href="../User/IDP_QMDLL.html">dll 
+  functions</a> or <a href="../str/IDP_S_ALL.html">str variables</a>. See also <a href="../_COM/IDP_OLE_ARRAY.html">safe 
+  arrays</a>.</p>
+  
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+<pre class=syntax>p._new(<i>[</i>count<i>]</i>)
+
+p._resize(<i>[</i>count<i>]</i>)
+
+p._delete
+
+<i>int</i> p._len</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>p</b> - pointer variable of any type.</p>
+
+<p> <b>count</b> - number of elements. For <span class="blue">_new</span>, default 
+is 1. For <span class="blue">_resize</span>, default is plus 1, and can be negative 
+to add -<b>count</b> elements.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">_new</span> allocates memory for single variable or array 
+  of type of <b>p</b>. All bytes are set to 0. If the type has constructor, it 
+  is called for each element. The function sets <b>p</b> to point to the first 
+  element. Returns reference to <b>p</b>. When the memory is not needed anymore, 
+  it must be freed using function <span class="blue">_delete</span>. The function 
+  does not free previously allocated memory.</p>
+
+<p>&nbsp;</p>
+
+<p><span class="blue">_resize</span> resizes memory to hold more or less elements. 
+  Whole or part of previous content is preserved. If <b>count</b> is greater than 
+  previous number of elements, the added memory is initialized in same way as 
+  with <span class="blue">_new</span>. If <b>count</b> is less, the deleted elements 
+  are freed in same way as with <span class="blue">_delete</span>. Variable <b>p</b> 
+  must point to memory allocated with <span class="blue">_new</span> or <span class="blue">_resize</span>, 
+  or be 0. The function sets <b>p</b> to point to the first element of resized 
+  and possibly moved memory block. Returns reference to <b>p</b>.</p>
+
+<p>&nbsp;</p>
+
+<p><span class="blue">_delete</span> frees memory and sets <b>p</b> to 0. If the 
+  type has destructor, it is called for each element. Elements of str and other 
+  composite types also are properly cleaned. Variable <b>p</b> must point to memory 
+  allocated with <span class="blue">_new</span> or <span class="blue">_resize</span>, 
+  or be 0. The function returns reference to <b>p</b>.</p>
+
+<p>&nbsp;</p>
+
+<p><span class="blue">_len</span> returns number of elements in array. Variable 
+  <b>p</b> must point to memory allocated with <span class="blue">_new</span> 
+  or <span class="blue">_resize</span>, or be 0.</p>
+
+<p>&nbsp;</p>
+<p>Memory allocated using these functions is not automatically freed when the 
+  pointer variable is destroyed. You must use <span class="blue">_delete</span> 
+  to free it.</p>
+<p>&nbsp;</p>
+
+<p>If a pointer variable uses these functions, it cannot use other memory-allocation 
+  functions, and vice versa.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>str</span><span class=o>*</span> p._new<span class=p>(</span><span class=n>10</span><span class=p>)</span>
+<span class=fq>out</span> p._len <span class=c2>;;10
+</span>p._resize<span class=p>(</span><span class=n>20</span><span class=p>)</span>
+<span class=fq>out</span> p._len <span class=c2>;;20
+</span>p._delete
+<span class=t>
+MyClass</span><span class=o>*</span> c._new
+...
+c._delete</pre>
+
+</body>
+
+</html>
