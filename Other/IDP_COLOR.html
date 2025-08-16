@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>color</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Color</h1>
+
+<p>A color is stored as integer value in format 0xBBGGRR. The low-order byte contains 
+  a value for the relative intensity of red; the second byte contains a value 
+  for green; and the third byte contains a value for blue.</p>
+<p>&nbsp;</p>
+<p>Examples:</p>
+<p>0x000000 - black</p>
+<p>0xFFFFFF - white</p>
+<p>0x0000FF - red</p>
+<p> 0x00FF00 - green</p>
+<p>0xFF0000 - blue</p>
+<p>0x00FFFF - yellow (red+green)</p>
+<p>0xC0C0C0 - gray</p>
+<p>0x808080 - dark gray</p>
+<p>0x008000 - dark green</p>
+<p>&nbsp;</p>
+<p>To compose a color at run time from red, green and blue components in range 
+  0 to 255, use function <span class="UDF">ColorFromRGB</span>. Example: <span class=cod>yellow<span class=o>=</span><span class=fu>ColorFromRGB</span><span class=p>(</span><span class=n>255</span> <span class=n>255</span> <span class=n>0</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>To get a system color, use function <span class="dll">GetSysColor</span>. Example: 
+  <span class=cod>ttcol<span class=o>=</span><span class=fd>GetSysColor</span><span class=p>(</span><span class=lib>WINAPI.</span><span class=d>COLOR_INFOTEXT</span><span class=p>)</span></span>. 
+</p>
+<p>&nbsp;</p>
+<p> To parse color to red, green and blue components, use function <span class="UDF">ColorToRGB</span>. 
+</p>
+<p>&nbsp;</p>
+<p>When capturing icon in the Icon Editor, you can see the color of the top-left 
+  pixel.</p>
+<p>&nbsp;</p>
+<p>The following macro displays the color from the mouse pointer.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s.format<span class=p>(</span><span class=s>&#34;0x%X&#34;</span> <span class=fq>pixel</span><span class=p>(</span><span class=fq>xm</span> <span class=fq>ym</span><span class=p>))</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
