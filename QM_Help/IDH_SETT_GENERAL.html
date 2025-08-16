@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Options: General</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Options: General</h1>
+
+<p> <i>Tray icon</i> - uncheck this to remove QM tray icon. To open QM window 
+  when the icon is removed, press Ctrl+Alt+Shift+Q. Or, click QM icon in Start 
+  Menu -&gt; Programs -&gt; Quick Macros 2, or in Windows Explorer (that is, run 
+  QM when it is already running). Also you can set to show
+  the icon only when a macro is running. Then the icon does not respond to mouse clicks.</p>
+<p>&nbsp;</p>
+<p> <i>Run at startup</i> - run QM when Windows starts. Administrators can change this setting for all users. If set for all users, QM is launched 
+  using the registry. If not set for all users, each user can separately change 
+  this setting, and QM is launched using the Startup folder. This feature is unavailable in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<p> <i>Check for new QM version</i> - check for new QM version when QM starts. 
+  If there is new version, shows it in QM output.</p>
+<p>&nbsp;</p>
+<p><i>Unicode</i> - if checked, QM interprets text in macros and QM user interface 
+  as <a href="../Other/IDP_UNICODE.html">Unicode</a> UTF-8. If unchecked - as 
+  ANSI, like in older QM versions (&lt; 2.3.0) that did not support Unicode. After 
+  checking the checkbox and restarting QM, click the small arrow button to convert your 
+  macros to Unicode UTF-8.</p>
+<p>&nbsp;</p>
+<p><i> Run as</i> - <a href="../Other/IDP_VISTA.html">UAC integrity level</a> of QM process. This feature is unavailable in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<p><i>Hybrid paste in menu/TB/autotext</i> - use <a href="../Commands/IDP_PASTE.html">hybrid paste</a> in menu, toolbar and autotext list items where <span class="blue">paste</span>/<span class="blue">outp</span> omitted. For example, <span class=cod><span class=p>:</span><span class=s>&quot;text&quot;</span></span> works like <span class=cod><span class=fq><span class="p">:</span>paste</span><span class=o>+</span> <span class=s>&quot;text&quot;</span></span>. If unchecked, it works like <span class=cod><span class=fq><span class="p">:</span>paste</span> <span class=s>&quot;text&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p> <i>Erase category when item selected</i> - when you select something from the list of <a href="../Language/IDP_CATEGORIES.html">category</a> items, erase category name.</p>
+<p>&nbsp;</p>
+<p><i>Disable &quot;lock foreground window&quot;</i> - allow background 
+  applications to activate windows. Normally, should be unchecked. Try to check 
+  this if <span class="blue">act</span>, <span class="blue">run</span> or some 
+  other commands fail to activate window.</p>
+<p>&nbsp;</p>
+<p><i>Show hidden Running items</i> - in the Running items pane show all items. If unchecked, hides items that are in private folders (in Folder Properties dialog checked &quot;Private functions&quot;), eg QM extensions (System). To quickly hide/unhide, right click a folder or empty space in the Running items pane.</p>
+<p>&nbsp;</p>
+<p> <i>List with [+] boxes</i> - set view and behavior of the main list of QM items. In [+] mode it's easier to edit item name - click two times.</p>
+<p>&nbsp;</p>
+<p> <i>On error</i> - open macro containing error, and optionally show QM window when it is hidden.</p>
+<p>&nbsp;</p>
+<p><i>Layout of toolbars</i> - a name of an alternative layout (cofiguration) of custom toolbars on this computer/account. This can be useful if you use QM on multiple computers with the same QM file, and want to have different positions/sizes/styles of your toolbars on each or some computers. For example, you can use default layout (no name) on your main computer, layout L1 on computer B, layout L2 on computers C and D. All toolbar position/size/style data is saved in current QM file, but separately for each layout. QM saves this data for a toolbar when hiding it. Toolbars starting first time in a custom layout inherit this data from the default layout.</p>
+<p>&nbsp;</p>
+<p><i>Record images</i> - set to take screenshots (small images) when recording mouse clicks or using the Mouse dialog. QM saves the recorded images in <a href="../Other/IDP_RESOURCES.html">macro resources</a> with names that begin with &quot;~:&quot;, and inserts the names in macro text as comments. Auto-deletes unused screenshot resources, for example when you delete macro text containing &quot;~:...&quot; and then close the macro. To show/hide images in the code editor, use toolbar button 'Images in code editor'.</p>
+<p>&nbsp;</p>
+<p><em>Enable Chrome acc when it starts</em> - automatically enable accessible objects in Chrome web page area. It works only if Chrome process starts while QM is running. It can make large web pages load slower. See also <a href="../Functions/IDP_ACCESSIBLE.html">using accessible objects in web pages</a>.</p>
+<p>&nbsp;</p>
+<p><i>Check extensions</i> - check whether <a href="IDH_EXTEND.html">QM extensions</a> 
+  are working.</p>
+<p>&nbsp;</p>
+<p><i>Export settings</i> - export QM registry settings to a reg file. <a href="IDH_NETWORK.html">Read 
+  more</a>.</p>
+<p>&nbsp;</p>
+<p><i>Run-time options</i> - shows how to change run-time options. In QM 2.3.4, global run-time options have been removed from the Options dialog. Now can be changed with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>. For backward compatibility, options set in  previous versions are still used.</p>
+<p>&nbsp;</p>
+<p><i>Debug</i> - some options that can help to debug QM or your macros. Select 
+  the 'dump exceptions' options to create crash dump files on every handled and 
+  unhandled exception, including QM internal exceptions and exceptions in dlls 
+  and other components. Exceptions may be the reason of QM crashes or other weird 
+  behavior. You can attach the dmp files to the email when reporting a QM bug/crash/etc. 
+  You can delete the Debug folder when not needed. The options are not applied 
+  to macros running in other processes.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
