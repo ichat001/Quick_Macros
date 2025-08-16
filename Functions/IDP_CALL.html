@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>call</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Call function by address</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>call</b>(address <i>[</i>a1 <i>...]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>address</b> - function address. It can be a user-defined function, dll function, sub-function or other code. For user-defined 
+functions, you can also use function's name as string, or QM item id.</p>
+
+<p> <b>a1 ...</b> - arguments.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Calls a function by address, not by name. It allows you to choose 
+  a function at run time. For example, you can use it to call a callback function. Use <a href="../Language/IDP_OPUNARY.html">operator 
+  &amp;</a> to get function address.</p>
+<p>&nbsp;</p>
+<p>Returns called function's return value, which must be of type int.</p>
+<p>&nbsp;</p>
+<p> Argument types and number must match exactly. They are not converted. Composite 
+  types (str, interface pointers, etc) cannot be passed by value. Variables passed 
+  by reference must be with operator &amp;, like <span class=cod><span class=o>&amp;</span>var</span>.</p>
+<p>&nbsp;</p>
+<p>Callback functions should handle errors (use <a href="../Flow/IDP_ERR.html" class="blue">err</a> if need). On unhandled error the thread ends, even if the caller uses <a href="../Flow/IDP_ERR.html" class="blue">err</a> to handle errors.</p>
+<p>&nbsp;</p>
+<p><em>See also:</em> <a href="../User/IDP_QMDLL.html#IsValidCallback" class="dll">IsValidCallback</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=c> Function MyFunction:</span>
+<span class=fq>function</span><span class=o>#</span> <span class=t>int</span><span class=p>'</span>i <span class=t>str</span><span class=o>&amp;</span>s
+...
+<span class=c> ________________________________</span>
+
+<span class=c> Call MyFunction in usual way:</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;string&quot;</span>
+<span class=t>int</span> r <span class=o>=</span> <span class=fu>MyFunction</span><span class=p>(</span><span class=n>1</span> s<span class=p>)</span>
+
+<span class=c> Call myfunction with call:</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;string&quot;</span>
+<span class=t>int</span> fa <span class=o>=</span> <span class=o>&amp;</span><span class=fu>MyFunction</span>
+<span class=t>int</span> r <span class=o>=</span> <span class=fq>call</span><span class=p>(</span>fa <span class=n>1</span> <span class=o>&amp;</span>s<span class=p>)</span>
+<span class=c> or</span>
+<span class=t>str</span> fn <span class=o>=</span> <span class=s>&quot;MyFunction&quot;</span>
+r <span class=o>=</span> <span class=fq>call</span><span class=p>(</span>fn <span class=n>1</span> <span class=o>&amp;</span>s<span class=p>)</span>
+<span class=c> or</span>
+<span class=t>int</span> iid <span class=o>=</span> <span class=fq>qmitem</span><span class=p>(</span><span class=s>&quot;MyFunction&quot;</span><span class=p>)</span>
+r <span class=o>=</span> <span class=fq>call</span><span class=p>(</span>iid <span class=n>1</span> <span class=o>&amp;</span>s<span class=p>)</span>
+</pre>
+<p>&nbsp; </p>
+</body>
+
+</html>
