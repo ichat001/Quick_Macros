@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Toolbar</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><img src="../image/icon_toolbar.gif"> Toolbar</h1>
+
+<p>Toolbars are used to launch macros, files, and to execute any other commands. 
+  Toolbar syntax is the same as of <A href="IDH_POPUP.html">pop-up menu</a>, except 
+  that toolbars cannot have submenus.</p>
+
+<p>&nbsp;</p>
+
+<p>A toolbar can be free or attached to a window. If a toolbar is attached to 
+  a window, that window becomes owner of the toolbar. The toolbar always is on 
+  top of that window. It is hidden when the window is minimized or hidden. It 
+  is destroyed when the window is destroyed. It follows the window (optionally) 
+  when the window is moved or resized. A toolbar can have multiple instances attached 
+  to multiple windows. A window can have several different attached toolbars.</p>
+
+<p>&nbsp;</p>
+
+<p>A toolbar can be attached to a window using two ways:</p>
+
+<p>&nbsp;</p>
+
+<p>1. Assign a <a href="IDH_TRIG_WINDOW.html">window trigger</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>2. Launch the toolbar using <A href="../Commands/IDP_MAC.html" class="blue">mac</a> with window handle as command. Example: <span class=cod><span class=fq>mac</span> <span class=s>&#34;Toolbar9&#34;</span> <span class=c2></span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Calc&#34;</span><span class=p>)</span></span></p>
+<p>&nbsp;</p>
+
+<p>If toolbar is launched using some other way, it isn't attached to a window. 
+  Such toolbar is always on top.</p>
+
+<p>&nbsp;</p>
+<p>Macro launched from a toolbar receives toolbar window handle in the _command 
+  variable. Use <span class="blue">val</span>(_command) to get it.</p>
+<p>&nbsp;</p>
+<p> When you use <A href="../Commands/IDP_MAC.html" class="blue">mac</a>, it returns 
+  toolbar window handle (even if the toolbar was already running).</p>
+<p>&nbsp;</p>
+
+<h4>Tips</h4>
+
+
+
+<p>Move toolbar: drag with the mouse right button.</p>
+
+<p>Move or delete a button: Shift+drag.</p>
+
+<p>Add a button to run macro, file or open Internet link: drag and drop. Ctrl 
+  can be used for shortcuts.</p>
+<p> If you drag and drop a file onto a program icon, you can choose to open the 
+  file in that program.</p>
+<p>Right click toolbar to view context menu.</p>
+<p>Don't show text of some buttons: insert tab at the beginning of line. You still 
+  will see tooltips.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <a href="IDH_QUICK.html">Quick Start</a>, <A href="IDH_TOOLBARMENU.html">toolbar 
+  right-click menu</a> <A href="IDH_TOOLBAROPTIONS.html">toolbar properties</a> 
+  <A href="IDH_EXTOOLBAR.html">extended toolbars</a> <span class="UDF">DynamicToolbar</span> <span class="fd"><a href="../User/IDP_QMDLL.html#GetToolbarOwner" class="dll">GetToolbarOwner</a></span></p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>
