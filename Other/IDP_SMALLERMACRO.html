@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Make macro smaller</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> Make macro smaller
+</h1>
+
+<p>Tips how to make macro smaller and easier to read and edit.</p>
+<p>&nbsp;</p>
+<h3>Reuse variables</h3>
+<p>For example,  you have code like this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>31</span> <span class=n>304</span> w <span class=n>1</span> <span class=c2>;;push button '1'</span>
+<span class=t>int</span> w1<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>68</span> <span class=n>307</span> w1 <span class=n>1</span> <span class=c2>;;push button '2'</span>
+<span class=t>int</span> w2<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>104</span> <span class=n>305</span> w2 <span class=n>1</span> <span class=c2>;;push button '3'</span>
+</pre>
+<p>&nbsp;</p>
+<p>Line 1 creates variable w (<span class=cod><span class=t>int</span> w</span>), finds a window (<span class=cod><span class=fq>win</span><span class=p>(</span>...<span class=p>)</span></span>), and stores window handle in w. Line 2 uses the handle (w).</p>
+<p>&nbsp;</p>
+<p>If window in lines 1-2, 3-4 and 4-5 is the same, use single variable and <span class="blue">win</span>:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>31</span> <span class=n>304</span> w <span class=n>1</span> <span class=c2>;;push button '1'</span>
+<span class=fq>lef</span> <span class=n>68</span> <span class=n>307</span> w <span class=n>1</span> <span class=c2>;;push button '2'</span>
+<span class=fq>lef</span> <span class=n>104</span> <span class=n>305</span> w <span class=n>1</span> <span class=c2>;;push button '3'</span>
+</pre>
+<p>&nbsp;</p>
+<p>If window is different, and will not need previous window handle later, use multiple <span class="blue">win</span> and single variable:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>31</span> <span class=n>304</span> w <span class=n>1</span> <span class=c2>;;push button '1'</span>
+w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>68</span> <span class=n>307</span> w <span class=n>1</span> <span class=c2>;;push button '2'</span>
+w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>104</span> <span class=n>305</span> w <span class=n>1</span> <span class=c2>;;push button '3'</span>
+</pre>
+<p>&nbsp;</p>
+<p>Also you can reuse <span class="type">Acc</span> and other variables added by QM code toolbar dialogs. For example, replace this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=t>Acc</span> a.<span class=fu>Find</span><span class=p>(</span>w <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;5&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+a.<span class=fu>DoDefaultAction</span>
+<span class=c> ...</span>
+<span class=t>int</span> w1<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=t>Acc</span> a1.<span class=fu>Find</span><span class=p>(</span>w1 <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;5&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+a1.<span class=fu>DoDefaultAction</span>
+</pre>
+<p>&nbsp;</p>
+<p>to this (if need the same object):</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=t>Acc</span> a.<span class=fu>Find</span><span class=p>(</span>w <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;5&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+a.<span class=fu>DoDefaultAction</span>
+<span class=c> ...</span>
+a.<span class=fu>DoDefaultAction</span>
+</pre>
+<p>&nbsp;</p>
+<p>or this (if need other object and will not need previous object):</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=t>Acc</span> a.<span class=fu>Find</span><span class=p>(</span>w <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;5&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+a.<span class=fu>DoDefaultAction</span>
+<span class=c> ...</span>
+a.<span class=fu>Find</span><span class=p>(</span>w <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;5&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+a.<span class=fu>DoDefaultAction</span>
+</pre>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDH_VARIABLES.html">about variables</a>, <a href="../Language/IDP_VARIABLES.html">creating variables</a></p>
+<p>&nbsp;</p>
+<h3>Repeat</h3>
+<p>For example,  you have code like this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w1<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Window1&quot;</span><span class=p>)</span>
+<span class=fq>act</span> w1
+<span class=fq>key</span> Cc D        <span class=c2>;; Ctrl+C Down</span>
+<span class=t>int</span> w2<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Window2&quot;</span><span class=p>)</span>
+<span class=fq>act</span> w2
+<span class=fq>key</span> Cv D        <span class=c2>;; Ctrl+V Down</span>
+<span class=fq>act</span> w1
+<span class=fq>key</span> Cc D        <span class=c2>;; Ctrl+C Down</span>
+<span class=fq>act</span> w2
+<span class=fq>key</span> Cv D        <span class=c2>;; Ctrl+V Down</span>
+<span class=fq>act</span> w1
+<span class=fq>key</span> Cc D        <span class=c2>;; Ctrl+C Down</span>
+<span class=fq>act</span> w2
+<span class=fq>key</span> Cv D        <span class=c2>;; Ctrl+V Down</span>
+</pre>
+<p>&nbsp;</p>
+<p>There are 3 identical 4-line code blocks. Instead use single block that is executed 3 times with <a href="../Flow/IDP_REP.html" class="blue">rep</a>:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w1<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Window1&quot;</span><span class=p>)</span>
+<span class=t>int</span> w2<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Window2&quot;</span><span class=p>)</span>
+<span class=fq>rep</span> <span class=n>3</span>
+<span class=i>&#9;</span><span class=fq>act</span> w1
+<span class=i>&#9;</span><span class=fq>key</span> Cc D        <span class=c2>;; Ctrl+C Down</span>
+<span class=i>&#9;</span><span class=fq>act</span> w2
+<span class=i>&#9;</span><span class=fq>key</span> Cv D        <span class=c2>;; Ctrl+V Down</span>
+</pre>
+<p>&nbsp;</p>
+<p>Often it's possible to repeat even when there are multiple similar but not identical code blocks. For example, replace this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>19</span> <span class=n>17</span> <span class=fq>id</span><span class=p>(</span><span class=n>131</span> w<span class=p>)</span>
+<span class=n>0.5</span>
+<span class=fq>lef</span> <span class=n>19</span> <span class=n>17</span> <span class=fq>id</span><span class=p>(</span><span class=n>135</span> w<span class=p>)</span>
+<span class=n>0.5</span>
+<span class=fq>lef</span> <span class=n>19</span> <span class=n>17</span> <span class=fq>id</span><span class=p>(</span><span class=n>139</span> w<span class=p>)</span>
+<span class=n>0.5</span>
+</pre>
+<p>&nbsp;</p>
+<p>to this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=t>str</span> ss<span class=o>=</span><span class=s>&quot;131[]135[]139&quot;</span>
+<span class=t>str</span> s
+<span class=fq>foreach</span> s ss
+<span class=i>&#9;</span><span class=fq>lef</span> <span class=n>19</span> <span class=n>17</span> <span class=fq>id</span><span class=p>(</span><span class=fq>val</span><span class=p>(</span>s<span class=p>)</span> w<span class=p>)</span>
+<span class=i>&#9;</span><span class=n>0.5</span>
+</pre>
+<p>&nbsp;</p>
+<p>There are 3 similar 2-line code blocks. With 10 blocks * 10 lines it would be 100 lines. With repeating (foreach) - 13 lines.</p>
+<p>&nbsp;</p>
+
+<p><i>See also:</i> <a href="../Flow/IDP_FOR.html" class="blue">for</a>, <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a></p>
+<p>&nbsp;</p>
+<h3>Use functions</h3>
+<p>When there are multiple similar but not identical code blocks, often it's better to move part(s) of code to functions. For example, replace this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fq>lef</span> <span class=n>1</span> <span class=n>2</span> <span class=fq>id</span><span class=p>(</span><span class=n>131</span> w<span class=p>)</span>
+<span class=fq>paste</span> <span class=s>&quot;text1&quot;</span>
+<span class=fq>lef</span> <span class=n>3</span> <span class=n>4</span> <span class=fq>id</span><span class=p>(</span><span class=n>132</span> w<span class=p>)</span>
+<span class=fq>paste</span> <span class=s>&quot;text2&quot;</span>
+<span class=fq>lef</span> <span class=n>5</span> <span class=n>6</span> <span class=fq>id</span><span class=p>(</span><span class=n>133</span> w<span class=p>)</span>
+<span class=fq>paste</span> <span class=s>&quot;text3&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>to this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Calculator&quot;</span> <span class=s>&quot;CalcFrame&quot;</span><span class=p>)</span>
+<span class=fu>Function225</span> <span class=n>1</span> <span class=n>2</span> <span class=fq>id</span><span class=p>(</span><span class=n>131</span> w<span class=p>)</span> <span class=s>&quot;text1&quot;</span>
+<span class=fu>Function225</span> <span class=n>3</span> <span class=n>4</span> <span class=fq>id</span><span class=p>(</span><span class=n>132</span> w<span class=p>)</span> <span class=s>&quot;text2&quot;</span>
+<span class=fu>Function225</span> <span class=n>5</span> <span class=n>6</span> <span class=fq>id</span><span class=p>(</span><span class=n>133</span> w<span class=p>) <span class=s>&quot;text3&quot;</span></span>
+</pre>
+<p>&nbsp;</p>
+<p>and create function Function225 (menu File -&gt; New):</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /</span>
+<span class=fq>function</span> x y hwnd <span class=t>str</span><span class=p>'</span>s
+<span class=fq>spe</span> <span class=o>-</span><span class=n>1</span>
+<span class=fq>lef</span> x y hwnd
+<span class="fq">paste</span> s</pre>
+<p>&nbsp;</p>
+<p>There are 3 similar 2-line code blocks. With 10 blocks * 10 lines it would be 100 lines. With function - 15 lines.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../QM_Help/IDH_FUNCTIONTIPS.html">function tips</a>, <A href="../Language/IDH_FUNCTIONS.html">about functions</a>, <a href="../Language/IDP_FUNCTION.html">declaration (paramters etc)</a></p>
+<p>&nbsp;</p>
+<h3>Use arrays</h3>
+<p>When you need several related variables of same type, you can use single array variable.</p>
+<p>&nbsp;</p>
+<p>For example, you can replace this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s0 s1 s2 s3
+<span class=t>str</span> s4 s5
+s0<span class=o>=</span><span class=s>&quot;zero&quot;</span>
+s1<span class=o>=</span><span class=s>&quot;one&quot;</span>
+<span class=c> ...</span>
+s5<span class=o>=</span><span class=s>&quot;five&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>to this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a.<span class=fq>create</span><span class=p>(</span><span class=n>6</span><span class=p>)</span>
+a[<span class=n>0</span>]<span class=o>=</span><span class=s>&quot;zero&quot;</span>
+a[<span class=n>1</span>]<span class=o>=</span><span class=s>&quot;one&quot;</span>
+<span class=c> ...</span>
+a[<span class=n>5</span>]<span class=o>=</span><span class=s>&quot;five&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>Arrays also allow to make something easier and smaller. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a<span class=o>=</span><span class=s>&quot;zero[]one[]...[]five&quot;</span>
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>0</span> a.<span class=fq>len</span>
+<span class=i>&#9;</span><span class=fq>out</span> a[i]
+</pre>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../_COM/IDP_OLE_ARRAY.html">ARRAY</a></p>
+<p>&nbsp;</p>
+<h3>Use user-defined types</h3>
+<p>When you need several related variables of different types, you can use single variable of a user-defined type.</p>
+<p>&nbsp;</p>
+<p>Replace this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> i1 i2
+<span class=t>str</span> s
+i1<span class=o>=</span><span class=n>1</span>
+i2<span class=o>=</span><span class=n>2</span>
+s<span class=o>=</span><span class=s>&quot;text&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>to this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>MACRO_X_VAR</span> i1 i2 <span class=t>str</span><span class=p>'</span>s
+<span class=t>MACRO_X_VAR</span> v
+v.i1<span class=o>=</span><span class=n>1</span>
+v.i2<span class=o>=</span><span class=n>2</span>
+v.s<span class=o>=</span><span class=s>&quot;text&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>Here MACRO_X_VAR is some unique name.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> how to <a href="../Language/IDP_TYPE.html">declare</a> and <a href="../Language/IDP_TYPEUSAGE.html">use</a> user-defined types.</p>
+<p>&nbsp;</p>
+<h3>Remove declarations of unused variables</h3>
+<p>To find unused variables, check menu Run -&gt; Compile Options -&gt; <a href="../QM_Help/IDH_MENU_TOOLS.html">Show unused variables</a> and compile the macro.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
