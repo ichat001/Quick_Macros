@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>mes</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Message box</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>mes</b><i>[</i>-<i>]</i>(text <i>[</i>caption<i>] [</i>style<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>text </b>- message text. Can be string or numeric.  Use <a href="../Language/IDP_FSTRING.html">F-string</a> to insert variables. Supports <a href="../Other/IDP_SYSLINK.html">links</a>.</p>
+
+<p> <b>caption </b>- message box title. Default: &quot;&quot; (&quot;QM Message&quot;).</p>
+
+<p> <b>style </b>- message box style. Read in Remarks. Default: &quot;&quot; (OK 
+button only).</p>
+</div>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>on 'Cancel' and 'No' end 
+macro. Also, ends macro if there is only OK button.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Shows standard message box dialog. Returns the first character of selected button's name in English ('O' 
+  for OK, 'Y' for Yes, etc).</p>
+
+<p>&nbsp;</p>
+<p><b>style</b> can be string consisting of one or more characters or substrings. Syntax:</p>
+<p>&nbsp;</p>
+<pre class=syntax>&quot;<i>[</i>O<i>|</i>OC<i>|</i>YN<i>|</i>YNC<i>|</i>ARI<i>|</i>RC<i>|</i>CTE<i>][</i>1<i>|</i>2<i>|</i>3<i>][</i>?<i>|</i>!<i>|</i>x<i>|</i>i<i>|</i>q<i>|</i>v<i>][</i>s<i>][</i>a<i>|</i>n<i>][</i>t<i>]</i>&quot;</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>&nbsp;O, OC, YN, YNC, ARI, RC, CTE</b> - buttons. Default: OK.</p>
+<table class="tflags"><col>
+<tr> 
+<td>O</td>
+<td>OK</td>
+</tr>
+<tr> 
+<td>OC</td>
+<td>OK Cancel</td>
+</tr>
+<tr> 
+<td>YN</td>
+<td>Yes No</td>
+</tr>
+<tr> 
+<td>YNC</td>
+<td>Yes No Cancel</td>
+</tr>
+<tr> 
+<td>ARI</td>
+<td>Abort Retry Ignore</td>
+</tr>
+<tr> 
+<td>RC</td>
+<td>Retry Cancel</td>
+</tr>
+<tr> 
+<td>CTE</td>
+<td>Cancel Try-Again Continue</td>
+</tr>
+</table>
+<p> <b>&nbsp;1, 2, 3 </b>- default button. Default: 1.</p>
+<p><b>&nbsp;?, !, x, i, q, v </b>- icon. Default: no icon.</p>
+<table class="tflags"><col>
+<tr> 
+<td><b>?</b></td>
+<td>question (question-mark icon).</td>
+</tr>
+<tr> 
+<td><b>!</b></td>
+<td>warning (exclamation-point icon).</td>
+</tr>
+<tr> 
+<td><b>x</b></td>
+<td>error (stop-sign icon).</td>
+</tr>
+<tr> 
+<td><b>i</b></td>
+<td>information (i in a circle icon).</td>
+</tr>
+<tr> 
+<td><b>q</b></td>
+<td>QM icon. In exe - exe icon.</td>
+</tr>
+<tr> 
+<td><b>v</b></td>
+<td>On Vista and later - shield icon. On older Windows - silent warning icon (same as !s). 
+  Added in QM 2.2.0.</td>
+</tr>
+</table>
+<p><b>&nbsp;a</b> - always activate message box window.</p>
+<p><b>&nbsp;n</b> - prevent activating message box window. See also <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>.</p>
+<p><b>&nbsp;t</b> - topmost (always on top of other windows). Use only 
+if owner window is specified; else message box 
+is topmost by default.</p>
+<p><b>&nbsp;s</b> - silent. Don't play sounds.</p>
+</div>
+<p>&nbsp;</p>
+<p><b>style</b> also can be an integer -  MB_x flags used 
+  with <a href="../Other/IDP_MSDN.html" class="dll">MessageBox</a>.</p>
+<p>&nbsp;</p>
+<p><b>style</b> also can be a variable of type MES.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>MES</span> <span class=o>~</span>style x y timeout default hwndowner</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>style</b> - message box style. Same as <b>style</b> parameter of <span class="blue">mes</span>.</p>
+<p><b>x</b> and <b>y</b> - message box coordinates. Changed are only if nonzero. 
+If negative - relative to the screen right and/or top edge.</p>
+<p> <b>timeout</b> - max time (seconds) to show the message box.</p>
+<p><b>default</b> - button to choose (e.g., 'C'), or some other value to return 
+on timeout. Values 1-15 are mapped to button characters that match Windows API standard button constants, eg IDOK to 'O', IDCANCEL to 'C'.</p>
+<p><b>hwndowner</b> - owner window handle. The owner window, if belongs to the 
+same thread, will be disabled.</p>
+</div>
+<p>&nbsp;</p>
+<p>You can set only members that you need.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>mes</span><span class=o>-</span> <span class=s>&quot;Click OK button&quot;</span>
+
+<span class=fq>mes</span> <span class=o>F</span><span class=s>&quot;Missing file {</span>path<span class=s>}.&quot;</span> <span class=s>&quot;Error&quot;</span> <span class=s>&quot;x&quot;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=fq>mes</span><span class=p>(</span><span class=s>&quot;Save?&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;YN?&quot;</span><span class=p>)</span> <span class=o>!=</span> <span class=n>'Y'</span><span class=p>)</span> <span class=fq>ret</span>
+
+<span class=t>MES</span> m
+m.style<span class=o>=</span><span class=s>&quot;YNCn&quot;</span>
+m.x<span class=o>=</span><span class=n>100</span>
+m.y<span class=o>=</span><span class=n>1</span>
+m.timeout<span class=o>=</span><span class=n>15</span>
+m.default<span class=o>=</span><span class=n>'C'</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fq>mes</span><span class=p>(</span><span class=s>&quot;message&quot;</span> <span class=s>&quot;title&quot;</span> m<span class=p>)</span></pre>
+</body>
+
+</html>
