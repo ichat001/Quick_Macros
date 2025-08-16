@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+ <TITLE>foreach</TITLE>
+ <LINK rel="StyleSheet" href="../QM-Help.css">
+</HEAD>
+<BODY>
+<h1>Repeat for each item in collection</h1>
+<h3>Syntax</h3>
+<pre class=syntax><b>foreach</b> item coll <i>[</i>function<i>] [</i>arguments<i>]</i>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i></pre>
+<p>&nbsp;</p>
+<p>Can be single line:</p>
+<pre class=syntax><b>foreach</b>(item coll <i>[</i>function<i>] [</i>arguments<i>]</i>) statements</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>item</b> - variable that in each loop receives next item from <b>coll</b> 
+collection. Type depends on other parameters.</p>
+<p> <b>coll</b> - usually a collection of some kind.</p>
+<p> <b>function</b> - a user-defined function that populates the <b>item</b> variable<b></b>.</p>
+<p> <b>arguments</b> - additional arguments for <b>function</b>.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p><span class="blue">foreach</span> is similar to <a href="IDP_REP.html" class="blue">rep</a> 
+  and <a href="IDP_FOR.html" class="blue">for</a>. It simplifies 
+  enumeration of items in collections of various kinds. Executes  <b>statements</b> 
+  for each item in the collection.</p>
+<p>&nbsp;</p>
+<p>Currently there are two predefined kinds of collections that may be used with 
+  <span class="blue">foreach</span>. Used without <b>function</b>.</p>
+<p>&nbsp;</p>
+<h4>1. For each line in string.</h4>
+<p>If <b>coll</b> is string, in each loop is 
+  extracted next line and stored into <b>item</b> variable. The variable must 
+  also be string (str or lpstr).</p>
+<p>&nbsp;</p>
+<h4>2. For each item in COM collection.</h4>
+<p>If <b>coll</b> is a COM collection interface, in each 
+  loop is extracted next item and stored into <b>item</b> variable. Type of the 
+  variable must match type of collection elements, or can be VARIANT. The COM 
+  interface should be defined in a type library.</p>
+<p>&nbsp;</p>
+<p>There is possibility to extend <span class="blue">foreach</span>. For example, enumerate windows, files, etc. <a onClick="doSection(ext)" class="expand">Read more</a>. </p>
+<div id="ext" class="expand">
+<p>For this purpose is used a user-defined 
+  function (<b>function</b>). <span class="blue">foreach</span> executes the function at the beginning of each loop. 
+  The function gets next item from <b>coll</b> collection 
+  and assign it to <b>item</b> variable. Actually <b>coll</b> can be anything 
+  (string, array, variable of a user-defined type, or not 
+  used at all).</p>
+<p>&nbsp;</p>
+<p> The function must have two or more parameters. The first two parameters 
+  receive <b>item</b> and <b>coll</b>. They can have any type that is appropriate 
+  for function's purpose, but the first parameter should be reference. Other optional parameters will receive <b>arguments</b>.</p>
+<p>&nbsp;</p>
+<p> The function must 
+  return: 1 - an item extracted; 
+  0 - no more items (break <span class="blue">foreach</span> loop). It also can 
+  return -1 to tell that last item is extracted.</p>
+<p>&nbsp;</p>
+<p> Although the function 
+  is executed repeatedly, it retains the same local variables (including parameters) 
+  through whole <span class="blue">foreach</span>. For example, 
+  you can use a local variable for internal indexing or one-time initialization.</p>
+<p>&nbsp;</p>
+<p>Example function FE_Char:</p>
+<pre class=cod><span class=c> /</span>
+<span class=fq>function</span> <span class=t>int</span><span class=o>&amp;</span>character <span class=o>$</span>s
+
+<span class=c> Gets characters from string.</span>
+
+<span class=t>int</span> i
+<span class=fq>if</span><span class=p>(</span>s<span class=o>=</span><span class=n>0</span> <span class=fq>or</span> s[i]<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>ret</span>
+character<span class=o>=</span>s[i]
+i<span class=o>+</span><span class=n>1</span>
+<span class=fq>ret</span> <span class=n>1</span>
+</pre>
+<p>&nbsp;</p>
+<p>Using it:</p>
+<pre class=cod><span class=t>int</span> c
+<span class=fq>foreach</span> c <span class=s>&quot;ABC&quot;</span> <span class=fu>FE_Char</span>
+<span class=i>&#9;</span><span class=fq>out</span> c
+</pre><p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<p> Use <span class="blue">break</span> to exit loop. Use <span class="blue">continue</span> 
+  to skip following <b>statements</b>.</p>
+<p>&nbsp;</p>
+
+<p> <span class="blue">foreach</span> can be in other block (<span class="blue">if</span>, 
+  <span class="blue">for, ...</span>).</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> For each line:
+</span><span class=t>str</span> s
+<span class=t>str</span> lines<span class=o>=</span><span class=s>&#34;line1[]line2[][]line3&#34;</span>
+<span class=fq>foreach</span> s lines
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span>s.len<span class=p>)</span> <span class=fq>continue</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+
+<span class=c> For each COM object (enumerate environment variables):
+</span><span class=lib>Wsh.</span><span class=t>WshShell</span> shell._create
+<span class=t>VARIANT</span> v
+<span class=fq>foreach</span> v shell.Environment
+<span class=i>&#9;</span><span class=fq>out</span> v</pre>
+</BODY>
+</HTML>
