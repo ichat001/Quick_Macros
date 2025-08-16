@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>net</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Run macro on other computer</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>net</b>(computer password macro <i>[</i>retval<i>] [</i>a1 <i>...]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>computer</b> - name or IP address (e.g. &quot;125.45.245.1&quot;) of the 
+remote computer.</p>
+<ul>
+  <li>QM port of remote computer can be specified using syntax computer:port, like &quot;125.45.245.1:8177&quot;.</li>
+</ul>
+<p> <b>password</b> - password that is required to run macros on the remote computer.</p>
+<ul>
+  <li> It is the password that is set in remote computer's QM Options -&gt; Network.</li>
+  <li> Can be &quot;&quot; for macros that the remote computer allows to run without 
+    a password.</li>
+  <li> Can be encrypted (in Options -&gt; Security, use &quot;net&quot; 
+    as function name).</li>
+</ul>
+<p><b>macro</b> - name of a macro or function on remote computer.</p>
+<ul>
+  <li>Can be QM item path. For example, &quot;\Mouse\Next&quot; is  macro &quot;Next&quot; in folder &quot;Mouse&quot;.</li>
+</ul>
+<p> <b>retval</b> - str variable that receives the return value of the macro. 
+  The macro can return a numeric or string value.</p>
+<p><b>a1 ...</b> - arguments for <b>macro</b>. It receives them  through <A href="../Language/IDP_FUNCTION.html" class="blue">function</a> statement.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Launches a macro or function on other computer in  network. 
+  If <b>retval</b> is used, waits until the macro ends.</p>
+
+<p>&nbsp;</p>
+
+<p>The return value is 0 or an error code:</p>
+<table class="tflags"><col>
+  <tr> 
+    <td>0</td>
+    <td>The macro was started successfully. If <b>retval</b> is used, 
+      the macro ran successfully, unless it was terminated by the user, in which 
+      case the <b>retval</b> variable is empty or &quot;0&quot;.</td>
+  </tr>
+  <tr> 
+    <td>1</td>
+    <td>Computer not found<b></b>.</td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td>Could not connect. Possible reasons: The remote computer is not running; 
+      not connected to the network; QM is not running; QM does 
+      not allow to run macros from other computers (Options -&gt; Network -&gt; 
+      Allow ... is unchecked on remote computer); Firewall problems; Different port is specified; The 
+      port is in use; Problems with network connection (try to disable/enable 
+      or repair). </td>
+  </tr>
+  <tr> 
+    <td>3</td>
+    <td>Password incorrect, or, if <b>password</b> is &quot;&quot;, this macro 
+      is not allowed to run without a password.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Macro not found.</td>
+  </tr>
+  <tr> 
+    <td>5</td>
+    <td>Could not start the macro. For example, it contains errors, or other macro 
+      is running.</td>
+  </tr>
+  <tr> 
+    <td>6</td>
+    <td>Could not send arguments. The macro did not run.</td>
+  </tr>
+  <tr> 
+    <td>7</td>
+    <td>Could not retrieve the return value. The macro ran successfully.</td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td>Run-time error in the macro.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>The _command variable of the macro that runs on the remote computer contains 
+  caller computer's IP address.</p>
+<p>&nbsp;</p>
+<p>Initially, accessing QM from other computers is disabled. You can enable it in Options -&gt; Network. You don't have to enable it on your computer 
+  if you only want to run macros on other computers (to use <span class="blue">net</span>).</p>
+<p>&nbsp;</p>
+<p> You can see your computer's name and IP addresses in Options -&gt; Network. 
+  You can change computer name in My Computer's Properties.</p>
+<p>&nbsp;</p>
+<p>Both computers must use the same port. QM port number is displayed and can 
+  be changed in Options -&gt; Network. Initially it is 8177. If it conflicts with 
+  other applications, etc, you can change it. Recommended values are between 5000 
+  and 65000. If QM on remote computer uses different port, you can specify 
+  the port number in <b>computer</b>, using syntax computer:port, like &quot;125.45.245.1:8178&quot;.</p>
+<p>&nbsp;</p>
+<p>Although <span class="blue">net</span> normally is used in local network, it also can work on the Internet. But several problems exist, such as firewall and unknown IP.</p>
+<p>&nbsp;</p>
+<p>If your Internet connection uses a firewall, QM 
+  may be inaccessible from the Internet or even from your network. May need
+  to configure the firewall to allow incoming connections on QM port. Or click Allow in the Windows Security Alert dialog when QM network features 
+  are enabled first time.</p>
+<p>&nbsp;</p>
+<p>To identify a computer on the Internet, is used different IP address than in 
+  local network. You can see  IP addresses in Options -&gt; Network -&gt; Computer Info.   An IP  can be static (computer always have the same IP) or dynamic (computer's IP changes).</p>
+<p>&nbsp;</p>
+<p>To send a local macro to a remote computer, you can use the <span class="UDF">NetSendMacro</span> 
+  function, which runs the <span class="UDF">NewItem</span> function (same as 
+  <a href="../Functions/IDP_NEWITEM.html" class="blue">newitem</a>) on the remote 
+  computer. You can also send and receive files. See the examples.</p>
+<p>&nbsp;</p>
+<p><span class="blue">net</span> may be slow when using computer name. If you 
+  call it repeatedly, better use IP. To get IP of a computer, you can use function 
+  <span class="UDF">GetIpAddress</span> (it is also slow but you call it only 
+  1 time, and then multiple times call <span class="blue">net</span> with IP).</p>
+<p>&nbsp;</p>
+<p>To control a remote computer visually, use Remote Desktop or other 
+  remote control software.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../QM_Help/IDH_NETWORK.html">network setup</a>, <a href="../QM_Help/IDH_QML.html">shared 
+  files</a>, <a href="IDP_MAC.html" class="blue">mac</a>, <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=2068" target="_blank">sharing 
+  files and text between computers</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> run function NetworkMessage on computer John, and pass &quot;Hello!&quot; as argument</span>
+<span class=fq>net</span> <span class=s>&quot;John&quot;</span> <span class=s>&quot;passw555&quot;</span> <span class=s>&quot;NetworkMessage&quot;</span> <span class=n>0</span> <span class=s>&quot;Hello!&quot;</span>
+
+<span class=c> function NetworkMessage (on computer John)</span>
+<span class=fq>function</span> <span class=o>$</span>message
+<span class=fq>mes</span> message
+<span class=c> ______________________________________</span>
+
+<span class=c> get file from another computer</span>
+<span class=t>int</span> r
+<span class=t>str</span> s
+r<span class=o>=</span><span class=fq>net</span><span class=p>(</span><span class=s>&quot;123.234.35.1&quot;</span> <span class=s>&quot;pppassw&quot;</span> <span class=s>&quot;net_GetFile&quot;</span> s <span class=s>&quot;$personal$\test.txt&quot;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>r <span class=fq>or</span> <span class=o>!</span>s.len<span class=p>)</span> <span class=fq>end</span> <span class=s>&quot;failed&quot;</span> <span class=c2>;;the remote macro net_GetFile did not run or did not return the requested file</span>
+s.<span class=fq>setfile</span><span class=p>(</span><span class=s>&quot;$personal$\test.txt&quot;</span><span class=p>)</span> <span class=c2>;;save it on this computer</span>
+
+<span class=c> function net_GetFile</span>
+<span class=fq>function</span><span class=p>'</span><span class=t>str</span> <span class=o>$</span>file_
+<span class=t>str</span> s.<span class=fq>getfile</span><span class=p>(</span>file_<span class=p>)</span>
+<span class=fq>ret</span> s
+<span class=c> ______________________________________</span>
+
+<span class=c> send file to another computer</span>
+<span class=t>int</span> r
+<span class=t>str</span> data.<span class=fq>getfile</span><span class=p>(</span><span class=s>&quot;$personal$\test.txt&quot;</span><span class=p>)</span>
+<span class=t>str</span> sr
+r<span class=o>=</span><span class=fq>net</span><span class=p>(</span><span class=s>&quot;123.234.35.1&quot;</span> <span class=s>&quot;pppassw&quot;</span> <span class=s>&quot;net_SetFile&quot;</span> sr <span class=s>&quot;$personal$\test.txt&quot;</span> data<span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>r <span class=fq>or</span> sr<span class=o>!=</span><span class=s>&quot;1&quot;</span><span class=p>)</span> <span class=fq>end</span> <span class=s>&quot;failed&quot;</span> <span class=c2>;;the remote macro net_SetFile did not run or did not return 1</span>
+
+<span class=c> function net_SetFile</span>
+<span class=fq>function</span><span class=o>#</span> <span class=o>$</span>file_ <span class=t>str</span><span class=p>'</span>data
+data.<span class=fq>setfile</span><span class=p>(</span>file_<span class=p>)</span>
+<span class=fq>ret</span> <span class=n>1</span>
+<span class=c> ______________________________________</span>
+
+<span class=c> send and run function Function7 on Computer3</span>
+<span class=t>str</span> c<span class=p>(</span><span class=s>&quot;Computer3&quot;</span><span class=p>)</span> p<span class=p>(</span><span class=s>&quot;p765&quot;</span><span class=p>)</span> m<span class=p>(</span><span class=s>&quot;Function7&quot;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=fu>NetSendMacro</span><span class=p>(</span>c p m<span class=p>))</span> <span class=fq>end</span> <span class=s>&quot;could not send&quot;</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>net</span><span class=p>(</span>c p m<span class=p>))</span> <span class=fq>end</span> <span class=s>&quot;could not launch&quot;</span>
+<span class=c> ______________________________________</span>
+
+<span class=c> This macro upgrades QM on several computers.</span>
+
+<span class=t>str</span> setupfile<span class=o>=</span><span class=s>&quot;$desktop$\quickmac.exe&quot;</span> <span class=c2>;;QM setup program. Macro will send and run it on each computer.</span>
+<span class=t>str</span> computers<span class=o>=</span><span class=s>&quot;computer1[]computer2[]computer3&quot;</span> <span class=c2>;;list of computers</span>
+<span class=t>str</span> password<span class=o>=</span><span class=s>&quot;passw&quot;</span> <span class=c2>;;assume, all computers use same password (Options -&gt; Network)</span>
+<span class=t>str</span> cmdline<span class=o>=</span><span class=s>&quot;/silent&quot;</span> <span class=c2>;;install without the setup wizard, using the same settings as when installing last time</span>
+
+<span class=t>str</span> c sd.<span class=fq>getfile</span><span class=p>(</span>setupfile<span class=p>)</span>
+<span class=t>int</span> r
+
+<span class=t>str</span> sm<span class=o>=</span>
+<span class=s> function str'filedata $cmdline</span>
+<span class=s> str temp=&quot;$temp qm$\quickmac.exe&quot;</span>
+<span class=s> filedata.setfile(temp)</span>
+<span class=s> run temp cmdline</span>
+
+<span class=fq>foreach</span> c computers
+<span class=i>&#9;</span>r<span class=o>=</span><span class=fq>net</span><span class=p>(</span>c password <span class=s>&quot;NewItem&quot;</span> <span class=n>0</span> <span class=s>&quot;NetUpgradeQm&quot;</span> sm <span class=s>&quot;Function&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;\User\Temp&quot;</span> <span class=n>17</span><span class=p>)</span> <span class=c2>;;send macro that receives and runs setup file</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span>r<span class=p>)</span> r<span class=o>=</span><span class=fq>net</span><span class=p>(</span>c password <span class=s>&quot;NetUpgradeQm&quot;</span> <span class=n>0</span> sd cmdline<span class=p>)</span> <span class=c2>;;if ok, run the macro</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>r<span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;Cannot upgrade QM on %s (error %i)&quot;</span> c r
+<span class=i>&#9;</span><span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;QM upgraded on %s&quot;</span> c
+</pre>
+</body>
+
+</html>
