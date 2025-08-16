@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>dir</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find or enumerate files</h1>
+
+<p>Obsolete. Use <a href="../User/IDP_QMDLL.html#FileExists" class="dll">FileExists</a>. 
+To create code, use dialog &quot;If file exists&quot; or &quot;Get file info&quot; or &quot;Enumerate files&quot;.</p>
+<p>&nbsp;</p>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>lpstr </i><b>dir</b>(<i>[</i>file<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>file </b>- file, folder or drive.</p>
+<ul>
+<li>Filename can contain <a href="../Other/IDP_WILDCARD.html">wildcard 
+  characters</a>.</li>
+<li> If omitted or &quot;&quot;, finds next file that 
+  matches <b>file</b> with wildcard characters used  with <span class="blue">dir</span> previously (in current function).</li>
+</ul>
+<p> <b>flags</b>:</p>
+<table class="tflags">
+<tr>
+<td> 0</td> 
+<td>Find only files.</td>
+</tr>
+<tr>
+<td> 1</td> <td>Find only folders and drives.</td>
+</tr>
+<tr>
+<td> 2</td> <td>Find all.</td>
+</tr>
+<tr>
+<td>3</td> <td>If <b>flags</b> is 3 or omitted,  uses  flags used  with <span class="blue">dir</span> previously (in current function).</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>If the file  exists, returns its filename with 
+extension. Else returns 0.</p>
+<p>&nbsp;</p>
+<p> <i>See also: </i> <A href="../str/IDP_S_SEARCHPATH.html">str.searchpath</a>, 
+  <a href="../Other/IDP_SEARCHPATHS.html">special folders</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> If file exists:
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>dir</span><span class=p>(</span><span class=s>&#34;$desktop$\test.txt&#34;</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;file exists&#34;</span>
+
+<span class=c> .txt files in desktop folder:
+</span><span class=t>lpstr</span> s<span class=o>=</span><span class=fq>dir</span><span class=p>(</span><span class=s>&#34;$desktop$\*.txt&#34;</span><span class=p>)</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>s <span class=o>=</span> <span class=n>0</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+<span class=i>&#9;</span>s <span class=o>=</span> <span class=fq>dir</span>
+<span class=c>
+ Folders in c:\windows:
+</span><span class=t>lpstr</span> s<span class=o>=</span><span class=fq>dir</span><span class=p>(</span><span class=s>&#34;c:\windows\*&#34;</span> <span class=n>1</span><span class=p>)</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>s <span class=o>=</span> <span class=n>0</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+<span class=i>&#9;</span>s <span class=o>=</span> <span class=fq>dir</span>
+
+<span class=c> Drives:
+</span><span class=lib>Wsh.</span><span class=t>FileSystemObject</span> fso._create
+<span class=lib>Wsh.</span><span class=t>Drive</span> dr
+<span class=fq>foreach</span> dr fso.Drives
+<span class=i>&#9;</span><span class=fq>out</span> dr.Path
+<span class=i>&#9;</span><span class=fq>out</span> dr.DriveType <span class=c2>;;0 unknown, 1 removable, 2 fixed, 3 network, 4 CD-ROM, 5 RAM disk
+</span></pre>
+</body>
+
+</html>
