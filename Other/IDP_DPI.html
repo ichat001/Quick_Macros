@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>DPI-scaled windows</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>DPI-scaled windows</h1>
+
+<p>On Windows Vista and later, in Control Panel -&gt; Display you can make text and other items in all windows bigger (125%, 150%...). Let's call it <em>DPI scaling</em>. When DPI scaling is not 100% and not using XP-style scaling,  some windows are stretched and look a little blurry. Let's call these windows <i>DPI-scaled windows</i>.</p>
+<p>&nbsp;</p>
+<p>DPI-scaled  windows is a problem for automation programs like QM. QM solves most of these problems in its internal functions. This topic is about problems that you may still have with DPI-scaled windows.</p>
+<p>&nbsp;</p>
+<h3>Windows Vista, 7 and 8.0</h3>
+<p> On these OS, with DPI-scaled windows Windows API functions use coordinates of non-scaled window, and they are smaller than the window view that you see. These coordinates are called <i>logical</i>. The scaled/stretched view is in <i>physical</i> coordinates.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.6 and later with DPI-scaled windows uses physical coordinates (what you see), and it works well. Older QM versions used logical coordinates in most cases, and it did not work well. If in older QM you have created macros that use logical coordinates (x, y, width, height) in DPI-scaled windows, in new QM these macros will not work. Need to replace logical coordinates with physical.</p>
+<p>&nbsp;</p>
+<p>If in macros you use Windows API functions, and want to make the macros work well with DPI-scaled windows, replace the API functions with similar QM functions. Note that QM dialogs and other QM windows cannot be DPI-scaled, therefore you can safely use Windows API functions with them.</p>
+<p>&nbsp;</p>
+<table class="tflags">
+  <col>
+  <tr>
+    <td><b>Windows API function</b></td>
+    <td><b>QM function</b></td>
+  </tr>
+  <tr>
+    <td class="dll">GetCursorPos</td>
+    <td><a href="../Functions/IDP_XMYM.html" class="blue">xm</a></td>
+  </tr>
+  <tr>
+    <td><span class="dll">GetWindowRect</span>, <span class="dll">GetClientRect</span></td>
+    <td class="dll">DpiGetWindowRect</td>
+  </tr>
+  <tr>
+    <td class="dll">ScreenToClient</td>
+    <td class="dll">DpiScreenToClient</td>
+  </tr>
+  <tr>
+    <td class="dll">ClientToScreen</td>
+    <td class="dll">DpiClientToScreen</td>
+  </tr>
+  <tr>
+    <td class="dll">MapWindowPoints</td>
+    <td class="dll">DpiMapWindowPoints</td>
+  </tr>
+  <tr>
+    <td><span class="dll">MoveWindow</span>, <span class="dll">SetWindowPos</span></td>
+    <td><a href="../Commands/IDP_MOV.html" class="blue">mov, siz</a></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h3>Windows 8.1 and 10</h3>
+<p> On these OS, most Windows API functions use physical coordinates with all windows. Therefore the above QM functions (<span class="dll">DpiGetWindowRect</span> etc) on these OS don't convert physical/logical coordinates. You can still use them to make your code work well on all OS.</p>
+<p>&nbsp;</p>
+<p>QM has problems with DPI-scaled windows on these OS:</p>
+<ul>
+  <li>Most accessible objects lie about their coordinates.</li>
+  <li>QM may not work well with windows that are on monitors that use different DPI scaling than the primary monitor.  For example &quot;window text&quot; functions use wrong coordinates.</li>
+  <li>QM may not work well after DPI scaling is changed, until logoff/logon.</li>
+  <li>And possibly more.</li>
+</ul>
+<p>&nbsp;</p>
+<p>You can  disable DPI scaling for a program in its file Properties dialog, Compatibility tab. To disable for all programs, in Control Panel -&gt; Display check &quot;...one scaling...&quot; and choose 125%. On older OS - check XP-style.</p>
+<p>&nbsp;</p>
+<h3>QM DpiX functions</h3>
+<p>Added in QM 2.3.6.  The functions work with all windows. They use physical coordinates (what you see) with all windows.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiIsWindowScaled</span> hwnd <span class=c2>;;if hwnd 1, gets is scaling enabled</span></pre>
+<p>&nbsp;</p>
+<p>Returns 1 if window is DPI-scaled, 0 if not.</p>
+<p>&nbsp;</p>
+<p><b>hwnd</b> - window handle. If <b>hwnd</b> is 1, returns 1 if DPI scaling is enabled, 0 if not.</p>
+<p>&nbsp;</p>
+<p>Often this function is used like this: <span class=cod><span class=fq>if</span><span class=p>(</span><span class=fd>DpiIsWindowScaled</span><span class=p>(</span>w<span class=p>))</span> ... <span class=fd>DpiScale</span><span class=p>(</span>...<span class=p>)</span></span>. You may want to disable such code on Windows 8.1 and later, if related Windows API functions on these OS use physical coordinates. Use code like this: <span class=cod><span class=fq>if</span><span class=p>(</span>_winver<span class=o>&lt;</span><span class=n>0x603</span> <span class=fq>and</span> <span class=fd>DpiIsWindowScaled</span><span class=p>(</span>w<span class=p>))</span> ... <span class=fd>DpiScale</span><span class=p>(</span>...<span class=p>)</span></span>. <a href="../Language/IDP_SPECVAR.html">What is _winver and 0x603</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiGetWindowRect</span> hwnd <span class=t>RECT</span><span class=o>*</span>r [flags] <span class=c2>;;flags: 4 client, 8 client in screen</span></pre>
+<p>&nbsp;</p>
+<p>Gets window rectangle in screen, or window client area rectangle, or window client area rectangle in screen.</p>
+<p>&nbsp;</p>
+<p><b>hwnd</b> - window handle.</p>
+<p><b>r</b> - address of variable that receives physical rectangle coordinates.</p>
+<p>&nbsp;</p>
+<p>Returns 2 if the window is DPI-scaled, 1 if not, 0 if failed.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiClientToScreen</span> hwnd <span class=t>POINT</span><span class=o>*</span>p [flags] <span class=c2>;;flags: 16 window, 0x100 RECT</span></pre>
+<pre class=cod><span class=o>#</span><span class=fd>DpiScreenToClient</span> hwnd <span class=t>POINT</span><span class=o>*</span>p [flags] <span class=c2>;;flags: 16 window, 0x100 RECT</span></pre>
+<p>&nbsp;</p>
+<p>Converts point coordinates in window client area to coordinates in screen, and vice versa.</p>
+<p>If flag 16, converts point coordinates in window to coordinates in screen, and vice versa.</p>
+<p>&nbsp;</p>
+<p><b>hwnd</b> - window handle.</p>
+<p><b>p</b> - address of variable that contains physical point coordinates.</p>
+<ul>
+  <li>If flag 0x100, converts rectangle. Then <b>p</b> must be address of a RECT variable.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Returns 2 if the window is DPI-scaled, 1 if not, 0 if failed.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>DpiMapWindowPoints</span> hwnd1 hwnd2 <span class=t>POINT</span><span class=o>*</span>p n [flags]</pre>
+<p>&nbsp;</p>
+<p>Converts coordinates of <b>n</b> points from client area of one window to client area of another window.</p>
+<p>&nbsp;</p>
+<p><b>hwnd1</b> - handle of window where coordinates are before calling this function. Screen if 0.</p>
+<p><b>hwnd2</b> - handle of window where coordinates are after calling this function. Screen if 0.</p>
+<p><b>p</b> - address of one or more <span class="type">POINT</span> or <span class="type">RECT</span> variables that contain physical coordinates.</p>
+<p><b>n</b> - number of points to convert. Must be 1 if <b>p</b> is address of single <span class="type">POINT</span> variable. Must be 2 if <b>p</b> is address of single <span class="type">RECT</span> variable, like <span class=cod><span class=o>+&amp;</span>r</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<p>With above 4 functions can be used flag 1 if you know the window is not DPI-scaled, and 2 if DPI-scaled. It makes the function faster.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>DpiScale</span> <span class=t>POINT</span><span class=o>*</span>p n <span class=c2>;;n: &gt;0 scale, &lt;0 unscale</span></pre>
+<p>&nbsp;</p>
+<p>Converts coordinates of one or more points from logical to physical or vice versa.</p>
+<p>&nbsp;</p>
+<p><b>p</b> - address of one or more <span class="type">POINT</span> or <span class="type">RECT</span> variables that contain coordinates.</p>
+<p><b>n</b> - number of points to convert. Must be 1 if <b>p</b> is address of single <span class="type">POINT</span> variable. Must be 2 if <b>p</b> is address of single <span class="type">RECT</span> variable, like <span class=cod><span class=o>+&amp;</span>r</span>. If <b>n</b> is negative, converts from physical to logical.</p>
+<p>&nbsp;</p>
+<p>This function simply multiplies coordinates. For example, if text size is 125% and p.x is 100, the function makes it 125 if <b>n</b>&gt;0, or 80 if <b>n</b>&lt;0. Works always, regardless of system DPI settings and version.</p>
+<p>&nbsp;</p>
+<p>On Windows 8.1 and later, multiple monitors can have different DPI. This function uses DPI of the primary monitor.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiGetDPI</span></pre>
+<p>&nbsp;</p>
+<p>Returns DPI of primary monitor as it was  when this process started. DPI 96 is 100%.</p>
+<p>&nbsp;</p>
+<p>On Windows 8.1 and later, multiple monitors can have different DPI.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiGetMonitorDPI</span> hmonitor [flags]</pre>
+<p>&nbsp;</p>
+<p>Returns DPI of the specified monitor.</p>
+<p>&nbsp;</p>
+<p>Returns the same value as <span class="dll">DpiGetDPI</span> if:</p>
+<ul>
+  <li>Invalid <strong>hmonitor</strong>.</li>
+  <li>Before Windows 8.1.</li>
+  <li>Before Windows 10.1607 if without flag 1.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>hmonitor</b> - monitor handle. See <a href="../User/IDP_QMDLL.html#MonitorFromIndex" class="dll">MonitorFromIndex</a>.</p>
+<p><strong>flags</strong>:</p>
+<ul>
+  <li>1 support per-monitor DPI on Windows 8.1 and before Windows 10.1607.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Uses Windows API <span class="dll">GetDpiForMonitor</span>.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.11.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>DpiGetWindowDPI</span> hwnd [flags]</pre>
+<p>&nbsp;</p>
+<p>Returns DPI of the specified window.</p>
+<p>&nbsp;</p>
+<p>Returns the same value as <span class="dll">DpiGetDPI</span> if:</p>
+<ul>
+  <li>Invalid <strong>hwnd</strong>.</li>
+  <li>Before Windows 8.1.</li>
+  <li>Before Windows 10.1607 if without flag 1.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>hwnd</b> - window handle.</p>
+<p><strong>flags</strong>:</p>
+<ul>
+  <li>1 support per-monitor DPI on Windows 8.1 and before Windows 10.1607.</li>
+</ul>
+<p>&nbsp;</p>
+<p>On Windows 10.1607 and later uses Windows API <span class="dll">GetDpiForWindow</span>. On Windows 8.1 and before Windows 10.1607 uses <span class="dll">MonitorFromWindow</span>/<span class="dll">GetDpiForMonitor</span> and is less reliable.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.11.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
