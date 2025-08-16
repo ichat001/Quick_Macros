@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Flags for cop, ren and del</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Flags for cop, ren and del</h1>
+<p><i>See also:</i> <a href="../Other/IDP_FLAGS.html">flags</a>.</p>
+<p>&nbsp;</p>
+
+<table class="tnormal">
+  <tr> 
+    <td>FOF_MULTIDESTFILES</td>
+    <td>0x1</td>
+    <td>Indicates that the <b>to</b> member specifies multiple destination 
+      files (one for each source file) rather than one directory where all source 
+      files are to be deposited.</td>
+  </tr>
+  <tr> 
+    <td>FOF_SILENT</td>
+    <td>0x4</td>
+    <td>Does not display a progress dialog box.</td>
+  </tr>
+  <tr> 
+    <td>FOF_RENAMEONCOLLISION</td>
+    <td>0x8</td>
+    <td>Gives the file being operated on a new name (such as &quot;Copy 
+      #1 of...&quot;) in a move, copy, or rename operation if a file of the target 
+      name already exists.</td>
+  </tr>
+  <tr> 
+    <td>FOF_NOCONFIRMATION</td>
+    <td>0x10</td>
+    <td>Responds with &quot;yes to all&quot; for any dialog box that 
+      is displayed.</td>
+  </tr>
+  <tr> 
+    <td>FOF_ALLOWUNDO</td>
+    <td>0x40</td>
+    <td>Preserves undo information, if possible. With <span class="blue">del</span>, 
+      uses recycle bin.</td>
+  </tr>
+  <tr> 
+    <td>FOF_FILESONLY</td>
+    <td>0x80</td>
+    <td>Performs the operation only on files if a wildcard filename 
+      (*.*) is specified.</td>
+  </tr>
+  <tr> 
+    <td>FOF_SIMPLEPROGRESS</td>
+    <td>0x100</td>
+    <td>Displays a progress dialog box, but does not show the filenames.</td>
+  </tr>
+  <tr> 
+    <td>FOF_NOCONFIRMMKDIR</td>
+    <td>0x200</td>
+    <td>Does not confirm the creation of a new directory if the operation 
+      requires one to be created.</td>
+  </tr>
+  <tr> 
+    <td>FOF_NOERRORUI</td>
+    <td>0x400</td>
+    <td>don't put up error UI</td>
+  </tr>
+  <tr> 
+    <td>FOF_NOCOPYSECURITYATTRIBS</td>
+    <td>0x800</td>
+    <td>don't copy file security attributes</td>
+  </tr>
+  <tr> 
+    <td>FOF_NORECURSION</td>
+    <td>0x1000</td>
+    <td>Only operate in the specified directory. Don't operate recursively into 
+      subdirectories.</td>
+  </tr>
+  <tr> 
+    <td>FOF_NO_CONNECTED_ELEMENTS</td>
+    <td>0x2000</td>
+    <td>Do not move connected files as a group (e.g. html file together with images). 
+      Only move the specified files.</td>
+  </tr>
+  <tr> 
+    <td>FOF_WANTNUKEWARNING</td>
+    <td>0x4000</td>
+    <td>Send a warning if a file is being destroyed during a delete operation 
+      rather than recycled. This flag partially overrides FOF_NOCONFIRMATION.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table class="tnormal">
+
+<tr>
+<th>Commands</th>
+    <th>default flags</th>
+  </tr>
+
+<tr>
+<td>
+<span class="blue">cop</span>, 
+<span class="blue">ren</span></td>
+    <td>FOF_ALLOWUNDO | FOF_FILESONLY | FOF_NOCONFIRMMKDIR. If <span class="blue">opt</span> 
+      err 1 is set, also adds FOF_NOERRORUI.</td>
+  </tr>
+
+<tr>
+<td>
+<span class="blue">cop</span>+, 
+<span class="blue">ren</span>+</td>
+    <td>The same as <span class="blue">cop</span>/<span class="blue">ren</span>, 
+      and adds FOF_NOCONFIRMATION | FOF_RENAMEONCOLLISION</td>
+  </tr>
+
+<tr>
+<td>
+<span class="blue">cop</span>-, 
+<span class="blue">ren</span>-</td>
+    <td>The same as <span class="blue">cop</span>/<span class="blue">ren</span>, 
+      and adds FOF_NOCONFIRMATION</td>
+  </tr>
+
+<tr>
+<td>
+<span class="blue">del</span></td>
+<td>FOF_FILESONLY | FOF_NOCONFIRMATION | FOF_SILENT | FOF_NOERRORUI | FOF_ALLOWUNDO</td></tr>
+
+<tr>
+<td>
+<span class="blue">del</span>-</td>
+    <td> The same as <span class="blue">del</span>, and removes FOF_ALLOWUNDO</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+<p>If you use <b>flags</b>, it replaces default flags, except flags that are added/removed 
+  by option - or +.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
