@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Character codes</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Character codes</h1>
+<p>Strings (text) consist of characters (letters, digits, spaces, etc). A character 
+  is stored as a numeric value - character code. Different values are displayed 
+  as different characters.</p>
+<p>&nbsp;</p>
+<p>There are various character sets. Character codes in ANSI character sets consist 
+  of single byte. Character codes in the <a href="../Other/IDP_UNICODE.html">Unicode</a> character set consist of 1-4 bytes (depends on encoding). 
+  Characters in range 0 to 127, also called ASCII characters, are the same in 
+  all character sets. They are listed in the tables below. To see all characters in all character sets, use Windows program Character Map (<span class=cod><span class=fq>run</span> <span class=s>&quot;charmap&quot;</span></span>).</p>
+<p>&nbsp;</p>
+<p>Most of characters in range 0 to 31 are rarely used. Often used are these characters:</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>Code</th>
+    <th>Character</th>
+  </tr>
+  <tr> 
+    <td>0</td>
+    <td>Terminating null character. Used at the end of a string.</td>
+  </tr>
+  <tr> 
+    <td>9</td>
+    <td>Tab.</td>
+  </tr>
+  <tr> 
+    <td>10</td>
+    <td>New line, also called linefeed.</td>
+  </tr>
+  <tr>
+    <td>13</td>
+    <td>Carriage return. On Windows, character sequence 13 10 is used for a new 
+      line. </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Other ASCII characters:</p>
+<p>&nbsp;</p>
+  
+<table class="tnormal">
+  <tr> 
+    <th>Code</th>
+    <th>Char</th>
+    <th>&nbsp;</th>
+    <th>Code</th>
+    <th>Char</th>
+    <th>&nbsp;</th>
+    <th>Code</th>
+    <th>Char</th>
+  </tr>
+  <tr> 
+    <td>32</td>
+    <td>space</td>
+    <td>&nbsp;</td>
+    <td>64</td>
+    <td>@</td>
+    <td>&nbsp;</td>
+    <td>96</td>
+    <td>`</td>
+  </tr>
+  <tr> 
+    <td>33</td>
+    <td>!</td>
+    <td>&nbsp;</td>
+    <td>65</td>
+    <td>A</td>
+    <td>&nbsp;</td>
+    <td>97</td>
+    <td>a</td>
+  </tr>
+  <tr> 
+    <td>34</td>
+    <td>&quot;</td>
+    <td>&nbsp;</td>
+    <td>66</td>
+    <td>B</td>
+    <td>&nbsp;</td>
+    <td>98</td>
+    <td>b</td>
+  </tr>
+  <tr> 
+    <td>35</td>
+    <td>#</td>
+    <td>&nbsp;</td>
+    <td>67</td>
+    <td>C</td>
+    <td>&nbsp;</td>
+    <td>99</td>
+    <td>c</td>
+  </tr>
+  <tr> 
+    <td>36</td>
+    <td>$</td>
+    <td>&nbsp;</td>
+    <td>68</td>
+    <td>D</td>
+    <td>&nbsp;</td>
+    <td>100</td>
+    <td>d</td>
+  </tr>
+  <tr> 
+    <td>37</td>
+    <td>%</td>
+    <td>&nbsp;</td>
+    <td>69</td>
+    <td>E</td>
+    <td>&nbsp;</td>
+    <td>101</td>
+    <td>e</td>
+  </tr>
+  <tr> 
+    <td>38</td>
+    <td>&amp;</td>
+    <td>&nbsp;</td>
+    <td>70</td>
+    <td>F</td>
+    <td>&nbsp;</td>
+    <td>102</td>
+    <td>f</td>
+  </tr>
+  <tr> 
+    <td>39</td>
+    <td>'</td>
+    <td>&nbsp;</td>
+    <td>71</td>
+    <td>G</td>
+    <td>&nbsp;</td>
+    <td>103</td>
+    <td>g</td>
+  </tr>
+  <tr> 
+    <td>40</td>
+    <td>(</td>
+    <td>&nbsp;</td>
+    <td>72</td>
+    <td>H</td>
+    <td>&nbsp;</td>
+    <td>104</td>
+    <td>h</td>
+  </tr>
+  <tr> 
+    <td>41</td>
+    <td>)</td>
+    <td>&nbsp;</td>
+    <td>73</td>
+    <td>I</td>
+    <td>&nbsp;</td>
+    <td>105</td>
+    <td>i</td>
+  </tr>
+  <tr> 
+    <td>42</td>
+    <td>*</td>
+    <td>&nbsp;</td>
+    <td>74</td>
+    <td>J</td>
+    <td>&nbsp;</td>
+    <td>106</td>
+    <td>j</td>
+  </tr>
+  <tr> 
+    <td>43</td>
+    <td>+</td>
+    <td>&nbsp;</td>
+    <td>75</td>
+    <td>K</td>
+    <td>&nbsp;</td>
+    <td>107</td>
+    <td>k</td>
+  </tr>
+  <tr> 
+    <td>44</td>
+    <td>,</td>
+    <td>&nbsp;</td>
+    <td>76</td>
+    <td>L</td>
+    <td>&nbsp;</td>
+    <td>108</td>
+    <td>l</td>
+  </tr>
+  <tr> 
+    <td>45</td>
+    <td>-</td>
+    <td>&nbsp;</td>
+    <td>77</td>
+    <td>M</td>
+    <td>&nbsp;</td>
+    <td>109</td>
+    <td>m</td>
+  </tr>
+  <tr> 
+    <td>46</td>
+    <td>.</td>
+    <td>&nbsp;</td>
+    <td>78</td>
+    <td>N</td>
+    <td>&nbsp;</td>
+    <td>110</td>
+    <td>n</td>
+  </tr>
+  <tr> 
+    <td>47</td>
+    <td>/</td>
+    <td>&nbsp;</td>
+    <td>79</td>
+    <td>O</td>
+    <td>&nbsp;</td>
+    <td>111</td>
+    <td>o</td>
+  </tr>
+  <tr> 
+    <td>48</td>
+    <td>0</td>
+    <td>&nbsp;</td>
+    <td>80</td>
+    <td>P</td>
+    <td>&nbsp;</td>
+    <td>112</td>
+    <td>p</td>
+  </tr>
+  <tr> 
+    <td>49</td>
+    <td>1</td>
+    <td>&nbsp;</td>
+    <td>81</td>
+    <td>Q</td>
+    <td>&nbsp;</td>
+    <td>113</td>
+    <td>q</td>
+  </tr>
+  <tr> 
+    <td>50</td>
+    <td>2</td>
+    <td>&nbsp;</td>
+    <td>82</td>
+    <td>R</td>
+    <td>&nbsp;</td>
+    <td>114</td>
+    <td>r</td>
+  </tr>
+  <tr> 
+    <td>51</td>
+    <td>3</td>
+    <td>&nbsp;</td>
+    <td>83</td>
+    <td>S</td>
+    <td>&nbsp;</td>
+    <td>115</td>
+    <td>s</td>
+  </tr>
+  <tr> 
+    <td>52</td>
+    <td>4</td>
+    <td>&nbsp;</td>
+    <td>84</td>
+    <td>T</td>
+    <td>&nbsp;</td>
+    <td>116</td>
+    <td>t</td>
+  </tr>
+  <tr> 
+    <td>53</td>
+    <td>5</td>
+    <td>&nbsp;</td>
+    <td>85</td>
+    <td>U</td>
+    <td>&nbsp;</td>
+    <td>117</td>
+    <td>u</td>
+  </tr>
+  <tr> 
+    <td>54</td>
+    <td>6</td>
+    <td>&nbsp;</td>
+    <td>86</td>
+    <td>V</td>
+    <td>&nbsp;</td>
+    <td>118</td>
+    <td>v</td>
+  </tr>
+  <tr> 
+    <td>55</td>
+    <td>7</td>
+    <td>&nbsp;</td>
+    <td>87</td>
+    <td>W</td>
+    <td>&nbsp;</td>
+    <td>119</td>
+    <td>w</td>
+  </tr>
+  <tr> 
+    <td>56</td>
+    <td>8</td>
+    <td>&nbsp;</td>
+    <td>88</td>
+    <td>X</td>
+    <td>&nbsp;</td>
+    <td>120</td>
+    <td>x</td>
+  </tr>
+  <tr> 
+    <td>57</td>
+    <td>9</td>
+    <td>&nbsp;</td>
+    <td>89</td>
+    <td>Y</td>
+    <td>&nbsp;</td>
+    <td>121</td>
+    <td>y</td>
+  </tr>
+  <tr> 
+    <td>58</td>
+    <td>:</td>
+    <td>&nbsp;</td>
+    <td>90</td>
+    <td>Z</td>
+    <td>&nbsp;</td>
+    <td>122</td>
+    <td>z</td>
+  </tr>
+  <tr> 
+    <td>59</td>
+    <td>;</td>
+    <td>&nbsp;</td>
+    <td>91</td>
+    <td>[</td>
+    <td>&nbsp;</td>
+    <td>123</td>
+    <td>{</td>
+  </tr>
+  <tr> 
+    <td>60</td>
+    <td>&lt;&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>92</td>
+    <td>\</td>
+    <td>&nbsp;</td>
+    <td>124</td>
+    <td>|</td>
+  </tr>
+  <tr> 
+    <td>61</td>
+    <td>=</td>
+    <td>&nbsp;</td>
+    <td>93</td>
+    <td>]</td>
+    <td>&nbsp;</td>
+    <td>125</td>
+    <td>}</td>
+  </tr>
+  <tr> 
+    <td>62</td>
+    <td>&gt;&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>94</td>
+    <td>^</td>
+    <td>&nbsp;</td>
+    <td>126</td>
+    <td>~</td>
+  </tr>
+  <tr> 
+    <td>63</td>
+    <td>?</td>
+    <td>&nbsp;</td>
+    <td>95</td>
+    <td>_</td>
+    <td>&nbsp;</td>
+    <td>127</td>
+    <td>unused</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p> QM uses the Unicode character set if the checkbox is checked in Options. Otherwise 
+    it uses the default ANSI character set.</p>
+  <p>&nbsp; </p>
+  <p>Characters in the Unicode character set are the same on all computers. Note 
+    that not all fonts support all characters.</p>
+<p>&nbsp;</p>
+<p>ANSI characters in range 128 to 255 are different (different character is displayed 
+  for the same character code) in different ANSI character sets (Western, Baltic, 
+  Cyrilic, Greek, etc). The default ANSI character set on a computer depends on 
+  the language that is set when installing Windows or changed in Control Panel 
+  -&gt; Regional -&gt; Advanced or Administrative -&gt; Language for non-Unicode 
+  programs. Therefore these characters can be displayed differently on different 
+  computers. You can see characters in various character sets using a Windows 
+  program called &quot;Character Map&quot;. You can use the first macro in the 
+  examples (below) to see how these characters look on your computer.</p>
+<p>&nbsp;</p>
+<p>In a macro, to get character code of an ASCII character, enclose the character 
+  int single quotes. For example, <span class=cod><span class=fq>out</span> <span class=n>'A'</span></span> will display 65. To get character code of a character in a string 
+  variable, use operator [ ]. Example: <span class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&quot;ABC&quot;</span><span class=p>;</span> <span class=fq>out</span> s[<span class=n>0</span>]<span class=p>;</span> <span class=fq>out</span> s[<span class=n>1</span>]</span>. 
+  To insert an ASCII character into a string using character code, use operator 
+  [ ]: <span class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&#34; &#34;</span><span class=p>;</span> s[<span class=n>0</span>]<span class=o>=</span><span class=n>'A'</span></span> , or <a href="IDP_PRINTF.html">format field</a> %c with <a href="../str/IDP_S_FORMAT.html">str.format</a> 
+  or other function that supports formatting: <span class=cod><span class=t>str</span> s.format<span class=p>(</span><span class=s>&#34;%c&#34;</span> <span class=n>'A'</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
