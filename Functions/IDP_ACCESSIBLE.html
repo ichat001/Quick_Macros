@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Accessible objects</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Accessible objects</h1>
+<p><i>See also:</i> <a href="IDP_ACC.html" class="blue">acc</a></p>
+<p>&nbsp;</p>
+<p>You can work not only with windows, but also with user interface (UI) objects that are in windows. 
+  Most of them are child windows (&quot;controls&quot;) and can be identified 
+  by handle. You can use function <a href="IDP_ID.html" class="blue">id</a> or 
+  <a href="IDP_CHILD.html" class="blue">child</a> to retrieve child window handle. 
+  But not all objects are child windows. For example, links and other objects in web 
+  pages are not  child windows, and functions <span class="blue">id</span> 
+  and <span class="blue">child</span> cannot find them. The alternative is accessible 
+  objects. </p>
+<h2>Accessible objects and Acc class</h2>
+<p>Accessible objects are user interface objects  (buttons,  links, etc) that can be manipulated (find, click,  etc) through <a href="../_COM/IDH_COM.html">COM</a> interface <span class="type">IAccessible</span>. The service is provided by MSAA (Microsoft&reg; Active 
+  Accessibility&reg;).</p>
+<p>&nbsp;</p>
+<p>To store a reference to an accessible object, QM uses class <span class="type">Acc</span>.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>class</span> <span class=t>Acc</span> <span class=t>IAccessible</span><span class=p>'</span>a elem</pre>
+<p>&nbsp;</p>
+<div class="parts"><p><b>a</b> -  pointer to object's <span class="type">IAccessible</span> interface.</p>
+<p><b>elem</b> - child element id. With most objects it is 0. Used with   <i>simple element</i> objects, such as list items.</p></div>
+<p>&nbsp;</p>
+<p>A variable of class <span class="type">Acc</span> fully identifies an accessible 
+  object, regardless of whether it is full object or simple element.</p>
+
+<h2>Functions</h2>
+<p> To find an object and initialize an <span class="type">Acc</span> variable, use function Acc.Find or <a href="IDP_ACC.html" class="blue">acc</a>. 
+  To create code for it, use dialog 'Find Accessible Object'.</p>
+<p>&nbsp;</p>
+<p> The <span class="type">Acc</span> class has   functions  to manipulate 
+   an object. To create code for them, you can use dialog 'Accessible Object'.</p>
+<p>&nbsp;</p>
+<p>The common  syntax is:</p>
+<p>&nbsp;</p>
+<pre class=syntax><i>[</i>result = <i>]</i>a.Function(<i>[</i>parameters<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> ----
+</span><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;QM TOOLBAR&quot;</span> <span class=s>&quot;QM_toolbar&quot;</span><span class=p>)</span>
+<span class=t>Acc</span> a.Find<span class=p>(</span>w <span class=s>&quot;PUSHBUTTON&quot;</span> <span class=s>&quot;Windows, controls&quot;</span> <span class=s>&quot;class=ToolbarWindow32[]id=9999&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+<span class=fq>err</span> <span class=fq>ret</span> <span class=c2>;;return if not found. If without flag 0x1000, use this instead: if(!a.a) ret</span>
+<span class=t>str</span> name<span class=o>=</span>a.Name
+a.DoDefaultAction
+<span class=c> ...</span></pre>
+<p>&nbsp;</p>
+<p>On failure, the functions throw  error, therefore you should understand 
+  <a href="../Flow/IDP_ERR.html">error handling</a>. Note that different kinds 
+  of accessible objects support different sets of functions. You should call only 
+  supported functions, or be prepared to handle error.</p>
+<p>&nbsp;</p>
+<p> Also you can use functions of <span class="type">IAccessible</span> interface. Call them through member <b>a</b> of <span class="type">Acc</span> variable. Use <b>elem</b> where needed. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>Acc</span> a.Find<span class=p>(</span><span class=s>&quot;Quick Macros&quot;</span> <span class=s>&quot;MENUITEM&quot;</span> <span class=s>&quot;Tools&quot;</span> <span class=s>&quot;class=ToolbarWindow32&quot;</span><span class=p>)</span>
+<span class=fq>out</span> a.a.KeyboardShortcut<span class=p>(</span>a.elem<span class=p>)</span></pre>
+<h2> 'Find Accessible Object' dialog tips</h2>
+<p>There are 2 ways to capture an object:</p>
+<ol>
+  <li> Drag the &quot;Drag&quot; tool, and drop on an object. While dragging, you can right-click to switch to another window.</li>
+  <li>Right click the &quot;Drag&quot; tool, click &quot;Capture when Shift pressed&quot;, move the mouse to an object, and press Shift key.</li>
+</ol>
+<p>After capturing, click the Test button. If it says 
+  &quot;Object not found&quot;, try to change some values in the dialog.</p>
+<p>&nbsp;</p>
+<p> If it finds wrong object, try to capture an adjacent object. Test it, check 
+  Navigate, and enter post-navigation string.  Read more about 
+  <b>navig</b> parameter of  <a href="IDP_ACC.html" class="blue">acc</a>. 
+  Example: pa n2 c15 f. Explanation: get parent object, get next object two times, 
+  get 15-th child object, get first child object.</p>
+<p>&nbsp;</p>
+<p> If the search time is too long, try to check 'in reverse order' and/or 'as Firefox node'.</p>
+<p>&nbsp;</p>
+<p>The coordinates (x, y) are in the client area of the window.</p>
+<p>&nbsp;</p>
+<p>At the bottom of the dialog -  object tree. It shows accessible objects that are in the window. Shows their properties and relationships.  By default, it does not show invisible and useless objects. Invisible objects are gray.</p>
+<p>&nbsp;</p>
+<p>To show the dialog you also can use the Ctrl+Alt+Shift+W menu. You can change the hotkey in Options. If the currently active window has always-on-top style, the dialog also will be always-on-top.</p>
+<p>&nbsp;</p>
+<p>To capture objects in Windows 8 full-screen windows, make the dialog always-on-top (open with Ctrl+Alt+Shift+W or right click the &quot;Drag&quot; tool). QM should be running as Administrator or uiAccess, not as User; you can set it in Options. Or capture with Shift.</p>
+<h2>Using in web pages</h2>
+<p>Accessible objects in web pages are supported in Internet Explorer, Firefox, Chrome and Opera.</p>
+<p>&nbsp;</p>
+<p>In Chrome and Opera, accessible objects are disabled by default. QM tries to enable when need. If it fails, use one of:</p>
+<ul>
+  <li>In QM Options dialog check &quot;Enable Chrome acc when it starts&quot;. It works only if Chrome process starts while QM is running.</li>
+  <li>Start Chrome with command line --force-renderer-accessibility</li>
+  <li>You cannot use the first option in exe where QM is not running. But you can <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=7168">implement it in exe</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Firefox accessible objects are disabled by default. Firefox enables it when some program tries to get its accessible objects. May need to restart Firefox, or in Firefox Options disable multi-process mode.</p>
+<p>&nbsp;</p>
+<p>Note: enabling web browser's accessible objects  can make large web pages load slower.</p>
+<p>&nbsp;</p>
+<p>Note: From time to time, web browsers introduce new features or bugs that break some QM functions. If something stopped working, you can: download new QM version; post a bug report in the <a href="http://www.quickmacros.com/forum/index.php">forum</a>. When it is fixed in QM, it is not automatically fixed in QM-created exe files; need to rebuild them with the new QM version.</p>
+<p>&nbsp;</p>
+<p>Web browsers (and other apps) have bugs in their accessible object implementations. For example, can give incorrect locations of some objects. Or you cannot capture some objects because they are &quot;behind&quot; bigger objects; then try to capture two times: at first capture normally, then check 'Capture smallest' in the Drag tool's right-click menu, and capture again.</p>
+<p>&nbsp;</p>
+<!--
+
+Chrome: Some versions support AO. Partially. Difficult to capture, etc. Does not work at all in Chrome version of March 2011.
+
+<p>In Chrome, <span class="blue">acc</span> (and Acc.Find) works  only with flag 0x2000. To add the flag, in &quot;Find Accessible Object&quot; dialog must be checked &quot;in  web page&quot;. The flag enables accessibility in Chrome's web content, which initially may be disabled.</p>
+<p>&nbsp;</p>
+<p>In Chrome, accessible objects unavailable in frames.</p>
+<p>&nbsp;</p>
+-->
+
+<p>There are two alternatives, often faster:</p>
+<ul>
+  <li>With Internet Explorer and IE-based 
+    browsers you can use function <a href="IDP_HTM.html" class="blue">htm</a> (find 
+    html element).</li>
+  <li>With Firefox, check 'as Firefox node' in the 'Find accessible object' dialog. Chrome and Opera also support it, if is installed Firefox of same 32/64 bit.</li>
+</ul>
+<p>&nbsp;</p>
+<p>When none of the above works, use <span class="blue">scan</span> (find image).</p>
+<p>&nbsp;</p>
+<p> In current Opera versions everything is the same as in Chrome.</p>
+<h2>Java windows</h2>
+<p>QM 2.4.2. <span class="blue">acc</span> and <span class="type">Acc</span> class functions support accessible objects in applications written in Java that don't use Windows controls, including OpenOffice, LibreOffice, NetBeans, jEdit and Java in Control Panel.</p>
+<p>&nbsp;</p>
+<p>Prerequisites (except OpenOffice and LibreOffice):</p>
+<ul>
+  <li>Java version 7.6 or later.</li>
+  <li>Enable the Java Access Bridge (JAB). It is disabled by default.</li>
+  <li>For older Java versions (&lt;7.6) would need to download JAB separately. Installing it is not easy.</li>
+</ul>
+<p>&nbsp;</p>
+<p>To enable JAB, run function <span class="UDF">JavaEnableJAB</span> (once on a computer/account). Or run jabswitch.exe -enable. Or enable in Control Panel -&gt; Ease of access. Then restart Java applications. When installing Java, may need to restart  QM too.</p>
+<p>&nbsp;</p>
+<p>Current OpenOffice and LibreOffice versions don't use JAB. For older versions need JAB, and also check: Options -&gt; Accessibility -&gt; Support assistive technology tools.</p>
+<p>&nbsp;</p>
+<p>If only 64-bit Java is installed, JAB does not work by default because of missing file C:\Windows\SysWOW64\WindowsAccessBridge-32.dll. To fix it, also install 32-bit Java (it coexists with 64-bit Java). Or somewhere get WindowsAccessBridge-32.dll and put in SysWOW64 or QM folder. Only JAB 2.0.2 (old version) can be downloaded seperately from Java.</p>
+<p>&nbsp;</p>
+<p>Some JAB features are unstable. Getting focused object often stops working. Getting object at x y does not work in some windows. To capture objects in such windows, in dialog 'Find accessible object' right click the Drag image and check 'Capture smallest'.</p>
+<p>&nbsp;</p>
+<p>QM does not implement accessible object triggers in Java windows that use JAB.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
