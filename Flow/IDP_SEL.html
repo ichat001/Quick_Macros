@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>sel</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Select</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>sel</b> expression <i>[</i>flags<i>]</i>
+<i class=f8>(tab)</i><b>case</b> a
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i class=f8>(tab)</i><b>case</b> b
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i class=f8>(tab)</i><i>...</i>
+<i>[</i><i class=f8>(tab)</i><b>case else</b>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...]</i></pre>
+
+<p>&nbsp;</p>
+<p>Statements can be in the  <span class="blue">case</span> line:</p>
+
+<p>&nbsp;</p>
+<pre class=syntax><b>sel</b> expression <i>[</i>flags<i>]</i>
+<i class=f8>(tab)</i><b>case</b> a statements
+<i>[</i><i class=f8>(tab)</i><b>case else </b>statements<i>]</i></pre>
+<p>&nbsp;</p>
+<p>All can be in single line:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax><b>sel</b>(expression <i>[</i>flags<i>]</i>) <b>case</b> a statements <i>...</i> <i>[</i><b>case else</b> statements<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>expression</b> - variable or other <A href="../Other/IDP_EXPRESSION.html">expression.</a> 
+Type - integer or string.</p>
+<p> <b>a, b</b> - integer or string <A href="../Language/IDP_CONSTANT.html">constants</a>. 
+Type must match type of <b>expression</b>.</p>
+<ul>
+  <li> Can be  several values 
+    enclosed in square brackets, like <span class=cod><span class=fq>case</span> [<span class=n>1</span><span class=p>,</span><span class=n>2</span>]</span>.</li>
+</ul>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b> - how to compare strings:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>case insensitive.</td>
+</tr>
+<tr>
+<td>2</td> <td>use <a href="../Functions/IDP_MATCHW.html">wildcard 
+characters</a> in <b>a</b>, <b>b</b>, ...</td>
+</tr>
+<tr>
+  <td>4 (QM 2.4.1)</td>
+  <td>use <A href="../RegExp/IDP_PCRE.html">regular expression</a> in <b>a</b>, <b>b</b>, ... that begin with $ character. For example, string &quot;$^a\d+$&quot; is compared as regular expression &quot;^a\d+$&quot;. Strings that don't begin with $ are compared as simple strings or strings with wildcard characters (if flag 2 also used).</td>
+</tr>
+<tr>
+  <td>8 (QM 2.4.1)</td>
+  <td>if <b>expression</b> is 0 (null) compare it as &quot;&quot;. Without this flag, null strings don't match &quot;&quot;.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>If value of <b>expression</b> matches one of case constants, execute <b>statements</b> 
+  after that <span class="blue">case</span> (until next <span class="blue">case</span>, 
+  if any). Otherwise, execute statements after <span class="blue">case else</span> 
+  (if any).</p>
+<p>&nbsp;</p>
+<p> <span class="blue">case</span> keyword can be followed by colon.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <span class="UDF">SelInt</span>, <span class="UDF">SelStr</span></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> If variable msg is 5, display 1; else if msg is WM_COMMAND, display 2 and play sound; else if msg is 512 or 513 or 514, display 3 and play sound; else display msg:
+</span><span class=fq>sel</span> msg
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>5</span><span class=p>:</span> <span class=fq>out</span> <span class=n>1</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span><span class=p>:</span> <span class=fq>out</span> <span class=n>2</span><span class=p>;</span> <span class=fq>bee</span>
+<span class=i>&#9;</span><span class=fq>case</span> [<span class=n>512</span><span class=p>,</span><span class=n>513</span><span class=p>,</span><span class=n>514</span>]
+<span class=i>&#9;</span><span class=fq>out</span> <span class=n>3</span>
+<span class=i>&#9;</span><span class=fq>bee</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=fq>else</span> <span class=fq>out</span> msg
+
+<span class=c> Execute different code depending on weekday
+</span><span class=t>str</span> weekday.time<span class=p>(</span><span class=s>&#34;%A&#34;</span><span class=p>)</span>
+<span class=fq>sel</span> weekday
+<span class=i>&#9;</span><span class=fq>case</span> <span class=s>&#34;Monday&#34;</span><span class=p>:</span> <span class=fq>out</span> <span class=n>1</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=s>&#34;Tuesday&#34;</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=n>2</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;today is Tuesday&#34;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> [<span class=s>&#34;Sunday&#34;</span><span class=p>,</span><span class=s>&#34;Saturday&#34;</span>]<span class=p>:</span> <span class=fq>out</span> <span class=n>3</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=fq>else</span> <span class=fq>out</span> <span class=n>4</span>
+
+<span class=c> Execute different code depending on window name
+</span><span class=t>str</span> s.getwintext<span class=p>(</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Quick Macros&#34;</span><span class=p>))</span>
+<span class=fq>sel</span> s <span class=n>3</span> <span class=c2>;;case insensitive, use wildcards
+</span><span class=i>&#9;</span><span class=fq>case</span> [<span class=s>&#34;*[Macro97]&#34;</span><span class=p>,</span><span class=s>&#34;*[Macro98]&#34;</span>]<span class=p>:</span> <span class=fq>out</span> <span class=n>1</span> <span class=c2>;;window name ends with [Macro97] or [Macro98]
+</span><span class=i>&#9;</span><span class=fq>case</span> <span class=fq>else</span> <span class=fq>out</span> <span class=n>2</span></pre>
+</body>
+
+</html>
