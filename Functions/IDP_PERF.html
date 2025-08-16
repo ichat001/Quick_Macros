@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>perf</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Get precise time (performance counter)</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>long </i><b>perf</b></pre>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns the number of microseconds since Windows startup. Useful to measure code speed.</p>
+<p>&nbsp;</p>
+<p> When high precision is not necessary, you can instead use <span class="dll">GetTickCount</span> 
+  (~15 ms precision) or  <span class="dll">timeGetTime</span> (2 ms precision). They return the number of milliseconds since Windows startup.</p>
+<p>&nbsp;</p>
+<p>When measuring code speed, it is a good idea to repeat it several 
+  times. Your thread may be interrupted to give CPU time to other programs and threads that need 
+  it. For example, when you move the mouse, OS needs some time to move  
+  the mouse pointer. Also, code speed depends on various CPU and other hardware features.</p>
+<p>&nbsp;</p>
+<p> Note: Depending on computer speed, <span class="blue">perf</span> itself may get 1 or several 
+  microseconds.</p>
+<p>Note: The type of the return value is long (64-bit), not int (32-bit). Be careful when displaying the 
+  results formatted: either at first assign the difference to an int variable, 
+  or in the format-string use %I64i instead of %i, or use F-string.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#PerfFirst" class="dll">PerfFirst, PerfNet, PerfOut</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> measure how long runs code
+</span><span class=t>long</span> t1<span class=o>=</span><span class=fq>perf</span> <span class=c2>;;get time before
+</span><span class=t>int</span> i j
+<span class=fq>for</span> i <span class=n>0</span> <span class=n>1000</span>
+<span class=i>&#9;</span>j<span class=o>=</span><span class=n>5</span>
+<span class=t>long</span> t2<span class=o>=</span><span class=fq>perf</span> <span class=c2>;;get time after
+</span><span class=fq>out</span> t2<span class=o>-</span>t1 <span class=c2>;;display the difference
+</span></pre>
+</body>
+</html>
