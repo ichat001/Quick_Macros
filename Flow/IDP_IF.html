@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>if, else</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>If ... else</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>if</b> expression
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i>[</i><b>else</b>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...]</i></pre>
+
+<p>&nbsp;</p>
+
+<p>Can be single line:</p>
+
+<pre class=syntax><b>if</b>(expression) statements
+<i>[</i><b>else</b> statements<i>]</i></pre>
+<p>&nbsp;</p>
+<p>or</p>
+<pre class=syntax><b>if</b>(expression) statements <i>[</i><b>else</b> statements<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>expression </b>- any <A href="../Other/IDP_EXPRESSION.html">expression</a>.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>If <b>expression</b> is true (not 0), executes <b>statements</b> after <span class="blue">if</span> 
+  and skips <b>statements</b> after <span class="blue">else</span> (if used).  Else skips <b>statements</b> after <span class="blue">if</span> 
+and executes <b>statements</b> after <span class="blue">else</span> (if used).</p>
+<p>&nbsp;</p>
+<p><span class=cod><span class=fq>else</span> <span class=fq>if</span></span> 
+  does not require double indentation of following lines. See example.</p>
+<p>&nbsp;</p>
+
+<p> <i>See also: </i> <A href="../Language/IDH_OPERATORS.html">Operators</a>, <A href="IDP_IFA.html" class="blue">ifa</a>, <A href="IDP_IFK.html" class="blue">ifk</a>, <A href="../Functions/IDP_IIF.html" class="blue">iif</a> <A href="IDP_SEL.html" class="blue">sel</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>if</span> i<span class=o>=</span><span class=n>10</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;i is 10&quot;</span>
+
+<span class=fq>if</span> i<span class=o>=</span><span class=n>10</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;i is 10&quot;</span>
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;i is not 10&quot;</span>
+
+<span class=fq>if</span> i <span class=o>&#62;</span> <span class=n>0</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;i is greater than 0&#34;</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>s.endi<span class=p>(</span><span class=s>&#34;.exe&#34;</span><span class=p>))</span> <span class=fq>ret</span> i<span class=p>;</span> <span class=fq>else</span> <span class=fq>ret</span> <span class=n>0</span>
+<span class=fq>else</span> <span class=fq>if</span> i <span class=o>&#60;</span> <span class=n>0</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;i is less than 0&#34;</span>
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;i is 0&#34;</span>
+
+<span class=fq>if</span> a <span class=fq>and</span> b
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;a is not 0, and b is not 0&quot;</span>
+<span class=i>&#9;</span><span class=fq>if</span> c <span class=fq>or</span> d <span class=fq>or</span> e
+<span class=i>&#9;&#9;</span><span class=fq>out</span> <span class=s>&quot;c is not 0, or d is not 0, or e is not 0&quot;</span>
+</pre>
+
+</body>
+
+</html>
