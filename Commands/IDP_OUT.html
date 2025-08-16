@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>out</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Display text and variables in QM output</h1>
+
+<h3>Syntax1</h3>
+
+<pre class=syntax><b>out</b> expression</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2</h3>
+
+<pre class=syntax><b>out</b> formatstring <i>...</i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax3 - clear output</h3>
+<pre class=syntax><b>out</b></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>expression </b>- any expression (string, number, variable, etc).</p>
+
+<p> <b>formatstring </b>- string with <A href="../Tables/IDP_PRINTF.html">format 
+fields</a>, as with <A href="../str/IDP_S_FORMAT.html">str.format</a>. 
+Cannot be variable.</p>
+
+<p> <b>...</b> - variables or other values that will replace format fields in <b>formatstring</b>. Must be of <a href="../Language/IDH_VARIABLES.html">intrinsic  types</a>.</p>
+</div>
+
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Sends text to QM output. It is useful when <a href="../QM_Help/IDH_DEBUG.html">debugging</a> macros, learning/testing various functions, or to show information to the user when it is more appropriate than mesage box etc.</p>
+<p>&nbsp;</p>
+<p>Mostly used format fields: %i integer, %s string, %1.6f double, %c character, %x hex int, %I64i long.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Supports <a href="../Other/IDP_F1.html">tags</a> for colors, 
+  links, etc. To display text with tags, the text must begin with &quot;&lt;&gt;&quot;.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_FSTRING.html">variables in strings</a>, <a href="../Language/IDP_CONSTANT.html">escaping special 
+  characters</a>, <a href="../Functions/IDP_MES.html" class="blue">mes</a> (message box), <span class="UDF">ShowText</span> (text box), <span class="UDF">OnScreenDisplay</span>, <a href="../User/IDP_QMDLL.html#RedirectQmOutput" class="dll">RedirectQmOutput</a>, <span class="UDF">ExeOutputWindow</span></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> simple text:</span>
+<span class=fq>out</span> <span class=s>&quot;text&quot;</span>
+
+<span class=c> 2 lines:</span>
+<span class=fq>out</span> <span class=s>&quot;Line1[]Line2&quot;</span>
+
+<span class=c> variable a:</span>
+<span class=t>int</span> a <span class=o>=</span> <span class=n>10</span>
+<span class=fq>out</span> a
+
+<span class=fq>out</span> a <span class=o>+</span> b <span class=c2>;;sum of variables a and b</span>
+
+<span class=c> Call function len and display its return value:</span>
+<span class=t>lpstr</span> s <span class=o>=</span> <span class=s>&quot;String&quot;</span>
+<span class=fq>out</span> <span class=fq>len</span><span class=p>(</span>s<span class=p>)</span>
+
+<span class=c> variable i in decimal and j in hexadecimal:</span>
+<span class=fq>out</span> <span class=s>&quot;%i 0x%X&quot;</span> i j
+
+<span class=c> same as above</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;{</span>i<span class=s>} 0x{</span>j<span class=s>}&quot;</span>
+</pre>
+
+</body>
+
+</html>
