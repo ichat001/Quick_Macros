@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>findrx</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find or compare string using regular expression</h1>
+
+<p>
+<A href="../RegExp/IDP_PCRE.html">About regular expressions</a></p>
+
+<p>
+<A href="../RegExp/IDH_PCRE.html">Regular expression syntax</a></p>
+<p><a href="../str/IDP_S_REPLACERX.html">str.replacerx</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>findrx</b>(string pattern<i> [</i>from<i></i><i>] [</i>flags<i>] [</i>result<i>] [</i>submatch<i>]</i>)</pre>
+<p>or</p>
+<pre class=syntax><i>int </i><b>findrx</b>(string pattern<i> </i><i></i>rf<i> [</i>flags<i>] [</i>result<i>] [</i>submatch<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string to search in.</p>
+
+<p> <b>pattern </b>- regular expression that matches substring to find. String.</p>
+
+<p> <b>from</b> - 0-based character index, from which to start search. Default 0.</p>
+
+<p> <b>rf</b> - variable of type <A href="../RegExp/IDP_FINDRXSTRUCT.html">FINDRX</a>. You can use it to set the part of <b>string</b> where to search, and a callout callback.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Case insensitive.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Whole word. This adds \b to the beginning and end of <b>pattern</b>.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Find all. Valid only if <b>result</b> is array.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Multiline. If this flag is set (or (?m) is used in <b>pattern</b>), ^ 
+    and $ match the beginning and end of line. Default: ^ and $ match the beginning 
+    and end of whole string.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Don't need submatches. This flag makes this function faster when <b>result</b> 
+    is array.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>QM 2.3.0. Convert <b>pattern</b> from UTF-8 to ANSI. Used when QM is running 
+    in Unicode mode (ignored otherwise). Set this flag if <b>pattern</b> contains 
+    non <a href="../Tables/IDP_ASCII.html">ASCII</a> characters, but <b>string</b> 
+    is ANSI (not UTF-8). It is needed because these characters in <b>pattern</b> 
+    normally consist of 2 or 3 bytes, whereas characters in <b>string</b> consist 
+    of 1 byte.</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>Only compile <b>pattern</b>.</td>
+</tr>
+<tr> 
+  <td> <A href="../RegExp/IDP_PCREFLAGS.html">pcre flags</a></td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+
+<p> <b>result</b> - variable of type str, int, ARRAY(str) or ARRAY(CHARRANGE).</p>
+<p><b>submatch</b> - submatch to find. Integer. If 0 (default), finds whole match. 
+Before QM 2.4.3 - not used if <b>result</b> is array or 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Finds a substring in <b>string</b>. To specify the substring, is used regular 
+  expression (<b>pattern</b>). The function can find a whole match, a submatch, 
+  or all matches and submatches. A <i>match</i> is the part of <b>string</b> that 
+  matches <b>pattern</b>. A <i>submatch</i> is the part of the match that matches 
+  a captured subpattern. A captured subpattern is the part of pattern that is enclosed 
+  in parentheses and does not begin with ?. </p>
+<p>&nbsp;</p>
+<p>The return value depends on flags and other arguments:</p>
+<table class="tnormal">
+  <tr> 
+    <td>default</td>
+    <td>0-based index of first character of the match in <b>string</b>, 
+      or -1 if not found.</td>
+  </tr>
+  <tr> 
+    <td>nonzero <b>submatch</b></td>
+    <td>0-based index of first character of the submatch in <b>string</b>, 
+      or -1 if not found.</td>
+  </tr>
+  <tr> 
+    <td>flag 4</td>
+    <td>number of matches, or 0 if not found.</td>
+  </tr>
+  <tr>
+    <td>flag 128</td>
+    <td>not used.</td>
+  </tr>
+</table>
+<p>&nbsp; </p>
+<p> <b>result</b> can be used to get more information about the found match and 
+  submatches. This table shows what the function stores in <b>result</b> variable depending 
+  on its type. Assume that flag 4 is not used.</p>
+
+<table class="tnormal">
+
+<tr>
+<td>str</td>
+    <td><b>result</b> receives the match or submatch (if <b>submatch</b> is nonzero). 
+      If flag 128, receives the compiled pattern.</td>
+  </tr>
+
+<tr>
+<td>int</td>
+    <td><b>result</b> receives length of the match or submatch.</td>
+  </tr>
+
+<tr>
+<td>ARRAY(str)</td>
+    <td><b>result</b> receives the match in element 0 and submatches in subsequent 
+      elements. If flag 16 - only match. QM 2.4.3: if <b>submatch</b> not 0 - only the submatch.</td>
+  </tr>
+
+<tr>
+<td>ARRAY(CHARRANGE)</td>
+    <td><b>result</b> receives start and end offsets of the match and submatches. If flag 16 - only match. QM 2.4.3: if <b>submatch</b> not 0, receives only the submatch. QM 2.4.3: ARRAY(POINT) can be used too (POINT is the same as CHARRANGE, just shorter member names).</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>The CHARRANGE type is used to store start and end positions of a substring in a string.</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>CHARRANGE</span> cpMin cpMax</pre>
+
+<p>&nbsp;</p>
+
+<div class="parts">
+<p> <b>cpMin</b> - start of substring (match or submatch) in string. It is 0-based 
+index of first character of substring in string.</p>
+<p><b>cpMax</b> - end of substring.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<p>If flag 4 is set and <b>result</b> is array, finds all matches. It creates 
+  two-dimensional array. To access an element, use <span class=syntax>result[x 
+  y]</span>, where y is match index
+  (0 - first match, 1 - second match, ...), and x 
+  is 0 or submatch index (0 - whole match, 1 - first submatch, ...). For example,  <span class=cod>result[<span class=n>0</span> <span class=n>0</span>]</span> contains first match, <span class=cod>result[<span class=n>0</span> <span class=n>1</span>]</span> - second match, <span class=cod>result[<span class=n>1</span> <span class=n>0</span>]</span> - first submatch 
+  of first match.</p>
+
+<p>&nbsp;</p>
+
+<p>If flag 128 (only compile) is set, and <b>result</b> is str variable, the function 
+  does not search. It only compiles <b>pattern</b> and stores compiled data into 
+  <b>result</b> variable. You can use that variable later with functions <span class="blue">findrx</span> 
+  and str.replacerx as <b>pattern</b>. If multiple operations are performed with 
+  the same pattern, using compiled pattern is about 2 times faster, because then 
+  pattern does not have to be compiled each time. To compile pattern, are used 
+  only <b>pattern</b>, <b>flags</b> and <b>result</b>. You should use same <b>flags</b> 
+  value when compiling and later.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Find digits (10)
+</span><span class=t>str</span> subject<span class=o>=</span><span class=s>&#34;abc10 100 def&#34;</span>
+<span class=fq>out</span> <span class=fq>findrx</span><span class=p>(</span>subject <span class=s>&#34;\d+&#34;</span><span class=p>)</span>
+<span class=c>
+ Find digits as whole word (100), and store into s
+</span><span class=t>str</span> subject<span class=o>=</span><span class=s>&#34;abc10 100 def&#34;</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=fq>findrx</span><span class=p>(</span>subject <span class=s>&#34;\d+&#34;</span> <span class=n>0</span> <span class=n>2</span> s<span class=p>)</span><span class=o>&#62;=</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> s
+<span class=c>
+ Extract HTML tags (simplified; useful only as &#34;find all&#34; example)
+</span><span class=t>str</span> html
+<span class=fu>IntGetFile</span><span class=p>(</span><span class=s>&#34;http://www.google.com&#34;</span> html<span class=p>)</span>
+<span class=t>str</span> pattern<span class=o>=</span><span class=s>&#34;&#60;(.*)&#62;.*&#60;\/\1&#62;&#34;</span> <span class=c2>;;matches a HTML tag
+</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a
+<span class=fq>findrx</span><span class=p>(</span>html pattern <span class=n>0</span> <span class=n>4</span> a<span class=p>)</span>
+<span class=t>int</span> i
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;submatch=%s, whole=%s&#34;</span> a[<span class=n>1</span> i] a[<span class=n>0</span> i]
+
+<span class=c> Extract URL components
+</span><span class=t>str</span> subject<span class=o>=</span><span class=s>&#34;http://msdn.microsoft.com:80/scripting/default.htm&#34;</span>
+<span class=t>str</span> pattern<span class=o>=</span><span class=s>&#34;(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)&#34;</span>
+<span class=t>int</span> i<span class=p>;</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a
+<span class=fq>if</span><span class=p>(</span><span class=fq>findrx</span><span class=p>(</span>subject pattern <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span><span class=o>&#60;</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;does not match&#34;</span><span class=p>;</span> <span class=fq>ret</span>
+<span class=fq>for</span> i <span class=n>0</span> a.len
+<span class=i>&#9;</span><span class=fq>out</span> a[i]
+
+<span class=c> Extract URL components; show offsets and lenghts
+</span><span class=t>str</span> subject<span class=o>=</span><span class=s>&#34;http://msdn.microsoft.com:80/scripting/default.htm&#34;</span>
+<span class=t>str</span> pattern<span class=o>=</span><span class=s>&#34;(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)&#34;</span>
+<span class=t>int</span> i<span class=p>;</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>CHARRANGE</span><span class=p>)</span> a
+<span class=fq>if</span><span class=p>(</span><span class=fq>findrx</span><span class=p>(</span>subject pattern <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span><span class=o>&#60;</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;does not match&#34;</span><span class=p>;</span> <span class=fq>ret</span>
+<span class=fq>for</span> i <span class=n>0</span> a.len
+<span class=i>&#9;</span><span class=t>int</span> offset<span class=p>(</span>a[i].cpMin<span class=p>)</span> length<span class=p>(</span>a[i].cpMax<span class=o>-</span>a[i].cpMin<span class=p>)</span>
+<span class=i>&#9;</span><span class=t>str</span> s.get<span class=p>(</span>subject offset length<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;offset=%i length=%i %s&#34;</span> offset length s
+
+<span class=c> Extract only server from URL 
+</span><span class=t>str</span> subject<span class=o>=</span><span class=s>&#34;http://msdn.microsoft.com:80/scripting/default.htm&#34;</span>
+<span class=t>str</span> pattern<span class=o>=</span><span class=s>&#34;(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)&#34;</span>
+<span class=t>str</span> server
+<span class=fq>if</span><span class=p>(</span><span class=fq>findrx</span><span class=p>(</span>subject pattern <span class=n>0</span> <span class=n>0</span> server <span class=n>2</span><span class=p>)</span><span class=o>&#62;=</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> server</pre>
+</body>
+
+</html>
