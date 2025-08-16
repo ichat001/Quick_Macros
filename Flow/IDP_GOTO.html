@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>goto</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Go to label</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>goto</b> label
+<i>...</i>
+<span class="green"><i class=f8>(space)</i>label</span>
+<i>...</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>label</b> - label name.</p>
+
+<p> <span class="green"><b>label</b></span> - label to go to. The line must begin with space or semicolon.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Execution will continue after <span class="green"><b>label</b></span>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>goto</span> g1
+...
+<span class=c> g1
+</span>...</pre>
+
+<p>&nbsp;</p>
+
+<pre class=cod>...
+<span class=c> g2
+</span>...
+<span class=fq>if</span><span class=p>(</span>a<span class=o>&#62;</span><span class=n>10</span><span class=p>)</span> <span class=fq>goto</span> g2</pre>
+
+</body>
+
+</html>
