@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Help and type info</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Help and type info</h1>
+
+<p>To enter some often used macro commands, you can use dialogs from the code 
+  toolbar. If the toolbar is unavailable, click the &quot;Check extensions&quot; 
+  button in Options and follow instructions.</p>
+<p>&nbsp;</p>
+<p><img src="../image/qmtoolbar.gif" border=0></p>
+<p>&nbsp;</p>
+
+<p> However, Quick Macros does not provide dialogs for all commands and functions. 
+  You will have to type them directly in the editor. You can find all intrinsic 
+  commands and functions through the <a href="../Reference/IDH_REFERENCE.html">reference</a> 
+  topic. There are several features that can help in finding  commands and 
+  getting help.</p>
+
+<p>&nbsp;</p>
+
+<p>When you type dot (<tt>.</tt>) somewhere in text (for 
+  example, at the beginning of a line), appears list of functions and other identifiers 
+  that you can use. Various type kinds (functions, types, constants, variables, 
+  etc) have different <a href="../Language/IDP_DECLARATION.html">icons</a>. To 
+  insert an identifier, double click it. Or begin to type, and press Tab or Enter to complete.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/ti_globals.png" border=0></p>
+
+<p>&nbsp;</p>
+
+<p>At the top of the list are  <a href="../Language/IDP_CATEGORIES.html">categories</a> 
+  - collections of related functions. Type <span class=cod>.</span> after a category name to view 
+  the functions. At the bottom of the list are 
+   various libraries. Type <span class=cod>.</span> after a library name to view its contents.</p>
+<p>&nbsp;</p>
+<p> Press:</p>
+<ul>
+  <li> Ctrl+, to view only types.</li>
+  <li> Ctrl+. for 
+    global functions.</li>
+  <li> Ctrl+/ for constants and  variables.</li>
+  <li> Ctrl+; for local/thread variables, also member variables and functions of current class.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Also there are many 
+  other functions (member functions) that are displayed when you type <span class=cod>.</span> after a variable of a certain type, for example str,   Acc, Database, ARRAY, BSTR, a COM interface. 
+  To use such functions, declare a variable of that type, and call functions with 
+  that variable. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>Ftp</span> f
+f.Connect<span class=p>(</span><span class=s>&#34;ftp.myserver.com&#34;</span> <span class=s>&#34;user&#34;</span> <span class=s>&#34;passw&#34;</span><span class=p>)</span>
+f.DirSet<span class=p>(</span><span class=s>&#34;public_html&#34;</span><span class=p>)</span></pre>
+<p>&nbsp; </p>
+<p>In the lists, names of hidden and restricted members are gray.</p>
+<p>&nbsp;</p>
+
+<p>If you want to hide a user-defined function in the list, 
+  place it in a <a href="IDH_FOLDERPROP.html">private folder</a>. The list also 
+  does not show anything that begins with __ (two underscores). To show hidden items, 
+  press Ctrl+Shift+. or use menu Edit -&gt; Members -&gt; Show Hidden.</p>
+<p>&nbsp;</p>
+<p>To show the list when you already partially typed an identifier, choose the 
+  Completion command (Ctrl+Space). In most cases it shows only identifiers that 
+  begin with the same letter. Ctrl+. and other commands also can be used for this.</p>
+<p>&nbsp;</p>
+<p>When the text insertion point is on an identifier (function, 
+  type, etc, except variables), QM status bar shows some info for it. You can Ctrl+click 
+  to view it in QM output.</p>
+<ul>
+  <li> Optional parameters are [enclosed].</li>
+  <li> | means OR.</li>
+  <li>Some parameter names are preceded by type name or character, like in <a href="../Language/IDP_FUNCTION.html">function declaration</a>. For example, string parameters are preceded by $ 
+  or ~. If it is ~, you can pass a string or a number. If type not specified, it is int (integer number).</li>
+  <li>If a parameter supports values of  several types, shows ` or the mostly used type.</li>
+  <li>Short description and other additional info is displayed as comments (green). Read <a href="../Other/IDP_F1.html">here</a> how to add function info to the status bar.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p><img src="../image/statusbar.gif" border=0></p>
+
+<p>&nbsp;</p>
+
+<p>The status bar info for intrinsic and user-defined functions 
+  is always available. For other user-defined identifiers, it is available only 
+  if the identifier is already <a href="../Language/IDP_DECLARATION.html">declared</a>. That is, if the macro or function with the declaration is already <a href="IDH_DEBUG.html">compiled</a>, 
+  or the identifier is from a <a href="../_COM/IDP_TYPELIB.html">type library</a> 
+  or <a href="../Language/IDP_REF.html">reference file</a>. QM also automatically 
+  declares identifiers from type libraries and reference files when typing <span class=syntax><span class="lib">typelib</span>.identifier</span>. 
+  QM also may look in reference files to show  info in QM status bar.</p>
+<p>&nbsp;</p>
+<p>To show help for a function or other identifier, type or click it and press 
+  <a href="../Other/IDP_F1.html">F1</a>.</p>
+</body>
+
+</html>
