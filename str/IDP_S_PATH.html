@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getpath, getfilename</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_FILENAME"></a>Get path or filename from full path</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>getpath</b>(<i>[</i>file<i>] [</i>append<i>]</i>)
+s.<b>getfilename</b>(<i>[</i>file<i>] [</i>ext<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>file </b>- full path of a file or folder. Default: <b>s</b>.</p>
+<p><b>append</b> - some string to append. Use &quot;&quot; 
+to remove &quot;\&quot;.</p>
+
+<p> <b>ext </b>- if nonzero, get filename with extension.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <span class="blue">getpath</span> extracts path part from <b>file</b>.</p>
+
+<p> <span class="blue">getfilename</span> extracts filename part from <b>file</b>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. Supports file streams, like &quot;c:\a\b.txt:stream1:$DATA&quot;.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>There are many Windows API functions that can be used to work with 
+  paths and URLs. For example, <span class="dll">PathFindExtension</span>. Documented in <a href="http://www.google.com/search?q=Shell Path Handling Functions" target="_blank">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s1.<span class=fq>getpath</span><span class=p>(</span><span class=s>&quot;c:\folder\test.txt&quot;</span><span class=p>)</span>
+<span class=t>str</span> s2.<span class=fq>getfilename</span><span class=p>(</span><span class=s>&quot;c:\folder\test.txt&quot;</span><span class=p>)</span>
+<span class=t>str</span> s3.<span class=fq>getfilename</span><span class=p>(</span><span class=s>&quot;c:\folder\test.txt&quot;</span> <span class=n>1</span><span class=p>)</span>
+<span class=c> now s1 is &quot;c:\folder\&quot;, s2 is &quot;test&quot;, s3 is &quot;test.txt&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
