@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Pointer, reference, array</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Pointer, reference, array</h1>
+
+<p> <i>Warning:</i> incorrectly used pointers can cause  instability and  data corruption.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>Tip:</i> if you are looking for arrays, <A href="../_COM/IDP_OLE_ARRAY.html">safe 
+  arrays</a> are often the best choice.</p>
+
+<h2> Pointer variables</h2>
+
+<p>A pointer is a variable that holds address of other variable. Use operator 
+  &amp; to get address of a variable or function. Use operator * to access variable 
+  to which pointer points. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> Declare variable v:
+</span><span class=t>int</span> v <span class=o>=</span> <span class=n>5</span>
+<span class=c> Declare pointer p:
+</span><span class=t>int</span><span class=o>*</span> p <span class=o>=</span> <span class=o>&#38;</span>v
+<span class=c> Now p points to (holds address of) v
+</span><span class=t>int</span> a <span class=o>=</span> <span class=o>*</span>p
+<span class=c> Now variable a = 5. This is the same as a = v
+</span><span class=o>*</span>p <span class=o>=</span> <span class=n>10</span>
+<span class=c> Now variable v = 10. This is the same as v = 10
+
+ Pass address of variable r to dll function:
+</span><span class=t>RECT</span> r
+<span class=fd>GetWindowRect</span><span class=p>(</span><span class=fq>win</span><span class=p>()</span> <span class=o>&#38;</span>r<span class=p>)</span>
+<span class=c>
+ Pass address of function TimerProc to dll function:
+</span>timeSetEvent <span class=n>1000</span> <span class=n>10</span> <span class=o>&#38;</span>TimerProc <span class=n>0</span> <span class=n>0</span></pre>
+
+<p>&nbsp;</p>
+
+<p> To declare a pointer variable, use type of variable to which it will point, 
+  and append *. For example, if you will use pointer p to hold address of a str 
+  variable, declaration must be <span class=cod><span class=t>str</span><span class=o>*</span> p</span>.</p>
+
+<p>&nbsp;</p>
+
+<p> Maximal level of indirection is 3. For example, <span class=cod><span class=t>int</span><span class=o>***</span> p</span> is OK, but <span class=cod><span class=t>int</span><span class=o>****</span> p</span> is error.</p>
+
+<p>&nbsp;</p>
+<p>A pointer variable is similar to an int variable. Like of int, the size is 
+  4 bytes. Unlike int, it is interpreted as unsigned.</p>
+<p>&nbsp;</p>
+
+<p> Operator * also can be used with enclosed expressions and functions that return pointer. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=o>*</span><span class=p>(</span>arr <span class=o>+</span> <span class=n>2</span><span class=p>)</span> <span class=o>=</span> <span class=n>10</span>
+<span class=t>int</span> i <span class=o>=</span> <span class=o>*</span><span class="UDF">FunctionThatReturnsIntPointer</span></pre>
+
+<h2> Arrays</h2>
+
+<p> A pointer can point to an array of variables. To access an array element, 
+  use operator []. Array indices begin with 0. If pointer points to array, it 
+  means that it points to the first variable in the array (the following two expressions 
+  are true: <span class=cod>arr <span class=o>==</span> <span class=o>&#38;</span>arr[<span class=n>0</span>]</span> and <span class=cod><span class=o>*</span>arr <span class=o>==</span> arr[<span class=n>0</span>]</span> ). If you add size of variable 
+  to the pointer (for example arr + sizeof(str)), the pointer will point to the 
+  next variable in the array ( <span class=cod>arr <span class=o>==</span> <span class=o>&#38;</span>arr[<span class=n>1</span>]</span> and <span class=cod><span class=o>*</span>arr <span class=o>==</span> arr[<span class=n>1</span>]</span> ).</p>
+
+<p>&nbsp;</p>
+
+<p> You can create array in several ways:</p>
+
+<p>&nbsp;</p>
+
+<p> 1. Dynamic array allocated with intrinsic <A href="IDP_MEMORY.html">memory-allocation functions</a>. Use <span class="blue">_new</span> or <span class="blue">_resize</span> to allocate or resize array. Use <span class="blue">_delete</span> to free it. These functions properly construct-destruct elements of any type. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span><span class=o>*</span> arr._new<span class=p>(</span><span class=n>10</span><span class=p>)</span>
+arr[<span class=n>0</span>] <span class=o>=</span> <span class=s>&#34;abc&#34;</span>
+<span class=t>str</span> s <span class=o>=</span> arr[<span class=n>9</span>]
+...
+arr._delete</pre>
+
+<p>&nbsp;</p>
+
+<p> 2. Dynamic array allocated with other functions (<span class="dll">calloc</span>, <span class="dll">LocalAlloc</span>, etc). Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>word</span><span class=o>*</span> arr <span class=o>=</span> <span class=fd>calloc</span><span class=p>(</span><span class=n>10</span> <span class=fq>sizeof</span><span class=p>(</span><span class=t>word</span><span class=p>))</span>
+...
+<span class=fd>free</span> arr</pre>
+
+<p>&nbsp;</p>
+
+<p> 3. Dynamic array in str variable. QM automatically frees such array when str variable goes out of scope. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s.all<span class=p>(</span><span class=n>10</span><span class=o>*</span><span class=fq>sizeof</span><span class=p>(</span><span class=t>word</span><span class=p>)</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=t>word</span><span class=o>*</span> arr <span class=o>=</span> <span class=o>+</span>s
+...</pre>
+
+<p>&nbsp;</p>
+
+<p> 4. Declare n local variables. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s0 s1 s2 s3
+<span class=t>str</span><span class=o>*</span> arr <span class=o>=</span> <span class=o>&#38;</span>s0
+...</pre>
+
+<p>&nbsp;</p>
+
+<p> 5. Define variable type with embedded array. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>LPSTRARRAY50</span> <span class=o>$</span>s[<span class=n>50</span>]
+<span class=t>LPSTRARRAY50</span> a
+<span class=t>lpstr</span><span class=o>*</span> arr <span class=o>=</span> <span class=o>&#38;</span>a[<span class=n>0</span>]
+...</pre>
+
+<p>&nbsp;</p>
+
+<p> 6. Use <A href="../_COM/IDP_OLE_ARRAY.html">safe array</a>. Then you don't have to worry about array initialization and freeing.</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<p> In case 2 and 3, constructors and destructors for array elements are not called. 
+  For arrays of composite types (e.g. str), you must explicitly initialize array 
+  memory (<span class="dll">calloc</span> does it), and clear each element before 
+  freeing array memory. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span><span class=o>*</span> arr <span class=o>=</span> <span class=fd>calloc</span><span class=p>(</span><span class=n>10</span> <span class=fq>sizeof</span><span class=p>(</span><span class=t>str</span><span class=p>))</span>
+...
+<span class=fq>for</span><span class=p>(</span><span class=t>int</span><span class=p>'</span>i <span class=n>0</span> <span class=n>10</span><span class=p>)</span> arr[i].all
+<span class=fd>free</span> arr</pre>
+
+<h2> Reference variables</h2>
+
+<p> A reference variable holds address of other variable, but behaves syntactically 
+  like that variable. Usually it is initialized (receives address of other variable) when declaring. After 
+  that, it is used like normal variable. When various operations are performed 
+  with the reference variable, actually is modified the variable to which the 
+  reference variable points. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> Declare variable v:
+</span><span class=t>int</span> v <span class=o>=</span> <span class=n>5</span>
+<span class=c> Declare reference r:
+</span><span class=t>int</span><span class=o>&#38;</span> r <span class=o>=</span> <span class=o>&#38;</span>v
+<span class=c> Now r is reference to (holds address of) v
+</span><span class=t>int</span> a <span class=o>=</span> r
+<span class=c> Now variable a = 5. This is the same as a = v
+</span>r <span class=o>=</span> <span class=n>10</span>
+<span class=c> Now variable v = 10. This is the same as v = 10</span></pre>
+
+<p>&nbsp;</p>
+
+<p> References can be [re]initialized later:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span><span class=o>&amp;</span> r
+<span class=t>int</span> v2<span class=o>=</span><span class=n>100</span>
+<span class=o>&amp;</span>r <span class=o>=</span> <span class=o>&amp;</span>v2 <span class=c2>;;now r is reference to v2</span>
+<span class=fq>out</span> r <span class=c2>;;100</span>
+</pre>
+
+<p>&nbsp;</p>
+
+<p> When initializing reference variable, it must receive address of other variable. To get address, use operator &amp;. However, when variable is of same type, operator &amp; is optional. It is also true with function arguments. When this optimization is undesirable, use operator +. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span> v <span class=o>=</span> <span class=n>5</span>
+<span class=t>int</span><span class=o>&#38;</span> r <span class=o>=</span> <span class=o>&#38;</span>v <span class=c2>;;OK, r is initialized with address of v
+</span><span class=t>int</span><span class=o>&#38;</span> r <span class=o>=</span> v <span class=c2>;;OK, r is initialized with address of v
+</span><span class=t>int</span><span class=o>&#38;</span> r <span class=o>=</span> <span class=o>+</span>v <span class=c2>;;r is initialized with value of v</span></pre>
+
+<h2> Usage</h2>
+
+<p> Reference variable usage is easier (does not require *), but pointer variable 
+  is more flexible (can be used arrays, etc). Pointers and references are mostly 
+  used as function parameters. Caller passes address of a variable. Then function 
+  can modify that variable. This is often used with   str, ARRAY and other variables to avoid copying of all data.</p>
+<p>&nbsp;</p>
+
+<p> If a parameter is declared as
+  byte pointer (<span class=cod><span class=t>byte</span><span class=o>*</span></span> or <span class=cod><span class=o>!*</span></span>), can be passed pointer of any type, or string. This is similar to void* in C++.</p>
+
+<p>&nbsp;</p>
+
+<p> If expression that you assign to a pointer variable (or parameter, etc) has different type, QM may generate error. Use <A href="IDP_OPUNARY.html">operator +</a> to compile without error. </p>
+
+<p>&nbsp;</p>
+
+<p> When using pointers, they always should point to an existing variable or other 
+  valid location in memory. Some functions also accept 0. Otherwise, macro will 
+  end with error message &quot;Exception&quot; or &quot;Invalid pointer&quot;, 
+  or QM will exit or become unstable, or data will be corrupted. You should know 
+  life time of variables, because, when variable goes out of scope (is destroyed), 
+  pointer to it becomes invalid.</p>
+
+</body>
+
+</html>
