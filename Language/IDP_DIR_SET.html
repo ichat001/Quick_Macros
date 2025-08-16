@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#set</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#set</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#set</span> variable value</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>variable</b> - global variable of type <span class="type">int</span>.</p>
+<p> <b>value</b> - an integer value to assign. Can be simple number, global <span class="type">int</span> variable, or user-defined function without arguments (runs at compile time in QM main thread). Sub-functions also supported.</p>
+</div>
+
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>Sets value of a global <span class="type">int</span> variable at compile time. The variable must exist.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_DIR_COMPILE.html" class="dir">#compile</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> create, set and use global variable at compile time</span>
+<span class=t>int</span><span class=o>+</span> g_var
+<span class=dir>#set</span> g_var <span class=fu>GetGVar</span>
+<span class=dir>#if</span> g_var
+</pre>
+
+</body>
+
+</html>
