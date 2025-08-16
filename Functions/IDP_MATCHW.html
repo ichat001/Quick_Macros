@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>matchw</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compare string using wildcard characters</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>matchw</b>(string pattern<i> [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string.</p>
+
+<p> <b>pattern</b> - string with wildcard characters.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>case insensitive.</td>
+</tr>
+
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns 1 if <b>string</b> matches <b>pattern</b>, or 0 if not.</p>
+<p>&nbsp;</p>
+<p>Wildcard characters:</p>
+<p>? maches any single character. Note that in <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+  mode it can be more than 1 byte because non ASCII characters consist of several 
+  bytes.</p>
+<p>* matches 0 or more characters.</p>
+<p>?* matches 1 or more characters.</p>
+<p>** matches *.</p>
+<p>*? matches ?.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <A href="IDP_FINDRX.html" class="blue">findrx</a>, <a href="../User/IDP_QMDLL.html#StrCompare" class="dll">StrCompare</a>. 
+</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;file.txt&#34;</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>matchw</span><span class=p>(</span>s <span class=s>&#34;*.txt&#34;</span><span class=p>))</span>
+<span class=i>&#9;</span>...</pre>
+</body>
+
+</html>
