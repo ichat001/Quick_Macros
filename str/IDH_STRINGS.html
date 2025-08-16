@@ -1,0 +1,440 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Strings</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Strings</h1>
+
+<p> <i>See also: </i> <a href="../Language/IDP_CONSTANT.html">string constants</a>, 
+  <a href="../QM_Help/IDH_FUNCTIONTIPS.html">using strings with functions</a>, 
+  <a href="../Other/IDP_UNICODE.html">Unicode and UTF-8</a>, <a href="../Language/IDP_FSTRING.html">strings with variables</a></p>
+<p>&nbsp;</p>
+<p>A string is an array of characters. Used to store text. Each character is stored 
+  in memory as a single byte (in UTF-8 - 1 to 4 bytes). A byte is an amount of 
+  memory that can have 256 different values. A byte with value 0 (&quot;terminating 
+  null character&quot;) is appended to the end. Other values are used for <a href="../Tables/IDP_ASCII.html">characters</a>.</p>
+
+<p>&nbsp;</p>
+
+<p> A string <A href="../Language/IDH_VARIABLES.html">variable</a> generally is 
+  (or includes) a pointer to a string. The pointer holds the address of the first 
+  character. The picture shows how whole string variable is stored in memory.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/string.gif"></p>
+
+<p>&nbsp;</p>
+
+<p> There are several types of string variables:</p>
+<p>&nbsp;</p>
+<p> A variable of type str manages its string memory.</p>
+<p>&nbsp;</p>
+<p> A variable of type lpstr does not manage string memory.</p>
+<p>&nbsp;</p>
+<p>Variables of type <A href="../_COM/IDP_OLE_BSTR.html">BSTR</a> are used for 
+  Unicode UTF-16 strings. They are used mostly with COM functions. They manage 
+  string memory (like str).</p>
+<p>&nbsp;</p>
+<p>Sometimes variables of type word* also are used as Unicode UTF-16 strings. 
+  They don't manage string memory (like lpstr).</p>
+<p>&nbsp;</p>
+<p>Variables of type <a href="../_COM/IDP_OLE_CDV.html">VARIANT</a> are interpreted 
+  as strings when they contain BSTR. They are used mostly with COM functions.</p>
+<p>&nbsp;</p>
+<p> In C++ programming language and in MSDN Library, a pointer to a string is 
+  often called LPSTR, LPCSTR, char*, const char*, etc. A pointer to an Unicode 
+  UTF-16 string is often called LPWSTR, LPCWSTR, WCHAR*, OLECHAR*, etc. Also can 
+  be LPTSTR and similar.</p>
+<h2>Variables of type str</h2>
+
+<p>Variables of type str are used to store and manipulate strings. A str variable 
+  holds a string in a variable-length automatically (re)allocated string buffer. 
+  The buffer is an array of bytes that the variable allocates somewhere in other 
+  memory location. Beside the pointer to the string buffer, a str variable has 
+  several other <A href="IDP_S_DATA.html">properties</a>. All properties are automatically 
+  adjusted when performing string operations.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/str.gif"></p>
+
+<p>&nbsp;</p>
+
+<p>When you assign a string or numeric value to a str variable, that value is 
+  copied to the string buffer. Numeric values are automatically converted. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;Cat&#34;</span>
+<span class=c> now variable s is &#34;Cat&#34;
+</span>s <span class=o>=</span> <span class=n>5.75</span>
+<span class=c> now variable s is &#34;5.75&#34;
+</span></pre>
+
+<p>&nbsp;</p>
+
+<p>When you assign a str variable to a variable of other <a href="../Language/IDP_VARIABLES.html">intrinsic 
+  type</a>, the other variable receives the pointer value. The same is when you 
+  pass a str variable as a function argument. To convert a str variable to a useful 
+  numeric value, use <a href="../Functions/IDP_VAL.html" class="blue">val</a> 
+  function:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=n>45</span>
+<span class=c> now s is &#34;45&#34;
+</span><span class=t>int</span> i <span class=o>=</span> <span class=fq>val</span><span class=p>(</span>s<span class=p>)</span>
+<span class=c> now i is 45
+</span></pre>
+
+<p>&nbsp;</p>
+
+<p>A single character can be accessed using [] operator:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;Cat&#34;</span>
+<span class=t>int</span> char <span class=o>=</span> s[<span class=n>1</span>]
+<span class=c> now char is 97 ('a' character code)
+</span>s[<span class=n>0</span>] <span class=o>=</span> <span class=n>66</span>
+<span class=c> now s is &#34;Bat&#34; (66 is 'B' character code)
+</span>s[<span class=n>2</span>] <span class=o>=</span> <span class=n>'r'</span>
+<span class=c> now s is &#34;Bar&#34;
+</span></pre>
+
+<p>&nbsp;</p>
+
+<p>The str type supports <A href="../Language/IDH_OPERATORS.html">operators</a> 
+  = (assign), + (append) and - (prepend):</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod>s <span class=o>=</span> <span class=s>&#34;Cat&#34;</span>
+<span class=c> now s is &#34;Cat&#34;
+</span>s <span class=o>+</span> <span class=s>&#34; and Mouse&#34;</span>
+<span class=c> now s is &#34;Cat and Mouse&#34;
+</span>s <span class=o>-</span> <span class=s>&#34;Dog, &#34;</span>
+<span class=c> now s is &#34;Dog, Cat and Mouse&#34;
+</span></pre>
+
+<p>&nbsp;</p>
+
+<p>Expressions like <span class=cod>s1 <span class=o>=</span> s2 <span class=o>+</span> s3</span> cannot be used to join 
+  strings, because s2 and s3 in such expression are interpreted as numeric 
+  (pointers). Instead use <span class=cod>s1.from<span class=p>(</span>s2 s3<span class=p>)</span></span> or <span class=cod>s1<span class=o>=</span><span class=s>F&quot;{</span>s2<span class=s>}{</span>s3<span class=s>}&quot;</span></span>.</p>
+
+<p>&nbsp;</p>
+
+<p>The str type also supports comparison operators = (equal, case sensitive comparison), 
+  ! (not equal, case sensitive comparison) and ~ (equal, case insensitive comparison):</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>if</span><span class=p>(</span>s <span class=o>=</span> <span class=s>&#34;Cat&#34;</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;s is ''Cat''&#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<p>The str type has several member functions. Common syntax:</p>
+
+<p>&nbsp;</p>
+
+<pre>s.func(...)</pre>
+
+<p>&nbsp;</p>
+
+<p>Here <b>s</b> is a str variable; func is name of a member function; ... are parameters. 
+  You can declare variable and call function:</p>
+
+<p>&nbsp;</p>
+
+<pre><span class="type">str</span> s.function(...)</pre>
+
+<p>&nbsp;</p>
+
+<p>Most str functions return the str variable for which were called. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s.<span class=fq>fix</span><span class=p>(</span><span class=fd>GetWindowText</span><span class=p>(</span>hwnd s.<span class=fq>all</span><span class=p>(</span><span class=n>100</span><span class=p>)</span> <span class=n>100</span><span class=p>))</span></pre>
+
+<p>&nbsp;</p>
+
+<p>is equivalent to:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s
+s.<span class=fq>all</span><span class=p>(</span><span class=n>100</span><span class=p>)</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fd>GetWindowText</span><span class=p>(</span>hwnd s <span class=n>100</span><span class=p>)</span>
+s.<span class=fq>fix</span><span class=p>(</span>i<span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h4>Member functions:</h4>
+
+<table class="tnormal">
+  <tr> 
+    <td> <A href="IDP_S_LCASE.html">lcase ucase</a></td>
+    <td>Make string lowercase or uppercase.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_UNICODE.html">unicode ansi</a></td>
+    <td>Convert string to/from Unicode UTF-16.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_ESCAPE.html">escape</a></td>
+    <td>Replace escape sequences with characters, or vice versa.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_ENCRYPT.html">encrypt decrypt</a></td>
+    <td>Encrypt, decrypt.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_TRIM.html">trim ltrim rtrim</a></td>
+    <td>Remove characters from the beginning or end.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_SET.html">set</a></td>
+    <td>Set part of string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_INSERT.html">insert</a></td>
+    <td>Insert other string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_REMOVE.html">remove</a></td>
+    <td>Cut part of string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_REPLACE.html">replace</a></td>
+    <td>Replace part of string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FINDREPLACE.html">findreplace</a></td>
+    <td>Find and replace.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_REPLACERX.html">replacerx</a></td>
+    <td>Find and replace using regular expression.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_ADDLINE.html">addline</a></td>
+    <td>Append string as new line.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_GET.html">left right get geta</a></td>
+    <td>Get part of other string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_GETT.html">gett</a></td>
+    <td>Find and get n-th part of other string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_GETL.html">getl</a></td>
+    <td>Find and get n-th line.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_PATH.html">getpath getfilename</a></td>
+    <td>Extract path or filename from full file path.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FROM.html">from</a></td>
+    <td>Create string from several parts (join).</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FROMN.html">fromn</a></td>
+    <td>Create string from several string or binary parts of specified 
+      length.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FORMAT.html">format, formata</a></td>
+    <td>Format string (create string that will contain values of variables).</td>
+  </tr>
+  <tr>
+    <td><a href="IDP_S_ALL.html">all</a></td>
+    <td>Allocate or free string buffer.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FIX.html">fix</a></td>
+    <td>Set string length.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_WINDOW.html">getwintext setwintext getwinclass 
+      getwinexe</a></td>
+    <td>Get window text, class name, program, set window text.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_CLIP.html">getclip setclip getsel setsel</a></td>
+    <td>Clipboard, copy, paste.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_FILE.html">getfile setfile</a></td>
+    <td>Read or write file.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_SEARCHPATH.html">searchpath, expandpath</a></td>
+    <td>Find file and get full path; expand special folder.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_DOSPATH.html">dospath</a></td>
+    <td>Get short (DOS) path from long path or vice versa.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_MACRO.html">getmacro</a></td>
+    <td>Get macro text.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_MACROS.html">setmacro</a></td>
+    <td>Set macro text.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_DLLERROR.html">dllerror</a></td>
+    <td>Get dll error description.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_TIMEFORMAT.html">timeformat</a></td>
+    <td>Format date/time string.</td>
+  </tr>
+  <tr> 
+    <td> <A href="IDP_S_BEG.html">beg begi end endi mid midi</a></td>
+    <td>Compare part of string.</td>
+  </tr>
+  <tr> 
+    <td><a href="IDP_S_STRUCT.html">getstruct setstruct</a></td>
+    <td>Get/set variable of user-defined type.</td>
+  </tr>
+  <tr>
+    <td><a href="IDP_S_SWAP.html">swap</a></td>
+    <td>Exchange string with another variable.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h2>Variables of type lpstr</h2>
+
+<p>Although in most cases you will use str variables, in some cases it is better 
+  to use lpstr variables. Unlike str variables, a lpstr variable has no string 
+  buffer. It is only a pointer to a null-terminated string (see the first picture 
+  above). It does not manage (which means allocating memory) the string to which 
+  it points.</p>
+<p>&nbsp;</p>
+<p> Like str and pointers, lpstr supports [] operator to access a single character.</p>
+<p>&nbsp;</p>
+<p> Also supports operators =, + and -, but they modifies only the pointer, but 
+  not the string to which it points:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>lpstr</span> s <span class=o>=</span> <span class=s>&#34;abcd&#34;</span>
+<span class=c> now s is (points to) &#34;abcd&#34;
+</span>s <span class=o>+</span> <span class=n>2</span>
+<span class=c> now s is (points to) &#34;cd&#34;
+</span>s <span class=o>-</span> <span class=n>1</span>
+<span class=c> now s is (points to) &#34;bcd&#34;</span></pre>
+<p>&nbsp;</p>
+
+<p>You cannot use str member functions with lpstr variables.</p>
+<p>&nbsp;</p>
+<p>You cannot assign a numeric value, except 0.</p>
+<h2>Null</h2>
+
+<p>A str or lpstr variable can be null. It means that the pointer to string is 
+  0, and string memory is not allocated. This happens:</p>
+<ul>
+  <li> When the variable is just 
+    declared and still not assigned a value.</li>
+  <li> After calling <a href="IDP_S_ALL.html">all</a> 
+    without arguments.</li>
+  <li> After the variable receives a str or lpstr expression that 
+    is null.</li>
+  <li> In several other cases.</li>
+</ul>
+<p>&nbsp; </p>
+<p>Note that it is not the same as &quot;&quot;. 
+  When a str variable is &quot;&quot;, its length also is 0, but it has string 
+  buffer which is required to hold terminating null character.</p>
+<h2>Common functions</h2>
+<p>Beside str member functions (listed above), you can also use global string 
+  functions. They can be used with str and lpstr variables. They are called like 
+  other global (non-member) functions. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> lens
+<span class=t>lpstr</span> s<span class=o>=</span><span class=s>&#34;abc&#34;</span>
+lens<span class=o>=</span><span class=fq>len</span><span class=p>(</span>s<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<h4>Functions:</h4>
+<table class="tnormal">
+  <tr> 
+    <td><a href="../Functions/IDP_LEN.html" class="blue">len</a></td>
+    <td>Get number of characters.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_EMPTY.html" class="blue">empty</a></td>
+    <td>Is string empty?</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_VAL.html" class="blue">val</a></td>
+    <td>Get numeric value.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_NUMLINES.html" class="blue">numlines</a></td>
+    <td>Get number of lines.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FIND.html" class="blue">find</a>, <a href="../Functions/IDP_FINDW.html" class="blue">findw</a></td>
+    <td>Find substring, find whole word.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FINDT.html" class="blue">findt</a>, <a href="../Functions/IDP_FINDL.html" class="blue">findl</a></td>
+    <td>Find n-th token, find n-th line.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_TOK.html" class="blue">tok</a></td>
+    <td>Split.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FINDC.html" class="blue">findc, findcr</a></td>
+    <td>Find character, find character from right.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FINDC.html" class="blue">findcs, findcn</a></td>
+    <td>Find character that is or isn't in the specified set of characters.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FINDB.html" class="blue">findb</a></td>
+    <td>Find substring in binary data.</td>
+  </tr>
+  <tr> 
+    <td><a href="../Functions/IDP_FINDRX.html" class="blue">findrx</a></td>
+    <td>Find one or all substrings using regular expression.</td>
+  </tr>
+  <tr> 
+    <td> <a href="../Functions/IDP_MATCHW.html" class="blue">matchw</a></td>
+    <td>Compare strings using wildcards.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Global string functions are added to the <span class="lib">string</span> 
+  <a href="https://quickmacros.com/help/str/..%5CLanguage%5CIDP_CATEGORIES.html">category</a>. There you also can 
+  find several useful functions from dlls. To compare strings, you can use <a href="../User/IDP_QMDLL.html#StrCompare" class="dll">StrCompare</a> 
+  and other functions. To get information about a dll function, press <a href="../Other/IDP_F1.html">F1</a>.</p>
+<p>&nbsp;</p>
+<h2>Notes</h2>
+<p>String functions are not thread-safe. Don't use a variable in multiple threads simultaneously. It can damage data and make QM unstable. You can use <a href="../Commands/IDP_LOCK.html">lock</a> to prevent it.</p>
+</body>
+
+</html>
