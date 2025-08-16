@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>format</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_FORMATA"></a>Format string</h1>
+
+<p><i>See also:</i> <a href="../Language/IDP_FSTRING.html">variables in strings</a>, <a href="../Language/IDP_CONSTANT.html">string constants and escape sequences</a></p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>format</b>(formatstring <i>...</i>)
+s.<b>formata</b>(formatstring <i>...</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>formatstring </b>- format-control string.</p>
+
+<p> <b>...</b> - arguments. Variables or other values that will replace format fields in <b>formatstring</b>.</p>
+<ul>
+  <li> The order and type of arguments must match  corresponding 
+    format fields in <b>formatstring</b>.</li>
+  <li>Arguments must be of <a href="../Language/IDH_VARIABLES.html">intrinsic  types</a> (str, lpstr, int, double,  byte, word, long). Don't use <a href="../_COM/IDP_OLETYPES.html">OLE Automation types</a>.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">format</span> creates string that can include values of 
+  variables. The <b>formatstring</b> consists of ordinary 
+  characters that are copied unchanged, and <A href="../Tables/IDP_PRINTF.html">format 
+  fields</a> that are replaced with values of arguments.</p>
+<p>&nbsp;</p>
+
+<p><span class="blue">formata</span> differs from <span class="blue">format</span> 
+  only that it writes to the end of <b>s</b> (appends).</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p> The mostly used format fields: %i for integer numbers (int, byte, word), %s for strings (str, lpstr), %G for double, %I64i for long, %c for a single character, %X for integers in hexadecimal.</p>
+<p>To insert this function, can be used the Text dialog from the code toolbar.</p>
+<p><span class="blue">out</span> and some other functions also support formatting. Example: <span class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=fq>out</span> <span class=s>&quot;i=%i&quot;</span> i</span></p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>50</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;stringvar&quot;</span>
+<span class=t>double</span> d<span class=o>=</span><span class=n>3.1415926535897932384626433832795</span>
+<span class=t>str</span> f
+f.<span class=fq>format</span><span class=p>(</span><span class=s>&quot;variables: i=%i, s=''%s'', d=%.10G&quot;</span> i s d<span class=p>)</span>
+<span class=fq>out</span> f <span class=c2>;;variables: i=50, s=&quot;stringvar&quot;, d=3.141592654</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
