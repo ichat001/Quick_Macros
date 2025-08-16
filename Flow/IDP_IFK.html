@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>ifk</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>If key is pressed</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>ifk</b><i>[</i>-<i>]</i> keycode <i>[</i>toggled<i>]</i>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i>[</i><b>else</b>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...]</i></pre>
+
+<p>&nbsp;</p>
+
+<p>Can be single line:</p>
+
+<pre class=syntax><b>ifk</b><i>[</i>-<i>]</i>(keycode <i>[</i>toggled<i>]</i>) statements
+<i>[</i><b>else</b> statements<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>keycode</b> - <a href="../Tables/IDP_KEYCODES.html">QM key code</a>.</p>
+<ul>
+  <li>Also 
+    can be <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key code</a> enclosed 
+    in ( ).</li>
+  <li>Also can be mouse button in ( ): 
+    (1) left, (2) right, (4) middle, (5) X1, (6) X2.</li>
+  <li>Can be two keys. Then checks if both are pressed.</li>
+  <li>For comma use <tt>&lt;</tt>, not <tt>,</tt>.</li>
+</ul>
+<p> <b>toggled</b> - if nonzero, checks if toggled.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>not.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Similar to <A href="IDP_IF.html" class="blue">if</a>.</p>
+<p>&nbsp;</p>
+<p> If the specified 
+  key is pressed, executes <b>statements</b> after <span class="blue">ifk</span> 
+  and skips <b>statements</b> after <span class="blue">else</span> (if used). Else 
+  skips <b>statements</b> after <span class="blue">ifk</span> and executes <b>statements</b> 
+  after <span class="blue">else</span> (if used).</p>
+
+<p>&nbsp;</p>
+
+<p>Not all keys and key combinations give correct result. For example, on some 
+  operating systems you cannot test the Pause key.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_VISTA.html">UAC</a>: if the active window has higher 
+  integrity level (eg QM - standard user, window - administrator), <span class="blue">ifk</span> 
+  works only with some keys: modifier keys (Ctrl, Shift, Alt, Win), lock keys 
+  (CapsLock, NumLock, ScrollLock), Back, Tab, Enter, Esc, and mouse buttons.</p>
+<p>&nbsp;</p>
+<p><span class="blue">ifk</span> can reliably check toggled state only 
+  for lock keys. The toggled state for other keys is process-specific or thread-specific.</p>
+<p>&nbsp;</p>
+<p>Internally <span class="blue">ifk</span> uses QM function <a href="../User/IDP_QMDLL.html#RealGetKeyState" class="dll">RealGetKeyState</a>. 
+  You can use it  instead of <span class="blue">ifk</span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Can be used as function. Returns 1 if pressed, 0 if not.</p>
+<p>&nbsp;</p>
+<p><i>See also: </i><a href="../User/IDP_QMDLL.html#GetMod" class="dll">GetMod</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>ifk</span><span class=p>(</span>F2<span class=p>)</span> <span class=fq>bee</span> <span class=c2>;;if key F2 pressed, beep
+</span><span class=fq>ifk</span><span class=p>(</span>K <span class=n>1</span><span class=p>)</span> <span class=fq>key</span> K <span class=c2>;;if key CapsLock toggled, press CapsLock
+</span><span class=fq>ifk</span><span class=p>((</span><span class=n>1</span><span class=p>))</span> <span class=fq>bee</span> <span class=c2>;;if left mouse button pressed, beep
+</span><span class=c>
+ Repeatedly execute some code; stop when key F12 is pressed
+</span><span class=fq>rep</span>
+<span class=i>&#9;</span>...
+<span class=i>&#9;</span><span class=fq>ifk</span><span class=p>(</span>F12<span class=p>)</span> <span class=fq>break</span>
+
+<span class=c> RealGetKeyState example
+</span><span class=fq>if</span> <span class=fd>RealGetKeyState</span><span class=p>(</span><span class=d>VK_SHIFT</span><span class=p>)</span> <span class=fq>and</span> <span class=fd>RealGetKeyState</span><span class=p>(</span><span class=d>VK_LBUTTON</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;Pressed Shift key and mouse left button&#34;</span>
+
+<span class=c> Can be used as function
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>ifk</span><span class=p>(</span>C<span class=p>)</span> <span class=fq>and</span> <span class=o>!</span><span class=fq>ifk</span><span class=p>(</span>S<span class=p>)</span> <span class=fq>and</span> <span class=fq>ifk</span><span class=p>(</span>J <span class=n>1</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;Ctrl pressed, Shift not, ScrollLock toggled&#34;</span></pre>
+
+</body>
+
+</html>
