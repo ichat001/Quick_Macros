@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Math functions from C run-time library</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Math functions from C run-time library</h1>
+
+<p>C run-time library (msvcrt.dll) contains many useful functions. You can find 
+  reference in <A href="../Other/IDP_MSDN.html">MSDN library</a>.</p>
+
+<p>&nbsp;</p>
+
+<p> Several examples:</p>
+<p>&nbsp;</p>
+
+<p> To calculate floating-point remainder, use function <span class="dll">fmod</span>.</p>
+<p> Example: <span class=cod><span class=t>double</span> rem<span class=o>=</span><span class=fd>fmod</span><span class=p>(</span>x y<span class=p>)</span></span> .</p>
+<p>&nbsp;</p>
+
+<p>To calculate x raised to the power of y, use function <span class="dll">pow</span>.</p>
+<p> Example: <span class=cod><span class=t>double</span> pw<span class=o>=</span><span class=fd>pow</span><span class=p>(</span>x y<span class=p>)</span></span> .</p>
+<p>&nbsp;</p>
+
+<p>To calculate x square root, use function <span class="dll">sqrt</span>.</p>
+<p> Example: <span class=cod><span class=t>double</span> sq<span class=o>=</span><span class=fd>sqrt</span><span class=p>(</span>x<span class=p>)</span></span> .</p>
+
+<p>&nbsp;</p>
+
+<p> Before using dll functions, they must be <A href="IDP_DLL.html">declared</a>. For example, if function in MSDN library is given as:</p>
+
+<p>&nbsp;</p>
+
+<p> <b>double fmod( </b></p>
+
+<p> <b>double x,</b></p>
+
+<p> <b>double y </b></p>
+
+<p> <b>);</b></p>
+
+<p>&nbsp;</p>
+
+<p>then QM declaration would be:</p>
+
+<pre class=cod><span class=fq>dll</span> msvcrt <span class=o>^</span><span class=fd>fmod</span> <span class=o>^</span>x <span class=o>^</span>y</pre>
+
+<p>&nbsp;</p>
+
+<p> QM declares several math functions from C run-time library. They are added to <span class="lib">math</span> <A href="IDP_CATEGORIES.html">category</a>.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=t>double</span> angleDegrees<span class=o>=</span><span class=n>30</span>
+
+<span class=fq>def</span> <span class=d>PI</span> <span class=n>3.1415926535897932384626433832795</span>
+
+<span class=t>double</span> s<span class=o>=</span><span class=fd>sin</span><span class=p>(</span>angleDegrees<span class=o>*</span><span class=d>PI</span><span class=o>/</span><span class=n>180</span><span class=p>)</span> <span class=c2>;;converts degrees to radians and calculates sin</span>
+<span class=t>double</span> a<span class=o>=</span><span class=fd>asin</span><span class=p>(</span>s<span class=p>)</span><span class=o>*</span><span class=n>180</span><span class=o>/</span><span class=d>PI</span> <span class=c2>;;calculates arcsin and converts radians to degrees</span>
+<span class=fq>out</span> s
+<span class=fq>out</span> a
+</pre>
+</body>
+
+</html>
