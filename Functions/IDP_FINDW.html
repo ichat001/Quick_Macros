@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>findw</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find string in string as whole word</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>findw</b>(string substring <i>[</i>from<i>] [</i>delim<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string to search in.</p>
+
+<p> <b>substring</b> - word to find.</p>
+
+<p> <b>from</b> - 0-based character index, from which to start search. Default 0.</p>
+
+<p> <b>delim</b> - <a href="../Other/IDP_TABLEOFDELIM.html">delimiters</a>.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Case insensitive.</td>
+</tr>
+<tr>
+  <td>64</td>
+  <td>QM 2.3.3. Match always if <b>substring</b> begins/ends with a delimiter.</td>
+</tr>
+<tr> 
+  <td>0x100</td>
+  <td> <b>delim</b> is table of delimiters.</td>
+</tr>
+<tr>
+  <td>0x200</td>
+  <td>QM 2.3.3. Add blanks to <b>delim</b>.</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns 0-based index of first character of <b>substring</b> in <b>string</b>. 
+  If not found, returns -1. Searches substrings delimited by characters in <b>delim</b>.</p>
+
+<p>&nbsp;</p>
+
+<h4>Tips</h4>
+<p> If <b>string</b> can be multiline, don't forget to include line break characters ( <tt>[]</tt> ) in <b>delim</b>. Or flag 0x200.</p>
+<p>&nbsp;</p>
+
+
+<p><i>See also:</i> <A href="IDP_FINDRX.html" class="blue">findrx</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;my.exe /p&quot;</span>
+<span class=t>int</span> i <span class=o>=</span> <span class=fq>findw</span><span class=p>(</span>s <span class=s>&quot;exe&quot;</span> <span class=n>0</span> <span class=s>&quot; .:\/''[]&quot;</span><span class=p>)</span>
+<span class=fq>out</span> i <span class=c2>;;3</span>
+</pre>
+
+</body>
+
+</html>
