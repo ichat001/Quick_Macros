@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Calling user-defined functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Calling user-defined functions</h1>
+
+<p><a href="../Language/IDH_FUNCTIONS.html">Functions</a> can be called in several 
+  ways.</p>
+<p>&nbsp;</p>
+<p>1. Directly.</p>
+<p>&nbsp;</p>
+<p>Directly called functions run synchronously. The caller macro/function waits 
+  until the called function returns.</p>
+<p>&nbsp;</p>
+<p> Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> functions</span>
+<span class=fu>FileRename</span> a b
+x<span class=o>=</span><span class=fu>GetAttr</span><span class=p>(</span>c<span class=p>)</span>
+
+<span class=c> member functions</span>
+<span class=t>Tray</span> t
+t.AddIcon<span class=p>(</span>a b<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>A special case of directly called functions are functions used with <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_DIR_SUB.html">sub-functions</a></p>
+<p>&nbsp;</p>
+<p>2. As callback function.</p>
+<p>&nbsp;</p>
+<p> You give address of function A to function B. Then function B can call function 
+  A using the address. With some QM intrinsic functions instead of address can 
+  be used name or some other property.</p>
+<p>&nbsp;</p>
+<p> Function A can be a user-defined function or a dll function, but cannot be 
+  a member, COM or QM intrinsic function. Function B can be any.</p>
+<p>&nbsp;</p>
+<p>Function B can call function A immediately (eg <span class="dll">EnumWindows</span>), 
+  or set it to call later (eg <span class="dll">SetTimer</span>). COM <a href="../_COM/IDP_COM_EVENTS.html">event</a> 
+  functions also are callback functions. Also there are functions that run in 
+  special <a href="IDP_THREADS.html">threads</a> (trigger filter functions and 
+  functions that run in QM main thread).</p>
+<p>&nbsp;</p>
+<p> To call a user-defined function when you have its address or name, use <a href="../Functions/IDP_CALL.html" class="blue">call</a>.</p>
+<p>&nbsp;</p>
+<p>Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fd>EnumWindows</span> <span class=o>&#38;</span><span class=fu>enum_proc</span> <span class=n>0</span>
+
+<span class=fd>SetTimer</span> hDlg <span class=n>1</span> <span class=n>1000</span> <span class=o>&#38;</span><span class=fu>MyTimerProc</span>
+
+x<span class=o>=</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog55&#34;</span> <span class=o>&#38;</span><span class=fu>Dialog55</span><span class=p>)</span>
+
+<span class=t>int</span> fa<span class=o>=&#38;</span><span class=fu>my_callback_func</span>
+<span class=fq>call</span> fa <span class=n>10</span> <span class=n>20</span>
+
+<span class=t>str</span> fn<span class=o>=</span><span class=s>&#34;my_callback_func&#34;</span>
+<span class=fq>call</span> fn <span class=n>10</span> <span class=n>20</span>
+
+<span class=fq>atend</span> <span class=fu>my_atend_func</span> <span class=c2>;;with some QM intrinsic functions must be used function name without &#38;</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>3. Special class member functions (constructor, destructor and operator=) are 
+  called implicitly. They run synchronously.</p>
+<p>&nbsp;</p>
+<p>4. <a href="IDP_THREADS.html">Thread</a> entry functions. A thread entry function 
+  is a macro or function that has been launched using the Run button, a trigger, 
+  <a href="../Commands/IDP_MAC.html" class="blue">mac</a>, or some other way if 
+  it caused to create new thread. Functions launched with <span class="blue">mac</span> 
+  run asynchronously. The macro/function that contains <span class="blue">mac</span> 
+  does not wait, unless it is explicitly programmed to wait.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
