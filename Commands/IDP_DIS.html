@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>dis</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Disable/enable triggers</h1>
+
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax1 - set state</h3>
+
+<pre class=syntax><b>dis</b><i>[</i>+<i>|</i>-<i>] [</i>macro<i></i><i>] [</i>flags<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Syntax2 - get state</h3>
+<pre class=syntax><i>int </i><b>dis</b>(<i>[</i>macro<i></i><i>] [</i>flags<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>macro</b> - <a href="../QM_Help/IDH_ITEMS.html">QM item</a> name (full, 
+case insensitive) or <a href="../Functions/IDP_QMITEM.html">id</a> (integer).</p>
+<ul>
+  <li>Can be QM item path. For example, &quot;\Mouse\Next&quot; is  macro &quot;Next&quot; in folder &quot;Mouse&quot;.</li>
+  <li>Can be list of items (multiple lines).</li>
+  <li>If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, QM uses its parent function.</li>
+</ul>
+<p> <b>flags</b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td> <b>macro</b> is not folder.</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td> <b>macro</b> is folder. </td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td> <b>macro</b> is folder or not.</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+<h4>Options:</h4>
+
+<table class="tflags">
+  <tr> 
+    <td>Default</td>
+    <td>toggle.</td>
+  </tr>
+  <tr> 
+    <td>+</td>
+    <td>disable.</td>
+  </tr>
+  <tr> 
+    <td>-</td>
+    <td>enable.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1</h4>
+<p>Disables or enables <b>macro</b> trigger.</p>
+<p>&nbsp;</p>
+<p>If <b>macro</b> is omitted, disables/enables QM (same as menu <a href="../QM_Help/IDH_MENU_TOOLS.html">Run -&gt; 
+  Disable Triggers</a>).</p>
+
+<p>&nbsp;</p>
+<p>If <b>macro</b> is &quot;&quot;, disables/enables current file.</p>
+
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p>If used as function, just returns disabled/enabled state. For items, returns 
+  0 if enabled, 1 if disabled, 2 if enabled but is in disabled folder or file. 
+  For QM, returns combination of flags indicating which trigger types are disabled: 
+  1 - keyboard, 2 - mouse, 4 - window, 8 - command line, 16 - user-defined, 32 
+  - file, 64 - event log, 128 - QM is in &quot;disabled&quot; state (gray icon), 
+  0x100 - process, 0x200 - accessible object.</p>
+<p>&nbsp;</p>
+<p>If <b>macro</b> is &quot;&quot;, returns 1 if current file is disabled, or 
+  0 if enabled.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>dis</span> <span class=c2>;;disable or enable QM
+</span><span class=fq>dis</span><span class=o>+</span> <span class=s>&#34;Macro&#34;</span> <span class=c2>;;disable macro
+</span><span class=fq>dis</span><span class=o>+</span> <span class=s>&#34;\Folder\Macro&#34;</span>
+<span class=fq>dis</span> <span class=s>&#34;Folder1[]Folder2&#34;</span> <span class=n>1</span> <span class=c2>;;disable or enable two folders
+</span>
+<span class=t>int</span> i <span class=o>=</span> <span class=fq>qmitem</span><span class=p>(</span><span class=s>&#34;Macro139&#34;</span><span class=p>)</span>
+<span class=fq>dis</span> i
+<span class=fq>if</span><span class=p>(</span><span class=fq>dis</span><span class=p>(</span>i<span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;disabled&#34;</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;enabled&#34;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=fq>dis</span><span class=o>&#38;</span><span class=n>128</span><span class=p>)</span> <span class=fq>ret</span> <span class=c2>;;if QM is disabled, exit
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>dis</span><span class=o>&#38;</span><span class=n>16</span><span class=p>)</span> <span class=fq>ret</span> <span class=c2>;;user-defined triggers are disabled, exit
+</span></pre>
+</body>
+
+</html>
