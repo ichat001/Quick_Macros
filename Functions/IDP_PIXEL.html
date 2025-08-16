@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>pixel</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get point color</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>pixel</b>(x y <i>[</i>window<i>]</i> <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>x y</b> - <A href="../Other/IDP_PIXELS.html">coordinates</a>.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or child window. If omitted or literal 0, <b>x</b> and <b>y</b> are screen 
+coordinates.</p>
+
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr> 
+  <td width="9%">1</td>
+  <td width="85%"><strong>x y</strong> are relative to the top-left corner of window's 
+    client area or of the work area.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Don't activate <b>window</b>. Not error if point <strong>x y</strong> does not belong to <b>window</b> or its top-level parent window.</td>
+</tr>
+<tr>
+  <td>0x1000</td>
+  <td>QM 2.4.3.  Get pixel color directly from <strong>window</strong>, not from screen. The same as <a href="IDP_SCAN.html" class="blue">scan</a> flag 0x1000. It is faster. Does not activate <strong>window</strong>. Not error if <strong>x y</strong> does not belong to <b>window</b>; then returns -1 if the point is not in the window or client area rectangle. This flag is ignored if <strong>window</strong> not used or if Windows Aero theme is not enabled or <strong>window</strong> is <a href="../Other/IDP_DPI.html">DPI-scaled</a>.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns pixel <a href="../Other/IDP_COLOR.html">color</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>When <strong>window</strong> is used:</p>
+<ul>
+  <li>Restores minimized window.</li>
+  <li> Activates inactive window (depends on <strong>flags</strong> and window style).</li>
+  <li>Error if the point belongs to another top-level window (depends on <strong>flags</strong>).</li>
+</ul>
+<p>&nbsp;</p>
+<p>Don't use this function to search for a pixel, because it is slow. Instead use <a href="IDP_SCAN.html" class="blue">scan</a> (it can search for one or more pixel colors or images).</p>
+<p>&nbsp;</p>
+
+<p><i>See also:</i> <a href="../Commands/IDP_WAIT_FOR.html">wait for color</a>, 
+  <a href="IDP_SCAN.html" class="blue">scan</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Quick Macros&quot;</span> <span class=s>&quot;QM_Editor&quot;</span><span class=p>)</span>
+<span class=t>int</span> color<span class=o>=</span><span class=fq>pixel</span><span class=p>(</span><span class=n>100</span> <span class=n>100</span> w <span class=n>1</span><span class=o>|</span><span class=n>0x1000</span><span class=p>)</span>
+<span class=t>int</span> r g b
+<span class=fu>ColorToRGB</span><span class=p>(</span>color <span class=o>&amp;</span>r <span class=o>&amp;</span>g <span class=o>&amp;</span>b<span class=p>)</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;color=0x{</span>color<span class=s>} red={</span>r<span class=s>} green={</span>g<span class=s>} blue={</span>b<span class=s>}&quot;</span>
+
+<span class=c> Store color from mouse pointer into the clipboard:</span>
+<span class=t>str</span> s<span class=o>=F</span><span class=s>&quot;0x{</span><span class=fq>pixel</span><span class=p>(</span><span class=fq>xm</span> <span class=fq>ym</span><span class=p>)</span><span class=s>}&quot;</span>
+s.<span class=fq>setclip</span></pre>
+
+</body>
+
+</html>
