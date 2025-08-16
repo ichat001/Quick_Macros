@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>qmitem</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>QM items: find; enumerate; get properties</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int</i><b> qmitem</b>(<i>[</i>name<i></i><i>] [</i>flags<i>] [</i>pi<i>] [</i>mask<i>]</i>)</pre>
+<p>or</p>
+<pre class=syntax><i>int</i><b> qmitem</b>(<i></i><i></i>iid<i> [</i>flags<i>] [</i>pi<i>] [</i>mask<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>name </b>- <A href="../QM_Help/IDH_ITEMS.html">QM item</a> name. Full, 
+case insensitive.</p>
+<ul>
+  <li>If omitted or &quot;&quot;, gets item that is currently open in code editor.</li>
+  <li>Can be QM item path. For example, &quot;\Mouse\Next&quot; is  macro &quot;Next&quot; in folder &quot;Mouse&quot;.</li>
+  <li>QM 2.4.0. Can be QM item <a href="../Other/IDP_GUID.html">GUID</a> string. Unavailable in exe.</li>
+</ul>
+<p> <b>iid</b> - QM item id. Integer.</p>
+<ul>
+  <li>If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, QM uses its parent function. To get name or id of current sub-function, use <a href="IDP_GETOPT.html" class="blue">getopt</a>.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Skip folders.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Skip items in <a href="../QM_Help/IDH_QML.html">shared folders</a> (eg System).</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Skip encrypted items.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Skip disabled items.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Skip items with no trigger.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>Skip member functions.</td>
+</tr>
+<tr>
+  <td>64</td>
+  <td>QM 2.3.0. Skip file links.</td>
+</tr>
+</table>
+
+<p><b>pi</b> - variable of type QMITEM (see Remarks). Function fills it with information 
+about found item.</p>
+
+<p> <b>mask</b> - defines which members of QMITEM  must be retrieved. 
+It can be combination of values listed below. Other members are always retrieved. 
+Default: 0.</p>
+
+<table class="tflags">
+<tr> 
+  <td>1</td>
+  <td>Name.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Trigger (without programs).</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Programs. Begins with / (only) or \ (not).</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Text.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Parent folder id. Obsolete, used before QM 2.4.0.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>Filter function.</td>
+</tr>
+<tr> 
+  <td>64</td>
+  <td>Trigger description (short).</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>Date modified.</td>
+</tr>
+<tr>
+  <td>256</td>
+  <td>QM 2.3.0. File link target (file path).</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Each macro and other QM item, including folders, has an integer identifier (id). It can be 
+  used with <A href="../Commands/IDP_MAC.html" class="blue">mac</a>, 
+  <A href="../Commands/IDP_DIS.html" class="blue">dis</a>, <A href="../str/IDP_S_MACRO.html"> 
+  str.getmacro</a>, <span class="blue">qmitem</span> and some other functions. It changes 
+  when the file is opened next time.</p>
+<p>&nbsp;</p>
+<p><span class="blue">qmitem</span> returns QM item id. It can be 1 to 65535. Returns 0 if not found.</p>
+<p>&nbsp;</p>
+<p>To get id of current or related function, instead use <a href="IDP_GETOPT.html">getopt itemid</a>, it's faster and don't need to specify name.</p>
+
+<p>&nbsp;</p>
+
+<p>This function can be used for 3 purposes:</p>
+
+<p>&nbsp;</p>
+
+<p>1. Get item id when you know its name, path or GUID.</p>
+<ul>
+  <li> If not found, <span class="blue">qmitem</span> 
+    returns 0.</li>
+  <li> <b>flags</b> can be used 
+    to filter results (e.g., skip folders).</li>
+</ul>
+<p>&nbsp;</p>
+
+<p>2. Enumerate QM items.</p>
+<ul>
+  <li>Use <b>iid</b>. It must be
+    &lt;=0.</li>
+  <li> <span class="blue">qmitem</span> returns next matching item. 
+    It starts to search from item whose id is  absolute value of <b>iid</b> + 1. 
+    For example, if <b>iid</b> is -2, <span class="blue">qmitem</span> returns 
+    item that has id 3 or more (it can skip items that match <b>flags</b>).</li>
+  <li>To enumerate all items, at first call <span class="blue">qmitem</span> 
+    with <b>iid</b>=0. Then repeatedly call it and use negative form of <b>iid</b> 
+    that was returned in previous call. Stop  when <span class="blue">qmitem</span> 
+    returns 0.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p>3. Get item properties.</p>
+<ul>
+  <li> <b>pi</b> must be variable of type 
+    QMITEM.</li>
+  <li>  <span class="blue">qmitem</span> always fills its first 9 members and <b>folderid</b>. To fill other 
+    members, use <b>mask</b>.</li>
+  <li>The first argument can be either <b>name</b> 
+    or <b>iid</b> (&lt;=0 when enumerating).</li>
+</ul>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>QMITEM</span> <span class=o>!</span>itype <span class=o>!</span>ttype <span class=o>!</span>tkey <span class=o>!</span>tmod <span class=o>!</span>tkey2 []<span class=o>!</span>tmon []<span class=o>!</span>tht flags htvi <span class=o>~</span>name <span class=o>~</span>trigger <span class=o>~</span>triggerdescr <span class=o>~</span>programs <span class=o>~</span>filter <span class=o>~</span>text <span class=o>~</span>linktarget folderid <span class=t>DATE</span><span class=p>'</span>datemod</pre>
+<p>&nbsp;</p>
+
+
+<div class="parts">
+<p><b>itype</b> - item type: 0 macro, 1 function, 2 pop-up menu, 3 toolbar, 4 
+    autotext list, 5 folder, 6 member function, 7 file link.</p>
+<p><b>ttype</b> - trigger type: 0 none, 1 keyboard, 2 mouse, 3 window, 4 user-defined, 
+    5 QM events, 6 file, 7 event log, 8 process, 9 accessible object, 10 autotext.</p>
+<p><b>tkey</b> - trigger key. For keyboard triggers it is <A href="../Tables/IDP_VIRTUALKEYS.html">virtual-key 
+    code</a>. For mouse triggers: 1 wheel forward, 2 wheel backward, 4 X1 button, 
+    5 X2 button, 6 left button, 7 right button, 8 middle button, 9-20 screen 
+  edges, 21-32 other movements. For other triggers - undocumented.</p>
+<p><b>tmod</b> - modifier-keys (keyboard and mouse triggers). Combination of 
+    the following values: 1 Shift, 2 Ctrl, 4 Alt, 8 Win.</p>
+<p><b>tkey2</b> - next key (keyboard triggers).</p>
+<p><b>tmon</b> - monitor (mouse movement triggers). 0 primary, 31 all.</p>
+<p><b>tht</b> - <a href="../QM_Help/IDH_TFF.html">hit test code</a> (mouse click and wheel triggers). 0 any.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b> - item properties: 2 is in a <a href="../QM_Help/IDH_QML.html">shared folder</a>, 
+    4 encrypted, 8 disabled, 16 is in a read-only folder.</p>
+<p><b>htvi</b> - handle of item in TreeView control.</p>
+<p><b>name</b> - item name.</p>
+<p><b>trigger</b> - <A href="../Other/IDP_TRIGGER_CODING.html">encoded trigger string</a> 
+  (without programs and filter function).</p>
+<p><b>triggerdescr</b> - trigger description (e.g., Ctrl+E instead of Ce).</p>
+<p><b>programs</b> - trigger scope (programs). Starts with / (Only) or \ (Not).</p>
+<p><b>filter</b> - <A href="../QM_Help/IDH_TFF.html">filter function</a></p>
+<p><b>text</b> - item text.</p>
+<p><b>linktarget</b> - QM 2.3.0. If the item is file link, contains file path.</p>
+<p><b>folderid</b> - parent folder id.</p>
+<p><b>datemod</b> - date modified. Precision: 1 s. Time zone: local. This member 
+    is 0 for items modified before QM 2.1.5. Modification date is updated when 
+    applying changes in text.</p>
+</div>
+
+
+<p>&nbsp;</p>
+<p>In <a href="../QM_Help/IDH_MAKEEXE.html#a4">exe</a> can be used only to get item id.</p>
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <A href="../str/IDP_S_MACRO.html"> str.getmacro</a>, <a href="IDP_GETOPT.html">getopt itemid</a>, <a href="../User/IDP_QMDLL.html#GetQmItemsInFolder" class="dll">GetQmItemsInFolder</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Find item &#34;LED&#34;:
+</span><span class=t>int</span> i<span class=o>=</span><span class=fq>qmitem</span><span class=p>(</span><span class=s>&#34;LED&#34;</span> <span class=n>1</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=p>)</span> <span class=fq>out</span> i<span class=p>;</span> <span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;item not found&#34;</span>
+<span class=c>
+ Find item &#34;LED&#34; and display properties:
+</span><span class=t>QMITEM</span> q
+<span class=t>int</span> i<span class=o>=</span><span class=fq>qmitem</span><span class=p>(</span><span class=s>&#34;LED&#34;</span> <span class=n>1</span> <span class=o>&#38;</span>q <span class=n>31</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;i=%i itype=%i ttype=%i tkey=%i tshift=%i flags=%i name=%s trigger=%s programs=%s folder=%s text=[]%s&#34;</span> i q.itype q.ttype q.tkey q.tmod q.flags q.name q.trigger q.programs <span class=fq>iif</span><span class=p>(</span>q.folderid _s.getmacro<span class=p>(</span>q.folderid <span class=n>1</span><span class=p>)</span> <span class=s>&#34;&#34;</span><span class=p>)</span> q.text
+<span class=c>
+ List all items that have triggers:
+</span><span class=t>QMITEM</span> q<span class=p>;</span> <span class=t>int</span> i
+<span class=fq>rep</span>
+<span class=i>&#9;</span>i<span class=o>=</span><span class=fq>qmitem</span><span class=p>(</span><span class=o>-</span>i <span class=n>1</span><span class=o>|</span><span class=n>16</span> <span class=o>&#38;</span>q <span class=n>1</span><span class=o>|</span><span class=n>2</span><span class=o>|</span><span class=n>4</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>i<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%-30s %-30s %s&#34;</span> q.name q.trigger q.programs</pre>
+
+</body>
+
+</html>
