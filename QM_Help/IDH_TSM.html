@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Autotext list</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><img src="../image/icon_tsm.gif"> Autotext list</h1>
+
+<p> Autotext lists are used to execute commands when you type 
+  certain text. Typical usage - text replacement/autocomplete/autocorrect. Also known as text-sensitive menu or TS menu.</p>
+<p>&nbsp;</p>
+<p>An autotext list has no visible interface. When you type text somewhere, and the text matches one of list items, executes its 
+command.</p>
+<h2>Triggers</h2>
+<p> An autotext list works only if it has a trigger.</p>
+<p>&nbsp;</p>
+<h3>Text trigger</h3>
+<p>Added in QM 2.3.3.</p>
+<p>&nbsp;</p>
+<p>Assume you have this autotext list with 2 items (the &quot;/b/i/c/p3&quot;  sets options):</p>
+<pre class=cod><span class=c>/b/i/c/p3</span>
+sun <span class=p>:</span><span class=p>'</span><span class=s>&quot;Sunday&quot;</span>
+mon <span class=p>:</span><span class=p>'</span><span class=s>&quot;Monday&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>When you type &quot;sun&quot; and a delimiter character (for example space), it replaces the text with &quot;Sunday &quot; (erases &quot;sun &quot; and types &quot;Sunday &quot;). Or you can press Ctrl instead of a delimiter character. When you type &quot;mon &quot;, replaces with &quot;Monday &quot;.</p>
+<p>&nbsp;</p>
+<p>This trigger does not require an event (hotkey etc) before typing text. It just makes the autotext list active. Other QM item types cannot have this trigger.</p>
+<p>&nbsp;</p>
+<p>To assign this trigger, 
+  use the <a href="IDH_PROPERTIES.html">Properties</a> dialog. You can set programs where the autotext list works, and a filter function (<a href="IDH_TSM.html#MoreOptions">read more below</a>). Also you can set prefix text; for example, if prefix text is ##, for the above example you would have to type &quot;##sun &quot; or &quot;##mon &quot;.</p>
+<p>&nbsp;</p>
+
+<h3>Other triggers</h3>
+<p>Use  if you need a hotkey or other trigger before typing text.</p>
+<h4>&nbsp;</h4>
+<p>Assume you have this autotext list with 2 items (the &quot;/b/i/c&quot;  sets options):</p>
+<pre class=cod><span class=c>/b/i/c</span>
+sun <span class=p>:</span><span class=p>'</span><span class=s>&quot;Sunday&quot;</span>
+mon <span class=p>:</span><span class=p>'</span><span class=s>&quot;Monday&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>Assume its trigger is key F12. When you press F12 and type &quot;sun&quot;, it replaces the text with &quot;Sunday&quot;. When you press F12 and type &quot;mon&quot;, replaces with &quot;Monday&quot;.</p>
+<p>&nbsp;</p>
+<p>Assume it's trigger is key `, and &quot;Eat&quot; is unchecked. When you type &quot;`sun&quot;, it replaces the text with &quot;Sunday&quot;. When you type &quot;`mon&quot;, replaces with &quot;Monday&quot;.</p>
+<p>&nbsp;</p>
+<p>You should not use alphanumeric keys for trigger. Instead use text trigger. If using alpha keys and option /i (case insensitive), also set third state for Shift checkbox in Trigger tab.</p>
+<p>&nbsp;</p>
+
+<h3>Notes</h3>
+<p>QM 2.3.3. An autotext list cannot work if it doesn't have a trigger. If you want to use <span class="blue">mac</span> or other way to activate it, at first assign a trigger. It can be any trigger except text trigger. Also, an autotext list will not work if it or QM is disabled.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. All autotext lists don't work if disabled in Options -&gt; Triggers, regardless of trigger type.</p>
+
+<h2>List items</h2>
+<p>Autotext list text is a list of items, each in separate line. Item format:</p>
+<p>&nbsp;</p>
+<pre class=cod>text <span class=p>:</span>statements</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>text</b> - text that you must type to 
+execute <b>statements</b>.</p>
+<ul>
+<li>Can be used any characters, including spaces, tabs 
+  and line breaks.</li>
+<li> Can be used <a href="../Language/IDP_CONSTANT.html">escape 
+  sequences</a>.</li>
+</ul>
+<p><b>statements</b> - any commands that you can use in macros.</p>
+<ul>
+  <li> To separate 
+    multiple statements, use semicolons.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p>Separator 
+  between <b>text</b> and <b>statements</b> is single space and colon (<span class=cod> <span class=p>:</span></span>). For example, if there is line <span class=cod>`mail&#160;&#160;<span class=p>:</span><span class=s>&#34;name@abc.com&#34;</span></span> (two spaces after &quot;mail&quot;), the command is executed when you 
+type &quot;`mail &quot; (with space).</p>
+<p>&nbsp;</p>
+<p>Lines that don't have <span class=cod><span class=p>&nbsp;:</span></span> and don't begin with <span class=cod>/</span> are ignored and can be used for comments.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Lines that begin with space are comments. If need space, use escape sequence [32].</p>
+<h2>Options</h2>
+<p> Lines that begin with / are used to set options for following items (until 
+next such line). To set options, you can use the Properties dialog. Options:</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr>
+    <td>/s</td>
+    <td>Select the typed text. Uses Shift+Left keys.</td>
+  </tr>
+  <tr>
+    <td>/b</td>
+    <td><p>Erase the typed text. Uses Backspace key.</p>
+      <ul>
+        <li> You can use either /s or /b, not both.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td>/i</td>
+    <td><p>Case insensitive.</p></td>
+  </tr>
+  <tr>
+    <td>/c</td>
+    <td><p>If first character of the typed text is uppercase, capitalize first character 
+      of  the first <a href="../Commands/IDP_PASTE.html" class="blue">paste</a> or <a href="../Commands/IDP_KEY.html" class="blue">key</a>.</p>
+      <ul>
+        <li> It works with <span class=cod><span class=fq>key</span> <span class=s>&#34;text&#34;</span></span> and <span class=cod><span class=fq>key</span> <span class=p>(</span>variable<span class=p>)</span></span>, but not with <span class=cod><span class=fq>key</span> text</span>. Not with str.setsel.</li>
+        <li>QM 2.3.3. It works in whole thread. previously didn't work in functions called from the autotext list.</li>
+        <li>QM 2.3.3. If all typed text is uppercase, capitalizes all text 
+      of the first <span class="blue">paste</span> or <span class="blue">key</span> command.</li>
+        <li>QM 2.3.3. This also adds &quot;case insensitive&quot; option.</li>
+        <li>/s or /b also must be set. If not, this option works only if all typed text is uppercase.</li>
+      </ul>      </td>
+  </tr>
+  <tr>
+    <td>/m</td>
+    <td>QM 2.3.3. With confirmation. Shows a popup list (read below) containing single item.</td>
+  </tr>
+  <tr>
+    <td>/p1</td>
+    <td><p>QM 2.3.3. Need a delimiter character (postfix) to execute an item.</p>
+      <ul>
+        <li>For example, item &quot;test&quot; will be executed when you type &quot;test &quot;, or &quot;test,&quot; or &quot;test.&quot;, etc.</li>
+        <li>Delimiter characters are all characters except alphanumeric and those specified in Options -&gt; Triggers.</li>
+    </ul>    </td>
+  </tr>
+  <tr>
+    <td>/p2</td>
+    <td><p>QM 2.3.3. Need to press Ctrl to execute an item.</p></td>
+  </tr>
+  <tr>
+    <td>/p3</td>
+    <td>QM 2.3.3. Need a delimiter or Ctrl to execute an item.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>This example sets &quot;select text&quot;, &quot;case insensitive&quot; 
+  and &quot;capitalize&quot; options for items that follow:</p>
+<pre class=cod><span class=c>/s/i/c</span></pre>
+<p>&nbsp;</p>
+<p>You can also add and remove options for each item separately. To remove, use 
+  uppercase characters. In this example, /C tells that &quot;capitalize&quot; 
+  option must not be used:</p>
+<p>&nbsp;</p>
+<pre class=cod>/C/ pw1 <span class=p>:</span><span class=s>&#34;password1&#34;</span></pre>
+<p>&nbsp;</p>
+<p>If you need / character at the beginning of item's text, use //.</p>
+
+<h2><a name="MoreOptions"></a>More options</h2>
+<p> It is possible to add some more options with a <a href="IDH_TFF.html">filter function</a>. Filter functions allow you to define conditions where the autotext list (all or some items) will work. You can define a window, define a custom set of postfix characters, etc.</p>
+<p>&nbsp;</p>
+<p>To get user-typed text and other info, you can use function <span class="UDF">TriggerInfoAutotext</span> (QM 2.3.5) or <span class="UDF">TriggerInfoTsMenu</span> (QM 2.3.3). The function can be used in autotext list filter functions and item code.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. You can use <span class="UDF">FFT_Autotext_PostfixCustom</span> as a filter function example or template for autotext lists.</p>
+
+<h2>Multiple matching items</h2>
+<p>QM 2.3.3. If multiple items match typed text,  shows a popup list.</p>
+<p>&nbsp;</p>
+<p>The displayed popup list item text is extracted from list item code or comments. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod>text <span class=p>:</span><span class=p>'</span><span class=s>&quot;This will be popup list item text&quot;</span>
+text <span class=p>:</span><span class=p>'</span><span class=s>&quot;zzzz&quot;</span> <span class=c2>;;This will be popup list item text</span>
+</pre>
+<p>&nbsp;</p>
+<p>Keyboard shortcuts:</p>
+<ul>
+  <li>Select item: Enter, Tab, 1-9.</li>
+  <li>Cancel:  Esc.</li>
+  <li>Other: Down/Up arrow, Home, End, Page Down/Up, F1.</li>
+</ul>
+<p>&nbsp;</p>
+<p>To show this for a single item, use option /m.</p>
+<h2>Notes</h2>
+<p>To prevent executing an autotext list item, while typing its text (not before) do one of the following:</p>
+<ul>
+  <li>Click the mouse in the same window.</li>
+  <li>Press Ctrl or some other key that does not type text. Except Shift, Alt, Win, Backspace.</li>
+</ul>
+<p>&nbsp;</p>
+<p>An autotext list item will not be executed if previously typed character is non-delimiter (alphanumeric + specified in Options -&gt; Triggers), unless  trigger is a key with &quot;Eat&quot;. To execute anyway, before typing do one of the above  (click, Ctrl, etc). QM 2.3.5: previously typed character can be any if item text begins with a delimiter and trigger is autotext.</p>
+<p>&nbsp;</p>
+<p>You can associate sounds with autotext list events: Options -&gt; Sounds.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Works  in  console windows.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Removed 5 s timeout.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Default <a href="../Commands/IDP_OPT.html">opt keymark</a> is 1. It makes more reliable. In called functions it is 0.</p>
+<p>&nbsp;</p>
+<p>Usually in autotext list items you use an &quot;insert text&quot; command. To insert text, can be used keyboard (<a href="../Commands/IDP_KEY.html" class="blue">key</a>) or clipboard (<a href="../Commands/IDP_PASTE.html" class="blue">paste</a>). For short text it's better to use keyboard, because it does not erase clipboard, however it can be too slow with quite long text. For items where code is simple text in double quotes (like <span class=cod>abc <span class=p>:</span><span class=s>&quot;text&quot;</span></span>), QM uses clipboard or keyboard, depending on <a href="../Commands/IDP_PASTE.html">hybrid paste</a> setting in Options -&gt; General.</p>
+<p>&nbsp;</p>
+<p>May interfere with other running keyboard/autotext software, or with similar features of the target program, eg Microsoft Word autocorrect.</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
