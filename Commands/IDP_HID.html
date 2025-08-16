@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>hid</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Hide or show window</h1>
+
+<h3>Syntax1 - set state</h3>
+
+<pre class=syntax><b>hid</b><i>[</i>-<i>] [</i>window<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Syntax2 - get state</h3>
+<pre class=syntax><i>int </i><b>hid</b>(window)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or <A href="../Other/IDP_WINDOWSTYLES.html">child</a> window. If omitted, uses 
+active window (with <span class="blue">hid</span>), or last hidden window (with 
+<span class="blue">hid</span>-).</p>
+</div>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags">
+<tr>
+<td> Default</td> <td>hide.</td>
+</tr>
+<tr>
+<td>  -</td> <td>show.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1</h4>
+<p>Hides or shows window.</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p>Returns 1 if window is hidden, or 0 if visible. Calls Windows API function <span class="dll">IsWindowVisible</span>. See also <span class="UDF">IsWindowCloaked</span>.</p>
+<p>&nbsp;</p>
+
+<h4>Tips</h4>
+<p>If you hide an active window, it may stay active even if invisible. To deactivate, after 
+  <span class="blue">hid</span> use <span class="blue">act</span> to activate 
+  next window. See example.</p>
+<p>&nbsp;</p>
+<p> <span class="blue">hid</span>- does not activate the window. To unhide and activate,  use <span class="blue">act</span> instead.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>hid</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;hide &#34;Notepad&#34;
+</span><span class=fq>hid</span><span class=o>-</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;unhide &#34;Notepad&#34;
+</span><span class=fq>hid</span><span class=o>-</span> <span class=c2>;;unhide last hidden window
+</span><span class=c> 
+ Hide Notepad and make next window active:
+</span><span class=t>int</span> h<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fq>hid</span> h
+<span class=fq>if</span><span class=p>(</span>h<span class=o>=</span><span class=fq>win</span><span class=p>)</span> <span class=fq>act</span></pre>
+
+</body>
+
+</html>
