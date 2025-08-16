@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Resources (macro resources)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> Resources (macro resources)</h1>
+
+<p>In macros you sometimes use images or other binary (non-text) data. There are several ways to store such data:</p>
+<ul>
+  <li>External files. For example, .ico files for icons.</li>
+  <li>Convert to text (hex or base64) and store in macro.</li>
+  <li>Macro resources. Added in QM 2.4.1, partially in QM 2.4.0.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Each macro (or other <a href="../QM_Help/IDH_ITEMS.html">QM item</a>) can have any number of resources. They are stored in the same <a href="../QM_Help/IDH_QML.html">QM file</a>. They are deleted when you delete the macro; copied when you clone or export the macro. You can think about macro resources like about email message attachments.</p>
+<p>&nbsp;</p>
+<p>Resources have names. Case-sensitive. Some names are recognized by QM as images:</p>
+<ul>
+  <li>Names that begin with &quot;image:&quot; are LZO-compressed bitmap (.bmp file) images.</li>
+  <li>Names that end with &quot;.bmp&quot;, &quot;.png&quot;, &quot;.jpg&quot;, &quot;.gif&quot;, &quot;.ico&quot;, &quot;.cur&quot; and &quot;.ani&quot; are images, icons and cursors. The data format is the same as in files.</li>
+</ul>
+<p>&nbsp;</p>
+<p>In macros use resource name with &quot;resource:&quot; prefix. Example: <span class=cod><span class=s>&quot;resource:email.ico&quot;</span></span>.</p>
+<ul>
+  <li>The prefix is optional if name begins with &quot;image:&quot;. Example: <span class=cod><span class=s>&quot;image:button1&quot;</span></span>.</li>
+  <li>If the resource is in another macro, use prefix &quot;resource:&lt;macro name&gt;&quot;. Examples: <span class=cod><span class=s>&quot;resource:&lt;macro1&gt;image:button1&quot;</span></span>, <span class=cod><span class=s>&quot;resource:&lt;icons&gt;email.ico&quot;</span></span>. In some cases need this even if in same macro. For macro name also can be used <a href="IDP_GUID.html">GUID</a>.</li>
+  <li>If macro name not specified, in most cases QM also can find the resource in a caller function in the function call stack.</li>
+  <li>Resources that are not attached to a macro are called <i>file resources</i>. To manage file resources, select &lt;file&gt; in the Resources dialog. In macros use prefix &quot;resource:&lt;&gt;&quot;. Example: <span class=cod><span class=s>&quot;resource:&lt;&gt;email.ico&quot;</span></span>. Don't use file resources in <a href="../QM_Help/IDH_QML.html">shared files</a>, because QM looks for the resource only in the current main file.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Functions that support resources:</p>
+<ul>
+  <li> <span class="blue">scan</span> - &quot;image:&quot;, &quot;.bmp&quot;, &quot;.png&quot; and &quot;.ico&quot; resources.</li>
+  <li> <span class="dll">GetFileIcon</span> - &quot;.ico&quot;, &quot;.cur&quot;, &quot;.ani&quot;.</li>
+  <li><span class="dll">LoadPictureFile</span> - &quot;image:&quot;, &quot;.bmp&quot;, &quot;.png&quot;, &quot;.jpg&quot;, &quot;.gif&quot;.</li>
+  <li><span class="dll">__ImageListLoad</span> - &quot;image:&quot;, &quot;.bmp&quot;.</li>
+  <li><span class="UDF">ShowDialog</span> (images, background, icon) - all image resources.</li>
+  <li><a href="../str/IDP_S_FILE.html">str.getfile</a> - all resources. Also <span class="type">IXml</span>.<span class="dll">FromFile</span>, <span class="type">ICsv</span>.<span class="dll">FromFile</span>, <span class="dll">RichEditLoad</span> and some other.</li>
+  <li><span class="blue">bee</span> - &quot;.wav&quot;.</li>
+  <li>Functions that use the above functions. For example <span class="UDF">AddTrayIcon</span>, <span class="type">__ImageList</span>.<span class="UDF">Load</span>.</li>
+  <li><a href="../Language/IDP_DIR_EXE.html">#exe addfile</a>.</li>
+  <li>Icons in menus and toolbars - &quot;.ico&quot;.</li>
+  <li>QM item icon, exe icon - &quot;.ico&quot;.</li>
+</ul>
+<p>&nbsp;</p>
+<p>In the code editor QM displays images below lines with image resource name and file path strings. Even if the strings are in comments, if enclosed in &quot;. To show/hide images, use toolbar button 'Images in code editor'. You also can display images in <a href="IDP_F1.html">output and function help</a>.</p>
+<p>&nbsp;</p>
+<p>In Options you can set to record screenshots when recording mouse clicks or using the Mouse dialog. QM saves the recorded images in macro resources with names that begin with &quot;~:&quot;, and inserts the names in macro text as comments. Auto-deletes unused screenshot resources, for example when you delete macro text containing &quot;~:...&quot; and then close the macro.</p>
+<p>&nbsp;</p>
+<p>When creating <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, QM looks for strings that begin with &quot;resource:&quot; or &quot;image:&quot; and adds the macro resources to exe resources (it's a different thing, although similar). Then in exe QM functions get data from these exe resources. Supports multiline strings. Use <a href="../Language/IDP_DIR_EXE.html">#exe addfile</a> if QM does not auto-add a resource, eg if if its full name string is not used in macro.</p>
+<p>&nbsp;</p>
+<p>Exe resource type and name (or id) of auto-added macro resources depends on macro resource name. If it contains colon, eg &quot;A:B&quot;, in exe A will be resource type, and B name. Else exe resource name will be the same as macro resource name, and type depends on macro resource name: if it ends with &quot;.bmp&quot;, &quot;.ico&quot;, &quot;.cur&quot; or &quot;.ani&quot;, type will be RT_BITMAP, RT_GROUP_ICON, RT_GROUP_CURSOR or RT_ANICURSOR, else RT_RCDATA. If type or name string begins with an integer number 1-65535, in exe resources it will be numeric (id), else string. For example, if macro resource name is &quot;10 info.ico&quot;, in exe it will be RT_GROUP_ICON resource with id 10. Note that if exe has icon resources with string names, Windows Explorer displays wrong icon; to avoid it, all icon resources added to exe should have numeric names.</p>
+<p>&nbsp;</p>
+<p><a href="../Language/IDP_DIR_SUB.html">Sub-functions</a> cannot have resources, but can use resources of parent QM item.</p>
+<p>&nbsp;</p>
+<p>To manage macro resources, you can use:</p>
+<ul>
+  <li>Dialog 'Resources'.</li>
+  <li>Dialog 'Find Image' (capture image).</li>
+  <li><a href="../User/IDP_QMFILE.html">QM file management functions</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<h2>The 'Resources' dialog</h2>
+<p>You can find the dialog in the Tools menu or toolbar.</p>
+<p>&nbsp;</p>
+<p>At the left are listed all QM items (macros etc) that have resources. At the right are displayed resources of the selected item.</p>
+<p>&nbsp;</p>
+<p>Special items at the left:</p>
+<ul>
+  <li>&lt;this&gt; - the macro that is currently open in the code editor. When you open another macro, the dialog is updated to show its resources. If the macro does not have resources, there will be only an Add link.</li>
+  <li>&lt;all&gt; - resources of all macros in single view.</li>
+  <li>&lt;duplicate&gt; - resources that have identical data but are in different macros or have different names.</li>
+  <li>&lt;unused&gt; - resources whose names are not found in text (or as icon) of any macro.</li>
+  <li>&lt;size&gt; - resources of all macros sorted by size.</li>
+  <li>&lt;file&gt; - resources that are not attached to any QM item (file resources).</li>
+</ul>
+<p>&nbsp;</p>
+<p>At the right side you can manage resources of the selected item:</p>
+<ul>
+  <li>Click the Add link to add a resource from a file or another macro. Or drag and drop files from  Windows Explorer.</li>
+  <li>Click a resource name link to delete, rename, export, etc.</li>
+  <li>When exporting an &quot;image:...&quot; resource, QM uncompresses it and saves as .bmp file. When importing a .bmp file, if the 'Compress' checkbox is checked, imports as &quot;image:...&quot; resource. Other files/resources are imported/exported unchanged.</li>
+  <li>When importing a .ico file, the suggested resource name begins with a number to be used for exe resource id.</li>
+  <li>To move or copy one or more resources from macro A to macro B:
+<ul>
+  <li>Open resources of macro A (or &lt;all&gt; etc). Optionally  select text with the resource names (links).</li>
+  <li>Drag the line or selected text with the right mouse button, and drop to macro B in the list. To copy, use Ctrl.</li>
+  <li>Or copy selected text to the clipboard, open resources of macro B, click the Add link.</li>
+  <li>Or click a resource name and select 'Move...', then click Add in B resources.</li>
+  <li>If need several selections, at first make one as usually, then make more selections with Ctrl.</li>
+</ul>
+  </li>
+  <li>To open a macro from the dialog,  click its name (link) in the right. Or double click at the left, or Enter.</li>
+  <li>If you want to see only resources of some types or containing certain string in name, use the Filter field. Will be displayed only resources with names matching the filter. Use wildcard characters as with <a href="IDP_WILDCARD.html">SQLite GLOB</a>. Supports operator NOT at the beginning.</li>
+  <li>To find a resource by name in all resources, select &lt;all&gt; and enter resource name in the Filter field. Use wildcard characters to find partial, eg *partOfName*. Must match case.</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+
+</html>
