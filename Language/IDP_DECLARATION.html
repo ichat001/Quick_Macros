@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Declarations</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Declarations</h1>
+<p>Beside <a href="../Reference/IDH_REFERENCE.html">QM intrinsic functions</a>, 
+  you can also use functions from Windows dlls, as well as from other dlls (e.g. 
+  downloaded). Dll functions, together with types and constants that are used 
+  with them, are called <i>Application Programming Interface</i>, or <i>API</i>. 
+  Windows API are documented in <a href="../Other/IDP_MSDN.html">MSDN library</a>. 
+  Before using, they must be declared. Otherwise QM would be unable to find functions, 
+  perform type checking, retrieve values of constants, etc.</p>
+<p>&nbsp;</p>
+<p>You can place declarations in the same macro/function where used, or in other 
+  functions that were executed or <a href="IDP_DIR_COMPILE.html">compiled</a> 
+  before. For example, you can place them in <span class="UDF">init2</span> function 
+  (if does not exist - create), which is executed at startup, or in some function 
+  that has &quot;QM file loaded&quot; trigger. It is not error if identical declarations 
+  are in more than one place. Read <a href="../Other/IDP_IDENTIFIERS.html">more</a>.</p>
+<p>&nbsp;</p>
+<p>All declared identifiers have global scope (except local and thread variables), 
+  and can be used in any macro. They are listed in the <a href="../QM_Help/IDH_TYPEINFO.html">popup 
+  list</a> that appears when you type dot (.). In code they are colored. 
+  You also can see them in QM status bar.</p>
+<p>&nbsp;</p>
+<p>Some Windows API functions, types, constants and interfaces are declared by 
+  default. You don't need to declare them. Some of them are declared internally, 
+  others in the System folder. Many other declarations are in WINAPI and WINAPIV 
+  <a href="IDP_REF.html">reference files</a>, and you also don't have to declare 
+  these identifiers. In the QM forum you can find and download another file that 
+  contains more declarations.</p>
+<p>&nbsp;</p>
+<p> Many other declarations are in other reference files and in <a href="../_COM/IDP_TYPELIB.html">type 
+  libraries</a>. You don't have to explicitly declare those identifiers. Just 
+  type a library name, dot (.), and double click the identifier in the popup list. 
+  That is, use syntax <span class=syntax><span class=lib>libname</span>.identifier</span>. 
+  QM reference files are supported only by QM, but type libraries are supported 
+  by most programming languages. Type libraries are mostly used to describe COM 
+  components. Many type libraries are already installed. Installed type libraries 
+  are listed in the COM Libraries dialog. Many free and commercial components 
+  with/and type libraries are available on the Internet. Type libraries and reference 
+  files must be declared (<a href="../_COM/IDP_TYPELIB.html" class="blue">typelib</a>, 
+  <a href="IDP_REF.html" class="blue">ref</a>), unless they are declared by default. 
+  Declared reference files and type libraries are listed at the bottom of the 
+  global popup list.</p>
+<p>&nbsp;</p>
+<p>Below are listed all kinds of identifiers supported by QM.</p>
+<table class="tnormal">
+  <tr> 
+    <th>&nbsp;</th>
+    <th>Declaration</th>
+    <th>Name examples</th>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/f_qm.gif"> <a href="../Reference/IDH_REFERENCE.html">QM 
+      intrinsic functions</a></td>
+    <td>&nbsp;</td>
+    <td><span class="blue">lef</span>, <span class="blue">if</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/f_udf.gif"> User-defined 
+      functions</td>
+    <td><a href="IDP_FUNCTION.html" class="blue">function</a></td>
+    <td> <span class="UDF">MyFunction</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/f_dll.gif"> Dll functions</td>
+    <td><a href="IDP_DLL.html" class="blue">dll</a></td>
+    <td> <span class="dll">GetCursorPos</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/type_qm.gif"> <a href="IDH_VARIABLES.html">QM 
+      intrinsic types</a>, <a href="../_COM/IDP_OLETYPES.html">OLE types</a></td>
+    <td>&nbsp;</td>
+    <td><span class="type">int</span>, <span class="type">BSTR</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/type_udt.gif"> User-defined types</td>
+    <td><a href="IDP_TYPE.html" class="blue">type</a></td>
+    <td><span class="type">LOGFONT</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/class.gif"> Classes</td>
+    <td><a href="IDP_CLASSES.html" class="blue">class</a></td>
+    <td><span class="type">Ftp</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/com_class.gif"> <a href="../_COM/IDH_COM.html">COM</a> 
+      classes</td>
+    <td>Declared in <a href="../_COM/IDP_TYPELIB.html">type libraries</a>.</td>
+    <td><span class="type">WshNetwork</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/com_interface.gif"> COM interfaces</td>
+    <td>Declared in type libraries. Also can be used <a href="../_COM/IDP_INTERFACE.html" class="blue">interface</a>.</td>
+    <td><span class="type">IHTMLElement</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/constant.gif"> Named constants</td>
+    <td><a href="IDP_DEF.html" class="blue">def</a></td>
+    <td><span class="def">WM_USER</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/lib.gif"> COM type libraries</td>
+    <td><a href="../_COM/IDP_TYPELIB.html" class="blue">typelib</a></td>
+    <td><span class="lib">Shell32</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/lib.gif"> API reference files</td>
+    <td><a href="IDP_REF.html" class="blue">ref</a></td>
+    <td><span class="lib">WINAPI</span></td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/category.gif" width="15" height="16"> Categories</td>
+    <td><a href="IDP_CATEGORIES.html" class="blue">category</a></td>
+    <td><span class="lib">internet</span></td>
+  </tr>
+  <tr> 
+    <td><a href="../Reference/IDH_REFERENCE.html">Compiler directives</a></td>
+    <td>&nbsp;</td>
+    <td><span class="dir">#ifdef</span></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/variable.gif"> Variables</td>
+    <td><a href="IDP_VARIABLES.html">Type name</a></td>
+    <td>i</td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/f_qm.gif"> <a href="../Reference/IDH_REFERENCE.html">Member 
+      functions of intrinsic types</a></td>
+    <td>&nbsp;</td>
+    <td>getwintext</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/f_member.gif"> Member functions 
+      of <a href="IDP_CLASSES.html">classes</a></td>
+    <td>Name is declared by using special syntax in QM item name.     To declare type 
+      and parameters, use <a href="IDP_FUNCTION.html" class="blue">function</a>.</td>
+    <td>SetValue</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/com_method.gif"> <a href="../_COM/IDP_COM_CALL.html">Methods</a><br>
+      (member functions of COM interfaces)</td>
+    <td>Declared in type libraries. Also can be used <a href="../_COM/IDP_INTERFACE.html" class="blue">interface</a>.</td>
+    <td>GoBack</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/com_property.gif"> <a href="../_COM/IDP_COM_CALL.html">Properties</a><br>
+      (member functions of COM interfaces)</td>
+    <td>Declared in type libraries. Also can be used <a href="../_COM/IDP_INTERFACE.html" class="blue">interface</a>.</td>
+    <td>Height</td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><img src="../image/ti/com_event.gif" width="16" height="17"> <a href="../_COM/IDP_COM_EVENTS.html">Events</a><br>
+      (user-defined functions called by COM object)</td>
+    <td>Declared in type libraries.</td>
+    <td>a_Activate</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>These identifiers can be declared in type libraries: COM classes, COM interfaces, 
+  user-defined types, dll functions, named constants, enumerations. Enumerations 
+  are not used in QM, but constants from them can be used.</p>
+<p>&nbsp;</p>
+<p>These identifiers can be declared in reference files: dll functions, user-defined 
+  types, classes, categories, COM interfaces, named constants, type libraries.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
