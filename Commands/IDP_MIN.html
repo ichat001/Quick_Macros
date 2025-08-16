@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>min, max, res</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Minimize, maximize, restore window</h1>
+
+<h3>Syntax1 - set state</h3>
+
+<pre class=syntax><b>min</b> <i>[</i>window<i>]</i>
+<b>max</b> <i>[</i>window<i>]</i>
+<b>res</b> <i>[</i>window<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - get state</h3>
+<pre class=syntax><i>int </i><b>min</b>(<i>[</i>window<i>]</i>)
+<i>int </i><b>max</b>(<i>[</i>window<i>]</i>)
+<i>int </i><b>res</b>(<i>[</i>window<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or <A href="../Other/IDP_WINDOWSTYLES.html">child</a> window. Default: active 
+window. </p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1</h4>
+<p>Minimizes (<span class="blue">min</span>), maximizes (<span class="blue">max</span>) 
+  or restores (<span class="blue">res</span>) window.</p>
+<p>&nbsp;</p>
+<p><span class="blue">res</span> works like the 'Restore' item in the window's system menu. If the window is minimized, restores it to previous 
+  state (normal or maximized). If  maximized, makes normal. If need to restore only if minimized, use <span class=cod><span class=fq>if</span> <span class=fq>min</span></span> (see example) or <a href="IDP_ACT.html" class="blue">act</a> (it restores if minimized).</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p>Returns 1 if window is minimized (<span class="blue">min</span>), maximized 
+  (<span class="blue">max</span>) or normal (<span class="blue">res</span>). 
+  If not, returns 0.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<pre class=cod><span class=fq>min</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;minimize &#34;Notepad&#34; window
+</span>
+<span class=c> restore &#34;Notepad&#34; window to previous state if it is minimized
+</span><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>min</span><span class=p>(</span>w<span class=p>))</span> <span class=fq>res</span> w</pre>
+</body>
+
+</html>
