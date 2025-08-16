@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: file</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: file</h1>
+
+<p>Launches the macro when a file in the specified folder is added, removed, renamed 
+  or modified. To assign this trigger, use the Properties dialog.</p>
+<p>&nbsp;</p>
+<p>QM watches for changes in the specified folder. The folder can be local or 
+  network folder or drive.</p>
+<p>&nbsp;</p>
+<p> By default, QM watches for changes on all files within the folder. You can 
+  use &quot;Include files&quot; and/or &quot;Exclude files&quot; fields to filter 
+  files you need. You can specify one or more filenames or filename patterns with 
+  <a href="../Other/IDP_WILDCARD.html">wildcard characters * and ?</a>. To specify several filenames or patterns, use | 
+  separator. For example, use &quot;test.txt&quot; to watch for changes on file 
+  &quot;test.txt&quot;; use &quot;*.txt|*.ini&quot; to watch for changes on all 
+  text and ini files. Filenames can optionally include path relative to the watched 
+  folder, e.g. &quot;subfolder\test.txt&quot;. A filename is compared 
+  as containing relative path if it contains \.</p>
+<p>&nbsp;</p>
+<p>Sometimes Include/Exclude fields may not work as expected because QM may receive 
+  short (DOS) filename (e.g. &quot;C:\PROGRA~1\SOMEFI~1.TXT&quot; instead of &quot;C:\Program 
+  Files\Some File.txt&quot;). This depends on what filenames uses the program 
+  that works with the file. Before evaluating include/exclude fields, QM converts 
+  short filename to long filename on Added and Modified events (QM 2.2.0). It 
+  is impossible to convert on Remove and Name Changed events because the file 
+  already does not exist. To make the trigger independent from this, in Include/Exclude 
+  fields use only extension (e.g. &quot;*.txt&quot;), or part of filename (e.g. 
+  &quot;some*.txt&quot;), or both long and short versions (&quot;some file.txt|somefi~1.txt&quot;).</p>
+<p>&nbsp;</p>
+<p>In the list box, select what changes will cause the macro to run:</p>
+<p>Added - a file is created, moved or copied into the watched folder.</p>
+<p>Removed - a file is deleted or moved out.</p>
+<p>Name changed - a file is renamed.</p>
+<p>Modified - any changes on file times, attributes, size and security attributes. 
+  For example, if file content changes, the modified time is changed. Note: the 
+  last access time precision is very low, and therefore the macro will not be 
+  launched each time if you only select Time Accessed.</p>
+<p>&nbsp;</p>
+<p>QM automatically 
+  starts/stops watching network and removable drives when they become available/unavailable.</p>
+<p>&nbsp;</p>
+<p>Duplicate &quot;Modified&quot; events are joined to single event.</p>
+<p>&nbsp;</p>
+<p>The macro can receive trigger information through the <a href="../Language/IDP_FUNCTION.html" class="blue">function</a> 
+  statement:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> \
+</span><span class=fq>function</span> event <span class=o>$</span>name [<span class=o>$</span>newname]</pre>
+<p>&nbsp;</p>
+<p><b>event</b> - 1 on added, 2 on removed, 4 on name changed, 8 on modified.</p>
+<p><b>name</b> - file name, including path.</p>
+<p><b>newname</b> - on name changed, this is new name, including path. On other 
+  events, <b>newname</b> is empty.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
