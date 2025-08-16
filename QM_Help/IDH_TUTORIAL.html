@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Tutorial: creating macros, menus and toolbars</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Tutorial: creating macros, menus and toolbars</h1>
+
+<p><a href="IDH_TUTORIAL.html#a1" name="L1">Macro that types text when I press Ctrl+F12</a></p>
+<p><a href="IDH_TUTORIAL.html#a2" name="L2">Macro that runs or activates Notepad when I quickly move the mouse to the right screen edge</a></p>
+<p><a href="IDH_TUTORIAL.html#a3" name="L3">Macro that automatically closes Abc window</a></p>
+<p><a href="IDH_TUTORIAL.html#a4" name="L4">Macro that fills User Id and Password fields in a web page in Internet Explorer</a></p>
+<p><a href="IDH_TUTORIAL.html#a5" name="L5">Menu that appears when I move the mouse up-down two times</a></p>
+<p><a href="IDH_TUTORIAL.html#a6" name="L6">Toolbar for Notepad window</a></p>
+<p><a href="IDH_TUTORIAL.html#a7" name="L7">An &quot;auto-hide&quot; toolbar at the top edge of the screen</a></p>
+<p>&nbsp;</p>
+<p><em>See also: </em><a href="http://www.quickmacros.com/forum/viewtopic.php?f=7&t=7009" target="_blank">video tutorials</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr/>
+<p>Most of the time, the <a href="IDH_INTERFACE.html">Quick Macros window</a> 
+  is hidden. To show it, click the tray icon <img src="../image/qm_icon.png">.</p>
+
+<p>&nbsp;</p>
+
+<p>To enter some frequently used commands, you can use dialogs from the code 
+  toolbar.</p>
+<p>&nbsp;</p>
+<p><img src="../image/qmtoolbar.gif"></p>
+<p>&nbsp; </p>
+<p> You can also <a href="IDH_RECORD.html">record</a> keys and mouse: click the 
+  Record button on the <a href="IDH_MENU_TOOLBAR.html">toolbar</a>, or press Ctrl+Shift+Alt+R.</p>
+<p>&nbsp;</p>
+<p> Other <a href="https://quickmacros.com/help/QM_Help/..%5CReference%5CIDH_REFERENCE.html">commands</a> you have 
+  to type directly in the code editor.</p>
+<p>&nbsp;</p>
+<p>To find commands, dialogs and help, use the 'Find help, functions, tools' field on the toolbar. <a href="IDH_INTERFACE.html#A5">More info</a>.</p>
+<p>&nbsp;</p>
+<p><img src="../image/tut_help_search.png"></p>
+<p>&nbsp;</p>
+<h2><a href="IDH_TUTORIAL.html#L1" name="a1">Macro that types text when I press Ctrl+F12</a></h2>
+
+<p>1. <i>Create new <a href="IDH_MACRO.html">macro</a>.</i> Click the New Macro 
+  button on the toolbar. You can type a name for the new macro in the small temporary edit 
+  field.</p>
+<p>&nbsp;</p>
+<p><img src="../image/tut_macro_name.png"></p>
+<p>&nbsp;</p>
+
+<p>2. <i>Define trigger (event that causes the macro to run).</i> Click the Properties 
+  button on the toolbar, and then click Key in the <a href="IDH_PROPERTIES.html"> 
+  Properties</a> dialog. Click the Hotkey field and press Ctrl and F12 at the 
+  same time. Then click OK.</p>
+<p>&nbsp;</p>
+<p><img src="../image/tut_prop_trigger.png"></p>
+<p>&nbsp;</p>
+
+<p>3. <i>Write </i> <i>macro commands</i>.<i></i> Only single command is required 
+  for this example. Click the Text button on the code toolbar. Type your 
+  text in the Text dialog. Click OK. The macro will look like this:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>key</span> <span class=s>&#34;First line of your text[]Second line&#34;</span></pre>
+<p>&nbsp; </p>
+<p>4. <i>Test.</i> Run Notepad and press Ctrl+F12. The macro will type the text.</p>
+
+<h2><a href="IDH_TUTORIAL.html#L2" name="a2">Macro that runs or activates Notepad when I quickly move the mouse to the 
+  right screen edge</a></h2>
+
+<p>1. <i>Create new macro</i>.</p>
+
+<p>2. <i>Define trigger.</i> In the Properties dialog, select <a href="IDH_TRIG_MOUSE.html">Mouse</a>, 
+  Right edge, Top (for example).</p>
+
+<p>3. <i>Write macro commands.</i> Only single command is required for this example. 
+  Click the &quot;Files, internet&quot; button on the code toolbar, and then select Run 
+  Program from the menu. Will appear the Run Program dialog. In the Path field, 
+  type notepad.exe, or click the Browse button and find the program file or shortcut. 
+  Then select or type window name (for example, Notepad) in the Window field. Window name 
+  can be partial. Must match case. Then click OK. The macro will look like 
+  this:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>1</span> <span class=s>&#34;Notepad&#34;</span></pre>
+
+<p>&nbsp; </p>
+<p>4. <i>Test.</i> Quickly horizontally move the mouse to the top quarter of the screen 
+  right edge. The macro will launch Notepad, or activate it if already running. 
+  Launching macros with mouse movements may require some training.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/edges2.gif"></p>
+<p>&nbsp;</p>
+
+<h2><a href="IDH_TUTORIAL.html#L3" name="a3">Macro that automatically closes Abc window</a></h2>
+
+<p>1. <i>Create new macro</i>.</p>
+
+<p>2. <i>Define trigger.</i> In the Properties dialog, select <a href="IDH_TRIG_WINDOW.html">Window</a>. 
+  Specify window name and class (use the finder tool, or enter manually). Window name can be partial. Must match case. Click OK, Yes. It inserts one line of code that gets window handle.</p>
+
+<p>3. <i>Write macro commands.</i> There are several ways to close a window: the 
+  <span class="blue">clo</span> command, press the Esc key, press OK or other 
+  button, click it with the mouse. Let's use <span class="blue">clo</span>. To 
+  enter it, you can use the Window dialog from the code toolbar. The macro 
+  will look like this:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span> hwnd<span class=o>=</span><span class=fu>TriggerWindow</span>
+<span class=fq>clo</span> hwnd</pre>
+
+<p>&nbsp; </p>
+<p>4. <i>Test.</i> Open the Abc window. When it appears, this macro runs automatically 
+  and closes it.</p>
+
+<h2><a href="IDH_TUTORIAL.html#L4" name="a4">Macro that fills User Id and Password fields in a web page in Internet Explorer</a></h2>
+
+<p>1. <i>Create new macro</i>. Name it &quot;Id and Password&quot;.</p>
+
+<p>2. <i>Define trigger.</i> Let's make this macro without a trigger, and run 
+  it from a menu. About how to create a menu, read the next example.</p>
+
+<p>3. <i>Write macro commands.</i> It is easy if the id field has focus. If not, 
+  the macro must select it. We could use the mouse, but the field will not necessary 
+  be at the same location every time. To make the macro independent from the id 
+  field location, we can use html element functions. In the code toolbar, 
+  locate the Find Html Element dialog. In the dialog, drag the &quot;Drag&quot; 
+  picture and drop onto the id field in the web page. When you click the Test 
+  button, it must find the id field (you must see black blinking rectangle around 
+  it). Click OK. Then open the Html Element Actions dialog, select Set Focus from 
+  the list of available actions, and click OK. Then, use the Text dialog to enter 
+  id and password, and the Keys dialogs to press Tab (select the password field) 
+  and Enter. The macro will look like this example:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>Htm</span> el<span class=o>=</span><span class=fq>htm</span><span class=p>(</span><span class=s>&#34;INPUT&#34;</span> <span class=s>&#34;id&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;Internet Explorer&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0x221</span><span class=p>)</span>
+el.SetFocus
+<span class=fq>key</span> <span class=s>&#34;myid&#34;</span>
+<span class=fq>key</span> T
+<span class=fq>key</span> <span class=s>&#34;mypassword&#34;</span>
+<span class=fq>key</span> Y</pre>
+<p>&nbsp; </p>
+<p> 4. <i>Add the macro to a menu.</i> Open the menu (or create new). Drag and 
+  drop the &quot;Id and Password&quot; macro from the list to the menu text. It 
+  will insert:</p>
+<p>&nbsp;</p>
+<pre class=cod>Id and Password <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Id and Password&#34;</span></pre>
+<p>&nbsp;</p>
+
+<p> 5. <i>Test.</i> Open the web page, run the menu and click &quot;Id and Password&quot; 
+  menu item.</p>
+<p>&nbsp;</p>
+<p>Tip: To enter id and password, you also can use this dialog: code toolbar -&gt; Message box, other -&gt; Enter password.</p>
+
+<h2><a href="IDH_TUTORIAL.html#L5" name="a5">Menu that appears when I move the mouse up-down two times</a></h2>
+
+<p>1. <i>Create new </i> <a href="IDH_POPUP.html"> <i>menu</i></a><i>.</i> Click 
+  the small arrow beside the New button, then click New Menu and type a name. 
+</p>
+
+<p>2. <i>Define trigger.</i> In the Properties dialog, click Mouse, and, for example, 
+  Up-down, Left. Check the Double checkbox.</p>
+
+<p>3. <i>Add menu items.</i> Each line in menu text adds one menu item to the 
+  menu. To add a menu item that runs a macro, drag and drop the macro from the 
+  list to the menu text in the editor. Or, just type macro name. To add an item 
+  that runs a file, use the Run File dialog from the code toolbar. Or, drag 
+  the file from the desktop or Windows Explorer. To add items that execute other 
+  commands, use other dialogs from the code toolbar. To add several commands 
+  in a single line, separate them with semicolon. To add a separator, type - or 
+  |. You can edit item labels (text before <span class=cod>&nbsp;<span class=p>:</span></span>). 
+  Menu text and menu itself may look like in this example:</p>
+<p>&nbsp;</p>
+<pre class=cod>Macro18 <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;Macro18&#34;</span>
+Notepad <span class=p>:</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span>
+-
+Email <span class=p>:</span><span class=fq>key</span> <span class=s>&#34;my@ema.il&#34;</span><span class=mi> * text.ico</span>
+Login <span class=p>:</span><span class=fq>key</span> <span class=s>&#34;abcd&#34;</span><span class=p>;</span> <span class=fq>key</span> T <span class=p>;</span> <span class=fq>key</span> <span class=s>&#34;1234&#34;</span><span class=p>;</span> Y<span class=mi> * text.ico</span></pre>
+<p>&nbsp;</p>
+<p><img src="../image/tut_menu.gif"></p>
+
+<p>&nbsp;</p>
+<p> 4. <i>Assign icons.</i> Click the Icons button on the toolbar. In the Icons 
+  dialog, select an icon from a file (left side), or create and save new icon (right 
+  side). In menu text, click the item (line) to which you want to add 
+  the icon. In the Icons dialog, click Actions -&gt; Set icon of menu/toolbar item. Then 
+  select and assign icons to other items.</p>
+
+<p> 5. <i>Test.</i> Quickly vertically move the mouse up-down two times in the 
+  left side of the screen. <a href="IDH_TRIG_MOUSE.html">Launching macros by mouse 
+  movements</a> may require some training.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/edges3.gif"></p>
+
+<p>&nbsp;</p>
+
+<h2><a href="IDH_TUTORIAL.html#L6" name="a6">Toolbar for Notepad window</a></h2>
+
+<p>1. <i>Create new </i> <a href="IDH_TOOLBAR.html"> <i>toolbar</i></a><i>.</i> 
+  Click the small arrow beside the New button, then click New Toolbar, and type 
+  a name. </p>
+
+<p>2. <i>Define trigger.</i> In the Properties dialog, select <a href="IDH_TRIG_WINDOW.html">Window</a>, 
+  Active. Drag the &quot;Drag&quot; tool and drop onto the Notepad window. 
+  Delete document name (e.g., if the window name is &quot;Untitled - Notepad&quot;, 
+  leave only &quot; - Notepad&quot;).</p>
+
+<p>3. <i>Add buttons.</i> All the same as with popup menus (see the above example).</p>
+<p>&nbsp;</p>
+
+<p>Now, when you open Notepad, you can see this toolbar attached. You can move 
+  the toolbar with the right mouse button, resize with the left button. Right 
+  click to view the context menu. Shift+drag to move or delete buttons. Drag and 
+  drop a macro, file or Internet link to add it to the toolbar (you can drop onto 
+  the editor text or directly onto the toolbar).</p>
+<h2><a href="IDH_TUTORIAL.html#L7" name="a7">An &quot;auto-hide&quot; toolbar at the top edge of the screen</a></h2>
+<p>1. <i>Create new toolbar.</i> Click menu File -&gt; New -&gt; Templates -&gt; 
+  Toolbar Top or Bottom.</p>
+<p>2. <i>Define trigger.</i> In the Properties dialog, select Mouse, Top edge, 
+  Middle. Check the Slow checkbox. Or, you can assign it &quot;QM file loaded&quot; 
+  trigger to run at startup.</p>
+<p>3. <i>Add buttons.</i> See the above example.</p>
+<p>&nbsp;</p>
+<p>The toolbar will appear when you move the mouse to the left part of screen 
+  top edge.</p>
+</body>
+
+</html>
