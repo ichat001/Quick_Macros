@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Classes</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Classes</h1>
+
+<p><i>Tip:</i> To create new class, you can use menu File -&gt; New -&gt; New 
+  Class.</p>
+<p><i>See also:</i> <a href="IDP_CLASSES_TUTORIAL.html">QM classes tutorial</a></p>
+<p>&nbsp;</p>
+<p>Most programming languages have classes. A class is a user-defined type that 
+  also has member functions. To understand classes, you have to be familiar with variables, 
+  user-defined types and user-defined functions.</p>
+<p>&nbsp;</p>
+<p>In QM, class definition and other features are the same as of user-defined <a href="IDP_TYPE.html">types</a>. The only difference is that you 
+  use keyword <span class="blue">class</span> instead of <span class="blue">type</span>, 
+  and it only changes icon in  <a href="../QM_Help/IDH_TYPEINFO.html">popup 
+  lists</a> from <img src="../image/ti/type_udt.gif">to 
+  <img src="../image/ti/class.gif"> .</p>
+<h2>Member functions</h2>
+
+<p> To add a member function to a class, create new <a href="../QM_Help/IDH_ITEMS.html">QM item</a> of type 'Member function' 
+  (menu File -&gt; New -&gt; New Member Function). Its name must be like &quot;ClassName.FunctionName&quot;. See also <a href="IDP_DIR_SUB.html">sub-functions</a>.</p>
+<p>&nbsp;</p>
+<p>To call a member function, use syntax <span class=syntax>var.FunctionName()</span>, 
+  where var is a variable of that type. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>class</span> <span class=t>Class</span> a b c <span class=c2>;;define class Class</span>
+<span class=t>Class</span> var <span class=c2>;;create variable var of Class type</span>
+var.<span class=fu>Func</span><span class=p>(</span>arguments<span class=p>)</span> <span class=c2>;;call Class member function Func (QM item name is Class.Func)</span>
+var.a<span class=o>=</span><span class=n>1</span><span class=p>;</span> <span class=fq>out</span> var.a <span class=c2>;;access member variables</span>
+</pre>
+
+<p>&nbsp;</p>
+
+<p>In a member function you can use keyword <em>this</em> to refer to the variable for which it is called. To access other member functions and variables of that class, in member functions you can use member name with or without &quot;this.&quot; prefix. For example, to access member variable c, you can use <span class=cod>this.c</span> or <span class=cod>c</span>. 
+  To call other member function Func2, you can use <span class=cod><span class=fu>Func2</span><span class=p>(</span>arguments<span class=p>)</span></span> or <span class=cod>this.<span class=fu>Func2</span><span class=p>(</span>arguments<span class=p>)</span></span>.</p>
+
+<p>&nbsp;</p>
+<p>You cannot use a class (as well as a simple type) if macro containing <a href="IDP_TYPE.html">class 
+  definition</a> is not compiled. To make a class always available, place it's 
+  definition (or <a href="IDP_DIR_COMPILE.html" class="dir">#compile</a>) into 
+  the <span class="UDF">init2</span> function or some other function that runs 
+  at startup. You can create/delete/rename member functions at any time.</p>
+<p>&nbsp;</p>
+<p>You can add member functions to classes, other user-defined types and even to QM intrinsic 
+  types (str, int etc). Cannot add to arrays and interfaces.</p>
+<p>&nbsp;</p>
+<p><em>See also:</em> <a href="IDP_SCOPE.html">scope priority</a> (when a member name matches a non-member name).</p>
+<h2>Special member functions</h2>
+
+<p>A class (only user-defined) can have three special functions - constructor, 
+  destructor and operator =. These functions cannot be called explicitly. They 
+  are recognized by QM item name.</p>
+
+<p>&nbsp;</p>
+
+<table class="tnormal">
+  <tr> 
+    <th>&nbsp;</th>
+    <th>QM item name</th>
+    <th>Description</th>
+  </tr>
+  <tr> 
+    <td>Constructor</td>
+    <td><tt>Class</tt></td>
+    <td>Is called implicitly when a variable of that class is created. Must not have 
+      parameters. Must not return a value.</td>
+  </tr>
+  <tr> 
+    <td>Destructor</td>
+    <td><tt>Class.</tt></td>
+    <td>Is called implicitly before destroying a variable of that class (for example when a function containing a local variable of that class returns). Must not have parameters. Must not return a value.</td>
+  </tr>
+  <tr> 
+    <td>Operator =</td>
+    <td><tt>Class=</tt></td>
+    <td>Is called implicitly when copying a variable of that class (var1=var2, Function(var), etc). Must begin with <span class=cod><span class=fq>function</span> <span class=t>ClassName</span><span class=o>&amp;</span>var</span>, where var is another variable of that class. The function should properly copy var members (this.member=var.member...), because QM does not copy members if the class has an operator= function. Must not 
+      return a value.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Here Class is class name. For example, if you want to add destructor to class Abc, create member function "Abc.".</p>
+
+<p>&nbsp;</p>
+
+<p>Constructor and destructor of global variables are executed in QM main thread. Constructor is called when compiling the macro where the global variable is declared first time. Destructor is called before unloading QM file, for example when QM exits.</p>
+
+<p>&nbsp;</p>
+
+<p>Elements of ARRAY cannot have constructor.</p>
+<p>&nbsp;</p>
+<p>In these functions don't use <span class="blue">end</span> (except to generate warning) and avoid unhandled run-time errors. <a href="../Flow/IDP_END.html">More info</a>.</p>
+
+<h2>Inheritance</h2>
+
+<p>New classes can be derived from existing classes (extend them). This feature is called <em>inheritance</em>, because the <em>derived class</em> inherits member functions and variables of its <em>base class</em> (an existing class). Member functions of derived class can access non-private members (variables and functions) of base class. Members of derived class override members of base class with same name. A derived class is defined by adding colon (:) before the first member variable which is of base class type. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>class</span> <span class=t>Base</span> a b c
+<span class=fq>class</span> <span class=t>Derived</span> <span class=p>:</span><span class=t>Base</span><span class=p>'</span>x c d e
+<span class=t>Derived</span> der
+der.a<span class=o>=</span><span class=n>5</span> <span class=c2>;;same as der.x.a=5
+</span>der.c<span class=o>=</span><span class=n>5</span> <span class=c2>;;c of Derived
+</span>der.x.c<span class=o>=</span><span class=n>6</span> <span class=c2>;;c of Base</span></pre>
+<p>&nbsp;</p>
+<p>Members of base  class can be accessed directly (e.g. <span class=cod>der.a</span>) 
+  or through the first member name (e.g. <span class=cod>der.x.a</span>). In member functions too: <span class=cod>this.a</span> or <span class=cod>this.x.a</span> or <span class=cod>a</span> or <span class=cod>x.a</span>.</p>
+<p>&nbsp;</p>
+<p> QM 2.2.0. In derived class declaration can be used  base type without member name. To access base members use the base type name. <a onClick="doSection(bug1)" class="expand">Bug</a>. Example:</p>
+<div id="bug1" class="expand"><p>If in declaration used only base type, member functions of the derived class cannot declare variables of base type, because the base type name in code is interpreted as member name, not as type name.  For backward compatibility, the bug cannot be fixed.</p></div>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>class</span> <span class=t>Base</span> a b c
+<span class=fq>class</span> <span class=t>Derived</span> <span class=p>:</span><span class=t>Base</span> c d e
+<span class=t>Derived</span> der
+<span class=c2></span>der.Base.c<span class=o>=</span><span class=n>6</span></pre>
+
+<p>&nbsp;</p>
+<p>Derived class, base classes and members can have constructors and destructors. 
+  When creating a variable of derived class, QM at first fills all memory with 
+  0, then calls constructors for base classes, then for members (in the order 
+  as they are defined), then for derived class. Destructors are called in reverse 
+  order.</p>
+<h2>Public, protected, private and hidden members</h2>
+<p>Public members (functions and variables) can be accessed from anywhere. Private members can be accessed only from member functions of that class. Protected 
+  members can be accesses only from member functions of that class and classes derived from that class.</p>
+<p>&nbsp;</p>
+<p>By default, class members are public. To make 
+  a member function protected or private, use the Properties dialog or Ctrl+right-click it in the list of QM items. To make a 
+  member variable protected or private, place one or two hyphens before 
+  it in class definition. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>class</span> <span class=t>Base</span> a b
+<span class=fq>class</span> <span class=t>Derived</span> <span class=p>:</span><span class=o>-</span><span class=t>Base</span><span class=p>'</span>base <span class=o>--</span>c d
+<span class=t>Derived</span> der
+der.d<span class=o>=</span><span class=n>5</span> <span class=c2>;;OK: public member</span>
+der.c<span class=o>=</span><span class=n>5</span> <span class=c2>;;error: private member</span>
+der.b<span class=o>=</span><span class=n>5</span> <span class=c2>;;error: protected member</span>
+</pre>
+
+<p>&nbsp;</p>
+<p>If member's name begins with __ (two _), or function is in private folder, 
+  it is not shown in <a href="../QM_Help/IDH_TYPEINFO.html">the popup list of 
+  members</a>, unless you are editing a member function or use Ctrl+Shift+. .</p>
+<p>&nbsp;</p>
+<p>All <a href="IDP_DIR_SUB.html">sub-functions</a> can access private/protected members of class of parent function, even if they aren't member functions.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.3. QM items named like Class_X can access private and protected members of that class.</p>
+<ul>
+  <li>Example 1: Function <span class="UDF">Class1_Func</span> can access protected/private members of class <span class="type">Class1</span>.</li>
+  <li>Example 2: All member functions of class <span class="type">Class1_X</span> can access protected/private members of class <span class="type">Class1</span>, because their QM item names begin with &quot;Class1_&quot;.</li>
+  <li>Example 3: Sub-function <span class="UDF">Class1_X</span> (<span class=cod><span class=dir>#sub</span> Class1_X</span>) can access protected/private members of class <span class="type">Class1</span>.</li>
+  <li>Such QM items cannot access protected/private members of base class(es) of that class.</li>
+</ul>
+<h2>Variables in dynamic memory</h2>
+
+<p>Local variables of class type are allocated on the stack (like all local variables). 
+  To allocate a variable in dynamic memory, declare pointer and call function 
+  <A href="IDP_MEMORY.html">_new</a>. It allocates memory and calls constructor. 
+  The <span class="blue">_new</span> function also can be used to allocate an 
+  array. When the variable is no longer needed, call function <span class="blue">_delete</span>. 
+  It calls destructor and frees memory. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>MyClass</span><span class=o>*</span> c.<span class=fq>_new</span>
+...
+c.<span class=fq>_delete</span>
+</pre>
+
+</body>
+
+</html>
