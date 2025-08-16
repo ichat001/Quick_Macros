@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Events</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>COM events</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>ip.<b>_setevents</b>(<i>[</i>&quot;eventfolder&quot;<i>]</i> <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>ip</b> - interface pointer variable.</p>
+
+<p> <b>eventfolder</b> - where are event functions. Can be:</p>
+<ul>
+  <li>QM 2.4.1. &quot;sub&quot; or &quot;sub.prefix&quot;. Use it if event functions are <a href="../Language/IDP_DIR_SUB.html">sub-functions</a> in the same macro/function as the <span class="blue">_setevents</span> statement.</li>
+  <li>A folder (in the list of macros) containing event functions. Not recommended.</li>
+  <li>If <b>eventfolder</b> is omitted or &quot;&quot;, disconnects events.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>don't allow multiple connections on the same object.</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Usually you call COM object's functions (&quot;methods&quot; and &quot;properties&quot;). 
+  Some COM objects also support &quot;events&quot;, that is, can call your functions (event functions). 
+  But at first need to connect object's events to your functions.</p>
+
+<p>&nbsp;</p>
+
+<p><span class="blue">_setevents</span> connects or disconnects object's events.</p>
+
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=lib>Excel.</span><span class=t>Application</span> x.<span class=fq>_create</span>
+x.<span class=fq>_setevents</span><span class=p>(</span><span class=s>&quot;sub.x&quot;</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+
+<p>When object (in the example - variable x) fires an event, the corresponding function 
+  from <b>eventfolder</b> (in the example - a <a href="../Language/IDP_DIR_SUB.html">sub-function</a>) is called.</p>
+<p>&nbsp;</p>
+<p>Creating a new event function:</p>
+<ul>
+  <li>Type <span class=cod>.</span> after an interface pointer variable. It shows a popup list of functions that also may contain events (lightning icons <img src="../image/ti/com_event.gif" width="16" height="16">). Double click an event. It adds <span class="blue">_setevents</span> (if does not exist) and creates an event-function (sub-function) with <a onClick="doSection(np)" class="expand">correct name and parameters</a>. Then you can add more code in the sub-function.</li>
+  <li>You also can invoke the popup list from the Dialog Editor: select an ActiveX control (eg web browser) and click Events.</li>
+</ul>
+<div id="np" class="expand">
+<p>Names of event functions must consist of some prefix, underscore ( _ ) and  event name. If <b>eventfolder</b> is like &quot;sub.prefix&quot;, names must have that prefix, else can have any prefix. For example, if <b>eventfolder</b> is &quot;sub.x&quot;, will be connected sub-functions like &quot;x_Event1&quot;, &quot;x_Event2&quot; etc. Other sub-functions can be used for other purposes, for example with other <span class="blue">_setevents</span> statements.</p>
+<p>&nbsp;</p>
+<p>Event function parameters must match event's parameters. Event functions 
+  don't return a value. If your function returns some nonzero value, it is interpreted 
+  as an error code.</p>
+<p>&nbsp;</p>
+<p>When using a QM folder for event functions, if there are several folders with same name, <span class="blue">_setevents</span> uses one 
+  that is nearest in the list of macros. At first it searches in the same folder 
+  (where function that calls <span class="blue">_setevents</span> is) and subfolders, then in its parent 
+  folder and its subfolders, then in other ancestors, and finally in whole list 
+  of macros. To avoid all this confusion, use sub-functions instead.</p>
+</div>
+<p>&nbsp;</p>
+<p>Usually COM objects work only in single thread (running macro). To receive 
+  events, thread where the object is created must be running. If it ends 
+  immediately, events have no sense. For example, you can use a dialog. Also you can use <span class="blue">wait</span>, but then need to insert <span class=cod><span class=fq>opt</span> waitmsg <span class=n>1</span></span> before, or events will be blocked. See example.</p>
+
+<p>&nbsp;</p>
+<p>To access the event-source object variable from an event function, use one of:</p>
+<ul>
+  <li>Declare it as the last
+    parameter in the <span class="blue">function</span> statement. When the function is 
+    auto-created, the parameter is added as comments, need just to remove &quot;;;&quot;. Example:<br>
+    <pre class=cod><span class=fq>function</span> x y <span class=lib>Excel.</span><span class=t>Application</span><span class=p>'</span>x
+x.Function<span class=p>()</span></pre>
+  </li>
+  <li>Sub-functions with attribute v can use parent's variables.</li>
+  <li> Declare the variable with <a href="../Language/IDP_SCOPE.html">thread 
+    scope</a> (with -). Don't use this with ActiveX controls 
+    in dialogs.</li>
+</ul>
+<p>&nbsp;</p>
+<p>By default, multiple calls to <span class="blue">_setevents</span> create multiple 
+  connections. For example, you can connect two folders simultaneously. If flag 
+  1 is set, previous connection is deleted before making new.</p>
+
+<p>&nbsp;</p>
+
+<p>To disconnect, call <span class="blue">_setevents</span> without arguments. 
+  Usually it is not necessary because it happens automatically when the object 
+  is deleted.</p>
+<p>&nbsp;</p>
+<p>Events can be used only with coclasses (icon <img src="../image/ti/com_class.gif" width="16" height="16">) from type libraries.</p>
+<p>&nbsp;</p>
+<p><span class="blue">_setevents</span> must be used directly with a variable. Code like <span class=cod>var.Function._setevents(...)</span> will not work.</p>
+<p>&nbsp;</p>
+<h3>Example - Excel, wait</h3>
+<pre class=cod><span class=t>ExcelSheet</span> es.<span class=fu>Init</span>
+<span class=lib>Excel.</span><span class=t>Worksheet</span> x<span class=o>=</span>es.ws
+x.<span class=fq>_setevents</span><span class=p>(</span><span class=s>&quot;sub.x&quot;</span><span class=p>)</span>
+<span class=fq>opt</span> waitmsg <span class=n>1</span>
+<span class=n>10</span>
+
+<span class=dir>#sub</span> x_SelectionChange
+<span class=fq>function</span> <span class=lib>Excel.</span><span class=t>Range</span><span class=p>'</span>Target <span class=c2>;;Excel._Worksheet'x</span>
+<span class=fq>out</span> <span class=n>1</span>
+</pre>
+<p>&nbsp;</p>
+<h3>Example - dialog, web browser control</h3>
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;3&quot;</span>
+<span class=t>str</span> ax3SHD
+ax3SHD<span class=o>=</span><span class=s>&quot;http://www.quickmacros.com&quot;</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=o>&amp;</span>sub.DialogProcedure <span class=o>&amp;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=c> BEGIN DIALOG</span>
+<span class=c> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=c> 3 ActiveX 0x54030000 0x0 0 0 224 114 &quot;SHDocVw.WebBrowser&quot;</span>
+<span class=c> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=c> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=c> END DIALOG</span>
+<span class=c> DIALOG EDITOR: &quot;&quot; 0x2040104 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=dir>#sub</span> DialogProcedure
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=lib>SHDocVw.</span><span class=t>WebBrowser</span> we3
+<span class=i>&#9;</span>we3.<span class=fq>_getcontrol</span><span class=p>(</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>))</span>
+<span class=i>&#9;</span>we3.<span class=fq>_setevents</span><span class=p>(</span><span class=s>&quot;sub.we3&quot;</span><span class=p>)</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=fq>ret</span>
+<span class=c> messages2</span>
+<span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDOK</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDCANCEL</span>
+<span class=fq>ret</span> <span class=n>1</span>
+
+
+<span class=dir>#sub</span> we3_DocumentComplete
+<span class=fq>function</span> <span class=t>IDispatch</span><span class=p>'</span>pDisp <span class=o>`&amp;</span>URL <span class=c2>;;SHDocVw.IWebBrowser2'we3</span>
+<span class=fq>out</span> URL
+</pre><p>&nbsp;</p>
+</body>
+
+</html>
