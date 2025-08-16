@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Predefined/special variables and constants</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Predefined/special variables and constants</h1>
+
+<h2>Local variables</h2>
+
+<p><i>_i</i> - variable of type int. It is normal local variable except that you 
+  don't have to declare it.</p>
+
+<p>&nbsp;</p>
+
+<p><i>_s</i> - variable of type str. The same as above.</p>
+
+<p>&nbsp;</p>
+<p> <i>this</i> - reference to the variable for which current <a href="IDP_CLASSES.html">member-function</a> 
+  is called.</p>
+<h2>Thread variables</h2>
+
+<p><i>_command </i>- command string of current <A href="../Other/IDP_THREADS.html">thread</a>. 
+  Type - lpstr. If thread started without command, it is 0. See also:  
+  <A href="../Commands/IDP_MAC.html" class="blue">mac</a>, <A href="https://quickmacros.com/help/Language/..%5CQM_Help%5CIDH_TRIG_COMMANDLINE.html">QM 
+command line</a>.</p>
+<p>&nbsp;</p>
+
+<p><i>_hresult</i> - last called COM function's <a href="../_COM/IDP_COM_CALL.html">error 
+  code</a>. Some other functions also use it.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>_error</i> - <A href="../Flow/IDP_ERR.html">error info</a>.</p>
+<p>&nbsp;</p>
+<p><i>_monitor</i> - monitor where various functions display dialogs, on-screen 
+  text, etc. You can change it to display them in certain monitor. Possible 
+  values:</p>
+<ul>
+  <li>0 (default) - depends on context. In most cases - primary monitor. If dialog 
+    owner window specified - owner's monitor. With <a href="../User/IDH_DIALOG_EDITOR.html" class="UDF">ShowDialog</a>, 
+    also depends on dialog style.</li>
+  <li>1-30 - monitor index.</li>
+  <li> -1 - monitor from mouse.</li>
+  <li> -2 - monitor from active window.</li>
+  <li>-3 - primary monitor.</li>
+  <li>The handle of a window whose monitor must be used.</li>
+  <li>If invalid value (invalid index, handle, etc), is used the primary 
+    monitor.</li>
+</ul>
+<p>&nbsp;</p>
+<p> _monitor is applied to these functions: <span class="blue">mes</span>, 
+  <span class="blue">inp</span>, <span class="blue">inpp</span>, <span class="UDF">OnScreenDisplay</span>, 
+  <span class="UDF">ListDialog</span>, <a href="../User/IDH_DIALOG_EDITOR.html" class="UDF">ShowDialog</a>, and most 
+  functions that use them. Some other functions either have a <b>monitor</b> parameter 
+  instead, or a flag that tells to use _monitor.</p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> display message box in monitor 2
+</span>_monitor<span class=o>=</span><span class=n>2</span>
+<span class=fq>mes</span> <span class=s>&#34;text&#34;</span>
+
+<span class=c> display on-screen text in monitor with the mouse pointer, and restore the variable
+</span>_i<span class=o>=</span>_monitor<span class=p>;</span> _monitor<span class=o>=-</span><span class=n>1</span>
+<span class=fu>OnScreenDisplay</span> <span class=s>&#34;text&#34;</span>
+_monitor<span class=o>=</span>_i</pre>
+<p>&nbsp;</p>
+<p>Most of these variables normally are populated by QM, but you also can change 
+  some of them.</p>
+<p>&nbsp;</p>
+<p>Also there are 10 int variables <i>tls0</i> ... <i>tls9</i>, for backward compatibility.</p>
+
+<h2>Global variables</h2>
+
+<p><i>_winnt</i> - Windows major version. Value:</p>
+<p> 5 - XP/2003</p>
+<p>6 - Vista/7/8</p>
+<p>10 - Windows 10</p>
+<p>&nbsp;</p>
+<p><i>_winver</i> - Windows version. Value:</p>
+<p> 0x501 - XP (5.1)</p>
+<p>0x502 - 2003 (5.2)</p>
+<p>0x600 - Vista (6.0)</p>
+<p>0x601 - Windows 7 (6.1)</p>
+<p>0x602 - Windows 8 (6.2)</p>
+<p>0x603 - Windows 8.1 (6.3)</p>
+<p>0xA00 - Windows 10 (10.0)</p>
+<p>&nbsp;</p>
+<p><i>_iever</i> - Internet Explorer version. Value:</p>
+<p>0x600 - IE 6</p>
+<p>0x700 - IE 7</p>
+<p>0x800 - IE 8</p>
+<p>and so on.</p>
+<p>&nbsp;</p>
+<p>These values are in hexadecimal format. To display a value in hexadecimal format, 
+  use code like this:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span> <span class=s>&#34;0x%X&#34;</span> _winver</pre>
+<p>&nbsp;</p>
+<p>_win64 (QM 2.2.0) - 0 on 32-bit Windows, 1 on 64-bit Windows. Note: QM is 32-bit, 
+but runs on 64-bit Windows too. See also: <a href="../User/IDP_QMDLL.html#IsWindow64Bit" class="dll">IsWindow64Bit</a>.</p>
+<p>&nbsp;</p>
+<p> <i>_unicode</i> (QM 2.3.0) - <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+  mode. Nonzero if QM is running in Unicode mode (checked Options -&gt; General 
+  -&gt; Text: Unicode). It is equal to the default code page that is used with 
+  <a href="../str/IDP_S_UNICODE.html">str.ansi and str.unicode</a>, i.e. CP_ACP 
+  (0) in ANSI mode or CP_UTF8 (65001) in Unicode mode.</p>
+<p>&nbsp;</p>
+<p><i>_portable</i> (QM 2.3.5) - 1 if QM is running as <a href="../Other/IDP_PORTABLE.html">portable</a> app, 0 if not.</p>
+<p>&nbsp;</p>
+<p> <i>_hwndqm</i> - QM main window handle. In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> 
+  it is handle of a hidden window that is created in the primary thread of the 
+  process (not the thread that executes the macro).</p>
+<p>&nbsp;</p>
+<p><i>_hinst</i> - program module handle (HMODULE or HINSTANCE).</p>
+<ul>
+  <li>If the macro runs in QM, it is qm.exe. In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> it is the exe file.</li>
+  <li>Can be used with <span class="dll">CreateWindowEx</span> and some other API functions.</li>
+  <li> With API resource functions 
+    instead use <a href="../User/IDP_QMDLL.html#GetExeResHandle" class="dll">GetExeResHandle</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p><i>_logfile</i> - default log file used by <span class="UDF">LogFile</span>. 
+  Default is &quot;qm log.txt&quot; in My Documents\My QM. In exe, default 
+  is &quot;exename log.txt&quot; in program's folder. You can change it.</p>
+<p>&nbsp;</p>
+<p>_logfilesize - maximal size of log file used by <span class="UDF">LogFile</span>. 
+  Default is 1 MB. You can change it.</p>
+<p>&nbsp;</p>
+<p><i>_qmdir</i> - QM path without filename. Ends with \. Same as expanded &quot;$qm$\&quot;. 
+  In exe it is exe path. To get path with filename, use <span class="UDF">ExeFullPath</span>.</p>
+<p>&nbsp;</p>
+<p><i>_qmver_str</i> - QM version string like &quot;2.1.5&quot;. See also QMVER constant, below.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2: All the global predefined variables except _logfile and _logfilesize are read-only.</p>
+<h2>Constants</h2>
+<p>QMVER - Quick Macros version. For example, 0x2010506 is 2.1.5.6.</p>
+<p>&nbsp;</p>
+<p>EXE - 1 if compiling <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, 2 if qmm (macro that runs in separate process but not as separate exe file), 0 if the macro runs in QM.</p>
+<p>&nbsp;</p>
+<p>WINNT, WINVER, IEVER - obsolete, instead use variables _winnt, _winver and _iever (see above). In macros running in QM these constants are the same as the variables. However in macros compiled 
+  to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, the variables contain values 
+  for the computer where the program is running, whereas the constants have values 
+  for the computer where the program was compiled. Therefore it's better to use the variables, not constants. Also, in exe it's better to use them with <span class="blue">if</span>, not <span class="dir">#if</span>.</p>
+<p>&nbsp;</p>
+  <p>QM 2.3.3. QM  defines  constants for QM run-time errors. Names begin with ERR_ or ERRC_.</p>
+  <ul>
+    <li> The ERR_ constants are defined as strings containing error code, like <span class=cod><span class=fq>def</span> <span class=d>ERR_FILECOPY</span> <span class=s>&#34;502 cannot copy file&#34;</span></span>. You can use them with <a href="../Flow/IDP_END.html" class="blue">end</a>, like <span class=cod><span class=fq>end</span> <span class=d>ERR_FILECOPY</span></span>.</li>
+    <li> The ERRC_ constants are defined as numeric error codes, like <span class=cod><span class=fq>def</span> <span class=d>ERR_FILECOPY</span> <span class=n>502</span></span>. You can use them with <a href="../Flow/IDP_ERR.html" class="blue">err</a>, like <span class=cod><span class=fq>if</span><span class=p>(</span>_error.code<span class=o>=</span><span class=d>ERR_FILECOPY</span><span class=p>)</span></span>.</li>
+  </ul>
+  <p>The error codes are in range 500-1999.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
