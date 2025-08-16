@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getl</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find and get n-th line of other string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int</i> s.<b>getl</b>(ss <i>[</i>n<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>ss </b>- source string.</p>
+
+<p> <b>n</b> - 0-based index of line. Default: -1.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>2</td> <td>get all right part.</td>
+</tr>
+
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> Gets <b>n</b>-th line from <b>ss</b>. Returns 0-based index of first 
+  character of the line in <b>ss</b>. If there are less than <b>n</b>+1 
+  lines in <b>ss</b>, returns -1.</p>
+
+<p>&nbsp;</p>
+
+<p>If <b>n</b> is omitted or negative, gets next line. It works in same function only.</p>
+<p>&nbsp;</p>
+<p> <i>See also</i>: <A href="../Functions/IDP_FINDL.html" class="blue">findl</a>, 
+  <a href="../Functions/IDP_NUMLINES.html" class="blue">numlines</a>, 
+  <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a>, <a href="../Other/IDP_LINEBREAK.html">line 
+  break characters</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s ss<span class=o>=</span><span class=s>&quot;one[]two[][]four[]&quot;</span>
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>0</span> <span class=n>2000000000</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>s.<span class=fq>getl</span><span class=p>(</span>ss <span class=o>-</span>i<span class=p>)</span><span class=o>&lt;</span><span class=n>0</span><span class=p>)</span> <span class=fq>break</span> <span class=c2>;;no more</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>s.len<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>continue</span> <span class=c2>;;skip empty</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
