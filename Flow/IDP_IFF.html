@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>iff</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>If file or folder exists</h1>
+
+<p>Obsolete. Use <a href="../User/IDP_QMDLL.html#FileExists" class="dll">FileExists</a> or <a href="../str/IDP_S_SEARCHPATH.html">str.searchpath</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax><b>iff</b><i>[</i>-<i>]</i> file
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i>[</i><b>else</b>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...]</i></pre>
+<p>&nbsp;</p>
+
+<p>Can be single line:</p>
+
+<pre class=syntax><b>iff</b><i>[</i>-<i>]</i>(file) statements
+<i>[</i><b>else</b> statements<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>file</b> - file to search for. Can be file or folder. Also can be drive. 
+Can be full path or filename.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>not.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Similar to <a href="IDP_IF.html" class="blue">if</a>.</p>
+<p>&nbsp;</p>
+<p> If <b>file</b> 
+  exists, executes <b>statements</b> after <span class="blue">iff</span> and skips 
+  <b>statements</b> after <span class="blue">else</span> (if used). Else 
+  skips <b>statements</b> after <span class="blue">iff</span> and executes <b>statements</b> 
+  after <span class="blue">else</span> (if used).</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Can be used as function. Returns 1 if the file exists, 0 if not.</p>
+<p>&nbsp;</p>
+<p>If <b>file</b> is not full path, searches 
+in <a href="https://quickmacros.com/help/Flow/..\Other\IDP_SEARCHPATHS.html">these places</a>. Works like <a href="../str/IDP_S_SEARCHPATH.html">str.searchpath</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>iff</span><span class=p>(</span><span class=s>&#34;c:\m\x.txt&#34;</span><span class=p>)</span> <span class=fq>mac</span><span class=o>-</span> <span class=s>&#34;Copy&#34;</span> <span class=c2>;;if file exists, execute macro &#34;Copy&#34;
+</span><span class=fq>iff</span><span class=o>-</span><span class=p>(</span><span class=s>&#34;notepad.exe&#34;</span><span class=p>)</span> <span class=fq>bee</span> <span class=c2>;;if file  doesn't exist, beep
+</span><span class=fq>iff</span><span class=p>(</span>s<span class=p>)</span> <span class=fq>out</span> s <span class=c2>;;if file exists, show path. Path is in variable s
+</span><span class=fq>iff</span><span class=o>-</span><span class=p>(</span><span class=s>&#34;$My Pictures$&#34;</span><span class=p>)</span> <span class=fq>end</span> <span class=c2>;;if special folder doesn't exist, end macro
+</span>
+<span class=c> Can be used as function
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>iff</span><span class=p>(</span><span class=s>&#34;file1&#34;</span><span class=p>)</span> <span class=fq>and</span> <span class=o>!</span><span class=fq>iff</span><span class=p>(</span><span class=s>&#34;file2&#34;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;file1 exist; file2 does not exist.&#34;</span></pre>
+
+</body>
+
+</html>
