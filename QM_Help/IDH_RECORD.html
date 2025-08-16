@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Recording</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Recording</h1>
+
+<p>You can  record keys, mouse clicks, mouse movements.</p>
+
+<p>&nbsp;</p>
+
+<p>To start recording, click the Record button on the toolbar, or press Ctrl+Shift+Alt+R. 
+  To end recording, click Insert or ... button in QM Recording window.</p>
+<h2>Recording options in the 'QM recording' window</h2>
+<p>The check boxes:</p>
+<ul>
+  <li><i>Keys</i> - record keyboard events (<span class="blue">key</span>).</li>
+  <li><i>Mouse</i> - record mouse clicks (<span class="blue">lef</span>, <span class="blue">rig</span>, <span class="blue">mid</span>, <span class="blue">dou</span>).</li>
+  <li><i>Drag</i> - record mouse movements while a mouse button is pressed 
+    (<span class="blue">mou</span>).</li>
+  <li><i>Move</i> - record mouse movements while mouse buttons are released 
+    (<span class="blue">mou</span>). Mouse movements before the first and after 
+    the last other event are not included.</li>
+  <li>&quot;text&quot; - convert text key codes to characters. For example, when you type &quot;New York&quot;, it records '&quot;New York&quot;. If unchecked, records key codes: 'SnewVSyork (here S is Shift, V is Spacebar). However in some cases  may record incorrect characters, because the active window interprets the keys differently.</li>
+  <li><em>Images</em> - when recording mouse clicks, take screenshots (small images) to display in the code editor. <a href="IDH_SETT_GENERAL.html">More info</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p> <i>Mouse coordinates relative to</i> - select what coordinates to record - relative 
+  to window, control (child window) or screen. If window, in most cases records client area coordinates, as it is more reliable.</p>
+<p>&nbsp;</p>
+<p>Speed:</p>
+<ul>
+  <li><i>Fast</i> - don't record pauses. The macro will run reliably in most cases, but sometimes you should insert <a href="../Commands/IDP_WAIT.html" class="blue">wait</a> or change macro speed (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>).</li>
+  <li><i>Slow</i> - same as <i>Fast</i>, but adds <a href="../Commands/IDP_OPT.html">opt slowkeys and opt slowmouse</a>. The macro will run slower.</li>
+  <li><i>Real</i> - record pauses, except between most 
+    keys.</li>
+  <li><i>Variable</i> - record pauses (same as Real), multiplied by a variable F. You can change F value to change 
+    macro speed. For example, to run macro 4 times faster, set F=0.25.</li>
+</ul>
+<p>&nbsp;</p>
+<p>The <i>Insert</i> and ... buttons:</p>
+<ul>
+  <li> <i>Insert</i> - insert the recorded code in current macro, at current position.</li>
+  <li><i>Replace all text </i> - replace current macro text with the recorded code.</li>
+  <li><i>Create new macro</i> - create new macro with the recorded code.</li>
+  <li><i>Replace text of macro &quot;temp&quot;</i> - open or create macro named 
+    &quot;temp&quot;, and replace its text with the recorded code. Can be used 
+    to record temporary macros.</li>
+</ul>
+<h2>How to quickly record single command</h2>
+
+<p>You can use the following ways to insert a single command at any time. Don't need to start recording mode.</p>
+<p>&nbsp;</p>
+
+<ul>
+  <li>Press Ctrl+Shift+Alt+W. It is a global hotkey, can be changed in Options. You can record <span class="blue">win</span>, <span class="blue">child</span>/<span class="blue">id</span>, <span class="blue">wait</span>, <span class="blue">act</span> or <span class="blue">lef</span>. It records window/control/coordinates from mouse.</li>
+  <li>To record menu commands (<span class="blue">men</span>), click menu Tools -&gt; Record 
+    Menu, and then click the menu item you want to record.</li>
+  <li>To insert file path or Internet link <span class="blue"> </span> (<span class="blue">run, 
+    web</span>), drag it from desktop, Start Menu, folder window or web browser.</li>
+  <li>To insert &quot;run macro&quot; command (<span class="blue">mac</span>), drag that QM item (macro, menu, etc) 
+    from the list.</li>
+</ul>
+
+</body>
+
+</html>
