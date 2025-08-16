@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Options: Triggers</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Options: Triggers</h1>
+
+<p>A trigger is an event (e.g. hotkey) that causes the macro to run.</p>
+
+<p>&nbsp;</p>
+<p><i>Active triggers</i> - select what trigger types are enabled when QM is 
+  in &quot;enabled&quot; state (blue tray icon) and when in &quot;disabled&quot; 
+  state (gray icon).</p>
+<ul>
+  <li> Triggers of &quot;QM events&quot; type are always enabled.</li>
+  <li>If you uncheck &quot;Autotext lists&quot;, all <a href="IDH_TSM.html">autotext lists</a> will not work, regardless of trigger.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p> <i>Use low-level hook </i>- usually makes triggers more  reliable. 
+Also,  triggers will work in console windows on all Windows versions.</p>
+<ul>
+  <li>Keyboard - used with <a href="IDH_TRIG_KEY.html">keyboard</a> triggers. Allows you to steal hotkeys from Windows (Win+F, etc) and applications. However it may be incompatible with QM extensions that use direct input or raw input.</li>
+  <li>Mouse - used with <a href="IDH_TRIG_MOUSE.html">mouse</a> triggers. Uncheck  if you  notice that mouse pointer occasionally stops moving.</li>
+  <li>Other - used with <a href="IDH_TRIG_WINDOW.html">window</a> and <a href="IDH_TRIG_ACC.html">accessible object</a> triggers. Normally should not be checked. Try to check if you notice incompatibility of some kind with some applications. If checked, &quot;destroyed&quot; triggers are unreliable.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p> <i>Mouse sensitivity </i> - adjust the required amplitude and speed of mouse movement triggers.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>System</i> - open the system Mouse Properties dialog.</p>
+<ul>
+  <li> Recommended mouse 
+    pointer and hardware settings: average or high speed, no acceleration or low 
+    acceleration, average or high sample rate.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p><i>Autotext list: additional non-delimiter characters</i> - additional non-delimiter characters used with <a href="IDH_TSM.html">autotext lists</a>.</p>
+<ul>
+  <li> Default characters are all alphanumeric characters.</li>
+  <li>For example, if you want to add _ and #, enter _# in this field.</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+
+</html>
