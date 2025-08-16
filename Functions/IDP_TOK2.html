@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>tok and pointer-based arrays</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>tok and pointer-based arrays</h1>
+
+<p>Function <A href="IDP_TOK.html" class="blue">tok</a> splits string 
+  and stores tokens (parts of the string) into array <b>arr</b>. It can be safe 
+  array (ARRAY(str) or ARRAY(lpstr)) or <a href="https://quickmacros.com/help/Functions/..%5CLanguage%5CIDH_POINTERS.html">pointer-based 
+  array</a>. Using safe array is easier. Using pointer-based array makes <span class="blue">tok</span> 
+  faster. </p>
+
+<p>&nbsp;</p>
+
+<p><b>arr</b> can be lpstr array (fastest) or str array. If <b>arr</b> is lpstr 
+  array, <span class="blue">tok</span> stores pointers to tokens (within <b>string</b>) 
+  in it. If <b>arr</b> is str array - copies tokens to it.</p>
+
+<p>&nbsp;</p>
+
+<p> When using pointer-based array, <span class="blue">tok</span> don't know how 
+  many elements it has, therefore <b>n</b> must be equal or less than number of 
+  elements in array. If number of required tokens is unknown, use safe array.</p>
+
+<p>&nbsp;</p>
+
+<p> If <b>n</b> is negative, <span class="blue">tok</span> populates -<b>n</b> 
+  elements of array, but it parses whole <b>string</b> and returns number of tokens 
+  that can be more than -<b>n</b>.</p>
+
+<p>&nbsp;</p>
+
+<p>Array can be created in various ways. Examples:</p>
+
+<p>&nbsp;</p>
+
+<p> 1. Safe array:</p>
+
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> arr.create<span class=p>(</span><span class=n>50</span><span class=p>)</span>
+<span class=fq>tok</span> somestring <span class=o>&#38;</span>arr[<span class=n>0</span>] <span class=n>50</span></pre>
+
+<p>&nbsp;</p>
+
+<p> 2. Declare <b>n</b> local variables:</p>
+
+<pre class=cod><span class=t>str</span> s0 s1 s2 s3
+<span class=fq>tok</span> somestring <span class=o>&#38;</span>s0 <span class=n>4</span> <span class=s>&#34; &#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<p>3. Define variable type with embedded array:</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>STRARRAY50</span> <span class=t>str</span><span class=p>'</span>s[<span class=n>50</span>]
+LPSTRARRAY50 a
+<span class=fq>tok</span> somestring <span class=o>&#38;</span>a <span class=n>50</span></pre>
+
+<p>&nbsp;</p>
+
+<p> Also can be used some memory allocation function.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example1</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;one two three&#34;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> arr.create<span class=p>(</span><span class=n>20</span><span class=p>)</span>
+<span class=t>int</span> nt <span class=o>=</span> <span class=fq>tok</span><span class=p>(</span>s <span class=o>&#38;</span>arr[<span class=n>0</span>] arr.len<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span><span class=t>int</span><span class=p>'</span>i <span class=n>0</span> nt<span class=p>)</span> <span class=fq>out</span> arr[i]
+<span class=c> Output:
+ one
+ two
+ three
+</span></pre>
+
+<p>&nbsp;</p>
+
+<h3>Example2</h3>
+
+<pre class=cod><span class=fq>type</span> <span class=t>TOK50</span> <span class=o>$</span>s[<span class=n>50</span>] <span class=o>~</span>ss[<span class=n>50</span>]
+<span class=t>TOK50</span> t
+<span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;func1(57 func2(a b) hoo) ''Some string'' r.top&#34;</span>
+<span class=t>int</span> nt <span class=o>=</span> <span class=fq>tok</span><span class=p>(</span>s <span class=o>&#38;</span>t <span class=n>10</span> <span class=s>&#34;&#34;</span> <span class=n>1</span><span class=o>|</span><span class=n>4</span><span class=o>|</span><span class=n>8</span> <span class=o>&#38;</span>t.ss<span class=p>)</span>
+<span class=fq>for</span> <span class=t>int</span><span class=p>'</span>i <span class=n>0</span> nt
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;'%s' '%s'&#34;</span> t.s[i] t.ss[i]
+<span class=c> Output:
+ 'func1' '('
+ '57 func2(a b) hoo' ') &#34;'
+ 'Some string' '&#34; '
+ 'r' '.'
+ 'top' ''
+</span></pre>
+
+</body>
+
+</html>
