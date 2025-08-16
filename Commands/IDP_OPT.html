@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>opt</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Set local run-time options</h1>
+
+<h3>Syntax1 - set option</h3>
+
+<pre class=syntax><b>opt</b> option <i>[</i>value<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax2 - save/restore options</h3>
+<pre class=syntax><b>opt</b> save<i>|</i>restore
+</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p><b>option</b> - one of  words specified in the table.</p>
+<p><b>value</b> - one of values specified in the table.</p>
+<ul>
+  <li>To 
+    inherit the option from the caller (macro or function that <a href="../Other/IDP_FUNCTIONCALL.html">directly 
+    called</a> the current function), use <b>value</b> -1.</li>
+  <li>Error if the specified 
+    value is not supported.</li>
+  <li>QM 2.4.1. <b>value</b> is optional, default 1.</li>
+</ul>
+</div>
+<table class="tnormal">
+<tr> 
+  <th>option</th>
+  <th>When QM uses it</th>
+  <th colspan=2>value</th>
+</tr>
+<tr> 
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>0</td>
+  <td>other</td>
+</tr>
+<tr> 
+  <td>hidden</td>
+  <td>When in macro commands is specified only window name (class is not specified).</td>
+  <td>Search only visible windows.</td>
+  <td>1 - Search all windows. Hidden windows are always searched when class 
+    is specified, also with <span class="blue">hid</span>-.</td>
+</tr>
+<tr>
+  <td>clip</td>
+  <td>Clipboard commands (<span class="blue">paste</span>/<span class="blue">outp</span>, str.getsel, str.setsel).</td>
+  <td> Preserve (restore) clipboard text.</td>
+  <td>1 - Do not preserve clipboard text.</td>
+</tr>
+<tr> 
+  <td>err</td>
+  <td>On run-time error.</td>
+  <td>End macro. Show error.</td>
+  <td>1 - Continue macro. Don't show error.</td>
+</tr>
+<tr> 
+  <td>waitmsg</td>
+  <td>When waiting (<span class="blue">wait</span>, autodelay, etc). Read more 
+    in remarks.</td>
+  <td>Completely block thread execution.</td>
+  <td><p>1 - Allow to receive Windows messages and COM events.</p>
+    <p>2 - The same as 1, but sets this option for current thread (not only 
+      for current function).</p></td>
+</tr>
+<tr> 
+  <td>waitcpu</td>
+  <td><a href="IDP_SPE.html">Autodelay</a>.</td>
+  <td> Apply only simple autodelay.</td>
+  <td>1 - Also wait for CPU. See <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a> waitcpu_time and waitcpu_threshold. Read more in 
+    remarks.</td>
+</tr>
+<tr> 
+  <td>slowmouse</td>
+  <td>Mouse commands (<span class="blue">mou</span>, <span class="blue">lef</span>, <span class="blue">rig</span>, <span class="blue">mid</span>, <span class="blue">dou</span>).</td>
+  <td>Move mouse immediately.</td>
+  <td>1 - move mouse slowly. The speed depends on macro speed 
+    (<span class="blue">spe</span>) and on the distance.</td>
+</tr>
+<tr> 
+  <td>slowkeys</td>
+  <td><span class="blue"><span class="blue">key</span></span></td>
+  <td>Don't wait between keys.</td>
+  <td>1 - Wait a little after each key event. The speed depends on macro 
+    speed (<span class="blue">spe</span>).</td>
+</tr>
+<tr> 
+  <td>keymark (QM 2.2.0)</td>
+  <td><span class="blue"><span class="blue">key</span></span>. Read more in 
+    remarks.</td>
+  <td>Use correct scancodes.</td>
+  <td><p>1 - Use modified scancodes.</p>
+    <p>&nbsp;</p>
+    <p>QM 2.3.3. This is default in autotext lists.</p></td>
+</tr>
+<tr> 
+  <td>keysync (QM 2.2.1)</td>
+  <td><span class="blue"><span class="blue">key</span></span>. Use to make it 
+    either faster or more reliable.</td>
+  <td><p>Use default synchronization method.</p>
+    <p>&nbsp;</p>
+    <p>The macro waits when sent keys are actually received by the target window. 
+      Since there is no completely reliable way to know this, it waits only 
+      for a limited time period. It also waits while the window is busy. This 
+      method is fast and reliable in most cases. However in certain conditions 
+      it may be slower.</p>
+    <p>&nbsp;</p>
+    <p>In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, uses method 2 instead. 
+      Waiting until the target window actually receives sent keys is not supported 
+      in exe, because it is too expensive (uses hooks in dll).</p>
+    <p>&nbsp;</p>
+    <p>Here &quot;in exe&quot; actually means &quot;in exe, if QM is not running&quot;. 
+      If QM is running, all synchronization methods work in exe like in QM.</p>
+    <p>&nbsp;</p>
+<p>A special synchronization method is used if the target window belongs 
+  to the same thread.</p></td>
+  <td><p>1 - Don't use synchronization. The keys are sent without waiting until 
+      the window actually receives them. Fastest. Should not be used if not 
+      using <a href="../QM_Help/IDH_SETT_TRIGGERS.html">low level hooks</a> 
+      (unless in exe), because it can create problems with keyboard triggers.</p>
+    <p>&nbsp;</p>
+    <p>2 - Use minimal synchronization. This method is used by default in exe. 
+      The macro only waits while the target window is busy. The synchronization 
+      does not work well (keys may be sent too fast) with some windows and in 
+      stress conditions (low memory, busy CPU, etc). Slowest in most cases (about 
+      20-100 %). Should not be used if not using low level hooks (unless in 
+      exe), because it can create problems with keyboard triggers.</p>
+    <p>&nbsp;</p>
+    <p>3 - Use maximal synchronization. The macro waits until the 
+      key is received by the target window. Since there is no completely reliable 
+      way to know this, in some cases the macro can wait infinitely. 
+      Therefore this method should not be used in macros designed to work in 
+    any window. Exe uses method 2 instead.</p></td>
+</tr>
+<tr>
+  <td>hungwindow (QM 2.3.0)</td>
+  <td>With <span class="blue">key</span> and clipboard functions, when the active 
+    window is hung.</td>
+  <td>While the window is hung, waits and shows a message box with Abort and 
+    Ignore buttons. On Abort the macro would end (error). On Ignore the macro 
+    would continue (don't wait). </td>
+  <td><p>Don't show a message box.</p>
+    <p>&nbsp;</p>
+    <p>1 - wait while the window is hung.</p>
+    <p>&nbsp;</p>
+    <p>2 - abort. Same as if the user would click Abort.</p>
+    <p>&nbsp;</p>
+    <p>3 - ignore. Same as if the user would click Ignore.</p></td>
+</tr>
+<tr>
+  <td><p>keychar</p>
+    <p>(QM 2.3.3)</p></td>
+  <td><p> With <a href="IDP_KEY.html" class="blue">key</a>, when using &quot;text&quot;  or string variable. Use to type exact text.</p></td>
+  <td>Send normal keys. The active window receives WM_KEYx messages with usual <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key codes</a>. In some rare conditions the typed text may be not exactly the same as in macro, because it depends on keyboard state.</td>
+  <td>Send keys as characters. The active window receives WM_KEYx messages where virtual-key code is VK_PACKET. The typed text will always be as in macro. However in some windows it may not work.</td>
+</tr>
+<tr>
+  <td><p>nowarnings</p>
+  <p>(QM 2.3.3)</p></td>
+  <td>On run-time warning. Warnings can be generated by some QM functions and user-defined functions (<a href="../Flow/IDP_END.html" class="blue">end</a>).</td>
+  <td>Show warnings.</td>
+  <td>1 - don't show warnings.</td>
+</tr>
+<tr>
+  <td><p>nowarningshere</p>
+    <p>(QM 2.3.5)</p></td>
+  <td>On run-time warning.</td>
+  <td>Show warnings as usually.</td>
+  <td>1 - pass warnings to the caller. In warning text will be a link to the caller, not to this function.</td>
+</tr>
+<tr>
+  <td><p>noerrorshere</p>
+    <p>(QM 2.3.5)</p></td>
+  <td>On run-time error.</td>
+  <td>Show errors as usually.</td>
+  <td><p>1 - pass errors to the caller. Unhandled errors will be in the caller, not in current function.</p>
+    <p>&nbsp;</p>
+    <p>This option works only if there is <a href="../Other/IDP_FUNCTIONCALL.html">direct 
+      caller</a>.</p>
+    <p>&nbsp;</p>
+    <p>Other way to pass errors to the caller - handle errors with <a href="../Flow/IDP_ERR.html" class="blue">err</a> and rethrow with <a href="../Flow/IDP_END.html" class="blue">end</a>: <span class=cod><span class=fq>err</span><span class=o>+</span> <span class=fq>end</span> _error</span>. Can be used in all QM versions.</p></td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p><i>Syntax1:</i> Changes a run-time option locally (only for current instance of running function 
+  or macro).</p>
+
+<p>&nbsp;</p>
+<p> If used as function, <span class="blue">opt</span> is identical to <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a> 
+  (returns current value).</p>
+<p>&nbsp;</p>
+<p>Initially all options are 0, except keymark in autotexts. Some initial options can be changed with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>.</p>
+<p>&nbsp;</p>
+<p><span class=cod><span class=fq>opt</span> waitmsg <span class=n>1</span></span> should be used if you use wait commands (explicit or implicit, e.g. 
+  autodelay or clipboard commands) in thread (running macro) that has a window 
+  (or dialog). While waiting, window must process messages. Without this option, 
+  it cannot process messages. This causes various anomalies, such as window not 
+  responding, etc. This option also is often necessary when working with COM, 
+  especially with events.</p>
+
+<p>&nbsp;</p>
+
+<p>Macros that contain <span class=cod><span class=fq>opt</span> waitcpu <span class=n>1</span></span>  sometimes may run very slowly, because some 
+  programs constantly use CPU.  To see CPU usage, use Windows Task Manager or perfmon.exe. You can also use  <a href="../User/IDP_QMDLL.html#GetCPU" class="dll">GetCPU</a> function.</p>
+<p>&nbsp;</p>
+<p>About <span class=cod><span class=fq>opt</span> keymark <span class=n>1</span></span>: 
+  For keyboard triggers and some other features, QM uses keyboard hooks to intercept 
+  keyboard events. QM processes QM-pressed (<i>injected</i>) keys differently 
+  than user-pressed (<i>real</i>) keys. For example, a macro cannot trigger a 
+  hotkey macro using the <span class="blue">key</span> command. However, when 
+  the user presses or releases a key simultaneously with the <span class="blue">key</span> 
+  command, QM processes the key event like generated by the <span class="blue">key</span> 
+  command (there is no reliable way to distinguish real and injected keys, unless 
+  you use low level hook). If it is a trigger-key, the trigger will not work. 
+  If it is a wait-key (<span class=cod><span class=fq>wait</span> <span class=n>0</span> K</span>), the macro will not 
+  stop waiting. Also, user-pressed keys may be inserted (typed) between QM-pressed 
+  keys. There are two ways to avoid all these problems: 1. Use <a href="../QM_Help/IDH_SETT_TRIGGERS.html">low 
+  level keyboard hook</a>. 2. Insert <span class=cod><span class=fq>opt</span> keymark <span class=n>1</span></span> before <span class="blue">key</span>. However then in some windows some keys may not work as expected. 
+  When using low level keyboard hook, <span class=cod><span class=fq>opt</span> keymark <span class=n>1</span></span> does not change anything (everything works well with or without 
+  it).</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. Added <i>Syntax2</i> for saving/restoring current <span class="blue">opt</span> and <a href="IDP_SPE.html" class="blue">spe</a> settings:</p>
+<ul>
+  <li> <span class=cod><span class=fq>opt</span> save</span> remembers current settings (adds to an internal stack).</li>
+  <li><span class=cod><span class=fq>opt</span> restore</span> restores the saved settings (gets/removes from the stack).</li>
+</ul>
+<p>&nbsp;</p>
+<p>QM 2.4.3. Disabled opt end. Not error if used, but now it does nothing.</p>
+<p>&nbsp;</p>
+<p> <i>See also:</i> <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a>, <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>, <A href="../Flow/IDP_ERR.html" class="blue">err</a>, 
+  <A href="../Flow/IDP_END.html" class="blue">end</a>, <A href="../Other/IDP_ERRORS.html">Errors</a>, 
+  <A href="IDP_WAIT.html" class="blue">wait</a>, <A href="IDP_WAIT_FOR.html">wait for</a>, <a href="IDP_KEY.html" class="blue">key</a>, <A href="IDP_PASTE.html" class="blue">paste</a>, 
+  <a href="../str/IDP_S_CLIP.html">str.getsel</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> set local run-time option &#34;search hidden windows&#34;
+</span><span class=fq>opt</span> hidden <span class=n>1</span>
+
+<span class=c> save/change/restore local run-time options</span>
+<span class=fq>opt</span> save
+<span class=fq>opt</span> slowkeys <span class=n>1</span><span class=p>;</span> <span class=fq>spe</span> <span class=n>10</span>
+<span class=fq>out</span> <span class=s>&quot;%i %i&quot;</span> <span class=fq>getopt</span><span class=p>(</span>slowkeys<span class=p>)</span> <span class=fq>spe</span>
+<span class=fq>opt</span> restore
+<span class=fq>out</span> <span class=s>&quot;%i %i&quot;</span> <span class=fq>getopt</span><span class=p>(</span>slowkeys<span class=p>)</span> <span class=fq>spe</span>
+</pre>
+</body>
+
+</html>
