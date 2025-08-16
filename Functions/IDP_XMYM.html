@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>xm, ym</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get cursor (mouse pointer) position</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>xm</b>(<i>[</i>pp<i>] [</i>window<i>] [</i>client<i>]</i>)
+<i>int </i><b>ym</b>(<i>[</i>pp<i>] [</i>window<i>] [</i>client<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>pp</b> - variable of type POINT. If used, each function also stores x and 
+y coordinates into this variable. Default: 0.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or child window. If omitted or literal 0, coordinates are relative to the 
+top-left corner of the screen.</p>
+
+<p> <b>client</b> - if 1, coordinates are relative to the top-left corner of window's 
+client area or, if <b>window</b> is literal 0, the work area. Default: 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Function <span class="blue">xm</span> returns cursor x position in <A href="../Other/IDP_PIXELS.html">pixels,</a> 
+  <span class="blue">ym</span> - y position. To get x and y in one call, use <b>pp</b> 
+  with either function.</p>
+<p>&nbsp;</p>
+<p>The POINT type is used to specify coordinates.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>POINT</span> x y</pre>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> x <span class=o>=</span> <span class=fq>xm</span>
+
+<span class=fq>lef</span> <span class=n>100</span> <span class=fq>ym</span><span class=p>(</span><span class=n>0</span> <span class=s>&#34;Notepad&#34;</span><span class=p>)</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=c> 
+</span><span class=t>POINT</span> p
+<span class=fq>xm</span> p <span class=s>&#34;Quick&#34;</span>
+<span class=fq>out</span> <span class=s>&#34;Cursor coordinates relative to window ''Quick'' are:[]x=%i y=%i&#34;</span> p.x p.y</pre>
+
+</body>
+
+</html>
