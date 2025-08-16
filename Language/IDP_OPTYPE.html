@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Expression type and precision</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Expression type and precision</h1>
+
+<p> Primary (single-operator) expression type and calculation precision depends 
+  on the operand that has higher precision class. There are 4 precision classes:</p>
+
+<p>&nbsp;</p>
+
+<p> 1. int (int, word, byte). In expressions, word and byte are implicitly converted 
+  to int.</p>
+
+<p> 2. unsigned int (pointers (including lpstr and interface pointers), unsigned 
+  int constants).</p>
+
+<p> 3. long (long).</p>
+
+<p> 4. double (double, OLE types).</p>
+
+<p>&nbsp;</p>
+
+<p>The following are the exceptions:</p>
+
+<ul>
+ 
+  <li>If <b><a href="IDH_OPERATORS.html">operator</a></b> is logical or comparison, 
+    expression type is int (result 0 or 1).</li>
+ <li>Else, if both operands are lpstr or pointer, and <b>operator</b>
+ is -, expression type is int (difference between two pointers).</li>
+  <li>Else, if <b>operand1</b> is lpstr or pointer, and <b>operand2</b> is int 
+    (int, byte or word) or unsigned int, expression type is type of <b>operand1</b>.</li>
+  <li>Before calculating a bitwise operator, operands are converted to unsigned 
+    int or unsigned long.</li>
+  <li>Before calculating the % operator (integer remainder), double operands are 
+    converted to int or long.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p> Type of more complex expression can be found by splitting it to primary expressions.</p>
+
+</body>
+
+</html>
