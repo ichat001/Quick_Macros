@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: mouse</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: mouse</h1>
+
+<p>Launches the macro on mouse click, certain movements, etc. To assign this trigger, 
+  use the <a href="IDH_PROPERTIES.html">Properties</a> dialog.</p>
+<h2>Mouse trigger types</h2>
+<p>&nbsp;</p>
+<p>1. Fast mouse movement (or double movement) to the screen edge. There are 12 
+  active areas:</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/edges.gif"></p>
+
+<p>&nbsp;</p>
+
+<p> You can set required mouse speed in <a href="IDH_SETT_TRIGGERS.html">Options</a>. 
+  If &quot;Slow&quot; is checked, trigger works even when you touch screen edge 
+  without speed.</p>
+<p>&nbsp;</p>
+
+<p>2. Fast mouse movements (or double movements) in one of 3 vertical areas (move 
+  up-down or down-up) and 3 horizontal areas (move toleft-toright or toright-toleft): 
+</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/screen1.gif"></p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/screen2.gif"></p>
+
+<p>&nbsp;</p>
+
+<p>Mouse movements must be sharp (like <img src="../image/icon_mov1.gif"> , but 
+  not like <img src="../image/icon_mov2.gif"> or <img src="../image/icon_mov3.gif"> 
+  ), not too slow and not too fast (about 0.2 s). You can set required amplitude 
+  in <a href="IDH_SETT_TRIGGERS.html">Options</a>.</p>
+<p>&nbsp;</p>
+
+<p>3. Mouse left, right, middle, X1 or X2 button click or double click.</p>
+<p>&nbsp;</p>
+<p> You can make a trigger specific to certain parts of window (caption, minimize 
+  button, etc). To make it specific to controls or other conditions, use <A href="IDH_TFF.html">filter 
+  functions</a>.</p>
+<p>&nbsp;</p>
+<p>If &quot;Eat&quot; is checked, mouse click messages are not passed to the application.</p>
+<p>&nbsp;</p>
+
+
+<p>4. Mouse wheel rotation forward or backward.</p>
+<h2>Notes</h2>
+<p>Mouse triggers can be used with modifier keys Ctrl, Shift and Alt.</p>
+<p>&nbsp;</p>
+
+<p>Be careful when unchecking &quot;When released&quot;. If it is unchecked, the 
+  macro starts while modifier keys and mouse button are still pressed. QM cannot 
+  reliably &quot;eat&quot; them. If the macro sends keys (<span class="blue">key</span>, <span class="blue">paste</span>/<span class="blue">outp</span>, str.setsel, str.getsel) or mouse buttons, they 
+  may be modified by trigger's modifier keys.</p>
+<p>&nbsp;</p>
+<p>Two non-disabled macros should not have same mouse trigger, unless both are 
+  specific to a program, monitor, hit-code or other condition (see <a href="IDH_TFF.html">filter 
+  functions</a>). On conflict, will run the macro that was above in the list of 
+  macros when QM was started or current file opened, or that is older.</p>
+<p>&nbsp;</p>
+<p>If mouse triggers don't work in some windows (e.g. console windows in Windows 
+  Vista), or in some parts of some windows, check &quot;Use low-level mouse hook&quot; 
+  in <a href="IDH_SETT_TRIGGERS.html">Options</a>. Also, when using low-level 
+  hook, mouse movement triggers work better when the program that receives mouse 
+  input is busy.</p>
+
+<p>&nbsp;</p>
+<p>QM 2.2.0: Hit-test code<b></b> sometimes can be different than in previous 
+  versions<a href="IDH_SETT_TRIGGERS.html"></a>, although in most cases  
+  the same.</p>
+
+</body>
+
+</html>
