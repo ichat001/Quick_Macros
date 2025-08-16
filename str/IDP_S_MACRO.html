@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getmacro</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get macro text or other property</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>get</b><b>macro</b>(<i>[</i>macro<i></i><i>] </i><i>[</i>what<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p><b>macro</b> - <a href="../QM_Help/IDH_ITEMS.html">QM item</a> name (full, 
+case insensitive) or <a href="../Functions/IDP_QMITEM.html">id</a> (integer).</p>
+<ul>
+  <li>If omitted or &quot;&quot; -  QM item that is currently open in the code editor.</li>
+  <li>Can be QM item path. For example, &quot;\Mouse\Next&quot; is  macro &quot;Next&quot; in folder &quot;Mouse&quot;.</li>
+  <li>If <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, QM uses its parent function. To get name of current sub-function, use <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a>.</li>
+</ul>
+<p> <b>what</b> - what to get:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td>text.</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td>name. See also <a href="../Functions/IDP_GETOPT.html">getopt itemname</a>.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>trigger. It is <A href="../Other/IDP_TRIGGER_CODING.html">encoded</a> 
+    trigger string. It consists of trigger (possibly with escape sequences), 
+    programs and trigger filter function. To get parsed components or description, 
+    use <A href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a>.</td>
+</tr>
+<tr>
+  <td>3-8</td>
+  <td><p><a onClick="doSection(obsolete)" class="expand">obsolete</a>, use <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a> instead.</p>
+<div id="obsolete" class="expand">
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>3</td>
+      <td>type. <b>s</b> will be &quot;0&quot; if the item is macro, 
+        &quot;1&quot; if function, &quot;2&quot; if menu, &quot;3&quot; if toolbar, 
+        &quot;4&quot; if T. S. menu, &quot;5&quot; if folder, &quot;6&quot; if member 
+        function, &quot;7&quot; if file link.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>disabled state. <b>s</b> will be &quot;1&quot; if the item 
+        is disabled, or &quot;0&quot; if not.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>encrypted state. <b>s</b> will be &quot;1&quot; if the item 
+        is encrypted, or &quot;0&quot; if not.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>shared state. <b>s</b> will be &quot;1&quot; if the item 
+        is in a shared folder, or &quot;0&quot; if not.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>id.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>read-only state. <b>s</b> will be &quot;0&quot; if the item 
+        is not read-only, &quot;2&quot; if the item is encrypted, &quot;1&quot; 
+        if the item is in read-only folder and not encrypted.</td>
+    </tr>
+  </table>
+</div>
+</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Gets QM item text or some other property.</p>
+<p>&nbsp;</p>
+<p> Error if <b>macro</b> is invalid at run time.</p>
+<p>&nbsp;</p>
+<p class="red">Some features not available in <a href="../QM_Help/IDH_MAKEEXE.html#a4">exe</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>str</span> s ss
+s.<span class=fq>getmacro</span><span class=p>(</span><span class=s>&quot;Untitled&quot;</span><span class=p>)</span>
+ss.<span class=fq>getmacro</span><span class=p>(</span><span class=s>&quot;\Folder\Macro&quot;</span><span class=p>)</span>
+
+<span class=t>int</span> i <span class=o>=</span> <span class=fq>qmitem</span><span class=p>(</span><span class=s>&quot;Untitled&quot;</span><span class=p>)</span>
+_s.<span class=fq>getmacro</span><span class=p>(</span>i<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
