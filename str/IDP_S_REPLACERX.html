@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>replacerx</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find and replace using regular expression</h1>
+
+<p>
+<A href="../RegExp/IDP_PCRE.html">About regular expressions</a></p>
+
+<p> <A href="../RegExp/IDH_PCRE.html">Regular expression syntax</a></p>
+<p><a href="../Functions/IDP_FINDRX.html">findrx</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int</i> s.<b>replacerx</b>(pattern <i>[</i>replaceto<i>|</i>rr<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>pattern </b>- regular expression that matches the substring to find. String.</p>
+
+<p> <b>replaceto</b> - replacement string. Default: &quot;&quot;. Some sequences 
+of characters in <b>replaceto</b> have special meaning:</p>
+
+<table class="tflags">
+<tr> 
+  <td>$n, $nn, ${n}</td>
+  <td> <b>n</b>-th or <b>nn</b>-th captured <a href="../Functions/IDP_FINDRX.html">submatch</a> 
+    (1 to 99).</td>
+</tr>
+<tr> 
+  <td>$0, ${0}</td>
+  <td>entire match.</td>
+</tr>
+<tr> 
+  <td>$$</td>
+  <td>$</td>
+</tr>
+<tr> 
+  <td>$`</td>
+  <td>part of <b>s</b> that precedes match</td>
+</tr>
+<tr> 
+  <td>$'</td>
+  <td>part of <b>s</b> that follows match</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p> <b>rr</b> - address of variable of type <A href="../RegExp/IDP_REPLACERXSTRUCT.html">REPLACERX</a>.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Case insensitive.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Whole word. This adds \b to the beginning and end of <b>pattern</b>.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Single replacement.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Multiline. If this flag is set (or (?m) is used in <b>pattern</b>), ^ 
+    and $ match beginning and end of line. Default: ^ and $ match beginning 
+    and end of whole string.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>QM 2.3.0. Convert <b>pattern</b> from UTF-8 to ANSI. Used when QM is running 
+    in Unicode mode (ignored otherwise). Set this flag if <b>pattern</b> contains 
+    non <a href="../Tables/IDP_ASCII.html">ASCII</a> characters, but <b>s</b> 
+    is ANSI (not UTF-8). It is needed because these characters in <b>pattern</b> 
+    normally consist of 2 or 3 bytes, whereas characters in <b>s</b> consist 
+    of 1 byte.</td>
+</tr>
+<tr> 
+  <td> <A href="../RegExp/IDP_PCREFLAGS.html">pcre flags</a></td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Finds parts of <b>s</b> that match <b>pattern</b> and replaces them with <b>replaceto</b>. </p>
+
+<p>&nbsp;</p>
+
+<p>If flag 4 is not set, replaces all found matches, and returns the number of 
+  replacements. If flag 4 is set, replaces only the first found match, and returns 
+  0-based character index of it in <b>s</b>, or -1 if not found.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=c> Replace two consecutive identical words with single</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;Is is the cost of of gasoline going up up?&quot;</span>
+<span class=fq>out</span> s.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;([a-z]+) \1&quot;</span> <span class=s>&quot;$1&quot;</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span><span class=p>)</span>
+<span class=fq>out</span> s
+<span class=c> Output:</span>
+<span class=c> 3</span>
+<span class=c> Is the cost of gasoline going up?</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
