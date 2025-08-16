@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Errors</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Errors</h1>
+
+<p> <i>See also:</i> <a href="../QM_Help/IDH_DEBUG.html">compiling and debugging</a>, 
+  <A href="../Flow/IDP_ERR.html" class="blue">err</a>, <A href="../Language/IDP_DIR_ERR.html" class="dir">#err</a>.</p>
+
+<h2>Compile-time errors</h2>
+
+<p>Compile-time errors are generated when <a href="../QM_Help/IDH_DEBUG.html">compiling</a> 
+  macros that contain syntax errors. Macros are compiled before they start. They 
+  don't start if there are syntax errors. The first syntax error is displayed 
+  in the QM output like &quot;Error in Macro: error description&quot;. Compile-time 
+  errors are not generated in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, because 
+  in exe the macro is already compiled.</p>
+
+<p>&nbsp;</p>
+
+<p>Some compile-time errors and possible reasons/solutions:</p>
+
+<ul>
+  <li> <i>unknown identifier:</i>
+  <ol>
+    <li>Forgot to <a href="../Language/IDP_VARIABLES.html">declare 
+      a variable</a> or other identifier. <a href="../Language/IDP_DECLARATION.html">Declaration</a> must go before usage.</li>
+    <li>Character 
+      case mismatch. For example, if a function is MyFunc, error if you use Myfunc.</li>
+    <li> Forgot to enclose 
+      in <span class=cod><span class=s>&quot;&quot;</span></span> a string argument (window title, file path, etc).</li>
+    <li>The function/type/etc is not available in this QM version. It may happen if the macro author 
+      is not you. Upgrade QM.</li>
+  </ol>
+  </li>
+  <li> <i>unexpected identifier:</i>
+  <ol>
+    <li>This type of identifier cannot be used here.</li>
+  </ol>  
+   </li>
+  <li> <i>unexpected character:</i>
+  <ol>
+    <li> Names of variables and other identifiers 
+    must consist of alphanumeric characters and underscore, and cannot begin with 
+    a digit.</li>
+    <li>Incorrect syntax.  </li>
+  </ol>
+  </li>
+  <li> <i>missing parts:</i>
+  <ol>
+    <li>Forgot some argument or other parts of the command/function/etc.</li>
+  </ol>
+  </li>
+  <li> <i>too many parts:</i>
+    <ol>
+    <li>Forgot to enclose in <span class=cod><span class=s>&quot;&quot;</span></span> a string argument.</li>
+    <li>Forgot <span class=cod><span class=p>;</span></span> after 
+    statement that is followed by more statements in the same line.</li>
+    <li>If a function argument is quite complex expression (e.g., <span class=cod>a.r[i].right<span class=o>-</span>a.r[i].left</span> ), enclose it in parentheses.</li>
+    </ol>
+  </li>
+  <li> <i>missing ( after function name, or ; after statement:</i>
+  <ol>
+    <li>The same 
+    reasons as above.</li>
+    <li>The ( must immediately follow function name. Correct: <span class=cod><span class=fu>Func</span><span class=p>(</span>...</span>. Error: <span class=cod><span class=fu>Func</span> <span class=p>(</span>...</span>.</li>
+  </ol>
+  </li>
+  <li> <i>else without if:</i>
+  <ol>
+    <li>Indentation (number of tabs) of <span class="blue">else</span> must match indentation of its <span class="blue">if</span>.</li>
+  </ol>
+  </li>
+  <li> <i>case without sel:</i>
+  <ol>
+    <li>Indentation (number of tabs) of <span class="blue">case</span> must be one more than indentation of its <span class="blue">sel</span>.</li>
+  </ol>
+  </li>
+  <li> <i>expected numeric (or string) expression:</i>
+  <ol>
+    <li>Used a string where there 
+    must be a numeric value, or vice versa.</li>
+    <li>Forgot some argument.  </li>
+  </ol>
+  </li>
+  <li> <i>expected int, integer constant, etc:</i>
+  <ol>
+    <li>Similar reasons as above.</li>
+  </ol>
+  </li>
+  <li> <i>expected int*, etc:</i>
+  <ol>
+    <li>Must be address of a variable (e.g., <span class=cod><span class=fu>Function</span><span class=p>(</span><span class=o>&#38;</span>var<span class=p>)</span></span>, 
+    but not <span class=cod><span class=fu>Function</span><span class=p>(</span>var<span class=p>)</span></span> ). Variable type also must match expected. For type casting, use <a href="../Language/IDP_OPUNARY.html">operator 
+    +</a>.</li>
+  </ol>
+  </li>
+  <li> <i>... already exists or is declared:</i>
+  <ol>
+    <li>Declaring a variable 
+    or other identifier while it is already somewhere declared differently.</li>
+    <li>Declaring a local variable more than once in the same function.  </li>
+  </ol>
+  </li>
+  <li> <i>expected x (to y) arguments .</i>..:
+  <ol>
+    <li>Forgot some arguments. When calling 
+    a function, the number of arguments must match the number 
+    of parameters in function's declaration (<span class="blue">function</span>, <span class="blue">dll</span>, etc).</li>
+  </ol>
+  </li>
+  <li> <i>syntax:</i>
+  <ol>
+    <li>other error.</li>
+  </ol>
+  </li>
+  <li> <i>Exception while compiling:</i>
+  <ol>
+    <li>An internal QM error. Try to restart 
+    QM.  </li>
+  </ol>
+  </li>
+  <li>If QM reports a false error (possibly a bug), try to restart QM.</li>
+</ul>
+
+<h2>Run-time errors</h2>
+
+<p>Run-time errors are generated while macro is executed. On a run-time 
+  error the macro ends. In the QM output is displayed error description, like 
+  &quot;Error (RT) in Macro: error description&quot;.</p>
+
+<p>&nbsp;</p>
+
+<p>There are three groups of run-time errors:</p>
+
+<p>1. Errors that are generated by QM (&quot;Window not found&quot;, &quot;File 
+  not found&quot;, etc). Such errors can be handled with the <A href="../Flow/IDP_ERR.html" class="blue">err</a> 
+  statement. There are also several fatal errors that cannot be handled, such 
+  as a noncompiled function containing syntax errors.</p>
+
+<p>2. Errors that are generated using the <A href="../Flow/IDP_END.html" class="blue">end</a> 
+  statement. Such errors can be handled with  <span class="blue">err</span>.</p>
+
+<p>3. Exceptions (errors generated by the operating system or components). In 
+  most cases it is result of incorrect programming (invalid pointer, division 
+  by 0, endless recursion, etc). Exceptions can by handled with  <span class="blue">err</span>, but you should avoid them if possible.</p>
+
+<p>&nbsp;</p>
+<p>Some run-time errors and possible reasons/solutions:</p>
+
+<ul>
+  <li> <i>Window not found</i>:
+    <ol>
+    <li>Window name must match case.</li>
+    <li>Window is hidden: 
+    use <span class=cod><span class=fq>opt</span> hidden <span class=n>1</span></span> before, or use class name.</li>
+    <li>Part of window name (e.g., document 
+    name) now is different than when recording. Use partial name.  </li>
+    </ol>
+  </li>
+  <li> <i>Menu item or button not found</i>:
+    <ol>
+    <li>Underlined characters must be 
+    preceded by &amp;. To view underlined characters, expand menu with the keyboard 
+    (Alt+...).</li>
+    <li>Nonstandard menu.</li>
+    <li>If button class name does not have &quot;Button&quot; 
+    or &quot;Btn&quot;, don't use <span class=cod><span class=fq>but</span> name [<span class=lib>window</span>]</span>. Instead use <span class="blue">id</span> or <span class="blue">child</span> function.</li>
+    <li>Button cannot be found using its text because has &quot;owner-draw&quot; 
+    style. Try function <span class="blue">id</span>, or <span class="blue">child</span>(x 
+    y), or <span class="blue">scan</span>.  </li>
+    </ol>
+  </li>
+  <li><i>0x80020003, Member not found</i> (with accessible objects):
+    <ol>
+    <li>The 
+    accessible object does not support this feature.</li>
+    <li>The window is inactive. Use <span class="blue">act</span> to activate it.</li>
+    </ol>
+  </li>
+  <li><i>object not found</i>, and other:
+    <ol><li>The macro runs too fast. Insert <A href="../Commands/IDP_WAIT.html" class="blue">wait</a> or change 
+    macro speed (<A href="../Commands/IDP_SPE.html" class="blue">spe</a>).
+    </li>
+    </ol>
+  </li>
+  <li><i>cannot paste</i>:
+    <ol>
+      <li>The focused control is not editable.</li>
+      <li>The focused control does not support Ctrl+V. Some controls use Shift+Insert instead.</li>
+      <li>The focused control does not support this clipboard format.</li>
+      <li>The window is disabled or hung.</li>
+      <li>The window has higher <a href="IDP_VISTA.html">integrity level</a>. Eg, QM runs as User, and the target program runs as Administrator.</li>
+    </ol>
+  </li>
+</ul>
+
+</body>
+
+</html>
