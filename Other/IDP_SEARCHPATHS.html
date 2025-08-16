@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>File paths</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> File paths</h1>
+
+<h2>Special folders</h2>
+<p>With all QM file functions (<span class="blue">run</span>, <span class="blue">cop</span>, 
+  <span class="blue">ren</span>, <span class="blue">del</span>, <span class="dll">FileExists</span>, 
+  str.searchpath, str.getfile and other, also in user-defined functions) and in 
+  menus/toolbars, a file path can begin with a special folder string. There are 
+  several ways to specify a special folder. </p>
+<p>&nbsp;</p>
+<p>1. QM-defined special folder string enclosed in $.</p>
+<ul>
+  <li> Example: &quot;$desktop$\file.txt&quot;.</li>
+  <li> To see available special folders, click SF button in a dialog, for example in 
+    the Run Program dialog.</li>
+  <li>QM-specific special folders:
+  <ul>
+  <li>$qm$ - Quick Macros program folder, eg &quot;C:\Program Files (x86)\Quick Macros 2&quot; or &quot;G:\PortableApps\QuickMacrosPortable\App\QuickMacros&quot;.</li>
+  <li>$my qm$ - Quick Macros data folder, eg &quot;C:\Users\Me\Documents\My QM&quot; or &quot;G:\PortableApps\QuickMacrosPortable\Data\My QM&quot;. Can be changed in Options -&gt; Files.</li>
+  <li>$temp qm$ - QM subfolder in user's temporary folder (special folder $temp$). Normally it is same as $temp$\QM. In portable QM it is same as $temp$\QM-portable, and QM deletes it when exits. The folder may not exist, but most QM file functions create it when creating a file or folder in it.</li>
+  <li>$drive$ - drive of Quick Macros program folder, like &quot;C:&quot;, &quot;G:&quot; or &quot;\\server\share&quot;. This can be useful in <a href="IDP_PORTABLE.html">portable</a> QM, where drive letter is not constant.</li>
+  </ul>
+  </li>
+  <li> <a onClick="doSection(e1)" class="expand">Special 
+    folder CSIDLs</a>.</li>
+</ul>
+<div id="e1" class="expand">
+<pre class=cod>{CSIDL_ADMINTOOLS, &#34;Administrative Tools&#34;}<span class=p>,</span>
+{CSIDL_APPDATA, &#34;AppData&#34;}<span class=p>,</span>
+{CSIDL_INTERNET_CACHE, &#34;Cache&#34;}<span class=p>,</span>
+{CSIDL_CDBURN_AREA, &#34;CD Burning&#34;}<span class=p>,</span>
+{CSIDL_PROGRAM_FILES_COMMON, &#34;Common Files&#34;}<span class=p>,</span>
+{CSIDL_COOKIES, &#34;Cookies&#34;}<span class=p>,</span>
+{CSIDL_DESKTOPDIRECTORY, &#34;Desktop&#34;}<span class=p>,</span>
+{CSIDL_PERSONAL, &#34;Documents&#34;}<span class=p>,</span>
+{CSIDL_PERSONAL, &#34;My Documents&#34;}<span class=p>,</span> <span class=o>//</span>alias
+{CSIDL_PERSONAL, &#34;Personal&#34;}<span class=p>,</span> <span class=o>//</span>alias
+{CSIDL_FAVORITES, &#34;Favorites&#34;}<span class=p>,</span>
+{CSIDL_FONTS, &#34;Fonts&#34;}<span class=p>,</span>
+{CSIDL_HISTORY, &#34;History&#34;}<span class=p>,</span>
+{CSIDL_LOCAL_APPDATA, &#34;Local AppData&#34;}<span class=p>,</span>
+<span class=c>//{?, &#34;Local Settings&#34;}, //no csidl. Dropped in QM 2.3.0.
+</span>{CSIDL_MYMUSIC, &#34;My Music&#34;}<span class=p>,</span>
+{CSIDL_MYPICTURES, &#34;My Pictures&#34;}<span class=p>,</span>
+{CSIDL_MYVIDEO, &#34;My Video&#34;}<span class=p>,</span>
+{CSIDL_NETHOOD, &#34;NetHood&#34;}<span class=p>,</span>
+<span class=c>//{CSIDL_PHOTOALBUMS, &#34;Photoalbums&#34;}, //Vista
+//{CSIDL_PLAYLISTS, &#34;Playlists&#34;}, //Vista
+</span>{CSIDL_PRINTHOOD, &#34;PrintHood&#34;}<span class=p>,</span>
+{CSIDL_PROGRAM_FILES, &#34;Program Files&#34;}<span class=p>,</span>
+{CSIDL_PROGRAM_FILES, &#34;PF&#34;}<span class=p>,</span> <span class=o>//</span>alias
+{CSIDL_PROGRAMS, &#34;Programs&#34;}<span class=p>,</span>
+{CSIDL_RECENT, &#34;Recent&#34;}<span class=p>,</span>
+<span class=c>//{CSIDL_RESOURCES, &#34;Resources&#34;}, //Vista
+//{CSIDL_SAMPLE_MUSIC, &#34;Sample Music&#34;}, //Vista
+//{CSIDL_SAMPLE_PLAYLISTS, &#34;Sample Playlists&#34;}, //Vista
+//{CSIDL_SAMPLE_PICTURES, &#34;Sample Pictures&#34;}, //Vista
+//{CSIDL_SAMPLE_VIDEOS, &#34;Sample Videos&#34;}, //Vista
+</span>{CSIDL_SENDTO, &#34;SendTo&#34;}<span class=p>,</span>
+{CSIDL_STARTMENU, &#34;Start Menu&#34;}<span class=p>,</span>
+{CSIDL_STARTUP, &#34;Startup&#34;}<span class=p>,</span>
+<span class=c>//{CSIDL_ALTSTARTUP, &#34;AltStartup&#34;}, //?
+</span>{CSIDL_SYSTEM, &#34;System&#34;}<span class=p>,</span>
+{CSIDL_QM_TEMP, &#34;Temp&#34;}<span class=p>,</span> <span class=o>//</span>no scidl. Normally CSIDL_LOCAL_APPDATA\Temp.
+{CSIDL_TEMPLATES, &#34;Templates&#34;}<span class=p>,</span>
+{CSIDL_PROFILE, &#34;User Profile&#34;}<span class=p>,</span> <span class=o>//</span>QM <span class=n>2.3</span>.<span class=n>0</span>
+{CSIDL_WINDOWS, &#34;Windows&#34;}<span class=p>,</span>
+{CSIDL_COMMON_ADMINTOOLS, &#34;Common Administrative Tools&#34;}<span class=p>,</span>
+{CSIDL_COMMON_APPDATA, &#34;Common AppData&#34;}<span class=p>,</span>
+{CSIDL_COMMON_DESKTOPDIRECTORY, &#34;Common Desktop&#34;}<span class=p>,</span>
+{CSIDL_COMMON_DOCUMENTS, &#34;Common Documents&#34;}<span class=p>,</span>
+{CSIDL_COMMON_FAVORITES, &#34;Common Favorites&#34;}<span class=p>,</span>
+{CSIDL_COMMON_MUSIC, &#34;Common Music&#34;}<span class=p>,</span>
+{CSIDL_COMMON_MUSIC, &#34;CommonMusic&#34;}<span class=p>,</span> <span class=o>//</span>alias<span class=p>,</span> fbc
+{CSIDL_COMMON_PICTURES, &#34;Common Pictures&#34;}<span class=p>,</span>
+{CSIDL_COMMON_PICTURES, &#34;CommonPictures&#34;}<span class=p>,</span> <span class=o>//</span>alias<span class=p>,</span> fbc
+{CSIDL_COMMON_PROGRAMS, &#34;Common Programs&#34;}<span class=p>,</span>
+{CSIDL_COMMON_STARTMENU, &#34;Common Start Menu&#34;}<span class=p>,</span>
+{CSIDL_COMMON_STARTUP, &#34;Common Startup&#34;}<span class=p>,</span>
+<span class=c>//{CSIDL_COMMON_ALTSTARTUP, &#34;Common AltStartup&#34;}, //?
+</span>{CSIDL_COMMON_TEMPLATES, &#34;Common Templates&#34;}<span class=p>,</span>
+{CSIDL_COMMON_VIDEO, &#34;Common Video&#34;}<span class=p>,</span>
+{CSIDL_COMMON_VIDEO, &#34;CommonVideo&#34;}<span class=p>,</span> <span class=o>//</span>alias<span class=p>,</span> fbc
+{CSIDL_QM_QM, &#34;QM&#34;}<span class=p>,</span>
+{CSIDL_QM_MYQM, &#34;My QM&#34;}<span class=p>,</span>
+{CSIDL_QM_MYQM, &#34;MyQM&#34;}<span class=p>,</span> <span class=o>//</span>alias
+{CSIDL_QM_TEMPQM, &quot;Temp QM&quot;}, //QM 2.3.5
+{CSIDL_QM_DRIVE, &quot;Drive&quot;}, //QM 2.3.5</pre>
+</div>
+<p>&nbsp;</p>
+<p>2. <a href="../Language/IDP_SCOPE2.html">Environment variable</a> name enclosed 
+  in %.</p>
+<ul>
+  <li> Example: &quot;%temp%\file.txt&quot;.</li>
+  <li> Environment variables are expanded 
+    recursively (QM 2.2.0). For example, if value of environment variable v1 is 
+    &quot;$desktop$&quot;, then &quot;%v1%&quot; is expanded to full path of desktop 
+    folder.</li>
+  <li>Tip: You can create environment variables and then use them everywhere. Example: <span class=cod><span class=fu>SetEnvVar</span> <span class=s>&quot;backup&quot;</span> <span class=s>&quot;E:\_Backup&quot;</span></span>. Use: <span class=cod><span class=fq>run</span> <span class=s>&quot;%backup%&quot;</span></span>. Such variables exist only in current process (QM or exe).</li>
+</ul>
+<p>&nbsp;</p>
+<p>3. QM 2.2.0. CSIDL numeric value enclosed in $. For example, &quot;$3$&quot; 
+  expands to ITEMIDLIST string (see below) of Control Panel. To see available 
+  values, search for CSIDL in <a href="IDP_MSDN.html">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+<p>See also: <a href="../str/IDP_S_SEARCHPATH.html">str.expandpath</a>.</p>
+<h2> ITEMIDLIST strings</h2>
+<p>Some objects in Window Explorer are not file system objects. Examples are Control 
+  Panel folder and most objects in it. They cannot be accessed using a file system 
+  path. They can be accessed using binary structures of type <span class="type">ITEMIDLIST</span>. 
+  To simplify it, some QM functions (<span class="blue">run</span>, menust/toolbars, 
+  and some other) support ITEMIDLIST strings. These strings begin with &quot;:: 
+  &quot;. They are inserted when you drag and drop a non-file-system object. They 
+  also can be inserted using Run Program, Open File and Open Folder dialogs.</p>
+<p>&nbsp;</p>
+<p> Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>run</span> <span class=s>&#34;:: 14001F50E04FD020EA3A6910A2D808002B30309D&#34;</span> <span class=c2>;;My Computer
+</span><span class=fq>run</span> <span class=s>&#34;$0x11$&#34;</span> <span class=c2>;;My Computer
+</span><span class=fq>run</span> <span class=s>&#34;:: 14001F50E04FD020EA3A6910A2D808002B30309D 14002E1E2020EC21EA3A6910A2DD08002B30309D A90000009CFFFFFF1D002500433A5C57494E444F57535C73797374656D33325C6465736B2E63706C00446973706C6179004368616E67652074686520617070656172616E6365206F6620796F7572206465736B746F702C207375636820617320746865206261636B67726F756E642C2073637265656E2073617665722C20636F6C6F72732C20666F6E742073697A65732C20616E642073637265656E207265736F6C7574696F6E2E00&#34;</span> <span class=c2>;;Display
+</span><span class=fq>run</span> <span class=s>&#34;$3$ A90000009CFFFFFF1D002500433A5C57494E444F57535C73797374656D33325C6465736B2E63706C00446973706C6179004368616E67652074686520617070656172616E6365206F6620796F7572206465736B746F702C207375636820617320746865206261636B67726F756E642C2073637265656E2073617665722C20636F6C6F72732C20666F6E742073697A65732C20616E642073637265656E207265736F6C7574696F6E2E00&#34;</span> <span class=c2>;;Display
+</span><span class=fq>run</span> <span class=s>&#34;:: &#34;</span> <span class=c2>;;Desktop</span></pre>
+<p>&nbsp;</p>
+<p>The root object is Desktop. Its string is &quot;:: &quot;. It is not the same 
+  as &quot;$desktop$, which is a file system folder.</p>
+<p>&nbsp;</p>
+<p>File system objects also can be accessed using ITEMIDLIST. To insert ITEMIDLIST 
+  string, Shift + drag and drop.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#PidlToStr" class="dll">PidlToStr</a>, <a href="../User/IDP_QMDLL.html#PidlFromStr" class="dll">PidlFromStr</a>.</p>
+<h2>File search paths, relative paths</h2>
+<p>Some functions (<span class="blue">run</span>, str.searchpath, <span class="dll">GetFileIcon</span>, 
+  etc) don't require full path. Can be used only filename or relative path. Then they search in:</p>
+<p>&nbsp;</p>
+
+<p>1. The QM directory. Before QM 2.3.3, <span class="blue">run</span> did not search here.</p>
+
+<p>2. The current directory (<span class="UDF">GetCurDir</span>/<span class="UDF">SetCurDir</span>).</p>
+
+<p>3. The 32-bit Windows system directory.&nbsp;</p>
+
+<p>4. The 16-bit Windows system directory.</p>
+
+<p>5. The Windows directory.</p>
+
+<p>6. The directories that are listed in the PATH environment variable.</p>
+
+<p>7. <span class="blue">run</span> and str.searchpath 
+  also search in the registry &quot;App Paths&quot; key.</p>
+
+<p>&nbsp;</p>
+<p>Some functions, including str.searchpath and <span class="dll">GetFileIcon</span>, 
+  at first search in $My QM$ special folder.</p>
+<p>&nbsp;</p>
+
+<p>With some functions, .\ at the beginning means  current directory; ..\ at the beginning means one level up from current directory. 
+  For example, if current directory is &quot;c:\program files\quick macros 2&quot;, 
+  then &quot;..\&quot; will be &quot;c:\program files\&quot;, and &quot;..\otherapp&quot; 
+  will be &quot;c:\program files\otherapp&quot;. Also, whole path can be or contain &quot;.&quot; 
+  and &quot;..&quot;.</p>
+<p>&nbsp;</p>
+<p>Read more: <a href="http://www.google.lt/search?q=site%3Amicrosoft.com%20File%20Names%20Paths" target="_blank">File 
+  names and paths</a></p>
+
+<h2>Shortcuts</h2>
+<p>When you drag and drop a shortcut to the QM code editor, it inserts <span class="blue">run</span> 
+  with path of shortcut target. To insert shortcut path, Ctrl + drag and drop.</p>
+  
+<h2>Notes</h2>
+<p>File functions may fail with mapped network drive paths (like &quot;Z:\file&quot;). Always use  path like &quot;\\server\share\file&quot;.</p>
+<p>&nbsp;</p>
+<p>64-bit Windows has two System32 and Program Files folders. <a href="IDP_VISTA.html">Read more</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
