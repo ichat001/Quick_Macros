@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>escape</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Replace escape sequences with characters, or vice versa</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>escape</b>(<i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>flags</b> - one of:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td>Replace <a href="../Language/IDP_CONSTANT.html">escape sequences</a> 
+    ( <tt>''</tt>, <tt>[]</tt>, <tt>[digits]</tt> )
+    to characters (<tt>&quot;</tt>, new line, character).</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td>Replace unsafe characters ( <tt>&quot;</tt>, 
+    new line, tab, control characters, <tt>[</tt> , <tt>''</tt> ) 
+    to escape sequences.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Urldecode.</td>
+</tr>
+<tr> 
+  <td>9</td>
+  <td>Urlencode. Use for URL parameters containing spaces and other unsafe characters. It replaces all characters except 0-9, A-Z, a-z, _, - 
+    and . to escape sequences in form %xx, where xx is character code in hexadecimal 
+    format.</td>
+</tr>
+<tr> 
+  <td>10</td>
+  <td>same as 8, but decode + to space.</td>
+</tr>
+<tr> 
+  <td>11</td>
+  <td>same as 9, but encode space to +.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td>QM 2.3.2. Skip parts enclosed in { }, like with <a href="../Language/IDP_FSTRING.html">operator F</a>. This flag can be used with flags 0 and 1. With flag 1, in { } replaces &quot; with `.</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Replaces escape sequences with characters, or vice versa.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Removed flag 2 (don't escape characters above 127). Now does not 
+  escape these characters. It is because of possible problems with <a href="../Other/IDP_UNICODE.html">UTF-8</a>.</p>
+<p>&nbsp;</p>
+
+<p><i>See also:</i> <a href="IDP_S_ENCRYPT.html">str.encrypt</a>, <a href="IDP_S_UNICODE.html">str.ansi</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+<pre class=cod><span class=t>str</span> s<span class=o>=</span>
+<span class=s> line 1</span>
+<span class=s> &quot;line 2&quot;</span>
+s.<span class=fq>escape</span><span class=p>(</span><span class=n>1</span><span class=p>)</span> <span class=c2>;;escape</span>
+<span class=fq>out</span> s
+s.<span class=fq>escape</span><span class=p>(</span><span class=n>0</span><span class=p>)</span> <span class=c2>;;unescape</span>
+<span class=fq>out</span> s
+
+<span class=t>str</span> s2<span class=o>=</span><span class=s>&quot;one, two&quot;</span>
+s2.<span class=fq>escape</span><span class=p>(</span><span class=n>9</span><span class=p>)</span> <span class=c2>;;urlencode</span>
+<span class=fq>out</span> s2
+s2.<span class=fq>escape</span><span class=p>(</span><span class=n>8</span><span class=p>)</span> <span class=c2>;;urldecode</span>
+<span class=fq>out</span> s2</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
