@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>F1 help and the tips pane</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1> F1 help and the tips/output pane</h1>
+
+<h2>F1  in the code editor</h2>
+<p>When you type or click an identifier (function, type, 
+  etc), and then press F1, QM shows help for it. The table shows 
+  where QM looks for help and where shows it.</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>Identifier</th>
+    <th>On F1</th>
+  </tr>
+  <tr> 
+    <td>QM intrinsic function, type, etc</td>
+    <td>Opens its topic in QM Help.</td>
+  </tr>
+  <tr> 
+    <td>User-defined function</td>
+    <td>Displays function's help section in the Tips pane.</td>
+  </tr>
+  <tr> 
+    <td>API (dll function, type, constant, interface)</td>
+    <td><ul>
+      <li>If declared in a type library, opens its help file, if available.</li>
+      <li>Else looks for &quot; /?&quot; in the macro where declared, at the beginning 
+        of a line, except if declared in a reference file. If there is &quot; 
+        /?&quot;, opens that macro. If there is &quot; /? macro name&quot;, shows 
+        that macro in Tips.</li>
+      <li>Else shows help search links in Tips.</li>
+    </ul>
+      </td>
+  </tr>
+  <tr> 
+    <td>Class name</td>
+    <td>Looks for macro named &quot;classname help&quot; and displays it in Tips. 
+      If does not find, processes &quot; /?&quot; like with API.</td>
+  </tr>
+  <tr> 
+    <td>Unknown (not currently declared)</td>
+    <td>Shows help search links in Tips.</td>
+  </tr>
+</table>
+<h2>Function's help section</h2>
+<p>User-defined functions can contain comments at the beginning or below the <span class="blue">function</span> statement. It is function's <i>help section</i>.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> x y <span class=c2>;;this line is displayed in QM status bar</span>
+
+<span class=c> These comments, including the 'function...' line, is function's help section.
+ It ends with an empty line followed by code.
+ It is displayed in Tips when you click the function in code editor and press F1.
+ The first line of comments is displayed in status bar and annotations (menu -&gt; Help -&gt; Annotations).
+</span></pre>
+<p>&nbsp;</p>
+<p>To create help section, you can use: code toolbar -&gt; More tools -&gt; Function help editor.</p>
+<p>&nbsp;</p>
+<p>In Tips can be displayed functions, macros and <a href="../QM_Help/IDH_ITEMS.html">QM items</a> of other types.</p>
+<ul>
+  <li> For functions, shows only help section.</li>
+  <li> For macros, shows all text as  help section. Code below <span class=cod><span class=c>EXAMPLES</span></span> line should not be commented.</li>
+  <li> For other items, shows all text as code.</li>
+</ul>
+<p>&nbsp;</p>
+<p>To show help, you can use F1 or function <span class="UDF">QmHelp</span>.</p>
+<p>&nbsp;</p>
+<p>The help section can contain tags and special lines. Use them to format the text when it is displayed in Tips.</p>
+<h2>Special lines in help section</h2>
+<p>Certain text lines in the help section can be used for text formatting. To display colored code, bold/italic headings, etc.</p>
+<table class="tnormal">
+<tr>
+  <th>Special lines</th>
+  <th>Formatting</th>
+</tr>
+<tr>
+  <td><p><span class=cod><span class=c>EXAMPLE</span></span></p>
+    <p><span class=cod><span class=c>EXAMPLES</span></span></p></td>
+  <td><p>Below this line, text is displayed   as code (colored).</p>
+    <ul>
+      <li> To insert code in other text, use <span class=cod><span class=c>&lt;code&gt;...&lt;/code&gt;</span></span>.</li>
+    </ul></td>
+</tr>
+<tr>
+  <td><span class=cod><span class=c> See also:</span></span></td>
+  <td><p>In this line, function names enclosed in &lt;&gt; (like 
+    <span class=cod><span class=c> &lt;Function&gt;</span></span>) make help links.</p>
+    <ul>
+      <li> To make help links in other text,  use <span class=cod><span class=c> &lt;help&gt;Function&lt;/help&gt;</span></span>.</li>
+    </ul></td>
+</tr>
+<tr>
+  <td><p> <span class=cod><span class=c>param - ....</span></span></p>
+    <p><span class=cod><span class=c>param (...</span></span></p>
+    <p><span class=cod><span class=c>param:</span></span></p>
+    <p><span class=cod><span class=c>param, ...</span></span></p></td>
+  <td><p> Parameters are highlighted.</p></td>
+</tr>
+<tr>
+  <td><p><span class="cod"><span class="c">Errors:</span></span></p>
+    <p><span class=cod><span class=c>ERRORS</span></span></p></td>
+  <td><p>In or below this  line, error constants (such as ERR_FAILED) make links to the error string.</p>
+    <ul>
+      <li> If this line is missing, QM extracts errors from code. Extracts   values used with <a href="../Flow/IDP_END.html" class="blue">end</a> statement in this function. Only if  not encrypted.</li>
+      <li>To add errors of other functions, include function names enclosed in &lt; &gt;.</li>
+      <li> Use empty &lt;&gt; to add errors of this function (extract from code).</li>
+      <li>QM 2.3.5. Use &lt;.&gt; to add errors of all called functions. Use &lt;..&gt; to add errors of this and called functions.</li>
+    </ul>
+<p>Example: <span class=cod><span class=c>Errors: &lt;&gt;, &lt;Func1&gt;, &lt;Func2&gt;</span></span></p>
+    </td>
+</tr>
+<tr>
+  <td><p><span class=cod><span class=c>UPPERCASE</span></span></p></td>
+  <td>Bold text. For example, <span class=cod><span class=c>REMARKS</span></span> is displayed  <b>Remarks</b>.</td>
+</tr>
+<tr>
+  <td><p><span class=cod><span class=c>Returns:</span></span></p>
+    <p><span class=cod><span class=c>Errors:</span></span></p>
+    <p><span class=cod><span class=c>See also:</span></span></p>
+    <p><span class=cod><span class=c>Version:</span></span></p>
+    <p><span class=cod><span class=c>Added in:</span></span></p>
+    <p><span class=cod><span class=c>Author:</span></span></p></td>
+  <td>If a line begins with this text, this text is italic.</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<p>All except <span class=cod><span class=c>EXAMPLE(S)</span></span> and <span class=cod><span class=c>See also:</span></span>   added in QM 2.3.3.</p>
+<p>&nbsp;</p>
+<p><a onClick="doSection(hs)" class="expand">Example</a>.</p>
+<div id="hs" class="expand">
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> <span class=o>$</span>s <span class=t></span><span class=p></span>flags [<span class=t>str</span><span class=o>&#38;</span>so]
+<span class=c>
+ What it does ...
+ Returns: ...
+
+ s - ...
+ flags:
+   1 - ...
+   2 - ...
+ so (v2.5) - ...
+
+ REMARKS
+ ...
+ ...
+
+ EXAMPLE
+ str s
+ FunctionName &#34;abc&#34; 1 s
+ out s
+ 
+</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2>Tags in help section and output text</h2>
+<p>&nbsp;</p>
+<p>Tags can be used in help sections of user-defined 
+functions and macros. To insert  tags, you can use: code toolbar -&gt; More tools -&gt; Function help editor. Tags are replaced with links, colors etc when the function help is displayed in the Tips pane, for example when you press F1 in a macro when the text cursor is on that function name.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Tags  also can be used with <a href="../Commands/IDP_OUT.html" class="blue">out</a>, if text begins with &quot;&lt;&gt;&quot;. Also can be used with <a href="../Flow/IDP_END.html" class="blue">end</a>, without &quot;&lt;&gt;&quot;.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. Tags  also can be used with <span class="UDF">OutStatusBar</span>.</p>
+<!--
+<p>&nbsp;</p>
+<p>QM 2.3.3. Tags  also can be used in <a href="../User/IDH_DIALOG_EDITOR.html#a14">Info control</a> (in dialogs), if text begins with &quot;&lt;&gt;&quot;.</p>
+-->
+<p>&nbsp;</p>
+<p>Tags also can be used in API help search links. To edit, right click in the Tips 
+  pane.</p>
+<p>&nbsp;</p>
+<p>Syntax for most tags: <span class=cod><span class=c> &lt;tag&gt;text&lt;/tag&gt;</span></span>, or <span class=cod><span class=c> &lt;tag &quot;attribute&quot;&gt;text&lt;/tag&gt;</span></span>, or <span class=cod><span class=c> &lt;tag &quot;attribute /more info&quot;&gt;text&lt;/tag&gt;</span></span>.</p>
+<p>&nbsp;</p>
+<p>Attributes can contain  <a href="../Language/IDP_CONSTANT.html">QM escape sequences</a>. For example, use two ' for &quot;. If single word, can be without quotes (QM 2.4.1).</p>
+<p>&nbsp;</p>
+<h3>Links</h3>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> &lt;link &quot;http://www.quickmacros.com&quot;&gt;open web page&lt;/link&gt;
+ &lt;link &quot;mailto:abc@def.gh?subject=test%20qm%20links&amp;body=test%0Aqm%0Alinks&quot;&gt;create email&lt;/link&gt;
+ &lt;link &quot;notepad.exe&quot;&gt;run file notepad.exe&lt;/link&gt;
+ &lt;link &quot;notepad.exe /$desktop$\test.txt&quot;&gt;run notepad with command line parameters&lt;/link&gt;
+ &lt;macro &quot;MyMacro&quot;&gt;run macro MyMacro&lt;/macro&gt;
+ &lt;macro &quot;MyMacro /abc&quot;&gt;run macro MyMacro; the _command variable will contain &quot;abc&quot;&lt;/macro&gt;
+ &lt;open &quot;MyMacro&quot;&gt;open MyMacro&lt;/open&gt;
+ &lt;open &quot;MyMacro /10&quot;&gt;open MyMacro and go to position 10&lt;/open&gt;
+ &lt;open &quot;MyMacro /L10&quot;&gt;open MyMacro and go to line 10 (1-based).&lt;/open&gt; QM 2.3.2.
+ &lt;open &quot;MyMacro:Sub&quot;&gt;open MyMacro and go to sub-function Sub&lt;/open&gt; QM 2.4.1.
+ &lt;help &quot;::/qm_help/IDH_QUICK.html&quot;&gt;open a topic in QM Help&lt;/help&gt;
+ &lt;help &quot;#IDH_QUICK&quot;&gt;open a topic in QM Help&lt;/help&gt; QM 2.4.1
+ &lt;help &quot;#IDP_QMDLL#PerfOut&quot;&gt;with anchor&lt;/help&gt; QM 2.4.1
+ &lt;help &quot;qm2help.chm&quot;&gt;open help file qm2help.chm&lt;/help&gt;
+ &lt;help &quot;qm2help.chm::/qm_help/IDH_QUICK.html&gt;main&quot;&gt;open a topic in a help file, &quot;main&quot; window type&lt;/help&gt;
+ &lt;help&gt;MyFunction&lt;/help&gt; QM 2.3.3. Shows function help. Read more below.
+ &lt;tip &quot;E_IF&quot;&gt;display a tip from $qm$\tips.txt&lt;/tip&gt;
+ &lt;tip &quot;#MyMacro&quot;&gt;display a macro or function (only help section) in tips&lt;/tip&gt;
+ &lt;google &quot;quick macros&quot;&gt;Google search for 'quick macros'&lt;/google&gt; QM 2.3.3.
+ &lt;google &quot;quick macros /&amp;start=10&amp;lr=lang_de&quot;&gt;Google search with parameters&lt;/google&gt; QM 2.3.3.
+ &lt;mes &quot;text&quot;&gt;show message box&lt;/mes&gt; QM 2.3.4
+ &lt;out &quot;text&quot;&gt;show text in QM output&lt;/out&gt; QM 2.3.4</span></pre>
+<p>&nbsp;</p>
+<p>Instead of  <span class=cod><span class=c>&lt;tag &quot;attribute&quot;&gt;text&lt;/tag&gt;</span></span> can be <span class=cod><span class=c>&lt;tag&gt;text&lt;/tag&gt;</span></span>. Then text is used as attribute. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> &lt;link&gt;http://www.quickmacros.com&lt;/link&gt;</span></pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Instead of <span class=cod><span class=c>&lt;tip &quot;#MyMacro&quot;&gt;MyMacro&lt;/tip&gt;</span></span> can be <span class=cod><span class=c>&lt;tip&gt;MyMacro&lt;/tip&gt;</span></span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. With  <span class=cod><span class=c>&lt;help&gt;</span></span> can be used any function or other identifier. Shows help as if you would press F1 in code editor. Examples:  <span class=cod><span class=c>&lt;help&gt;MyFunction&lt;/help&gt; &lt;help&gt;act&lt;/help&gt; &lt;help&gt;SetTimer&lt;/help&gt; &lt;help&gt;WM_TIMER&lt;/help&gt; &lt;help&gt;str.replacerx&lt;/help&gt; &lt;help&gt;My Macro&lt;/help&gt;</span></span>.</p>
+<p>&nbsp;</p>
+<h3>Styles</h3>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> &lt;b&gt;bold&lt;/b&gt; &lt;i&gt;italic&lt;/i&gt; &lt;u&gt;underline&lt;/u&gt;
+ &lt;c &quot;0x00ff00&quot;&gt;green color&lt;/c&gt;
+ &lt;b&gt;&lt;i&gt;&lt;c &quot;0xff&quot;&gt;nested tags&lt;/c&gt;&lt;/i&gt;&lt;/b&gt;
+ &lt;c 0x8000&gt;nested&lt;c 0xff0000&gt;tags&lt;/c&gt;again&lt;/c&gt;
+ &lt;z &quot;0xff&quot;&gt;red background&lt;/z&gt; QM 2.3.3
+ &lt;Z &quot;0xff&quot;&gt;red background full line&lt;/Z&gt; QM 2.3.3
+ &lt;hidden&gt;cannot see this, but can copy or get with scintilla API&lt;/hidden&gt; QM 2.4.1</span>
+</pre>
+<p>&nbsp;</p>
+<h3>Code</h3>
+<p>&nbsp;</p>
+<p>Macro or function:</p>
+<pre class=cod><span class=c> &lt;code&gt;
+ int i
+ for(i 0 5) out 1
+ &lt;/code&gt;</span></pre>
+<p>&nbsp;</p>
+<p>Menu:</p>
+<pre class=cod><span class=c> &lt;code &quot;1&quot;&gt;
+ abc :run &quot;abc.exe&quot; * icon.ico
+ abc :run &quot;abc.exe&quot; * icon.ico
+ &lt;/code&gt;</span></pre>
+<p>&nbsp;</p>
+<p>Autotext list:</p>
+<pre class=cod><span class=c> &lt;code &quot;2&quot;&gt;
+ abc :key &quot;abc&quot;
+ abc :key &quot;abc&quot;
+ &lt;/code&gt;</span></pre>
+<p>&nbsp;</p>
+<h3>Images (QM 2.4.1)</h3>
+<p>&nbsp;</p>
+<p>Images are displayed below the text line containing image tags.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> &lt;image &quot;resource:&lt;My Macro&gt;image:Name&quot;&gt;&lt;/image&gt; image from macro resources
+ &lt;image &quot;resource:&lt;&gt;image:Name&quot;&gt;&lt;/image&gt; image from file resources
+ &lt;image &quot;image:Name&quot;&gt;&lt;/image&gt; the same as above
+ &lt;image &quot;c:\planets\venus.bmp&quot;&gt;&lt;/image&gt; image file. Can be bmp, png, jpg, gif.
+ &lt;image &quot;$my qm$\small.ico&quot;&gt;&lt;/image&gt; 16x16 icon
+ &lt;image &quot;&amp;big.ico&quot;&gt;&lt;/image&gt; 32x32 icon in $my qm$ folder
+ &lt;image &quot;$system$\shell32.dll,5&quot;&gt;&lt;/image&gt; icon in a dll, exe or icl file
+ &lt;image &quot;c:\MyArrow.cur&quot;&gt;&lt;/image&gt; 32x32 cursor. Can be cur, ani.
+ &lt;image &quot;c:\file.html&quot;&gt;&lt;/image&gt; shell icon of any file
+ &lt;image &quot;resource:&lt;My Macro&gt;Name.png&quot;&gt;&lt;/image&gt; Can be bmp, png, jpg, gif, ico, cur, ani.</span></pre>
+<p>&nbsp;</p>
+<p><a onClick="doSection(exImg)" class="expand">Example</a></p>
+<div id="exImg" class="expand">
+<pre class=cod><span class=fq>out</span>
+<span class=t>Dir</span> d
+<span class=fq>foreach</span><span class=p>(</span>d <span class=s>&quot;$program files$\*.png&quot;</span> <span class=fu>FE_Dir</span> <span class=n>4</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=t>str</span> path<span class=o>=</span>d.<span class=fu>FullPath</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=o>F</span><span class=s>&quot;&lt;&gt;&lt;image ''{</span>path<span class=s>}''&gt;{</span>path<span class=s>}&lt;/image&gt;&quot;</span>
+<span class=i>&#9;</span><span class=fq>ifk</span><span class=p>(</span>C<span class=p>)</span> <span class=fq>break</span> <span class=c2>;;end when Ctrl pressed</span>
+</pre>
+</div>
+<p>&nbsp;</p>
+<p>You can add image files to macro  resources with _qmfile.<span class="dll">ResourceAdd</span>. Adds to file resources if the first argument is 0.</p>
+<p>&nbsp;</p>
+<h3>Ordinary text (ignore tags)</h3>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> &lt;_&gt; Text with &lt;b&gt;tags&lt;/b&gt; that are &lt;u&gt;ignored&lt;/u&gt;. &lt;/_&gt;</span></pre>
+<p>&nbsp;</p>
+<h3>Replacements</h3>
+<p>&nbsp;</p>
+<p>The word for which pressed F1. Only in API help search links:</p>
+<pre class=cod><span class=c> &lt;keyword&gt;
+ &lt;macro &quot;MyMacro /&lt;keyword&gt;&quot;&gt;run macro MyMacro; the _command variable will contain the F1 word&lt;/macro&gt;</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
