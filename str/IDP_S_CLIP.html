@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getclip, setclip, getsel, setsel</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_CLIPS"></a>Clipboard, copy, paste</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>getclip</b>(<i>[</i>format<i>]</i>)
+s.<b>setclip</b>(<i>[</i>format<i>]</i>)
+s.<b>getsel</b>(<i>[</i>cut<i>] [</i>format<i>] [</i>control<i>]</i>)
+s.<b>setsel</b>(<i>[</i>format<i>]</i><i> [</i>control<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>format</b> - clipboard format. Integer (for predefined formats) or string 
+(for registered formats). Default or 0: text.</p>
+
+<p> <b>cut</b> - if nonzero, use Ctrl+X (cut). Default or 0: use Ctrl+C (copy).</p>
+<p><b>control</b> - handle of control to work with. Default or 0: the focused 
+control.</p>
+<ul>
+  <li>If used, sends a message instead of keys. Read more in remarks.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <span class="blue">getclip</span> copies clipboard data to <b>s</b>. It is text, unless other format specified.</p>
+
+<p> <span class="blue">setclip</span> copies <b>s</b> to the clipboard.</p>
+
+<p> <span class="blue">getsel</span> copies selected text to <b>s</b>.</p>
+
+<p> <span class="blue">setsel</span> pastes <b>s</b>. If <b> format </b>and<b> control</b> not used, it is the same as <a href="../Commands/IDP_PASTE.html" class="blue">paste</a> (<span class=cod><span class=fq>paste</span> s</span>).</p>
+
+<p>&nbsp;</p>
+<p>All these functions use the clipboard. After <span class="blue">getsel</span> 
+  and <span class="blue">setsel</span>, QM restores previous clipboard content 
+  (text only), unless <a href="../Commands/IDP_OPT.html">run-time option</a> <span class=cod><span class=fq>opt</span> clip <span class=n>1</span></span> is 
+  set.</p>
+<p>&nbsp;</p>
+
+<p>For <span class="blue">setsel</span>, the speed depends on <a href="../Commands/IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<p>To empty the clipboard, use <span class="blue">setclip</span> with empty string:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> s.setclip</pre>
+<p>&nbsp;</p>
+
+<p>or</p>
+<p>&nbsp;</p>
+
+<pre class=cod>s.all<span class=p>;</span> s.setclip</pre>
+
+<p>&nbsp;</p>
+<p>In <a href="../Other/IDP_UNICODE.html">Unicode</a> mode these functions automatically 
+  support Unicode text. Don't use CF_UNICODETEXT format, unless <b>s</b> contains
+  UTF-16 text. QM text format is UTF-8 (in Unicode mode) or ANSI.</p>
+<p>&nbsp;</p>
+<p>str variables can store text or binary data. These functions recognize clipboard 
+  formats CF_TEXT, CF_OEMTEXT, CF_UNICODETEXT and CF_BITMAP. Data of other formats 
+  is transfered to/from the clipboard without processing. Also can be used <a onClick="doSection(e1)" class="expand">registered 
+  formats</a>; then <b>format</b> must be format name (eg &quot;HTML Format&quot;), or numeric value returned by 
+  <span class="dll">RegisterClipboardFormat</span>.</p>
+<div id="e1" class="expand"> 
+  <p>Copy something and run this macro. It shows clipboard formats currently in 
+    the clipboard. Those with strings are registered formats.</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=t>int</span> f<span class=p>;</span> <span class=t>str</span> s
+<span class=fd>OpenClipboard</span> <span class=n>0</span>
+<span class=fq>rep</span> <span class=fd>CountClipboardFormats</span>
+<span class=i>&#9;</span>f<span class=o>=</span><span class=fd>EnumClipboardFormats</span><span class=p>(</span>f<span class=p>)</span>
+<span class=i>&#9;</span>s.fix<span class=p>(</span><span class=fd>GetClipboardFormatName</span><span class=p>(</span>f s s.all<span class=p>(</span><span class=n>100</span><span class=p>)))</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> f s
+<span class=fd>CloseClipboard</span></pre>
+  <p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<p> If <b>format</b> is CF_BITMAP, <b>s</b> must be picture file path. Instead 
+  of using <b>s</b> to store clipboard data, is used that file:</p>
+
+<p> <span class="blue">getclip</span> saves clipboard data to file <b>s</b>. 
+  File must be bmp.</p>
+
+<p> <span class="blue">setclip</span> copies file <b>s</b> to the clipboard. File 
+  can be bmp, jpg or gif. QM 2.3.4: also can be png.</p>
+
+<p> <span class="blue">getsel</span> saves selected picture to file 
+  <b>s</b>. File must be bmp.</p>
+
+<p> <span class="blue">setsel</span> pastes file <b>s</b>. File can be bmp, jpg 
+  or gif. QM 2.3.4: also can be png.</p>
+<p>&nbsp;</p>
+
+<p>Functions <span class="blue">getsel</span> and <span class="blue">setsel</span>, 
+  if <b>control</b> is omitted or 0, use keys (Ctrl+C, Ctrl+X, Ctrl+V) to copy/cut/paste. 
+  If <b>control</b> is a child window handle, these functions instead send messages 
+  (WM_COPY, etc) to it. These messages are supported by most edit and rich edit 
+  controls. Messages can be sent even to controls in inactive windows.</p>
+<p>&nbsp;</p>
+
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>str</span> s1 <span class=o>=</span> <span class=s>&quot;string1&quot;</span>
+<span class=t>str</span> s2
+s1.<span class=fq>setclip</span>
+s2.<span class=fq>getclip</span>
+<span class=c> now s2 is &quot;string1&quot;</span>
+
+<span class=t>str</span> s.<span class=fq>getfile</span><span class=p>(</span><span class=s>&quot;unicodefile&quot;</span><span class=p>)</span>
+s.<span class=fq>setsel</span><span class=p>(</span><span class=d>CF_UNICODETEXT</span><span class=p>)</span>
+
+<span class=t>str</span> ss<span class=o>=</span><span class=s>&quot;$My Pictures$\test.bmp&quot;</span>
+ss.<span class=fq>setclip</span><span class=p>(</span><span class=d>CF_BITMAP</span><span class=p>)</span>
+
+<span class=t>str</span> s.<span class=fq>getclip</span><span class=p>(</span><span class=s>&quot;HTML Format&quot;</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
