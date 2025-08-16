@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Variables</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variables</h1>
+
+<p>Variables are used to temporarily store numbers, text and other data. 
+  The data can be changed. Variables can be passed to macro commands and functions as arguments.</p>
+<p>&nbsp;</p>
+
+<p>Before using a variable, need to <A href="IDP_VARIABLES.html">declare</a> 
+  it (except <A href="IDP_SPECVAR.html">predefined variables</a>). Variable declaration 
+  includes type and name. The mostly used variable types are <span class="type">int</span> (for numeric integer values), 
+  <span class="type">str</span> (for strings) and <span class="type">double</span> (for numeric floating-point values). Name can consist 
+  of characters A-Z, a-z, 0-9 and _, and cannot begin with a digit. In the following 
+  example, we declare variable i of type <span class="type">int</span>, variable S3 of type <span class="type">str</span>, and variable 
+  _a of type <span class="type">double</span>. Then we assign some values:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span> i<span class=p>;</span> <span class=t>str</span> S3<span class=p>;</span> <span class=t>double</span> _a
+i<span class=o>=</span><span class=n>5</span>
+S3<span class=o>=</span><span class=s>&#34;text&#34;</span>
+_a<span class=o>=</span><span class=n>15.477</span></pre>
+<p>&nbsp;</p>
+
+<p>QM has 7 intrinsic variable types: <span class="type">byte</span>, <span class="type">word</span>, <span class="type">int</span>, <span class="type">long</span>, <span class="type">double</span>, <a href="../str/IDH_STRINGS.html" class="type">lpstr, str</a>. QM also has 7 <a href="../_COM/IDP_OLETYPES.html">OLE-Automation variable types</a> 
+  (including arrays) and defines several other types. More types can be defined 
+  with <a href="IDP_TYPE.html" class="blue">type</a>, <a href="IDP_CLASSES.html" class="blue">class</a> and <a href="../_COM/IDP_INTERFACE.html" class="blue">interface</a> 
+  statements, or in <a href="../_COM/IDP_TYPELIB.html">type libraries</a>. The table shows properties of intrinsic variable 
+  types, and how they are related to C++ and C# variable types:</p>
+
+<p>&nbsp;</p>
+
+<table class="tnormal">
+
+<tr>
+<td><b>
+Type</b></td>
+<td><b>
+byte</b></td>
+<td><b>
+word</b></td>
+<td><b>
+int</b></td>
+<td><b>
+long</b></td>
+<td><b>
+double</b></td>
+<td><b>
+lpstr</b></td>
+<td><b>
+str</b></td></tr>
+
+<tr>
+<td>
+<i>Numeric</i></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>String</i></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Yes</td>
+<td>Yes</td></tr>
+
+<tr>
+<td>
+<i>Integer</i></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>Signed</i></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>Size (bytes)</i></td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>8</td>
+<td>4</td>
+    <td>16 + string</td>
+  </tr>
+
+<tr>
+<td>
+<i><a href="../Other/IDP_TYPESPEC.html">Character</a></i></td>
+<td><tt>!</tt></td>
+<td><tt>@</tt></td>
+<td><tt>#</tt></td>
+<td><tt>%</tt></td>
+<td><tt>^</tt></td>
+<td><tt>$</tt></td>
+<td><tt>~</tt></td></tr>
+
+<tr>
+<td>
+<i>Min</i></td>
+<td>0</td>
+<td>0</td>
+    <td>-2147483648</td>
+<td>-2^63</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+<td>
+<i>Max</i></td>
+<td>255</td>
+<td>65535</td>
+    <td>2147483647</td>
+<td>2^63 - 1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td></tr>
+
+<tr>
+  <td>
+  <i>C++</i></td>
+  <td>BYTE,<br> char</td>
+  <td>WORD,<br> short</td>
+  <td>int, long,<br>
+    DWORD, UINT,<br> 
+    HWND, etc</td>
+  <td>__int64</td>
+  <td>double</td>
+  <td>LPSTR,<br> char*</td>
+  <td>similar to<br> CString</td>
+</tr>
+<tr>
+  <td>C#</td>
+  <td>byte</td>
+  <td>ushort</td>
+  <td>int</td>
+  <td>long</td>
+  <td>double</td>
+  <td>&nbsp;</td>
+  <td>similar to string</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p> The picture shows how variables of different types are stored in memory. Green 
+  squares represent bytes occupied by a variable of the specified type.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/variables.gif"></p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <A href="IDP_VARIABLES.html">declaration</a> <A href="IDP_SCOPE.html">storage and scope</a> <A href="IDP_SCOPE2.html">more types of storage</a> <A href="IDP_SPECVAR.html">predefined variables</a> <A href="IDP_TYPE.html">user-defined types</a> <A href="../str/IDH_STRINGS.html">strings</a> <A href="../_COM/IDP_OLETYPES.html">OLE types and other predefined types</a> <A href="../_COM/IDP_OLE_ARRAY.html">safe arrays</a> <A href="../Tables/IDP_VARTABLE.html">conversions, etc.</a></p>
+
+<p>&nbsp;</p>
+
+<p> <i>Usage: </i> <A href="../Other/IDP_EXPRESSION.html">expressions</a> <A href="IDH_OPERATORS.html">operators</a> <A href="IDH_FUNCTIONS.html">functions</a> <A href="../str/IDH_STRINGS.html">strings</a> <A href="IDH_POINTERS.html">pointers</a></p>
+
+</body>
+
+</html>
