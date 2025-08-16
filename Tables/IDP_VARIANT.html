@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>VARIANT members table</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>VARIANT members table</h1>
+
+<table class="tnormal">
+  <tr> 
+    <th>C type</th>
+    <th>QM type</th>
+    <th>Name</th>
+    <th>vt</th>
+    <th>vt constant</th>
+    <th>Comments</th>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>VT_EMPTY</td>
+<td>[V] [P] nothing</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>VT_NULL</td>
+<td>[V] [P] SQL style Null</td>
+  </tr>
+  <tr> 
+<td>short</td>
+<td>word</td>
+<td>(p)iVal</td>
+<td>2</td>
+<td>VT_I2</td>
+<td>[V][T][P][S] 2 byte signed integer</td>
+  </tr>
+  <tr> 
+<td>int, long</td>
+<td>int</td>
+<td>(p)lVal</td>
+<td>3</td>
+<td>VT_I4</td>
+<td>[V][T][P][S] 4 byte signed integer</td>
+  </tr>
+  <tr> 
+<td>float</td>
+<td>FLOAT</td>
+<td>(p)fltVal</td>
+<td>4</td>
+<td>VT_R4</td>
+<td>[V][T][P][S] 4 byte real</td>
+  </tr>
+  <tr> 
+<td>double</td>
+<td>double</td>
+<td>(p)dblVal </td>
+<td>5</td>
+<td>VT_R8</td>
+<td>[V][T][P][S] 8 byte real</td>
+  </tr>
+  <tr> 
+<td>CY</td>
+<td>CURRENCY</td>
+<td>(p)cyVal</td>
+<td>6</td>
+<td>VT_CY</td>
+<td>[V][T][P][S] currency</td>
+  </tr>
+  <tr> 
+<td>DATE</td>
+<td>DATE</td>
+<td>(p)date</td>
+<td>7</td>
+<td>VT_DATE</td>
+<td>[V][T][P][S] date/time</td>
+  </tr>
+  <tr> 
+<td>BSTR</td>
+<td>BSTR</td>
+<td>(p)bstrVal</td>
+<td>8</td>
+<td>VT_BSTR</td>
+<td>[V][T][P][S] OLE Automation string</td>
+  </tr>
+  <tr> 
+<td>IDispatch*</td>
+<td>IDispatch</td>
+<td>(p)pdispVal</td>
+<td>9</td>
+<td>VT_DISPATCH</td>
+<td>[V][T][P][S] interface that supports IDispatch</td>
+  </tr>
+  <tr> 
+<td>SCODE</td>
+<td>int</td>
+<td>(p)scode</td>
+<td>10</td>
+<td>VT_ERROR</td>
+<td>[V][T][P][S] error code</td>
+  </tr>
+  <tr> 
+<td>VARIANT_BOOL</td>
+<td>word</td>
+<td>(p)boolVal</td>
+<td>11</td>
+<td>VT_BOOL</td>
+<td>[V][T][P][S] boolean. True=-1 (0xffff in word), False=0.</td>
+  </tr>
+  <tr> 
+<td>VARIANT*</td>
+<td>VARIANT*</td>
+<td>pvarVal</td>
+<td>12</td>
+<td>VT_VARIANT</td>
+<td>[V][T][P][S] In VARIANT it is pointer to other VARIANT, with VT_BYREF flag. In array not pointer.</td>
+  </tr>
+  <tr> 
+<td>IUnknown*</td>
+<td>IUnknown</td>
+<td>(p)punkVal</td>
+<td>13</td>
+<td>VT_UNKNOWN</td>
+<td>[V][T] [S] interface that does not support IDispatch</td>
+  </tr>
+  <tr> 
+<td>DECIMAL </td>
+<td>DECIMAL</td>
+<td>(p)decVal</td>
+<td>14</td>
+<td>VT_DECIMAL</td>
+<td>[V][T] [S] uses whole VARIANT</td>
+  </tr>
+  <tr> 
+<td>char</td>
+<td>byte</td>
+<td>(p)cVal</td>
+<td>16</td>
+<td>VT_I1</td>
+<td>[V][T][P][S] 1 byte signed integer</td>
+  </tr>
+  <tr> 
+<td>BYTE (unsigned char)</td>
+<td>byte</td>
+<td>(p)bVal</td>
+<td>17</td>
+<td>VT_UI1</td>
+<td>[V][T][P][S] 1 byte unsigned integer</td>
+  </tr>
+  <tr> 
+<td>WORD (unsigned short)</td>
+<td>word</td>
+<td>(p)uiVal</td>
+<td>18</td>
+<td>VT_UI2</td>
+<td>[V][T][P][S] 2 byte unsigned integer</td>
+  </tr>
+  <tr> 
+<td>DWORD (unsigned long)</td>
+<td>int</td>
+<td>(p)ulVal</td>
+<td>19</td>
+<td>VT_UI4</td>
+<td>[V][T][P][S] 4 byte unsigned integer</td>
+  </tr>
+  <tr> 
+<td>__int64</td>
+<td>long</td>
+<td>(p)llVal</td>
+<td>20</td>
+<td>VT_I8</td>
+<td>[V][T][P][S] 8 byte signed integer</td>
+  </tr>
+  <tr> 
+<td>unsigned __int64</td>
+<td>long</td>
+<td>(p)ullVal</td>
+<td>21</td>
+<td>VT_UI8</td>
+<td>[V][T][P][S] 8 byte unsigned integer</td>
+  </tr>
+  <tr> 
+<td>int</td>
+<td>int</td>
+<td>(p)intVal</td>
+<td>22</td>
+<td>VT_INT</td>
+<td>[V][T][P][S] use VT_I4 instead</td>
+  </tr>
+  <tr> 
+<td>UINT (unsigned int)</td>
+<td>int</td>
+<td>(p)uintVal</td>
+<td>23</td>
+<td>VT_UINT</td>
+<td>[V][T] [S] use VT_UI4 instead</td>
+  </tr>
+  <tr> 
+  <td>void*</td>
+  <td>byte*</td>
+  <td>byref</td>
+  <td>24</td>
+  <td>VT_VOID</td>
+  <td>[T] C style void</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>25</td>
+<td>VT_HRESULT</td>
+<td>[T] Standard return type</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>26</td>
+<td>VT_PTR</td>
+<td>[T] pointer type</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>27</td>
+<td>VT_SAFEARRAY</td>
+<td>[T] safe array</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>28</td>
+<td>VT_CARRAY</td>
+<td>[T] C style array</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>29</td>
+<td>VT_USERDEFINED</td>
+<td>[T] user-defined type</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>30</td>
+<td>VT_LPSTR</td>
+<td>[T][P] null terminated string</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>31</td>
+<td>VT_LPWSTR</td>
+<td>[T][P] wide null terminated string</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>pvRecord</td>
+    <td>36</td>
+    <td>VT_RECORD</td>
+    <td>[V] [P][S] user-defined type. In QM used only in arrays.</td>
+  </tr>
+  <tr> 
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>64</td>
+  <td>VT_FILETIME</td>
+  <td>[P] FILETIME</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>65</td>
+<td>VT_BLOB</td>
+<td>[P] Length prefixed bytes</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>66</td>
+<td>VT_STREAM</td>
+<td>[P] Name of the stream follows</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>67</td>
+<td>VT_STORAGE</td>
+<td>[P] Name of the storage follows</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>68</td>
+<td>VT_STREAMED_OBJECT</td>
+<td>[P] Stream contains an object</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>69</td>
+<td>VT_STORED_OBJECT</td>
+<td>[P] Storage contains an object</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>70</td>
+<td>VT_BLOB_OBJECT</td>
+<td>[P] Blob contains an object</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>71</td>
+<td>VT_CF</td>
+<td>[P] Clipboard format</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>72</td>
+<td>VT_CLSID</td>
+<td>[P] Class ID</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0x1000</td>
+<td>VT_VECTOR</td>
+<td>[P] simple counted array (flag)</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>(p)parray</td>
+<td>0x2000</td>
+<td>VT_ARRAY</td>
+<td>[V] SAFEARRAY* (flag)</td>
+  </tr>
+  <tr> 
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0x4000</td>
+<td>VT_BYREF</td>
+<td>[V] pointer (flag)</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>If SAFEARRAY* (ARRAY in QM) is stored in VARIANT, vt is element type with VT_ARRAY flag.</p>
+<p>(p) - exists member with p prefix. It is pointer, and vt is with VT_BYREF flag.</p>
+<p>[V] - may appear in a VARIANT.</p>
+<p>[S] - may appear in a SAFEARRAY.</p>
+<p>[P] - may appear in an OLE property set.</p>
+<p>[T] - may appear in a TYPEDESC (type library).</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
