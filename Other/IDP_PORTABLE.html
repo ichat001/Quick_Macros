@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Portable QM</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Portable QM</h1>
+<p>You can install portable QM in a USB drive and run it on other computers without installing there. Portable QM will not require administrator rights, and will not leave its files or settings there. Supports <a href="http://portableapps.com/" target="_blank">PortableApps.com</a>, but it is not required. You can read more about <a href="https://en.wikipedia.org/wiki/Portable_application" target="_blank">portable apps in Wikipedia</a>.</p>
+<h2>Installing</h2>
+<p>At first QM must be installed normally on your computer. To install or upgrade portable QM in a removable drive, in QM window select menu Tools -&gt; Portable QM. It shows 'Portable QM Setup' dialog. Options:</p>
+<p>&nbsp;</p>
+<p><i>Install in this folder in USB drive</i> - portable QM root folder. QM will create the folder and copy files and settings there. If using PortableApps.com, it should be X:\PortableApps\QuickMacrosPortable, where X is USB drive letter.</p>
+<p>&nbsp;</p>
+<p><i>Replace portable file</i> - replace portable qml file (macros) with currently loaded non-portable file.</p>
+<p>&nbsp;</p>
+<p><i>Replace portable settings</i> - replace portable QM settings with current non-portable QM settings. It exports QM registry key and saves in file Data\settings.xml.</p>
+<p>&nbsp;</p>
+<p><i>Replace everything</i> - delete the specified folder before reinstalling portable QM there. If unchecked, replaces only QM program files, other QM data, optionally macros and settings, and does not touch other files in portable QM folders.</p>
+<p>&nbsp;</p>
+<p>When installing portable QM, the non-portable QM should be registered on the computer. Then portable QM will use the same registration info. If unregistered, portable QM will run with most features disabled, like the evaluation period is expired.</p>
+<p>&nbsp;</p>
+<p>Your portable $my qm$ folder will be in the USB drive. Your portable <a href="../QM_Help/IDH_QML.html">QM file</a> will be $my qm$\Portable.qml by default.</p>
+<p>&nbsp;</p>
+<p>Portable QM will create backup files in its drive, which may be undesirable. You can change it in Options -&gt; Files, either before installing or when running portable QM.</p>
+<p>&nbsp;</p>
+<p>Normally portable QM uses 12-15 MB in the USB drive.</p>
+<h2>Using</h2>
+<p>To launch portable QM:</p>
+<ul>
+  <li>If using PortableApps.com, you can run QM from its menu, or set to start automatically.</li>
+  <li>Or run QuickMacrosPortable.exe. It is in the folder specified when installing portable QM.</li>
+  <li>Don't run qm.exe directly.</li>
+</ul>
+<p>&nbsp;</p>
+<p>In macros:</p>
+<ul>
+  <li>Avoid making changes in registry keys other than the <a href="../Functions/IDP_RGET.html">default key</a>. When portable QM exits, it saves the default key in the USB drive (settings.xml) and deletes the key. Some functions that make changes in registry: <span class="blue">rset</span>, <span class="UDF">FileTypeRegister</span>, <span class="dll">RegisterComComponent</span>.</li>
+  <li>Avoid creating and leaving files on host computer. Create temporary files in <a href="IDP_SEARCHPATHS.html">special folder</a> $temp qm$. It is on host computer, but portable QM deletes it when exits. Create other files in the USB drive, for example in <a href="IDP_SEARCHPATHS.html">special folder</a> $my qm$ or $drive$\Documents.</li>
+  <li>You can use <a href="../Language/IDP_SPECVAR.html">predefined variable</a> _portable. It is 1 in portable QM, 0 in non-portable.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Before ejecting USB drive, you should close all portable apps. QM exits automatically if its drive ejected. If portable QM does not exit properly (eg crashes), it leaves its settings and temporary files on host computer. You can run/exit it again to clean everything.</p>
+<p>&nbsp;</p>
+<p>Portable QM also can run on computers where non-portable QM is installed (but not running). It uses the same registry key, and backups/restores it.</p>
+<h2>Unavailable and limited features</h2>
+<p>Portable QM cannot use features that require administrator rights to be installed or used:</p>
+<ol>
+  <li><a href="IDP_VISTA.html">UAC</a> integrity levels (IL) and other UAC-related features:
+    <ul>
+  <li>You cannot specify IL in Options (UAC: run as). By default QM runs as User. To run as Administrator, right click QuickMacrosPortable.exe or QM icon in PortableApps.com menu. Cannot run as uiAccess.</li>
+  <li>QM cannot correctly run programs with different IL than QM. When need higher IL, shows UAC consent. When need lower IL, runs as QM instead. It applies to functions <span class="blue">run</span>, <span class="blue">web</span>, <span class="dll">StartProcess</span>, and to macros  that are set to run in separate process with different IL.</li>
+  <li>QM running as User cannot automate admin windows, change admin settings, etc. Read in <a href="IDP_VISTA.html">Vista</a> topic.</li>
+  </ul>
+  </li>
+  <li>Process triggers.</li>
+  <li>Shell menu triggers.</li>
+  <li>Unlock computer.</li>
+</ol>
+<p>In portable QM you should not make changes in registry and file system, unless it is restored later. These features are disabled:</p>
+<ol>
+  <li>Run at Windows startup. Instead, in PortableApps.com you can set QM to run at its startup.</li>
+  <li>Create scheduled tasks and shortcuts.</li>
+  <li>And some other.</li>
+</ol>
+<p>Some other features are not installed:</p>
+<ol>
+  <li> QM shortcuts in Start menu.</li>
+  <li>Registration of QM program paths and .qml file type.</li>
+</ol>
+<h2>Synchronizing files</h2>
+<p>Sometimes you may want to synchronize your <a href="../QM_Help/IDH_QML.html">QM file</a>, $my qm$ folder or other files between your PC and portable drive. Currently Quick Macros does not have this feature. You can either manually copy file(s) to/from USB drive, or use a file synchronization software. Several such programs are in PortableApps.com collection. When copying .qml files, also copy .qml-wal files with the same name, if they exist in the same folder.</p>
+<h2>Uninstalling</h2>
+<p>To uninstall portable QM, delete the folder where it is installed. Together will be deleted portable $my qm$ folder and portable QM file in it, unless their location is changed.</p>
+<p>&nbsp;</p>
+</body>
+</html>
