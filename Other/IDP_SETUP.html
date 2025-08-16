@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Setup command line parameters</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> Setup command line parameters</h1>
+<p>The Setup program accepts optional command line parameters. These can be useful 
+  to system administrators, and to other programs calling the Setup program.</p>
+<p>&nbsp;</p>
+<p>/SP-</p>
+<p> Disables the This will install... Do you wish to continue? prompt at the beginning 
+  of Setup.</p>
+<p>&nbsp;</p>
+<p>/SILENT, /VERYSILENT</p>
+<p> Instructs Setup to be silent or very silent. When Setup is silent the wizard 
+  and the background window are not displayed but the installation progress window 
+  is. When a setup is very silent this installation progress window is not displayed. 
+  Everything else is normal so for example error messages during installation 
+  are displayed and the startup prompt is (if you haven't disabled it with the 
+  '/SP-' command line option explained above).</p>
+<p>If a restart is necessary and the '/NORESTART' command isn't used (see below) 
+  and Setup is silent, it will display a Reboot now? message box. If it's very 
+  silent it will reboot without asking.</p>
+<p>&nbsp;</p>
+<p>/LOG</p>
+<p> Causes Setup to create a log file in the user's TEMP directory detailing file 
+  installation actions taken during the installation process. This can be a helpful 
+  debugging aid. For example, if you suspect a file isn't being replaced when 
+  you believe it should be (or vice versa), the log file will tell you if the 
+  file was really skipped, and why.</p>
+<p>&nbsp;</p>
+<p>/NOCANCEL</p>
+<p> Prevents the user from cancelling during the installation process, by disabling 
+  the Cancel button and ignoring clicks on the close button. Useful along with 
+  '/SILENT' or '/VERYSILENT'.</p>
+<p>&nbsp;</p>
+<p>/NORESTART</p>
+<p> Instructs Setup not to reboot even if it's necessary. Rebooting may be necessary 
+  only when reinstalling.</p>
+<p>&nbsp;</p>
+<p>/RESTARTEXITCODE=exit code</p>
+<p> Specifies the custom exit code that Setup is to return when a restart is needed. 
+  Useful along with '/NORESTART'.</p>
+<p>&nbsp;</p>
+<p>/LOADINF=&quot;filename&quot;</p>
+<p>  Instructs Setup to load the settings from the specified file after having checked 
+  the command line. This file can be prepared using the '/SAVEINF=' command as 
+  explained below. Don't forget to use quotes if the filename contains spaces.</p>
+<p>&nbsp;</p>
+<p>/SAVEINF=&quot;filename&quot;</p>
+<p>  Instructs Setup to save installation settings to the specified file. Don't forget 
+  to use quotes if the filename contains spaces.</p>
+<p>&nbsp;</p>
+<p>/DIR=&quot;x:\dirname&quot;</p>
+<p>  Overrides the default directory name displayed on the Select Destination Location 
+  wizard page. A fully qualified pathname must be specified.</p>
+<p>&nbsp;</p>
+<p>/GROUP=&quot;folder name&quot;</p>
+<p>  Overrides the default folder name displayed on the Select Start Menu Folder 
+  wizard page.</p>
+<p>&nbsp;</p>
+<p>/NOICONS</p>
+<p> Instructs Setup to initially check the Don't create any icons check box on the 
+  Select Start Menu Folder wizard page.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
