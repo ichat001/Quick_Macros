@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Numbers and strings</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Numbers and strings</h1>
+<p>This topic is about literal constant numbers and strings that can be used in 
+  Quick Macros.</p>
+
+<h2>Numbers</h2>
+
+<p> Integer numbers can be in 3 formats:</p>
+<p>&nbsp;</p>
+
+<p>1. Decimal. Examples: <span class=cod><span class=n>47</span></span>, <span class=cod><span class=o>-</span><span class=n>2000000000</span></span>.</p>
+
+<p>2. Hexadecimal. Examples: <span class=cod><span class=n>0x2F</span></span>, <span class=cod><span class=n>0x88ca6c00</span></span>. 
+  Octal is not supported.</p>
+
+<p>3. Character. Examples: <span class=cod><span class=n>'a'</span></span>, <span class=cod><span class=n>'.'</span></span>,  <span class=cod><span class=n>' '</span></span>. The value is its <a href="../Tables/IDP_ASCII.html">character 
+  code</a>, which can be 1 to 255 in ANSI mode and 1 to 127 in <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+  mode.</p>
+
+<p>&nbsp;</p>
+
+<p>Numbers 0 to 2147483647 are of <a href="IDH_VARIABLES.html">type</a> int. Numbers 
+  2147483648 to 4294967295 are unsigned int. Bigger numbers are of type long. 
+  To change type can be used suffix letter I (int), U (unsigned int) or L (long). 
+  Example: <span class=cod><span class=n>10L</span></span>.</p>
+
+<p>&nbsp;</p>
+
+<p> Non-integer numbers are those that contain either decimal point (<b>.</b>) 
+  or exponent (<tt>E</tt> followed by a 1-3 digit number), 
+  or both. Examples: <span class=cod><span class=n>5.12</span></span>, <span class=cod><span class=n>0.975E-5</span></span>,  <span class=cod><span class=o>-</span><span class=n>2e10</span></span>. Must begin with a digit. The exponent specifies 
+  the magnitude of the number as a power of 10. For example, <span class=cod><span class=n>1.5E2</span></span> is 150, and 
+  <span class=cod><span class=n>1.5E-1</span></span> is 0.15. The type is double. Also called &quot;floating-point&quot;.</p>
+<h2>Strings</h2>
+
+<p> Strings are enclosed in double quotes (quotation marks). Example: &quot;notepad.exe&quot;. Type 
+  - lpstr.</p>
+<p>&nbsp;</p>
+<p> Such strings cannot contain literal newlines and double quotes. Instead use 
+  escape sequences:</p>
+
+<table class="tnormal">
+  <tr> 
+    <th> Escape sequence</th>
+    <th> Is replaced with</th>
+  </tr>
+  <tr> 
+    <td><tt>[]</tt></td>
+    <td> Line break (carriage return+linefeed)</td>
+  </tr>
+  <tr> 
+    <td><tt>''</tt> (two single quotes)</td>
+    <td> &quot; (double quote)</td>
+  </tr>
+  <tr> 
+    <td><tt>[digits]</tt></td>
+    <td>Character whose <A href="../Tables/IDP_ASCII.html"> character 
+      code</a> is the number in [ ]. The number can be 1 to 255 in ANSI mode and 
+      1 to 127 in <a href="../Other/IDP_UNICODE.html">Unicode</a> mode. For example, 
+      [9] is replaced with tab.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span> <span class=s>&#34;''name''[][65]&#34;</span>
+<span class=c> Output:
+ &#34;name&#34;
+ A</span></pre>
+<p>&nbsp;</p>
+<p>If you need literal <tt>[]</tt>, to avoid replacing it 
+  to new line use <tt>[91]]</tt>. For <tt>''</tt> 
+  use <tt>[39]'</tt>. For <tt>[digits]</tt> 
+  use <tt>[91]digits]</tt>.</p>
+<p>&nbsp;</p>
+<p> You can use the Text dialog to get properly escaped string. In the dialog 
+  you enter simple (nonescaped) text, and, when you click OK, it inserts escaped 
+  and enclosed string.</p>
+<p>&nbsp;</p>
+<p>Escape sequences that are in a macro are replaced before the macro runs. Escape 
+  sequences are not replaced in text that your macro gets at run time (for example, 
+  from a file, clipboard, etc). If you need QM escape sequences at run time, use 
+  <a href="../str/IDP_S_ESCAPE.html">str.escape</a>.</p>
+<p>&nbsp;</p>
+<p>Some functions have own escape sequences. They are replaced at run time. For 
+  example, <a href="../str/IDP_S_FORMAT.html">str.format</a> and other functions 
+  that support formatting, <a href="../str/IDP_S_TIMEFORMAT.html">str.timeformat</a>, 
+  regular expression functions.</p>
+<h2>Multiline strings</h2>
+<p>Multiline strings can be created using <tt>[]</tt>. Example:  <span class=cod><span class=s>&quot;line1[]line2[]line3&quot;</span></span>. Alternatively, 
+  you can place all text in other macro, and populate a str variable with text 
+  of that macro. Example: <span class=cod><span class=t>str</span> s.getmacro<span class=p>(</span><span class=s>&quot;big string&quot;</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>A multiline string also can be created as a block of comments 
+  that is assigned to a lpstr or str variable. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> s<span class=o>=</span>
+<span class=s> multiline</span>
+<span class=s> string</span>
+<span class=s> </span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<p>In such multiline strings, escape sequences are not replaced. For example, 
+  [] is not new line.</p>
+<p>&nbsp;</p>
+<p>Make sure that there are no empty lines. An empty line terminates the multiline 
+  string, even if it is followed by more comments. To add new line characters 
+  to the end, add line containing just one space or semicolon.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. In the comments block, some or all lines can begin with tabs (before 
+  space). The tabs are removed. In previous versions, tabs are not allowed.</p>
+<p>&nbsp;</p>
+<p> The variable must be in simplest form. For example, it can be <span class=cod>s</span> 
+  but cannot be <span class=cod>t.s</span> or <span class=cod>a[i]</span>. 
+  It must not be a member variable.</p>
+<h2>Unicode UTF-16 strings</h2>
+
+<p>Use operator L to create <a href="../Other/IDP_UNICODE.html">Unicode</a> UTF-16 
+  constant strings. Example: <span class=cod>L<span class=s>&#34;String&#34;</span></span>. 
+  However all characters must be in range 1-255 (in ANSI mode) or 1-127 (in Unicode 
+  mode).</p>
+<p>&nbsp;</p>
+<p> QM 2.3.0. You can instead use <a href="IDP_OPUNARY.html">operator @</a>. It 
+  converts to UTF-16 at run time. Example: <span class=cod><span class=o>@</span><span class=s>&#34;String&#34;</span></span>. 
+  It also can be used with variables.</p>
+
+<h2>Variables in strings</h2>
+<p>Add operator F before, and enclose variables in { }. Such string is not constant.</p>
+<p>&nbsp;</p>
+<pre class=cod>strVariable<span class=o>=F</span><span class=s>&quot;text{</span>variable1<span class=s>}text{</span>variable2<span class=s>}&quot;</span></pre>
+<p>&nbsp;</p>
+<pre class=cod>strVariable<span class=o>=</span>
+<span class=o>F</span>
+<span class=s> text{</span>variable1<span class=s>}text</span>
+<span class=s> text{</span>variable2<span class=s>}text</span></pre>
+<p>&nbsp;</p>
+<p><a href="IDP_FSTRING.html">More info</a></p>
+<p>&nbsp;</p>
+<p>Or use string functions, for example <a href="../str/IDP_S_FORMAT.html">format</a> or <a href="../str/IDP_S_FROM.html">from</a>.</p>
+<h2>Named constants</h2>
+<p> You can use <a href="IDP_DEF.html" class="blue">def</a> to define named constants.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
