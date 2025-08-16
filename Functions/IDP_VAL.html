@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>val</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Convert string to number</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int|long|double </i><b>val</b>(s <i>[</i>type<i>]</i> <i>[</i>length<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - string that contains a number at the beginning.</p>
+
+<p> <b>type</b> - return type: 0 - int, 1 - long, 2 - double. Default: 0. Constant.</p>
+
+<p> <b>length</b> - int variable that receives the number of characters from the 
+beginning of <b>s</b> to the end of the part of <b>s</b> that contains the number. 
+Receives 0 if <b>s</b> does not begin with a number or the number is too big.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns numeric value of string <b>s</b>. Returns 0 if the string does not 
+  begin with a number or the number is too big.</p>
+<p>&nbsp;</p>
+<p> The string can contain integer  or double (floating-point) <a href="../Language/IDP_CONSTANT.html">number</a>. Integer number can be  decimal (like 10) or hexadecimal (like 0x1C). Double number can be in form</p>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>[</i>sign<i>][</i>digits<i>][</i>.digits<i>][(</i>d<i>|</i>D<i>|</i>e<i>|</i>E<i>)[</i>sign<i>]</i>digits<i>]</i></pre>
+
+<p>&nbsp;</p>
+<p>Whole string can begin with spaces or tabs and sign <tt>-</tt> or <tt>+</tt>.</p>
+
+<p>&nbsp;</p>
+
+<p>Regardless of <b>type</b>, the function always parses whole number in all supported 
+  formats. For example, val(&quot;1.5E3&quot;) returns 1500. It uses <b>type</b> 
+  only to know function's return type and check bounds.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. If number is 0x80000000-0xFFFFFFFF when <b>type</b> is 0, or 0x8000000000000000-0xFFFFFFFFFFFFFFFF 
+  when <b>type</b> is 1, the function returns a negative value. In older QM versions 
+  would return 0 (number too big).</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>To convert number to string, use operator = with a str variable. Example: <span class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=t>str</span> s<span class=p>;</span> s<span class=o>=</span>i <span class=c2>;;now s is &quot;5&quot;</span></span>.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s1 s2<span class=p>;</span> <span class=t>int</span> i length<span class=p>;</span> <span class=t>double</span> d
+s1<span class=o>=</span><span class=s>&#34;-100&#34;</span>
+i<span class=o>=</span><span class=fq>val</span><span class=p>(</span>s1<span class=p>);</span> <span class=fq>out</span> i
+s2<span class=o>=</span><span class=s>&#34;4.757E2&#34;</span>
+d<span class=o>=</span><span class=fq>val</span><span class=p>(</span>s2 <span class=n>2</span> length<span class=p>);</span> <span class=fq>out</span> d<span class=p>;</span> <span class=fq>out</span> length
+<span class=c> Output:
+ -100
+ 475.7
+ 7
+</span></pre>
+
+</body>
+
+</html>
