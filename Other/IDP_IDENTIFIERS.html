@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>QM identifier names (naming conventions)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>QM identifier names (naming conventions)</h1>
+<p>Names of identifiers (QM keywords, variables, functions, types, etc) are case 
+  sensitive and can contain only alphanumeric characters (a to z, A to Z, 0 to 
+  9) and underscore ( _ ). First character cannot be digit.</p>
+
+<p>&nbsp;</p>
+
+<p> Identifier name must be unique in its scope:</p>
+
+<p>&nbsp;</p>
+
+<p>Name of a local variable must be unique in that function or macro. If a local 
+  variable has same name as user-defined global identifier, is used local variable. 
+  Different functions or macros can have local variables with same name.</p>
+
+<p>&nbsp;</p>
+
+<p>Global identifier names must be unique in that <a href="../QM_Help/IDH_QML.html">QM file</a>. All identifiers, except local and thread variables, are global.</p>
+
+<p>&nbsp;</p>
+
+<p>It is not error to declare a global identifier more than once, if declarations 
+  are identical.</p>
+<p>&nbsp;</p>
+When QM searches for an identifier, it does it in the following sequence: at first 
+searches for QM-defined identifiers (QM intrinsic functions, predefined types, 
+constants and variables), then for local and thread variables, members (in a member 
+function only), application variables, user-defined global identifiers, and finally 
+in type libraries and reference files. 
+</body>
+
+</html>
