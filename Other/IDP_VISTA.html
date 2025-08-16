@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Windows Vista, 7, 8, 10; Windows 64-bit</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Windows Vista, 7, 8, 10, 11; Windows 64-bit</h1>
+
+<h2>User Account Control</h2>
+<p>Windows Vista and later has a security feature - <i>User Account Control (UAC)</i>. 
+  With UAC, even on administrator accounts most processes (running programs) have 
+  limited privileges. It creates problems for many programs. This topic describes 
+  problems that may have QM because of UAC, and gives workarounds for most 
+  of them. You also may want to read about running <a href="../QM_Help/IDH_MAKEEXE.html">QM-created 
+  programs</a>.</p>
+<p>&nbsp;</p>
+<p>If UAC is on, there are several predefined privilege sets, known as <i>integrity 
+  level</i>s (IL). An IL is assigned to a process (running program) before starting 
+  it, and cannot be changed while it is running. The table gives some information 
+  about different integrity levels.</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>IL</th>
+    <th>Comments</th>
+  </tr>
+  <tr> 
+    <td>High</td>
+    <td><p>The process runs as administrator.</p>
+      <p>&nbsp;</p>
+      <p> When starting a process that needs administrator privileges, usually 
+        is shown a dialog with name &quot;User Account Control&quot; <i>(consent</i> 
+        dialog). The process then is called <i>elevated</i>. The program can be 
+        marked to require such privileges, or you can run it as administrator 
+        using the right-click menu, or you can set it to run as administrator 
+        in file properties dialog, or if Windows decides that it is a setup program. 
+        A process launched by a process that has administrator privileges also 
+        has administrator privileges, but does not require a consent.</p>
+      <p>&nbsp;</p>
+      <p>By default, QM runs with High IL (as administrator), although you can 
+        change it in Options. To create better user experience, a consent dialog 
+        is not shown when QM starts. Otherwise QM would be blocked at Windows 
+        startup. Also, processes launched by QM have Medium IL by default.</p></td>
+  </tr>
+  <tr> 
+    <td>Medium</td>
+    <td><p>The process runs as standard user, like on a non-administrator account. 
+        It has limited privileges. For example, It cannot write to Windows and 
+        Program Files folders, cannot write to most registry keys, cannot manipulate 
+        services, and much more. Also, it cannot interact (use keyboard, mouse 
+        and menu commands, send messages, use hooks, etc) with higher IL processes.</p>
+      <p>&nbsp;</p>
+      <p> Most processes have Medium IL. Windows Explorer too. QM runs with Medium IL if in Options is selected UAC: run as User, 
+        which is not recommended.</p></td>
+  </tr>
+  <tr> 
+    <td>uiAccess</td>
+    <td><p>The process has Medium IL, but is allowed to interact (use keyboard, 
+        mouse and menu commands, send messages, use hooks, etc) with High IL and 
+        uiAccess processes.</p>
+      <p>&nbsp;</p>
+      <p>Only few programs have uiAccess privileges. QM runs with uiAccess privileges 
+        if in Options is selected UAC: run as uiAccess, which is recommended if 
+        you don't want QM running as administrator. On non-administrator accounts, 
+        QM runs as uiAccess by default.</p></td>
+  </tr>
+  <tr> 
+    <td>Low</td>
+    <td>The process has minimal privileges. It can write only to several predefined 
+      folders and registry keys. Normally, with Low IL runs only Internet Explorer, 
+      when protected mode is on. QM does not have an option to run as Low, but 
+      macros that are set to run in separate process can run as Low.</td>
+  </tr>
+  <tr>
+    <td>System</td>
+    <td>Highest privileges. Normally only services and some system processes 
+      run with System IL. QM does not have an option to run as System.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Q. What IL uses QM? Can it be changed?</p>
+<p>A. By default QM runs as administrator. It can be changed in Options.</p>
+<p>&nbsp;</p>
+<p>Q. Should QM run as administrator, uiAccess, or standard user? When it has 
+  less problems with UAC?</p>
+<p>A. QM has less problems when it runs as administrator.</p>
+<p>&nbsp;</p>
+<p>Q. Is it safe if QM runs as administrator?</p>
+<p>A. It is quite safe. Programs started by QM (<span class="blue">run</span>) 
+  have medium IL. If you think it is not safe, you can set it to run as uiAccess. 
+  The User mode (Medium IL) is not recommended.</p>
+<p>&nbsp;</p>
+<p>Q. Can some macros run with different IL than QM?</p>
+<p>A. Yes, if they run in separate process. You can set it in Properties.</p>
+<p>&nbsp;</p>
+<p>Q. Is it possible to turn off UAC?</p>
+<p>A. Yes, you can completely turn off UAC in Control Panel -&gt; User Accounts. 
+  Some options can be changed in local security policy (run &quot;secpol.msc&quot;). 
+  For example, you can set to elevate without consent, or to show consent in default 
+  desktop. </p>
+<p>&nbsp;</p>
+<p> Q. Is it possible to run a program as administrator without a consent dialog?</p>
+<p>A. Use flag 0x10000 or 0x20000 with <span class="blue">run</span>. Or use function 
+  <a href="../User/IDP_QMDLL.html#StartProcess" class="dll">StartProcess</a>. Or, in macro 
+  properties, check &quot;Run in separate process&quot; and select &quot;Administrator&quot; 
+  or &quot;Highest available&quot;. It is possible only from QM (except portable). Without QM, it 
+  is possible for example using Windows Task Scheduler.</p>
+<p>&nbsp;</p>
+<p>Q. Is it possible to automatically close the consent dialog for some programs?</p>
+<p>A. There is no such option in Windows. QM also cannot automate it because the 
+  dialog is created in a secure desktop. If the dialog is not in a secure desktop 
+  (you can set it in local security policy), then you can create a function that 
+  closes it.</p>
+<p>&nbsp;</p>
+<p>You can find more information about UAC on the Internet. 
+  If you need QM-specific information, you can ask about it in QM 
+  <A href="http://www.quickmacros.com/forum/index.php" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#GetProcessUacInfo" class="dll">GetProcessUacInfo</a>, 
+  <a href="../User/IDP_QMDLL.html#IsUserAdmin" class="dll">IsUserAdmin</a></p>
+<h2>What does not work because of UAC</h2>
+<p>These problems are common to all integrity levels.</p>
+<ol>
+  <li>May fail file functions that use mapped network drive (like &quot;Z:\file&quot;). Workaround: Use  path like &quot;\\server\share\file&quot;.</li>
+  <li>And maybe more (not yet discovered).</li>
+</ol>
+<p>To solve most other UAC-related problems, you can set QM or separate macros 
+  to run with appropriate IL. The information below should help you decide what 
+IL you should use.</p>
+<h2>What does not work when QM is running as Administrator or uiAccess</h2>
+<p>Some operations are not allowed between different IL processes. Although most 
+  of them are not allowed only when initiated by the lower IL process, some of 
+  them also are not allowed when initiated by the higher IL process.</p>
+<ol>
+  <li> <span class="blue">_getactive</span>, GetObject (VBScript) and some other 
+    COM functions cannot get COM objects from different IL processes. <span class="blue">_getactive</span> 
+    also is used in some other functions. Possible workarounds: 1. In Properties, check &quot;Run 
+    in separate process&quot; and select same privileges as of the target app 
+    (usually User). 2. Start the target app using <span class="blue">_create</span>. 
+    3. Run both QM and the target app as administrator. 4. Turn off UAC.</li>
+  <li>Drag and drop from Medium IL processes (e.g. Windows Explorer) to QM. QM uses 
+    another process to reenable its drag and drop feature. However, WM_DROPFILES 
+    in custom dialogs does not work. Possible workarounds: 1. Use <a href="../User/IDP_QMDLL.html#QmRegisterDropTarget" class="dll">QmRegisterDropTarget</a> 
+    instead. 2. In Properties, check &quot;Run in separate process&quot; and select 
+    User. 3. Turn off UAC.</li>
+  <li>And maybe more.</li>
+</ol>
+<h2>What does not work when QM is running as User or uiAccess</h2>
+<p>Some functions and other QM features require administrator privileges. If QM 
+  (or <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>) is not running as administrator, 
+  these features don't work.</p>
+<ol>
+  <li>Writing to some file system locations, such as Program Files and Windows 
+    folders (<span class="blue">cop</span>, <span class="blue">ren</span>, <span class="blue">del</span>, 
+    <span class="UDF">MkDir</span>, <span class="UDF">SetAttr</span>, str.setfile, 
+    etc).</li>
+  <li>Writing to some registry keys, such as HKEY_LOCAL_SYSTEM and HKEY_CLASSES_ROOT 
+    (<span class="blue">rset</span>).</li>
+  <li>Automatic COM object registration by <a href="../_COM/IDP_COM_FUNC.html">_create</a> 
+    (because cannot write to the registry).</li>
+  <li><a href="../User/IDP_QMDLL.html#RegisterComComponent" class="dll">RegisterComComponent</a>. You can use flag 4 to show 
+    consent dialog.</li>
+  <li><a href="../User/IDP_QMDLL.html#SetPrivilege" class="dll">SetPrivilege</a>.</li>
+  <li>Manipulating services.</li>
+  <li>Changing computer date.</li>
+  <li>Some COM functions, including <span class="blue">_getactive</span> and GetObject 
+    (VBScript), don't work with different IL processes. Read more above.</li>
+  <li>On Windows 8 QM does not see Windows store app windows.</li>
+  <li>And maybe more.</li>
+</ol>
+<p>Everything above also does not work on non-administrator user accounts on all 
+OS.</p>
+<p>&nbsp;</p>
+<p>Possible workarounds: 1. In Properties, check &quot;Run in separate process&quot; 
+  and select Administrator. 2. Run QM as administrator. 3. Turn off UAC.</p>
+<h2>What does not work when QM is running as User</h2>
+<p>The following functions don't work with higher IL windows unless QM (or <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>) 
+  is running as administrator or uiAccess. This is more actual for exe, because 
+  QM can run as administrator or uiAccess.</p>
+<ol>
+  <li>Keyboard and mouse commands (<span class="blue">key</span>, <span class="blue">paste</span>/<span class="blue">outp</span>, 
+    str.getsel, str.setsel, <span class="blue">lef</span>, <span class="blue">mou</span>, 
+    Acc.Mouse, <span class="blue">ifk</span>, <span class="blue">wait</span> K, 
+    <span class="blue">wait</span> M, and other). Mouse commands don't work in 
+  any window if currently active window has higher IL.</li>
+  <li>Windows API functions that send messages (<span class="dll">SendMessage</span>, 
+    <span class="dll">PostMessage</span>, etc). Only few messages can be sent.</li>
+  <li>Many Windows API functions that manipulate windows (<span class="dll">SetWindowPos</span>, 
+    <span class="dll">EnableWindow</span>, etc).</li>
+  <li>Functions that use <span class="dll">SendMessage</span>, <span class="dll">SetWindowPos</span>, 
+    etc . Most of them are menu and control functions (<span class="blue">men</span>, 
+    <span class="blue">but</span>, <span class="UDF">CB_x</span>, <span class="UDF">LB_x</span>, 
+    Acc.DoDefaultAction, etc) and window functions (<span class="blue">hid</span>, 
+    <span class="blue">max</span>, <span class="blue">mov</span>, <span class="blue">siz</span>, <span class="UDF">ArrangeWindows</span>, <span class="UDF">Zorder</span>, 
+    <span class="UDF">Transparent</span>, etc).</li>
+  <li>Most hooks. For example, function <span class="UDF">BlockInput2</span> (available 
+    in the forum) uses low level keyboard and mouse hooks.</li>
+  <li><span class="dll">BlockInput</span> does not work with all windows.</li>
+  <li>Toolbars cannot be attached to higher IL windows.</li>
+  <li>Windows 8 and later: sending system hotkeys (Alt+Tab, Win+R etc) with <span class="blue">key</span>. This does not depend on the currently active window.</li>
+  <li>And maybe more.</li>
+</ol>
+<p>This should not be a big problem, because normally most programs don't run 
+  as administrator. Administrative programs usually are used briefly and don't 
+  need to be automated.</p>
+<p>&nbsp;</p>
+<p>Possible workarounds (QM): 1. In Properties, check &quot;Run in separate process&quot; 
+  and select Administrator. 2. Run QM as administrator or uiAccess. 3. Turn off UAC.</p>
+<p>&nbsp;</p>
+<p>Possible workarounds (exe): 1. Run exe from QM: in Properties check &quot;Run 
+  in separate process&quot; and select As QM (if QM runs as administrator or uiAccess) 
+  or Administrator. If you need to launch it from e.g. desktop, create shortcut 
+  to run the macro (in Properties). Of course, QM must be installed. 2. Set uiAccess=&quot;true&quot; 
+  in the manifest, sign the exe file, and put it in Program Files folder. It works well on any computer (QM is 
+  not needed). Read more about signing in the <a href="../QM_Help/IDH_MAKEEXE.html">make 
+  exe</a> topic. 3. Run exe as administrator. It requires consent, unless exe 
+  is started from another program that is running as administrator. 4. If possible, 
+  don't run target programs as administrator. 5. Turn off UAC.</p>
+<h2>64-bit Windows</h2>
+<p> QM is a 32-bit program, but it runs well on 64-bit Windows.</p>
+<p>&nbsp;</p>
+<p>If QM is running on 64-bit Windows, <a href="../Language/IDP_SPECVAR.html">special variable</a> _win64 is 1, else 0.</p>
+<p>&nbsp;</p>
+<h3>Notes</h3>
+<p>&nbsp;</p>
+<p> On 64-bit Windows, there are separate System and Program Files 
+  folders for 64-bit and 32-bit programs.</p>
+<p>&nbsp;</p>
+<p> Special folder &quot;$program files$&quot; expands to the 32-bit 
+  folder (&quot;Program Files (x86)&quot;). QM  is installed there. Environment variable &quot;%ProgramW6432%&quot; expands to the 64-bit 
+  folder (&quot;Program Files&quot;).</p>
+<p>&nbsp;</p>
+<p> Special folder &quot;$system$&quot;  expands to the 64-bit folder path (&quot;C:\Windows\System32&quot;), but 
+  actually is used the 32-bit folder (&quot;C:\Windows\SysWOW64&quot;). That is, <a href="../Commands/IDP_RUN.html" class="blue">run</a> will launch 32-bit 
+  versions of programs, unless flag 0x4000 used. See also <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=5028" target="_blank">this forum post</a>.</p>
+<p>&nbsp;</p>
+<p> Also, there are some separate registry locations for 32-bit 
+  programs.</p>
+<p>&nbsp;</p>
+<p> <a href="http://www.google.com/search?q=site:microsoft.com Running 32-bit Applications (Windows)" target="_blank">More info</a>.</p>
+</body>
+
+</html>
