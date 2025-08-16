@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>tok</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Tokenize (split) string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>tok</b>(string arr <i>[</i>n<i>] [</i>delim<i>] [</i>flags<i>] [</i>arr2<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>string</b> - string to tokenize. Usually str variable.</p>
+
+<p> <b>arr</b> - receives tokens. Variable of type ARRAY(str) or ARRAY(lpstr). 
+Also can be <A href="IDP_TOK2.html">pointer-based array</a> of str or lpstr. 
+Can be 0 if don't need.</p>
+
+<p> <b>n </b>- max number of tokens required. If omitted or -1, 
+gets all.</p>
+
+<p> <b>delim</b> - <a href="../Other/IDP_TABLEOFDELIM.html">delimiters</a>.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td><p>Modify <b>string</b>: substitute first delimiter character after 
+    each token to 0.</p>
+    <ul>
+      <li> It is useful when <b>arr</b> is array of lpstr.</li>
+      <li><b>string</b> must be of type str, not lpstr.</li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td><p>If there are more than <b>n</b> tokens, get whole right part 
+    as last (<b>n</b>-1 th) token.</p>
+    <ul>
+      <li> For example, if <b>string</b> is &quot;a 
+        b c&quot; and <b>n</b> is 2, you will get &quot;a&quot; and &quot;b c&quot; instead of  &quot;a&quot; and &quot;b&quot;.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td><p>Don't split parts enclosed in &quot; &quot; (double quotation marks).</p>
+    <ul>
+      <li>For example, <span class=cod><span class=fq>tok</span> <span class=s>&quot;a, ''b, c''&quot;</span> a <span class=o>-</span><span class=n>1</span> <span class=s>&quot;, ''&quot;</span> <span class=n>4</span></span> gets &quot;a&quot; and &quot;b, c&quot;, not &quot;a&quot;, &quot;b&quot;, &quot;c&quot;.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Don't split parts enclosed in ( ).</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Don't split parts enclosed in [ ].</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>Don't split parts enclosed in { }.</td>
+</tr>
+<tr> 
+  <td>64</td>
+  <td>Don't split parts enclosed in &lt; &gt;.</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>Don't split parts enclosed in ' '.</td>
+</tr>
+<tr> 
+  <td>0x100</td>
+  <td> <b>delim</b> is table of delimiters.</td>
+</tr>
+<tr> 
+  <td>0x200</td>
+  <td><p>QM 2.3.1. Recursive parsing of parts enclosed in ()[]{}&lt;&gt;.</p>
+    <ul>
+      <li>For example, 
+        when parsing string &quot;&lt;a (b &gt; c) d&gt;&quot; with flags 8|64, 
+        you would get 3 tokens: &quot;a (b &quot;, &quot;c&quot; and &quot;d&quot;. 
+        With flags 8|64|0x200 will be 1 token: &quot;a (b &gt; c) d&quot;.</li>
+    </ul></td>
+</tr>
+<tr>
+  <td>0x400</td>
+  <td><p>QM 2.3.1. Don't apply this default behavior of parsing parts enclosed 
+    in ()[]{}&lt;&gt;:</p>
+    <p> 1. Characters )]}&gt; in parts enclosed in &quot;&quot; 
+      are ignored.</p>
+    <p>2. A single character )]}&gt; enclosed in ' ' is ignored.</p></td>
+</tr>
+<tr>
+  <td>0x1000</td>
+  <td>QM 2.3.3. Delimiters are blanks (space, tab, new line, control characters) and <b>delim</b> characters.</td>
+</tr>
+<tr>
+  <td>0x2000</td>
+  <td><p>QM 2.3.5. Always trim blanks around tokens. Also removes blank tokens.</p>
+    <ul>
+      <li>For example, <span class=cod><span class=fq>tok</span> <span class=s>&quot; a , b &quot;</span> a <span class=o>-</span><span class=n>1</span> <span class=s>&quot;,&quot;</span> <span class=n>0x2000</span></span> gets &quot;a&quot; and &quot;b&quot;, not &quot; a &quot; and &quot; b &quot;.</li>
+    </ul></td>
+</tr>
+</table>
+
+<p> <b>arr2</b> - array for parts between (after) tokens. Will have same length as <b>arr</b>. Can be 0 if don't need.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Parses <b>string</b> and stores tokens in <b>arr</b>. Returns number of tokens.</p>
+
+<p>&nbsp;</p>
+
+<p>If <b>arr</b> is array of str, it receives copies of tokens. If it is array 
+  of lpstr, it receives pointers to tokens within <b>string</b>; it is faster.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Applies flags 4-128 even if <b>delim</b> does not contain these characters. Then tokens include these characters.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Fixed bug: flags 4-128 ignored when the enclosed part is preceded by a non-delimiter character.</p>
+<p>&nbsp;</p>
+
+<h4>Tips</h4>
+<p>Although <span class="blue">tok</span> can be used to get lines of a multiline string, there 
+  are simpler ways. See example3, <a href="../Flow/IDP_FOREACH.html" class="blue">foreach</a>, 
+  <a href="IDP_FINDL.html" class="blue">findl</a>, <a href="../str/IDP_S_GETL.html">str.getl</a>.</p>
+<p>To parse strings also can be used <A href="../RegExp/IDP_PCRE.html">regular 
+  expressions</a> (<a href="IDP_FINDRX.html" class="blue">findrx</a>, <a href="../str/IDP_S_REPLACERX.html">str.replacerx</a>) and
+  other string functions, like <span class="blue">find</span>, <span class="blue">findc</span>, 
+  <span class="blue">findw</span>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example1</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;one two three&#34;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> arr
+<span class=t>int</span> i nt
+nt <span class=o>=</span> <span class=fq>tok</span><span class=p>(</span>s arr<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> nt<span class=p>)</span> <span class=fq>out</span> arr[i]
+<span class=c> Output:
+ one
+ two
+ three
+</span></pre>
+
+<p>&nbsp;</p>
+
+<h3>Example2</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;one, (two + three) four five&#34;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> arr arr2
+<span class=t>int</span> i nt
+nt <span class=o>=</span> <span class=fq>tok</span><span class=p>(</span>s arr <span class=n>3</span> <span class=s>&#34;, ()&#34;</span> <span class=n>8</span> arr2<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> nt<span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;'%s' '%s'&#34;</span> arr[i] arr2[i]
+<span class=c> Output:
+ 'one' ', ('
+ 'two + three' ') '
+ 'four' ' '
+</span></pre>
+
+<p>&nbsp;</p>
+
+<h3>Example3</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;one[]two[]three&#34;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> arr <span class=o>=</span> s
+<span class=fq>for</span><span class=p>(</span><span class=t>int</span><span class=p>'</span>i <span class=n>0</span> arr.len<span class=p>)</span> <span class=fq>out</span> arr[i]
+<span class=c> Output:
+ one
+ two
+ three
+</span></pre>
+
+<p>&nbsp;</p>
+
+<h3>Example4</h3>
+
+<pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;abcdef&#34;</span>
+<span class=t>int</span> i
+<span class=c> Split s into characters as strings:
+</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a.create<span class=p>(</span>s.len<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span> a[i].get<span class=p>(</span>s i <span class=n>1</span><span class=p>)</span>
+<span class=c> Split s into characters as character codes:
+</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span> b.create<span class=p>(</span>s.len<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> b.len<span class=p>)</span> b[i]<span class=o>=</span>s[i]</pre>
+
+</body>
+
+</html>
