@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>time</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Format date/time string</h1>
+
+<p><span class="red">This function is obsolete. The C style formatting is slow 
+  and has other problems. Use</span> <a href="IDP_S_TIMEFORMAT.html">str.timeformat</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax1 - standard date/time string</h3>
+
+<pre class=syntax>s.<b>time</b>(<i>[</i>date<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - C style date/time string</h3>
+
+<pre class=syntax>s.<b>time</b>(<i>[</i>date<i>]</i> cfrm <i>[</i>locale<i>]</i> <i>[</i>plusnseconds<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3 - Windows style date/time string</h3>
+
+<pre class=syntax>s.<b>time</b>(<i>[</i>date<i>]</i> winfrmdate <i>[</i>winfrmtime<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>date</b> - variable of type <A href="../_COM/IDP_OLE_DATE.html">DATE</a>. Default: use current date.</p>
+
+<p> <b>cfrm </b>- format-control string in C style.</p>
+
+<p> <b>locale </b>- desired language. String. Default: &quot;&quot; (current locale).</p>
+
+<p> <b>plusnseconds</b> - number of seconds to add. Can be negative. Default: 0.</p>
+
+<p> <b>winfrmdate </b>- date part of format-control string in Windows style. If 
+&quot;&quot;, uses default format. If &quot;-&quot;, uses only time part.</p>
+
+<p> <b>winfrmtime </b>- time part of format-control string in Windows style. If 
+&quot;&quot;, uses default format. If &quot;-&quot; or omitted, uses only date 
+part.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p>To insert this function, can be used the Text dialog from the code toolbar.</p>
+<p>&nbsp;</p>
+
+<h4>Syntax1</h4>
+
+<p>Formats date/time string for current locale.</p>
+
+<p>&nbsp;</p>
+
+<h4>Syntax2</h4>
+
+<p>Formats date/time string in C style. This style is selected at run time if 
+  format-control string contains % characters. The <b>cfrm </b>consists of one 
+  or more codes, preceded by a percent sign (%). Characters that do not begin 
+  with % are copied unchanged. The formatting codes are listed below:</p>
+
+<p>&nbsp;</p>
+
+<table class="tnormal"><col>
+
+<tr>
+<td>%a</td>
+<td>Abbreviated weekday name</td></tr>
+
+<tr>
+<td>%A</td>
+<td>Full weekday name</td></tr>
+
+<tr>
+<td>%b</td>
+<td>Abbreviated month name</td></tr>
+
+<tr>
+<td>%B</td>
+<td>Full month name</td></tr>
+
+<tr>
+<td>%c</td>
+<td>Date and time representation appropriate for locale</td></tr>
+
+<tr>
+<td>%d</td>
+<td>Day of month as decimal number (01 - 31)</td></tr>
+
+<tr>
+<td>%H</td>
+<td>Hour in 24-hour format (00 - 23)</td></tr>
+
+<tr>
+<td>%I</td>
+<td>Hour in 12-hour format (01 - 12)</td></tr>
+
+<tr>
+<td>%j</td>
+<td>Day of year as decimal number (001 - 366)</td></tr>
+
+<tr>
+<td>%m</td>
+<td>Month as decimal number (01 - 12)</td></tr>
+
+<tr>
+<td>%M</td>
+<td>Minute as decimal number (00 - 59)</td></tr>
+
+<tr>
+<td>%p</td>
+<td>Current locale's A.M./P.M. indicator for 12-hour clock</td></tr>
+
+<tr>
+<td>%S</td>
+<td>Second as decimal number (00 - 59)</td></tr>
+
+<tr>
+<td>%U</td>
+<td>Week of year as decimal number, with Sunday as first day of week (00 
+ - 51)</td></tr>
+
+<tr>
+<td>%w</td>
+<td>Weekday as decimal number (0 - 6; Sunday is 0)</td></tr>
+
+<tr>
+<td>%W</td>
+<td>Week of year as decimal number, with Monday as first day of week (00 
+ - 51)</td></tr>
+
+<tr>
+<td>%x</td>
+<td>Date representation for current locale</td></tr>
+
+<tr>
+<td>%X</td>
+<td>Time representation for current locale</td></tr>
+
+<tr>
+<td>%y</td>
+<td>Year without century, as decimal number (00 - 99)</td></tr>
+
+<tr>
+<td>%Y</td>
+<td>Year with century, as decimal number</td></tr>
+
+<tr>
+<td>%z, %Z</td>
+<td>Time-zone name or abbreviation; no characters if time zone is unknown</td></tr>
+
+<tr>
+<td>%%</td>
+<td>Percent sign</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>The # flag may prefix any formatting code. In that case, the meaning of the format code is changed as follows.</p>
+
+<p>&nbsp;</p>
+
+<table class="tnormal">
+
+<tr>
+  <td>%#a, %#A, %#b, %#B, %#p, %#X, %#z, %#Z, %#%</td>
+  <td># flag is ignored.</td></tr>
+
+<tr>
+<td>%#c</td>
+<td>Long date and time representation, appropriate for current locale. For 
+ example: &quot;Tuesday, March 14, 1995, 12:41:29&quot;.</td></tr>
+
+<tr>
+<td>%#x</td>
+<td>Long date representation, appropriate to current locale. For example: 
+ &quot;Tuesday, March 14, 1995&quot;.</td></tr>
+
+<tr>
+<td>%#d, %#H, %#I, %#j, %#m, %#M, %#S, %#U, %#w, %#W, %#y, %#Y</td>
+<td>Remove leading zeros (if any).</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p> <b>locale</b> (language) affects, how string is formatted. Locale string can be found in Control Panel Regional Settings.</p>
+
+<p>&nbsp;</p>
+
+<h4>Syntax3</h4>
+
+<p>Formats date/time string in Windows style. This style is selected at run time 
+  if format-control string does not contain % characters. Below listed character 
+  sequences in format-control strings are replaced with year, month, etc values. 
+  Other characters are copied unchanged. To prevent character replacement, enclose 
+  it in single quotation marks.</p>
+
+<p>&nbsp;</p>
+<p><b>winfrmdate</b>:</p>
+<p>&nbsp;</p>
+
+<table class="tnormal"><col>
+
+<tr>
+<td>d</td>
+<td>Day of month as digits.</td></tr>
+
+<tr>
+<td>dd</td>
+<td>Day of month as digits with leading zero for single-digit days.</td></tr>
+
+<tr>
+<td>ddd</td>
+<td>Day of week as a three-letter abbreviation.</td></tr>
+
+<tr>
+<td>dddd</td>
+<td>Day of week as its full name.</td></tr>
+
+<tr>
+<td>M</td>
+<td>Month as digits.</td></tr>
+
+<tr>
+<td>MM</td>
+<td>Month as digits with leading zero for single-digit months.</td></tr>
+
+<tr>
+<td>MMM</td>
+<td>Month as a three-letter abbreviation.</td></tr>
+
+<tr>
+<td>MMMM</td>
+<td>Month as its full name.</td></tr>
+
+<tr>
+<td>y</td>
+<td>Year as last two digits, but with no leading zero for years less than 
+ 10.</td></tr>
+
+<tr>
+<td>yy</td>
+<td>Year as last two digits, but with leading zero for years less than 10.</td></tr>
+
+<tr>
+<td>yyyy</td>
+<td>Year represented by full four digits.</td></tr>
+
+<tr>
+<td>gg</td>
+<td>Period/era string.</td></tr>
+</table>
+
+<p>&nbsp;</p>
+<p><b>winfrmtime</b>:</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr>
+    <td>h</td>
+    <td>Hours with no leading zero for single-digit hours; 12-hour clock.</td>
+  </tr>
+  <tr>
+    <td>hh</td>
+    <td>Hours with leading zero for single-digit hours; 12-hour clock.</td>
+  </tr>
+  <tr>
+    <td>H</td>
+    <td>Hours with no leading zero for single-digit hours; 24-hour clock.</td>
+  </tr>
+  <tr>
+    <td>HH</td>
+    <td>Hours with leading zero for single-digit hours; 24-hour clock. </td>
+  </tr>
+  <tr>
+    <td>m</td>
+    <td>Minutes with no leading zero for single-digit minutes. </td>
+  </tr>
+  <tr>
+    <td>mm</td>
+    <td>Minutes with leading zero for single-digit minutes. </td>
+  </tr>
+  <tr>
+    <td>s</td>
+    <td>Seconds with no leading zero for single-digit seconds. </td>
+  </tr>
+  <tr>
+    <td>ss</td>
+    <td>Seconds with leading zero for single-digit seconds. </td>
+  </tr>
+  <tr>
+    <td>t</td>
+    <td>One character time-marker string, such as A or P.</td>
+  </tr>
+  <tr>
+    <td>tt</td>
+    <td>Multicharacter time-marker string, such as AM or PM. </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>The function cannot format milliseconds.</p>
+</body>
+
+</html>
