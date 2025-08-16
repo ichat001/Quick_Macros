@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>COM object creation functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>COM object creation functions</h1>
+
+<p>When you declare an interface pointer variable, initially it is 0. That is, 
+  it does not refer to an object. Before using it to call COM object functions, 
+  need to create new object or get existing object. For this purpose, you can 
+  use functions described in this topic. Common syntax is:</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax>ip.function(parameters)</pre>
+<p>&nbsp;</p>
+
+<p>Here <b>ip</b> is interface pointer variable. Each function returns <b>ip</b> 
+  itself.</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax>ip.<b>_create</b>(<i>[</i>class<i>] [</i>dll<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Creates new COM object of <b>class</b> type and populates <b>ip</b> with object's 
+  address.</p>
+<p>&nbsp;</p>
+<p> If <b>class</b> is omitted or 0, uses class of <b>ip</b> (finds it in the type library, if possible). As <b>class</b>, you can 
+  use CLSID or ProgId of object's class. It can be either GUID* (see <A href="../Functions/IDP_UUIDOF.html" class="blue">uuidof</a>), 
+  or GUID string like &quot;{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}&quot;, or ProgID 
+  string like &quot;Application.Class&quot;.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. If the COM component is in a dll file, you can specify the <b>dll</b>. Then don't need to register the component. However it works not with all components. If dll not found, tries to create as registered. In exe, if <b>dll</b> begins with &quot;$qm$&quot;, searches for the dll in exe folder; if not found there, searches in QM folder if QM is installed on that computer.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. To create COM components without registration, you can use manifest and <span class="type">__ComActivator</span> class. It works with .NET COM components too.</p>
+<p>&nbsp;</p>
+<p> The COM component must be <a href="IDP_COM_USAGE.html">registered</a>, unless you use <b>dll</b> or <span class="type">__ComActivator</span>. 
+  Else QM tries to register the component automatically, 
+  but this should be used only while testing a new component. To register 
+  automatically, need administrator privileges. For this reason, auto 
+  registration will not work  if QM is running not as administrator. Also, it does not work in <a href="../QM_Help/IDH_MACRO.html">exe</a>. 
+  Read <a href="IDP_COM_USAGE.html">here</a> about installing/registering and 
+  using COM components.</p>
+<p>&nbsp;</p>
+<p>To create object that must exist while dialog is running, declare the variable 
+  in dialog procedure, under WM_INITDIALOG, as thread variable (with -), e.g., 
+  <span class=cod><span class=lib>Typelib.</span><span class=t>Class</span><span class=o>-</span> obj._create</span>. Or, you can declare it before <span class="UDF">ShowDialog</span>. 
+  If you declare it as local (without -) in dialog procedure, it will be quickly 
+  destroyed, because dialog procedure is called multiple times while the dialog 
+  is displayed. Actually, thread variables are destroyed when thread ends (macro 
+  ends), not when destroying dialog. If it is important to delete the object immediately 
+  when dialog is closed, under WM_DESTROY assign 0, e.g., obj=0.</p>
+<p>&nbsp;</p>
+<p> Not all COM classes support creating objects using this function. Assume there are Class1 and Class2 in the type library. If you cannot create object of Class2, try to create object of Class1 and get object of Class2 using a function of Class1.</p>
+<p>&nbsp;</p>
+<p>This function is not used to create <a href="../User/IDH_DIALOG_EDITOR.html">ActiveX 
+  controls</a> for dialogs, but it can be used to create ActiveX controls that 
+  provide useful functions without being visible.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1. Some ActiveX controls created using this function will not work anymore. 
+  Place them in a dialog. Some others will work better.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. Supports QM interfaces  <span class="type">IStringMap</span>, <span class="type">ICsv</span> and <span class="type">IXml</span>. Use without arguments.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>ip.<b>_getactive</b>(<i>[</i>class<i>] [</i>flags<i>] [</i>moniker<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Gets currently active object of <b>class</b> type and populates <b>ip</b> with 
+  object's address.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>class</b> - object's class (see _create). If omitted or 0, uses class 
+of <b>ip</b>.</p>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr> 
+  <td width="10%">0 (default)</td>
+  <td width="83%">If there is no active object, generate error.</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td>If there is no active object, create new.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><p>Display monikers of all running objects. Example:</p>
+    <p> <span class=cod><span class=t>IUnknown</span> u.<span class=fq>_getactive</span><span class=p>(</span><span class=n>0</span> <span class=n>16</span> <span class=s>&quot;.&quot;</span><span class=p>);</span> <span class=fq>err</span></span></p></td>
+</tr>
+</table>
+<p><b>moniker</b> (QM 2.2.0) - object's name in the system Running Object Table (ROT).</p>
+<ul>
+  <li>Can contain <a href="../Functions/IDP_MATCHW.html">wildcard characters</a>.</li>
+  <li>For example, if it is a document object, its moniker string probably is file path.</li>
+  <li>QM 2.3.3. Fixed bug: when wildcard used, may return object of incorrect type. For example, you could not use <b>moniker</b> &quot;*&quot;.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p>This function may fail because of UAC. There are several <a href="../Other/IDP_VISTA.html">workarounds</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>ip.<b>_getfile</b>(file <i>[</i>class<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Gets object from <b>file</b>, and populates <b>ip</b> with object's address.</p>
+<p>&nbsp;</p>
+<p>If <b>class</b> not specified (omitted or 0), uses CoGetObject. It starts associated application and opens the file. If the file is already open, gets object of the open file (like _getactive).</p>
+<ul>
+  <li><b>file</b> also can be moniker string. For example, to get WMI services 
+    use &quot;winmgmts:&quot;.</li>
+  <li>Uses class 
+of <b>ip</b> (see _create).</li>
+</ul>
+<p>&nbsp;</p>
+<p>If <b>class</b> specified, uses different method. Creates object of <b>class</b> type (like _create) and loads the file using IPersistFile.Load. Does not try to get an open file object.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax>ip.<b>_getcontrol</b>(hwndcontrol<i></i>)</pre>
+<p>&nbsp;</p>
+<p>Retrieves ActiveX control object that is hosted by <b>hwndcontrol</b> in a 
+  <a href="../User/IDH_DIALOG_EDITOR.html">dialog</a>. An ActiveX control 
+  is created and hosted by a child window of class &quot;ActiveX&quot;, so <b>hwndcontrol</b> 
+  must be handle of that child window. To get it, use function <span class="blue">id</span>. 
+  For example, if control id in dialog is 3, then you can use <span class=cod><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>)</span></span>. Usually it is not the id you see in QM status bar, because an 
+  ActiveX control also creates its own child window that covers the host child 
+  window. The id is shown in the dialog definition (it is the first number in 
+  the green line with &quot;ActiveX&quot;). This function is inserted when you 
+  click the Events button in the Dialog Editor.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>ip.<b>_setevents</b>(<i>[</i>eventfolder<i>]</i> <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Activates or deactivates object's <A href="IDP_COM_EVENTS.html">events</a>.</p>
+
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<p>You also can use other ways to create/get COM objects. You can use universal 
+  or specialized API functions (example 4). Objects that are not externally creatable, 
+  usually are retrieved using properties (functions) of other objects of that 
+  component (example 3). Functions <span class="blue">acc</span>, <span class="blue">htm</span> 
+  and <span class="blue">web</span> also return interface pointer.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> 1. Create Excel Application object and make window visible:
+</span><span class=fq>typelib</span> <span class=lib>Excel</span> {00020813-0000-0000-C000-000000000046} 1.2
+<span class=lib>Excel.</span><span class=t>Application</span> a._create
+a.Visible<span class=o>=</span><span class=d>TRUE</span><span class=p>;</span> <span class=fq>err</span>
+
+<span class=c> 2. You can specify class, although usually this is not necessary. Several examples how can be specified class:
+</span><span class=lib>Excel.</span><span class=t>Application</span> b c d
+b._create<span class=p>(</span><span class=s>&#34;Excel.Application&#34;</span><span class=p>)</span>
+c._create<span class=p>(</span><span class=fq>uuidof</span><span class=p>(</span><span class=lib>Excel.</span><span class=t>Application</span><span class=p>))</span>
+d._create<span class=p>(</span><span class=s>&#34;{00024500-0000-0000-C000-000000000046}&#34;</span><span class=p>)</span>
+
+<span class=c> 3. Get Excel Workbook object from file; get pointers to other interfaces; make window and document visible:
+</span><span class=lib>Excel.</span><span class=t>Workbook</span> x._getfile<span class=p>(</span><span class=s>&#34;$desktop$\Book5.xls&#34;</span><span class=p>)</span>
+<span class=lib>Excel.</span><span class=t>Application</span> a<span class=o>=</span>x.Application
+a.Visible<span class=o>=</span><span class=d>TRUE</span><span class=p>;</span> <span class=fq>err</span>
+<span class=lib>Excel.</span><span class=t>Windows</span> ws<span class=o>=</span>a.Windows
+<span class=lib>Excel.</span><span class=t>Window</span> w<span class=o>=</span>ws.Item<span class=p>(</span><span class=n>1</span><span class=p>)</span>
+w.Visible<span class=o>=</span><span class=d>TRUE</span>
+
+<span class=c> 4. Use dll function to get interface pointer:
+</span><span class=t>IAccessible</span> a
+<span class=fq>if</span><span class=p>(</span>AccessibleObjectFromWindow<span class=p>(</span>hwnd <span class=n>0</span> <span class=fq>uuidof</span><span class=p>(</span><span class=t>IAccessible</span><span class=p>)</span> <span class=o>&#38;</span>a<span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>out</span> a.accName<span class=p>(</span><span class=n>0</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
