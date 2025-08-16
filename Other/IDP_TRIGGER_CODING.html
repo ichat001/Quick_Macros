@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Trigger coding</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Trigger coding</h1>
+
+<p>To assign a trigger, you can either use the Properties dialog, or write encoded 
+  trigger string directly in the &quot;Trigger&quot; field on the toolbar. Below 
+  is described the format of encoded trigger strings for various types of triggers.</p>
+
+<h2><a href="../QM_Help/IDH_TRIG_KEY.html">Hotkey</a></h2>
+<p>Syntax:</p>
+<pre class=syntax><i>[</i>mod<i>]</i>key<i>[</i>nextkey<i>] [</i>flags<i>]</i></pre><p>&nbsp;</p>
+<p>To specify trigger keys, are used <A href="../Tables/IDP_KEYCODES.html">QM 
+  key codes</a>, as with the <span class="blue"><a href="../Commands/IDP_KEY.html" class="blue">key</a></span> 
+  command. The trigger string begins with optional modifier keys (C, S, A, W). 
+  Then follow one or two keys. Here you can also use <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key 
+  code</a> in parentheses (must be number, not named constant). May be followed 
+  by space and flags (undocumented). Examples:</p>
+<table class="tnormal"><col>
+  <tr> 
+    <td>F9</td>
+    <td> F9</td>
+  </tr>
+  <tr> 
+    <td>CSc</td>
+    <td> Ctrl+Shift+C</td>
+  </tr>
+  <tr> 
+    <td>Awe</td>
+    <td>Alt+W+E</td>
+  </tr>
+  <tr> 
+    <td>q 0x5</td>
+    <td> Q, don't eat, wait until released</td>
+  </tr>
+</table>
+
+<h2><a href="../QM_Help/IDH_TRIG_MOUSE.html">Mouse</a></h2>
+
+<p>Syntax:</p>
+<pre class=syntax>#<i>[</i>#<i>][</i>mod<i>]</i>trigger<i>[</i>monitor<i>|</i>hittest<i>] [</i>flags<i>]</i></pre><p>&nbsp;</p>
+<p>Begins with # or ## (if double). Then follows optional modifier key codes (C, 
+  S, A). Then follows mouse trigger type: button (L, R, M, X1 or X2), or wheel 
+  direction (U or D), or screen edge number (1 to 12, clockwise, starting from 
+  top-left), or mouse movement direction (&lt;, &gt;, v, ^) and area number (1 
+  - top or left, 2 - middle, 3 - bottom or right). Then optionally can follow 
+  monitor index (m and number 1 to 30, or only m for all monitors) or <a href="../QM_Help/IDH_TFF.html">hit test 
+  code</a> (h and number 1 to 30). May be followed by space and flags (undocumented). 
+  Examples:</p>
+<table class="tnormal">
+  <tr> 
+    <td>#SR</td>
+    <td>Shift+mouse right click</td>
+  </tr>
+  <tr> 
+    <td>#CSD</td>
+    <td>Ctrl+Shift+mouse wheel backward</td>
+  </tr>
+  <tr> 
+    <td>##12</td>
+    <td>mouse movement to the top of the screen left edge, twice</td>
+  </tr>
+  <tr> 
+    <td>#A&gt;3</td>
+    <td>Alt+mouse movements right-left in the screen bottom area</td>
+  </tr>
+  <tr>
+    <td>#Lh2 0x1</td>
+    <td>Left click on window caption bar, don't eat</td>
+  </tr>
+</table>
+
+<h2><a href="../QM_Help/IDH_TRIG_WINDOW.html">Window</a></h2>
+
+<p>Syntax:</p>
+<pre class=syntax>!triggertype&quot;name&quot; <i>[</i>&quot;class&quot;<i>] [</i>&quot;childname&quot;<i>] [</i>&quot;childclass&quot;<i>] [</i>style<i>] [</i>flags<i>]</i></pre><p>&nbsp;</p>
+<p>Begins with !. Then follows one or two letters: ca - created &amp; active, 
+  cv - created &amp; visible, a - activated, i - deactivated, v - visible, n - 
+  name changed, d - destroyed. Then follow one or more properties, and optionally 
+  flags (undocumented). All strings may contain <A href="../Language/IDP_CONSTANT.html">escape 
+  sequences</a>.</p>
+
+<h2><a href="../QM_Help/IDH_TRIG_QM.html">QM events</a></h2>
+<p>Begins with @. Undocumented.</p>
+<h2>Other</h2>
+<p>Begins with $. Undocumented.</p>
+<h2><a href="../QM_Help/IDH_TRIG_EXT.html">User-defined triggers</a></h2>
+<p>Begins with ^. Then follows trigger manager function name and optionally more 
+  data that is defined by the trigger.</p>
+<h2><a href="../QM_Help/IDH_TRIG_EXT.html"></a>Scope (only for key, mouse, 
+  window and text triggers)</h2>
+<p>If trigger is active only with single or several programs, after trigger code 
+  goes space, / and comma-delimited program names. If trigger is active with all 
+  programs except single or several programs, use \. Examples:</p>
+<table class="tnormal">
+
+<tr>
+<td>F12 /NOTEPAD</td>
+    <td>trigger (hotkey F12) is valid only when active window belongs 
+      to NOTEPAD program</td>
+  </tr>
+
+<tr>
+    <td>!ca&quot;Open&quot; \WINWORD,EXCEL</td>
+    <td>trigger (created window &quot;Open&quot;) valid only if the 
+      window does not belong to WINWORD or EXCEL program.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>If the macro has a <A href="../QM_Help/IDH_TFF.html">filter function</a>, after 
+  trigger and programs goes / and filter function name. If trigger is not program-specific, 
+  filter function name goes after trigger code, space and //.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
