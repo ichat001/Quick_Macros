@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Properties</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Properties</h1>
+
+<p>Here you can set a trigger and other properties of the current <a href="IDH_ITEMS.html">QM item</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Trigger</h3>
+
+<p> A trigger is an event that causes the item to run. Here you can set <A href="IDH_TRIG_KEY.html">hotkey</a>, 
+  <A href="IDH_TRIG_MOUSE.html">mouse</a>, <A href="IDH_TRIG_WINDOW.html">window</a>, 
+  <a href="IDH_TRIG_QM.html">QM events</a>, <a href="IDH_TRIG_FILE.html">file</a>, 
+  <a href="IDH_TRIG_EVENTLOG.html">event log</a>, <a href="IDH_TRIG_PROCESS.html">process</a>, 
+  <a href="IDH_TRIG_ACC.html">accessible object</a>, <a href="IDH_TSM.html">autotext</a> or a <a href="IDH_TRIG_EXT.html">user-defined</a> 
+  trigger. Here you can also set <a href="IDH_TRIG_COMMANDLINE.html">command 
+  line</a> triggers (scheduler, shortcut) or copy the command line string to use 
+  by other program that can launch QM using command line or SendMessage. Other 
+  ways to launch macros: <a href="IDH_POPUP.html">menus</a>, <a href="IDH_TOOLBAR.html">toolbars</a>, 
+  <a href="IDH_TSM.html">text</a>, some functions (<a href="../Commands/IDP_MAC.html" class="blue">mac</a>, 
+  <a href="../Commands/IDP_TIM.html" class="blue">tim</a>, <span class="UDF">RunTextAsMacro</span>, 
+  etc) and the Run button on the QM toolbar.</p>
+
+<p>&nbsp;</p>
+
+<h4>Programs</h4>
+
+<p>Program where this trigger works. Must be only 
+  filename, without path and .exe. Can also be several programs, comma-delimited. 
+  Example: NOTEPAD,CALC. You can see program name in QM status bar when  
+  mouse pointer is on a window of that program. Programs also can 
+  be set for all items in <A href="IDH_FOLDERPROP.html">folder or file</a>.</p>
+
+<p>&nbsp;</p>
+
+<h4>FF</h4>
+
+<p>Assign a <A href="IDH_TFF.html">filter function</a>.</p>
+
+<p>&nbsp;</p>
+<h4>Schedule</h4>
+<p>Schedule this QM item to run at a specified time. QM uses Windows Task Scheduler, and you actually create its scheduled 
+  tasks. See also: <a href="IDH_TRIG_COMMANDLINE.html">command line</a>, <a href="../Other/IDP_QMTL.html">unlock computer</a>. This feature is unavailable in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<h4>Shortcut</h4>
+<p>Create a shortcut on the desktop, Start Menu or Quick Launch toolbar. When 
+  you click the shortcut, starts QM (if not already running), and launches this 
+  item. This feature is unavailable in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<h4>Cmdline</h4>
+<p>Format <a href="IDH_TRIG_COMMANDLINE.html">command line</a> to launch this 
+  item, and copy it to the clipboard.</p>
+<p>&nbsp;</p>
+<h4>Multi-trigger</h4>
+<p>Create a shortcut-macro and open its Properties dialog.</p>
+<p>&nbsp;</p>
+<p>A macro itself cannot 
+  have multiple triggers, but you can use shortcut-macros and assign triggers to them. A shortcut-macro is a macro that begins with space, slash and target macro name or <a href="../Other/IDP_GUID.html">GUID</a>, like <span class=cod><span class=c>&nbsp;/TargetMacroName</span></span>. When launched, actually runs the target macro. If the shortcut-macro has a trigger, the trigger will launch the target macro.</p>
+<p>&nbsp;</p>
+<h4>My Macros</h4>
+<p>See what triggers of selected type already exist (to avoid duplicate triggers).</p>
+<p>&nbsp;</p>
+<h4>Disable</h4>
+<p>Disable trigger. Disabled item still can be started using the Run button, 
+  <span class="blue">mac</span>, from menus and toolbars.</p>
+<p>&nbsp;</p>
+<h3>Common properties</h3>
+<p>These properties are common to all item types (macros, menus, etc).</p>
+<p>&nbsp;</p>
+
+<h4>Template</h4>
+
+<p>If checked, current item will be added to the 'File\New\Templates' menu. If 
+  item name is &quot;Macro&quot;, &quot;Function&quot;, &quot;Menu&quot;, &quot;Toolbar&quot;, 
+  &quot;Autotext&quot; or &quot;Member&quot;, it replaces default &quot;File\New&quot; 
+  menu item. If there are multiple templates where name begins with same word followed by space or underscore, they are added to a submenu.</p>
+<p>&nbsp;</p>
+<h3><a href="IDH_MACRO.html">Macro</a> properties</h3>
+<h4>If a macro is running</h4>
+
+<p>Select what to do when this macro is launched while a macro (this or other) 
+  is running. By default multiple macros cannot run simultaneously like <a href="IDH_ITEMS.html">QM items</a> of other types (e.g., functions).</p>
+<p>&nbsp;</p>
+<p> QM 2.4.2. Added option 'Run simultaneously'. In previous QM versions, to run simultaneously, would need to convert the macro to function. Now you can use this option instead. The macro will have some traits of functions, read more <a href="IDH_MACRO.html">here</a>.</p>
+<p>&nbsp;</p>
+<h4>Convert to function</h4>
+<p> Converts the macro to <a href="IDH_FUNCTION.html">function</a>. May change its name because it must be a valid identifier (no spaces etc).</p>
+
+<p>&nbsp;</p>
+<h3><a href="IDH_FUNCTION.html">Function</a> properties</h3>
+<h4>Allow single instance</h4>
+
+<p>If checked, this function will not run when you launch it while it (its <a href="../Other/IDP_THREADS.html">thread</a>) 
+  is already running. This is applied only to normal threads, but not to special 
+  threads and functions called from code. Or you can add this at the beginning of function's code: 
+  <span class=cod><span class=fq>if</span><span class=p>(</span><span class=fq>getopt</span><span class=p>(</span>nthreads<span class=p>)</span><span class=o>&#62;</span><span class=n>1</span><span class=p>)</span> <span class=fq>ret</span></span>. </p>
+<p>&nbsp;</p>
+<h4>Use as filter function</h4>
+<p>If checked, this function can be used as <a href="IDH_TFF.html">filter function</a>. 
+  Filter functions are used with triggers, to narrow trigger scope and achieve 
+  various other effects.</p>
+<p>&nbsp;</p>
+<h3>Properties common to macros and functions</h3>
+<h4>Can run</h4>
+<p>Set allowed launch methods. For example, to prevent accidentally launching 
+  the function, you can select &quot;No, can only be called&quot; or &quot;Yes, 
+  except the Run button&quot;. You can also set to run some other macro or function instead. This 
+  option is saved in macro text (the first line), so you also can quickly edit without the Properties 
+  dialog. <a href="IDH_FUNCTION.html">Read more</a>.</p>
+<p>&nbsp;</p>
+<p><i>Run in separate process</i></p>
+<p>Read in <a href="IDH_MAKEEXE.html#a8">Make exe</a> topic. To run a macro in separate process, QM creates and runs exe or qmm file.</p>
+<p>&nbsp;</p>
+<p><i>Run as</i></p>
+<p>UAC integrity level of the macro process. Read <a href="IDH_MAKEEXE.html#a8">Make exe</a>, <a href="../Other/IDP_VISTA.html">UAC</a>.</p>
+<p>&nbsp;</p>
+<p><i>Don't run in background; If computer 
+  locked, unlock</i></p>
+<p>Read <a href="../Other/IDP_QMTL.html">Unlock computer</a> topic.</p>
+<p>&nbsp;</p>
+<h3><a href="IDH_POPUP.html">Menu</a> properties</h3>
+<p>Here you can set <a href="IDH_MENUOPTIONS.html">menu properties</a>.</p>
+<p>&nbsp;</p>
+<h3><a href="IDH_TOOLBAR.html">Toolbar</a> properties</h3>
+<p>Here you can set <a href="IDH_TOOLBAROPTIONS.html">toolbar properties</a>.</p>
+<p>&nbsp;</p>
+<h3><a href="IDH_TSM.html">Autotext</a> properties</h3>
+<p>Here you can set autotext list options.</p>
+<p>&nbsp;</p>
+<h3><a href="../Language/IDP_CLASSES.html">Member function properties</a></h3>
+<p>&nbsp;</p>
+<h3><a href="IDH_FOLDERPROP.html">Folder properties, File properties</a></h3>
+<p>To set folder properties, right click a folder and select Folder Properties 
+  in the menu.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
