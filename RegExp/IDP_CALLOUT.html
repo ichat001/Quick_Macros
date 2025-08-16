@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Callout callback function</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Callout callback function</h1>
+
+<p> <a href="IDH_PCRE.html">PCRE</a> provides a feature called &quot;callout&quot;, which is a means of temporarily passing control to the caller of PCRE in the middle of pattern matching. Within a regular expression, (?C) indicates the points at which the external function is to be called. Different callout points can be identified by putting a number less than 256 after the letter C. The default value is zero. For example, this pattern has two callout points:</p>
+
+<p>&nbsp;</p>
+
+<pre>(?C1)\dabc(?C2)def</pre>
+
+<p>&nbsp;</p>
+
+<p>Types FINDRX (used with <a href="../Functions/IDP_FINDRX.html" class="blue">findrx</a>) and REPLACERX (used with <a href="../str/IDP_S_REPLACERX.html"> str.replacerx</a>) have member <b>fcallout</b>. If <b>fcallout</b> is address of user-defined function, that function is called each time a callout is encountered in pattern.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+<p> The function must begin with:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span>[c]<span class=o>#</span> <span class=t>CALLOUT</span><span class=o>&#38;</span>x</pre>
+
+<p>&nbsp;</p>
+
+<p><b>x</b> is variable of type CALLOUT.</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>CALLOUT</span> version number <span class=t>CHARRANGE</span><span class=o>*</span>vec <span class=o>$</span>subject length start_match current_position capture_top capture_last <span class=t>FINDRX</span><span class=o>*</span>frx []<span class=t>REPLACERX</span><span class=o>*</span>rrx</pre>
+
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>version</b> - version number of the type.</p>
+
+<p>
+<b>number</b> - number of the callout, as compiled into the pattern (that is, the number 
+after ?C).</p>
+
+<p>
+<b>vec</b> - array of offsets in subject string. The content can be inspected in 
+order to extract substrings that have been matched so far. </p>
+
+<p>
+<b>subject</b> - subject string (
+<b>s</b> in str.replacerx, 
+<b>string</b> 
+in 
+<span class="blue">findrx</span>).</p>
+
+<p>
+<b>length</b> - length of subject string.</p>
+
+<p>
+<b>start_match</b> - offset within the subject at which the current match attempt started. 
+If the pattern is not anchored, the callout function may be called several 
+times for different starting points.</p>
+
+<p>
+<b>current_position</b> - offset within the subject of the current match pointer.</p>
+
+<p>
+<b>capture_top</b> - one more than the number of the highest numbered captured substring 
+so far (that is, 
+<b>vec</b> length). 
+If no substrings have been captured, the value of 
+<b>capture_top </b>is one.</p>
+
+<p>
+<b>capture_last</b> - number of the most recently captured substring.</p>
+
+<p>
+<b>rf</b> - address of variable that was passed to 
+<span class="blue">findrx</span>.</p>
+
+<p>
+<b>rr</b> - address of variable that was passed to str.replacerx.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h4>Return values </h4>
+
+<table class="tflags">
+
+<tr>
+<td>0</td>
+<td>matching proceeds as normal.</td></tr>
+
+<tr>
+<td>&gt; 0</td>
+<td>matching fails at the current point, but backtracking to test other 
+ possibilities goes ahead, just as if a lookahead assertion had failed.</td></tr>
+
+<tr>
+<td>-1</td>
+<td>matching fails (not found).</td></tr>
+
+<tr>
+<td>&lt; -1</td>
+<td>generate error with this error number. Should be &lt; -100.</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>
