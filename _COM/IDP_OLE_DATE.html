@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>DATE</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable type DATE</h1>
+
+<p>Stores date and time.</p>
+<p>&nbsp;</p>
+<p>Note: In most cases use <span class="type">DateTime</span> type instead. Its purpose is the same as of <span class="type">DATE</span>. It has more functions and supports milliseconds. Use <span class="type">DATE</span> only with functions that need it, for example COM functions.</p>
+<p>&nbsp;</p>
+<p>The <span class="type">DATE</span> type is implemented using  a floating-point number (<span class="type">double</span>). Days are 
+  represented by whole number increments starting with 30 December 1899, midnight 
+  as time zero. Time values are expressed as fractional part. Time precision is 
+  1 second. Also can be used to represent date-only (the fractional part 
+  is 0) or time-only (the whole number part is 0).</p>
+
+<p>&nbsp;</p>
+<p>To remove the time part (leave only the date part) from a <span class="type">DATE</span> variable, you 
+  can assign it to an <span class="type">int</span> variable. However, when converting <span class="type">DATE</span> to <span class="type">int</span>, result 
+  may be rounded up. To prevent it, use the member variable <i>date</i>. 
+  See examples.</p>
+<p>&nbsp;</p>
+<p><span class="type">DATE</span> supports operator = (assign). Use it to convert string (<span class="type">str</span>, <span class="type">lpstr</span>, <span class="type">BSTR</span>, 
+  <span class="type">VARIANT</span>) containing date to <span class="type">DATE</span> and vice versa.</p>
+<p>&nbsp;</p>
+<p> To format date/time string, use <A href="../str/IDP_S_TIMEFORMAT.html">str.timeformat</a>.</p>
+<p>&nbsp;</p>
+<p>To store date and time, also often are used types <span class="type">SYSTEMTIME</span> and <span class="type">FILETIME</span>:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>SYSTEMTIME</span> <span class=o>@</span>wYear <span class=o>@</span>wMonth <span class=o>@</span>wDayOfWeek <span class=o>@</span>wDay <span class=o>@</span>wHour <span class=o>@</span>wMinute <span class=o>@</span>wSecond <span class=o>@</span>wMilliseconds
+<span class=fq>type</span> <span class=t>FILETIME</span> dwLowDateTime dwHighDateTime</pre>
+<p>&nbsp;</p>
+
+<h2>Functions</h2>
+<p>Here <b>var</b> is a 
+  variable of type <span class="type">DATE</span>. Where the return type is not specified, the function 
+returns <b>var</b> itself.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=syntax>var.<b>getclock</b></pre>
+<p>&nbsp;</p>
+<p>Gets current time.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=syntax>var.<b>fromsystemtime</b>(st)
+var.<b>tosystemtime</b>(st)</pre>
+<p>&nbsp;</p>
+<p>Converts from <span class="type">SYSTEMTIME</span> to <span class="type">DATE</span> type and vice versa. Here <b>st</b> is a variable of type <span class="type">SYSTEMTIME</span>.</p>
+
+<p>&nbsp;</p>
+<hr>
+<pre class=syntax>var.<b>fromfiletime</b>(ft)
+var.<b>tofiletime</b>(ft)</pre>
+<p>&nbsp;</p>
+<p>Converts from <span class="type">FILETIME</span> to <span class="type">DATE</span> type and vice versa. Here <b>ft</b> is a variable of type <span class="type">FILETIME</span>.</p>
+
+<p>&nbsp;</p>
+<hr>
+<p><a onClick="doSection(obsolete)" class="expand">Obsolete functions</a>. </p>
+<div id="obsolete" class="expand">
+  <p>Use <span class="type">DateTime</span> class instead. If need <span class="type">DATE</span> type, you can convert it to/from <span class="type">DateTime</span> with its functions <span class="UDF">FromDATE</span> and <span class="UDF">ToDATE</span>. Also you can use other functions from the time category, for example <span class="UDF">TimeSpanGetPartsTotal</span>.</p>
+  <p>&nbsp;</p>
+  <hr>
+  <pre class=syntax>var.<b>add</b>(diff)</pre>
+  <p>&nbsp;</p>
+  <p>Adds <b>diff</b> to <b>var</b>. Here <b>diff</b> is a date span variable. With 
+    <span class="type">DATE</span> functions, date span (difference between two dates) is a variable 
+    of type <span class="type">SYSTEMTIME</span>.</p>
+  <p>&nbsp;</p>
+  <p> Use this function when 
+    date span is quite complex. To add/subtract days, you can use operator + or 
+    -. For example, <span class=cod>var<span class=o>=</span>var<span class=o>-</span><span class=n>2</span></span> subtracts 2 days; <span class=cod>var<span class=o>=</span>var<span class=o>+</span><span class=p>(</span><span class=n>4</span><span class=o>/</span><span class=n>24.0</span><span class=p>)</span></span> adds 4 hours.</p>
+  <p>&nbsp;</p>
+  <hr>
+  <pre class=syntax>var.<b>sub</b>(diff)</pre>
+  <p>&nbsp;</p>
+  <p>Subtracts <b>diff</b> from <b>var</b>.</p>
+  <p>&nbsp;</p>
+  <hr>
+  <pre class=syntax><i>double </i>var.<b>diff</b>(date2 <i>[</i>diff<i>] [</i>part<i>]</i>)</pre>
+  <p>&nbsp;</p>
+  <p>Returns difference between <b>var</b> and <b>date2</b>. The return value is 
+    negative if <b>var</b> is less than <b>date2</b>, 0 if <b>var</b> is equal to <b>date2</b>, positive if <b>var</b> is greater than <b>date2</b>.</p>
+  <p>&nbsp;</p>
+  <p> <b>diff</b> can be 0 or a variable of type <span class="type">SYSTEMTIME</span>. It receives date span 
+    (always positive). </p>
+  <p>&nbsp;</p>
+  <p> By default, returns difference in days. If <b>part</b> is 1 then returns difference 
+    in hours, 2 - minutes, 3 - seconds.</p>
+  <p>&nbsp;</p>
+  <p>Always returns whole number. To get exact difference between two dates, use 
+    operator -. Example: <span class=cod>diff<span class=o>=</span>var<span class=o>-</span>date2</span>.</p>
+  <p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<h2>Examples</h2>
+
+<pre class=cod><span class=t>DATE</span> d<span class=o>=</span><span class=s>&#34;4/1/2003&#34;</span>
+<span class=c> add 2 days
+</span>d<span class=o>=</span>d<span class=o>+</span><span class=n>2</span>
+<span class=fq>out</span> d
+
+<span class=c> remove the time part
+</span><span class=t>DATE</span> d<span class=o>=</span><span class=n>10.55</span>
+<span class=t>int</span> i<span class=o>=</span>d
+<span class=fq>out</span> i <span class=c2>;;11 (rounded up)
+</span>i<span class=o>=</span>d.date
+<span class=fq>out</span> i <span class=c2>;;10 (ok)
+</span></pre>
+</body>
+
+</html>
