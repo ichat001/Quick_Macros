@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<script type="text/javascript" src="http://www.quickmacros.com/com/grid.h"></script>
+
+<title>Grid control (QM_Grid)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>Grid control (QM_Grid)</h1>
+<h2>Changes in QM 2.3.2</h2>
+<p>Before QM 2.3.2, this control was  almost undocumented. Some samples were in the forum. In QM 2.3.2 it is documented, easier to use, and has many enhancements:</p>
+<ul>
+  <li>Can be used in exe.</li>
+      <li>Faster.</li>
+      <li>Does not limit cell text length.</li>
+      <li>Cut/Copy/Paste rows or row text.</li>
+      <li>Several new messages, styles and controls.</li>
+      <li> Easier to add columns and set row control types.</li>
+      <li>Style and columns can be defined in Dialog Editor.</li>
+      <li>Dialog variables can be used to set/get grid data.</li>
+      <li>Added new class <span class="type">DlgGrid</span> that simplifies working with the control in dialog procedures.</li>
+      <li>Added new class <span class="type">Sqlite</span> that has functions to display a sqlite database table in grid control.</li>
+      <li>Better supports images and other row properties.</li>
+      <li><span class="red">Possible incompatibility</span>: changed some   features. If you used the control in your macros, please test them. The changes are documented below, in grid.h.</li>
+</ul>
+<h2>Where to use</h2>
+<p>The control can be used in dialogs and other windows to:</p>
+<ul>
+  <li>Display text data as editable table (data grid). Like in Excel.</li>
+  <li>Display multiple properties (property grid). Single grid control can replace many simple controls (edit, combo box, check box).</li>
+  <li>Display text data as read-only table. The same as SysListView32 control in report view, but faster and easier to use.</li>
+  <li>Display a list  with check boxes.</li>
+</ul>
+<h2>How to use</h2>
+<h3>How to add to a dialog</h3>
+<p> Use <a href="IDH_DIALOG_EDITOR.html">Dialog Editor</a>. It also allows you to define style and columns.</p>
+<p>&nbsp;</p>
+<p>You also can define style and columns at run time. Use class <span class="type">DlgGrid</span>. See function <span class="UDF">sample_Grid</span>.</p>
+<p>&nbsp;</p>
+<h3>How to set data</h3>
+<p>Dialog Editor generates code that includes variables for grid controls. Before calling <span class="UDF">ShowDialog</span>, assign a string in CSV format to a grid variable. To load and process CSV, use <a href="IDP_ICSV.html" class="type">ICsv</a> interface.</p>
+<p>&nbsp;</p>
+<p>You can also set data using class <span class="type">DlgGrid</span>. See function <span class="UDF">sample_Grid</span>.</p>
+<p>&nbsp;</p>
+<h3>How to get data</h3>
+<p>When <span class="UDF">ShowDialog</span> returns on OK, the variable contains string in CSV format. To process and save it, use <a href="IDP_ICSV.html" class="type">ICsv</a> interface.</p>
+<p>&nbsp;</p>
+<p>You can also get data using class <span class="type">DlgGrid</span>. See function <span class="UDF">sample_Grid</span>.</p>
+<p>&nbsp;</p>
+<h3>How to work with the control in dialog procedure</h3>
+<p>Use class <span class="type">DlgGrid</span>. See function <span class="UDF">sample_Grid</span>.</p>
+<p>&nbsp;</p>
+<p> Also you can use grid control and list view control (SysListView32) messages, notifications,  types and constants.</p>
+<p>&nbsp;</p>
+<p> Grid control messages etc are documented below, in grid.h. In QM they are declared in reference file <span class="lib">GRID</span>. Use like this: <span class=cod><span class=lib>GRID.</span><span class=d>LVN_QG_COMBOFILL</span></span>.</p>
+<p>&nbsp;</p>
+<p> List view control messages etc are documented in <a href="../Other/IDP_MSDN.html">MSDN Library</a>. They are declared in reference files <span class="lib">WINAPI</span> and <span class="lib">WINAPIV</span>.</p>
+<p>&nbsp;</p>
+<h3>How to set control types for rows or cells</h3>
+<p>In dialog procedure use functions of class <span class="type">DlgGrid</span>.</p>
+<p>&nbsp;</p>
+<p>If the grid has style &quot;Can be set row control type&quot; (QG_SETROWTYPE), you also can set row control types when adding text. Use  syntax: &lt;type&gt;text in first column cells. Read more below, in Details.</p>
+<p>&nbsp;</p>
+<p> <a onClick="doSection(e2)" class="expand">Example</a></p>
+<div id="e2" class="expand">
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;3&quot;</span>
+<span class=t>str</span> qmg3
+qmg3<span class=o>=</span>
+<span class=s> &lt;0&gt;edit,x</span>
+<span class=s> &lt;1&gt;combo,x</span>
+<span class=s> &lt;2&gt;check,Yes</span>
+<span class=s> &lt;7&gt;read-only,x</span>
+<span class=s> &lt;8&gt;edit multiline,x</span>
+<span class=s> &lt;9&gt;combo sorted,x</span>
+<span class=s> &lt;16&gt;edit+button,x</span>
+<span class=s> &lt;17&gt;combo+button,x</span>
+<span class=s> </span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;Dialog90&quot;</span> <span class=n>0</span> <span class=o>&amp;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+<span class=fq>out</span> qmg3
+
+<span class=c> BEGIN DIALOG</span>
+<span class=c> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 223 135 &quot;Dialog&quot;</span>
+<span class=c> 3 QM_Grid 0x54030000 0x0 0 0 224 110 &quot;7,0,0,2[]A,,[]B,,[]&quot;</span>
+<span class=c> 1 Button 0x54030001 0x4 120 116 48 14 &quot;OK&quot;</span>
+<span class=c> 2 Button 0x54030000 0x4 170 116 48 14 &quot;Cancel&quot;</span>
+<span class=c> END DIALOG</span>
+<span class=c> DIALOG EDITOR: &quot;&quot; 0x2030202 &quot;*&quot; &quot;&quot; &quot;&quot;</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3>How to set icons,  lparam and other list view control item properties</h3>
+<p>In dialog procedure use functions of class <span class="type">DlgGrid</span>.</p>
+<p>&nbsp;</p>
+<p> To add icons, at first create imagelist with QM imagelist editor. It is in code toolbar. It also can create code to load the imagelist. In dialog procedure, load the imagelist (__ImageList.Load), attach it to the control (DlgGrid.SetImagelist), and assign icon indices (DlgGrid.RowPropSet or DlgGrid.RowAddSetX).</p>
+<p>&nbsp;</p>
+<p>If the grid has style &quot;Can be set row control type&quot; (QG_SETROWTYPE), you also can set these properties when adding text. Read more below, in Details. See function <span class="UDF">sample_Grid_images</span>.</p>
+<p>&nbsp;</p>
+<h3>How to use with  databases</h3>
+<p>It is easy with sqlite databases. Use <span class="type">Sqlite</span> class. It can display table in grid control. See function <span class="UDF">sample_Grid_Sqlite</span>.</p>
+<p>&nbsp;</p>
+<p>To use with other database types, use <span class="type">Database</span>  and <span class="type">DlgGrid</span> classes. Currently there are no functions that would transfer whole table from/to database to grid control. You will have to do it for each row.</p>
+<p>&nbsp;</p>
+<h3>How to use in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a></h3>
+<p>QM grid control lives in a QM dll qmgrid.dll. It is not available on computers where QM is not installed.</p>
+<p>&nbsp;</p>
+<p>You can add the dll to exe. Add this line somewhere near the beginning of exe code:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fu>ExeQmGridDll</span><span class=n></span>
+</pre>
+<p>&nbsp;</p>
+<p>When creating exe, it adds  qmgrid.dll to exe resources. At run time it extracts to the temporary folder and loads.</p>
+<p>&nbsp;</p>
+<p>If you don't want to add the dll to exe: take qmgrid.dll from QM folder; add to a zip file or setup program together with exe; on other computers extract them to the same folder. If you use grid controls in a dialog or with <span class="UDF">CreateControl</span>, exe loads the dll when need. Else load the dll with <span class="dll">LoadLibrary</span>.</p>
+<h2><a name="details"></a>Details</h2>
+<p>The class name is QM_Grid. Implemented in qmgrid.dll.</p>
+<p>&nbsp;</p>
+<h3>Grid row properties</h3>
+<p> If grid control has &quot;Can be set row control type&quot; style (GRID.QG_SETROWTYPE, 4):</p>
+<p>&nbsp;</p>
+<p> 1. When you set control type of the first cell in a row, it also sets control type for other cells in the row.</p>
+<p>&nbsp;</p>
+<p>2. When adding a row, you can specify row control type and/or other row properties in first cell's text.</p>
+<blockquote>
+  <p>Syntax:</p>
+<pre class=syntax> &lt;ctype/lparam/image/overlayImage/stateImage/indent/ctypes&gt;text</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>ctype</b> - row control type. See below.</p>
+<p><b>lparam</b> - a user-defined int value. Or can be any string.</p>
+<p><b>image</b> - image index. Use -1 for no image.</p>
+<p><b>overlayImage</b> - overlay image index.</p>
+<blockquote>
+  <p> Valid values are 1 to 15. Index 0 will not add overlay image.</p>
+  <p>Overlay images are drawn transparently over normal images.</p>
+  <p>To define overlay images, use __ImageList.SetOverlayImages or ImageList_SetOverlayImage with the main imagelist.</p>
+</blockquote>
+<p><b>stateImage</b> - state image index.</p>
+<blockquote>
+  <p>Valid values are 1 to 15. Index 0 will not add state image.</p>
+  <p>The index is 1-based, therefore index 1 will display image 0 from the state imagelist.</p>
+  <p>State images are drawn in the space reserved to the left from normal images.</p>
+  <p>Must be set state imagelist or checkboxes style.</p>
+  <p>If checkboxes style, use <b>stateImage</b> 1 and 2 for unchecked and checked.</p>
+</blockquote>
+<p><b>indent</b> - indent. It is number of image widths. Valid values are -1 to 254.</p>
+<p><b>ctypes</b> - list of cell control types. Use . to inherit from <b>ctype</b> or column. Use -1 to inherit from column. Example: .0 -1..2</p>
+</div>
+  <p>&nbsp;</p>
+  <p>All parts are optional. For example, can be &lt;ctype&gt;text, or &lt;//image&gt;text.</p>
+  <p>All numbers must be simple numbers, not constant names or expressions.</p>
+  <p>To display images and indent, imagelist must be set. Use DlgGrid.SetImagelist.</p>
+  <p>Row properties also can be set/retrieved using DlgGrid functions.</p>
+  <p>If style &quot;User cannot edit first column&quot; (GRID.QG_NOEDITFIRSTCOLUMN, 1) also is set, will not remove the &lt;...&gt; string. Just will not display it.</p>
+</blockquote>
+<p>&nbsp;</p>
+<h3>Control types</h3>
+<table class="tnormal"><col>
+<tr>
+<td>0</td> <td>edit.</td>
+</tr>
+<tr>
+<td>1</td> <td>combo.</td>
+</tr>
+<tr>
+<td>2</td> <td>check.</td>
+</tr>
+<tr>
+<td>3</td> <td>date.</td>
+</tr>
+<tr>
+<td>7</td> <td>read-only.</td>
+</tr>
+<tr>
+<td>8 (0|8)</td> <td>edit multiline.</td>
+</tr>
+<tr>
+<td>9 (1|8)</td> <td>combo sorted.</td>
+</tr>
+<tr>
+<td>11 (3|8)</td> <td>time.</td>
+</tr>
+<tr>
+<td>16 (flag)</td> <td>with button.</td>
+</tr>
+<tr>
+<td>23 (7|16)</td> <td>read-only edit + button.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<h3>C++ header file</h3>
+<p><a href="http://www.quickmacros.com/com/grid.h.txt" target="_blank">grid.h</a></p>
+<p>&nbsp;</p>
+</body>
+
+</html>
