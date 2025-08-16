@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Syntax</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Syntax of QM macro code</h1>
+
+<p>QM macro text is a sequence of statements. Usually, a statement is a single 
+  line of code that performs some operation or declares some identifier. Examples:</p>
+
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>lef</span><span class=o>+</span> <span class=n>10</span> <span class=n>200</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=fq>lef</span>
+<span class=t>int</span> a b c
+a <span class=o>=</span> b <span class=o>*</span> <span class=n>100</span>
+<span class=fu>Func</span> b <span class=n>1</span>
+a <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span>b <span class=n>1</span><span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<p>The first and second statements are <i>macro commands</i>. They consist of the following <i>parts</i>:</p>
+<ul>
+  <li> <span class="blue">lef</span> is command <i>keyword</i>.</li>
+  <li> 
+    + is <i>option</i>.</li>
+  <li> 10, 200 and &quot;Notepad&quot; are <i>arguments</i>. An argument is the actual value for a parameter of the command/function.</li>
+</ul>
+<p>&nbsp;</p>
+<p>The third statement declares <a href="../Language/IDH_VARIABLES.html"> <i>variables</i></a> 
+  a, b and c.</p>
+<p>&nbsp;</p>
+<p> The fourth statement assigns <a href="../Other/IDP_EXPRESSION.html"><i>expression</i></a> 
+  b*100 to variable a.</p>
+<p>&nbsp;</p>
+<p>In the fifth statement, is called <a href="../Language/IDH_FUNCTIONS.html"><i>function</i></a> 
+  <span class="UDF">Func</span> with arguments b and 1.</p>
+<p>&nbsp;</p>
+<p>In the last statement, is called function <span class="UDF">Func</span>, and 
+  its return value is assigned to variable a.</p>
+
+<p>&nbsp; </p>
+
+<p>10, 200, 100 and 1 are <i>numeric </i> <A href="../Language/IDP_CONSTANT.html"> 
+  <i>constants</i></a>.</p>
+
+<p>&quot;Notepad&quot; is <i>string constant</i>.</p>
+
+<p>= and * are <A href="../Language/IDH_OPERATORS.html"> <i>operators</i></a>.</p>
+
+<p>&nbsp;</p>
+<p>Parts of statements must be separated with spaces (except command/option). In statements with operators 
+  (example 4), spaces may be omitted. To separate  arguments, also can 
+  be used commas (<span class=cod><span class=p>,</span></span>).</p>
+
+<p>&nbsp;</p>
+
+<p>The list of arguments must be enclosed (example 6), but if function name begins 
+  the statement (examples 1 and 5), it is not necessary. With enclosed arguments, 
+  the <span class=cod><span class=p>(</span></span> must be immediately after function name and option character (if any).</p>
+
+<p>&nbsp;</p>
+
+<p>Some characters at the beginning of a line have special meaning:</p>
+<p>&nbsp;</p>
+
+<p>Space, <tt>;</tt>, <tt>/</tt>, or <tt>\</tt> disables the line. This can be used for comments. To easier disable/enable 
+  a line (or several selected lines), right click the selection bar. Comments 
+  also can follow a statement. For such comments use <tt>;;</tt>.</p>
+<p>&nbsp;</p>
+
+<p>Tabs or commas are used with flow-control 
+  statements (<span class="blue">if</span>, <span class="blue">rep</span>, etc). 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> if a is less than 10, left-click, else exit
+</span><span class=fq>if</span> a<span class=o>&#60;</span><span class=n>10</span>
+<span class=i>&#9;</span><span class=fq>lef</span>
+<span class=i>&#9;</span>a <span class=o>+</span> <span class=n>1</span> <span class=c2>;;increment a
+</span><span class=fq>else</span> <span class=fq>ret</span></pre>
+
+<p>&nbsp;</p>
+
+<p>A single line can contain several statements separated by semicolon (<span class=cod><span class=p>;</span></span>). Semicolon 
+  is optional after a statement that begins with command/function name and has 
+  enclosed arguments (or empty parentheses). Semicolon also is optional after 
+  <span class="blue">else</span>, <span class="blue">err</span> and <span class="blue">case</span>. 
+  Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>lef</span><span class=o>+</span> <span class=n>10</span> <span class=n>100</span> Notepad<span class=p>;</span> <span class=fq>lef</span><span class=p>;</span> <span class=t>int</span> a<span class=p>;</span> a <span class=o>=</span> b <span class=o>+</span> <span class=n>100</span><span class=p>;</span> <span class=fu>Func</span><span class=p>(</span>a b<span class=p>);</span> b <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span>a b<span class=p>)</span>
+<span class=fq>rep</span><span class=p>()</span> <span class=fq>if</span><span class=p>(</span>b<span class=o>&#62;</span>a<span class=p>)</span> b<span class=o>=</span><span class=fu>Func</span><span class=p>(</span>a b<span class=p>);</span> <span class=fq>else</span> <span class=fq>break</span></pre>
+
+<h2>Syntax descriptions used in this Help file</h2>
+
+<p>Gray symbols have the following meaning:</p>
+
+<table class="tnormal">
+
+<tr>
+<td><span class=syntax><i>[</i>a<i>]</i></span></td>
+<td>
+<b>a</b> is optional.</td></tr>
+
+<tr>
+<td><span class=syntax>a<i>|</i>b</span></td>
+<td>
+<b>a</b> or 
+<b>b</b>.</td></tr>
+
+<tr>
+<td><span class=syntax>a<i>&amp;</i>b</span></td>
+<td>
+<b>a</b> and/or 
+<b>b</b>.</td></tr>
+
+<tr>
+<td><span class=syntax><i>(</i>a b<i>)|(</i>c d<i>)</i></span></td>
+<td>
+<b>a b</b> or 
+<b>c d</b>.</td></tr>
+
+<tr>
+<td>
+<span class=syntax><span class=f8><i>(space)</i></span><em>a</em></span></td>
+<td>before 
+<span class="green"><b>a</b></span> 
+ must be space or semicolon.</td></tr>
+
+<tr>
+<td><span class=syntax><span class=f8><i>(tab)</i></span>a</span></td>
+<td>before <b>a</b> must be tab or comma.</td></tr>
+
+<tr>
+<td><span class=syntax><i>...</i></span></td>
+<td>more parameters or statements.</td></tr>
+
+<tr>
+<td><span class=syntax><i>int </i>a</span></td>
+    <td> <b>a</b> is function; it returns a value of type int.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p> Syntax description example:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax><b>lef</b><i>[</i>+<i>|</i>-<i>] [</i>x<i> </i>y<i>] [</i>window<i>] [</i>client<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<p> In the example, all parameters are enclosed in <span class=syntax><i>[]</i></span>. 
+  It means that you can use 0, 1, 2, 3 or 4 arguments with the command.</p>
+
+<p>The <span class=syntax><i>[</i>+<i>|</i>-<i>]</i></span> 
+  means that you can optionally use option character + or -.</p>
+<p>The <span class="blue">lef</span> keyword in the example is at the beginning. 
+  It means that the <span class="blue">lef</span> command does not return a value 
+  and cannot be used as function.</p>
+
+<p>&nbsp;</p>
+<p>Real code examples based on the above syntax description:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>lef</span> <span class=n>10</span> <span class=n>200</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=fq>lef</span>
+<span class=fq>lef</span><span class=o>+</span> <span class=n>10</span> <span class=n>200</span></pre>
+</body>
+
+</html>
