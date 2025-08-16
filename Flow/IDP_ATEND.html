@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>atend</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Register function to run when macro ends</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>atend</b> function <i>[</i>argument<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>function</b> - name of a user-defined or dll function. Can be <a href="../Language/IDP_DIR_SUB.html">sub-function</a>.</p>
+
+<p> <b>argument</b> - some value to pass to the function. The function can optionally have one parameter of type int 
+or pointer. Default: 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Sometimes it is important to execute some code when macro ends. Macro can, 
+  for example, end on an error. This statement registers <b>function</b> to run 
+  when current macro ends.</p>
+
+<p>&nbsp;</p>
+
+<p> <b>function</b> runs in <A href="../Other/IDP_THREADS.html">thread</a> that 
+  registered it. When it runs, local variables of current thread's entry function 
+  still exist. The <a href="IDP_ERR.html">_error</a> variable is empty if the 
+  macro finished successfully, or contains error info if the macro failed.</p>
+
+<p>&nbsp;</p>
+
+<p>Registered functions run in LIFO (last-in, first-out) order. <span class="blue">atend</span> 
+  for same <b>function</b> can be called more than once in thread, but it does 
+  not register <b>function</b> again if <b>arg</b> value is the same.</p>
+
+<p>&nbsp;</p>
+
+<p>Do not use <span class="blue">atend</span> in functions that run in special 
+  <a href="../Other/IDP_THREADS.html">threads</a> and threads created by dll 
+  functions.</p>
+<p>&nbsp;</p>
+<p>In <strong>function</strong> don't use <span class="blue">end</span> (except to generate warning) and avoid unhandled run-time errors. <a href="IDP_END.html">More info</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>atend</span> <span class=fu>RestoreCapsLock</span>
+<span class=t>
+int</span><span class=o>*</span> p<span class=o>=</span><span class=fd>malloc</span><span class=p>(</span><span class=n>10</span><span class=p>);</span> <span class=fq>atend</span> <span class=fd>free</span> p
+...</pre>
+
+</body>
+
+</html>
