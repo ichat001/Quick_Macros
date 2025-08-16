@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Main window</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Main window</h1>
+
+<p>Normally Quick Macros runs all the time. The main window is hidden most of 
+  the time. When you want to add or edit macros, click the QM tray icon <img src="../image/qm_icon.png">. 
+  To hide the window, click the X button (Close).</p>
+<p>&nbsp;</p>
+
+<p><img src="../image/qm.png"></p>
+
+<p>&nbsp;</p>
+<p>Top: <a href="IDH_MENU_TOOLBAR.html">Toolbars</a>, <a href="IDH_MENU_FILE.html">File 
+  menu</a>, <a href="IDH_MENU_EDIT.html">Edit menu</a>, <a href="IDH_MENU_TOOLS.html">Run 
+  and Tools menus</a>, <a name="L5" href="IDH_INTERFACE.html#A5">Find help, functions, tools</a></p>
+<p>Left: <a name="L2" href="IDH_INTERFACE.html#A2">List of items</a></p>
+<p>Center: <a name="L3" href="IDH_INTERFACE.html#A3">Code editor</a></p>
+<p>Right: <a name="L4" href="IDH_INTERFACE.html#A4">Active items</a></p>
+<p>Bottom: <a name="L6" href="IDH_INTERFACE.html#A6">Output, Find, Tips</a>, <a name="L7" href="IDH_INTERFACE.html#A7">Status 
+  bar</a></p>
+<p>&nbsp;</p>
+<p><a name="L8" href="IDH_INTERFACE.html#A8">Code toolbar</a></p>
+<p><a name="L9" href="IDH_INTERFACE.html#A9">Tray icon</a></p>
+<p><a href="IDH_NAVIGATION.html">Keyboard shortcuts</a></p>
+<h2><a name="A2" href="IDH_INTERFACE.html#L2">List of items</a></h2>
+
+<p>Here you manage <a href="IDH_ITEMS.html">QM items</a> that are in currently open <A href="IDH_QML.html">file(s)</a>.</p>
+<p>&nbsp;</p>
+<p> Click an item to open it for editing.</p>
+<p>Middle click to close.</p>
+<p>Right click to show the <A href="IDH_MENU_FILE.html">File menu</a> for that item. The Add commands will insert new item there.</p>
+<p> Drag and drop to move item(s) to another place.</p>
+<p> QM 2.4.0. Right-drag to select (check) multiple items for moving. Use Shift to add to selection, Ctrl to add/remove.</p>
+<p>Ctrl+drag and drop 
+  to copy (clone) the item.</p>
+You can also drag and drop an item to: editor text (adds &quot;run macro&quot; statement), a custom toolbar (adds &quot;run macro&quot; button), an edit control.
+<p>QM 2.4.0. Alt+click an item to open it in the right editor. Ctrl+click to move to the primary editor. Ctrl+Alt+click to open in both editors.</p>
+<p>QM 2.4.0. Deleted items are in the &quot;Deleted&quot; folder. You can: click a deleted item to see its text; undelete; delete from the folder; move items to/from the folder.</p>
+<p>&nbsp;</p>
+<h3>Item icons  and colors</h3>
+<p>Each QM item type has its  <a href="IDH_ITEMS.html">icon</a>. You can change  icons in the <a href="IDH_ICONS.html">Icons</a> dialog.</p>
+<p>Blue background - current item. Its text is displayed in the editor. Also there is a small triangle on the icon.</p>
+<p>Yellow background - an open item. Read more below, in  &quot;Editor&quot; and &quot;Open Items&quot; chapters.</p>
+<p>Blue text - recently modified.</p>
+<p>Red circle on icon - disabled trigger.</p>
+<p>Small &quot;S&quot; on icon - <a href="IDH_QML.html">shared folder</a>.</p>
+<h2><a name="A3" href="IDH_INTERFACE.html#L3">Editor</a></h2>
+
+<p>Here is code (text) of currently selected item.</p>
+<p>&nbsp;</p>
+<p> Right click to show the <A href="IDH_MENU_EDIT.html">Edit 
+  menu</a>.</p>
+<p> Click the selection bar to select a line.</p>
+<p> You can drag and drop the 
+  selected text.</p>
+<p> To disable-enable a line, right click the selection bar.</p>
+<p> To disable-enable 
+  more lines, select them (whole lines) and right click the selection bar, or 
+  press key Space or Shift+Space.</p>
+<p> To insert or remove tabs at the beginning of 
+  multiple lines, select them (whole lines) and press key Tab or Shift+Tab.</p>
+<p>&nbsp;</p>
+<p>You can open multiple items. Opening another item in the code editor does not close current item, just hides it.  You can close an item to unload its text from the editor, clear its Undo history, free used memory and remove it from the Open Items list.</p>
+<p>&nbsp;</p>
+<p> You can edit items in two editors. When you open an item, it is opened in 
+  the primary editor. Using the Active Items menu you can open it in 
+  the secondary editor at the right or bottom, or in both editors.</p>
+<h2><a name="A4" href="IDH_INTERFACE.html#L4">Active Items</a></h2>
+<p> The Open Items list can be used like tabs in a multitab editor 
+  or web browser. It shows items that are currently open. They are yellow in 
+  the list at the left. Right click an item to show the Active Items menu. Middle click 
+to close the item. Names of edited items are blue.</p>
+<p>&nbsp;</p>
+<p> In the Running Items pane you can see currently running <a href="../Other/IDP_THREADS.html">threads</a>, 
+  toolbars, timers and recently launched items. Right click an item to view a menu that 
+  allows you to end a thread, find a lost toolbar, reset toolbar settings, stop 
+  a timer. Items that are in private folders (in Folder Properties dialog checked &quot;Private functions&quot;) are hidden or gray. To hide/unhide, right click a folder or empty space. Does not show threads and timers started by macros running in separate process.</p>
+<h2><a name="A5" href="IDH_INTERFACE.html#L5">Find help, functions, tools</a></h2>
+<p>Allows you to quickly find help, functions and tools in:</p>
+<ol>
+  <li>QM help file.</li>
+  <li>Code toolbar dialogs.</li>
+  <li>Functions in public QM system folders.</li>
+  <li>Functions in specified QM user folders. 
+    To add folders, click the drop-down arrow and select Options in the popup menu.</li>
+  <li>Tips.</li>
+  <li>QM forum.</li>
+  <li>Internet (Google).</li>
+</ol>
+<p> Type a search query and press Enter. It shows a menu of help topics, code 
+  toolbar dialogs, functions and tips that contain the words. Also you can search 
+  in the forum and the Internet. The search query can be a question, 
+  or a task, or words in any sequence. Finds topics that contain ALL words. Also 
+  searches for similar words, eg &quot;get&quot;, &quot;gets&quot;, &quot;getting&quot;. 
+  Ignores stop-words, like &quot;a&quot;, &quot;to&quot;, &quot;how&quot;, &quot;it&quot;, 
+  and nonword characters. Does not support phrase search, operators, etc. Examples:</p>
+<p>&nbsp;</p>
+<p>copy files</p>
+<p>how to move a window to a monitor</p>
+<p>acc</p>
+<p>dialog icon</p>
+<p>attaching toolbars to windows</p>
+<p>&nbsp;</p>
+<p>F1 and F2 here work in a similar way as in the code editor. For example, you 
+  can type a function or macro name and press F2 to open it or F1 to see its help. 
+  If it is a member function, type Classname.Membername.</p>
+<h2><a name="A6" href="IDH_INTERFACE.html#L6">Output, Find, Tips</a></h2>
+<!-- A6 is used in dlg_find.cpp -->
+
+<p>In the Output pane you can see error messages, <a href="../Commands/IDP_OUT.html" class="blue">out</a> 
+  messages, and other notifications. Right click to view a <A href="IDH_MENU_TOOLS.html">context 
+  menu</a>.</p>
+<p>&nbsp;</p>
+<p>In the Find pane you can find macros, find and replace text, rename macros.</p>
+<p>Can be used operators AND and OR. They must be in uppercase. The OR operator has higher priority.</p>
+<p>To quickly clear a text field, middle click.</p>
+<p>You can save current Find pane text and settings, and later load. Saves in current main <a href="IDH_QML.html">QM file</a>.</p>
+<p>&nbsp;</p>
+<p>In the Tips pane you can learn how to work with Quick Macros.</p>
+<p>When you type or click a function name or some other identifier in the code editor, 
+and then press F1, its <a href="../Other/IDP_F1.html">help</a> also may be displayed in the Tips pane.</p>
+<h2><a name="A7" href="IDH_INTERFACE.html#L7">Status bar</a></h2>
+
+<p>Here you can see mouse-related information.</p>
+
+<p>&nbsp;</p>
+
+<p>First line: mouse position in window .. window name . window class 
+  . window style, exstyle.</p>
+
+<p>Second line: mouse position in screen .. program .. child window 
+  id . child window class . child window style, exstyle.</p>
+
+<p>&nbsp;</p>
+
+<p>Here also is displayed <a href="IDH_TYPEINFO.html">short function information</a> and other temporary information.</p>
+<h2><a name="A8" href="IDH_INTERFACE.html#L8">Code toolbar</a></h2>
+<p>To enter some often used macro commands, you can use dialogs from the code 
+  toolbar. The dialogs 
+  can be used only to create new code, but not to edit existing code.</p>
+<p>&nbsp;</p>
+<p> Dialogs are available only for some commands. Actually there are thousands 
+  of commands and functions, although many of them can be useful only for programmers. You can find other commands in QM Help, or in <a href="IDH_TYPEINFO.html">popup 
+  lists</a>, or using the &quot;Find help, functions, tools&quot; field, or on the Internet.</p>
+<p>&nbsp;</p>
+<p>Many fields in the dialogs are optional. You can leave them empty. The required 
+  field always is at the top. For example, in the Run Program dialog, you can 
+  specify only the program. Various options initially are set to mostly used values, 
+  so you don't have to change them in most cases.</p>
+<p>&nbsp;</p>
+<p>In some dialogs, you can see a Drag picture. You can drag it and drop on an 
+  object, and many dialog fields will be filled automatically (you may have to 
+  edit something in some cases).</p>
+<p>&nbsp;</p>
+<p>In dialogs you can use variables. To use a variable in a dialog field 
+  where text is required, enclose it in parentheses (except when there is a checkbox 
+  or other control to specify that it is a variable). Parentheses are not necessary 
+  where numeric values are required.</p>
+<h2> <img src="../image/qm_icon.png"> <a name="A9" href="IDH_INTERFACE.html#L9">Tray icon</a></h2>
+
+<p>The QM tray icon normally is blue. When QM is disabled (does not respond to 
+  triggers of keyboard, mouse and some other types), it is gray. When a macro 
+  (not a function or menu) is running, it is red.</p>
+<p>Click to show QM window. If the tray icon is hidden (you can set this in Options), 
+  click QM shortcut (e.g., in the Start menu), or press Ctrl+Shift+Alt+Q.</p>
+<p>Right click to show menu.</p>
+
+<p>Middle click to disable or enable QM.</p>
+
+<p>Ctrl+click to exit QM.</p>
+</body>
+
+</html>
