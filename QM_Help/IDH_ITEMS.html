@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>QM items</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>QM items</h1>
+
+<p>You can create items of these types:</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/icon_macro.gif"> <A href="IDH_MACRO.html"><b>Macros</b></a> are 
+  used to execute macro commands and functions. By default, only a single macro can run at a time. 
+  Red tray icon indicates that a macro is running. You can stop it manually: press the Pause 
+  key.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.2. Added option 'If a macro is running, run simultaneously'. Read <a href="IDH_MACRO.html">here</a>.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/icon_function.gif"> <A href="IDH_FUNCTION.html"><b>Functions</b></a> 
+  can be called from code (from macros, functions etc). Functions also can be started 
+  like macros (not called from code).</p>
+<p>&nbsp;</p>
+<p>Macros and functions can contain the same code. The main difference 
+  between macros an functions is for what purposes they usually are used:</p>
+<ul>
+  <li> Macros 
+    are used to automate something. Especially if they interact with windows 
+    (send keys, etc). They are safer than functions (single instance, red tray icon, stop with Pause). Often used just to test some code.</li>
+  <li> Functions 
+    are mostly used for:
+    <ul><li>To execute the same code in 
+    multiple places (call function containing the code).</li>
+      <li>When a function is required, for example for callback functions.</li>
+      <li>For background tasks and other tasks that run long time, unattended, like applications 
+        or services. Usually such tasks don't interact with windows 
+        and don't interfere with user actions and with each other. Macros with option 'Run simultaneously' also can be used for this.</li>
+    </ul>
+    </li>
+</ul>
+<p>&nbsp;</p>
+<p>Default speed (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>) of functions and member functions is 0. Default speed of macros and items of other types is 100, and can be changed with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Language/IDP_DIR_SUB.html">sub-functions</a>.</p>
+<p>&nbsp;</p>
+<p> <img src="../image/icon_member.gif"> <b><a href="../Language/IDP_CLASSES.html">Member functions</a></b> are functions that belong to a class. Same as functions, but are called differently. Cannot have a trigger or start a thread.</p>
+<p>&nbsp;</p>
+<p><img src="../image/icon_popup.gif"> <A href="IDH_POPUP.html"><b>Pop-up menus</b></a> 
+  are used to launch macros, files, execute other commands.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/icon_toolbar.gif"> <A href="IDH_TOOLBAR.html"><b>Toolbars</b></a> 
+  are used to launch macros, files, execute other commands. Toolbars 
+  can be associated with windows (run automatically when window appears, and disappear 
+  when window closed), or free (once launched, exist all the time, on top of other 
+  windows).</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/icon_tsm.gif"> <A href="IDH_TSM.html"><b>Autotext lists</b></a> 
+  (aka TS menus) are used to execute commands when you type certain text. Can be used for text replacement/autocomplete/autocorrect.</p>
+<p>&nbsp;</p>
+<p>You can create <b><a href="IDH_FOLDERPROP.html">folders</a></b> to store items.</p>
+<p>&nbsp;</p>
+
+<p>An  item has a name, can have a trigger (an event that launches it), text (code) and several other properties.</p>
+
+<p>&nbsp;</p>
+
+<p>To add new macro, click the 'New macro' button on the toolbar. To add item of any type, click the small arrow 
+  beside it and select from the menu. Or right click somewhere in the list and select from the New submenu. Then you can enter name in the small edit field in the list. To set trigger and other properties, use the Properties dialog (click 
+  the Properties button on the toolbar). To delete an item, right click it in 
+  the list of macros and click Delete in the menu, or click and press the Delete 
+  key.</p>
+
+<p>&nbsp;</p>
+<p>QM 2.3.0. Added new item type - <b>file link</b>. File links are used to open text 
+  files in QM for viewing and editing. A file link is like a shortcut to the file. 
+  File contents is not stored in the <a href="IDH_QML.html">QM file</a>. When you delete or rename 
+  the item, it does not affect the file. To create a file link, drag and drop 
+  a file from Windows Explorer to the list of macros in QM. Or open the file with 
+  QM, for example drag&amp;drop on QM icon. Or use <a href="../Functions/IDP_NEWITEM.html" class="blue">newitem</a>. 
+  An item of this type can have a trigger or can be launched using the Run button. 
+  However by default it does nothing. To run the file, or do something else with 
+  it, create a function that does it and assign trigger <a href="IDH_TRIG_QM.html">'QM 
+  events -&gt; file link run'</a>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. QM items can have custom <a href="IDH_ICONS.html">icons</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
