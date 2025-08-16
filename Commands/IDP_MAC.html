@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>mac</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Run macro</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>mac</b><i>[</i>+<i>|</i>-<i>] [</i>macro<i>] [</i>command<i>] [</i>a1 <i>...]</i></pre>
+<p>&nbsp;</p>
+<p>Can be used as function:</p>
+<pre class=syntax><i>int</i> <b>mac</b>(<i>[</i></span>macro<i>] [</i>command<i>] [</i>a1 <i>...]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>macro</b> - <a href="../QM_Help/IDH_ITEMS.html">QM item</a> name (full, 
+case insensitive) or <a href="../Functions/IDP_QMITEM.html">id</a> (integer).</p>
+<ul>
+  <li>If omitted or &quot;&quot; -  QM item that is currently open in the code editor.</li>
+  <li>Can be QM item path. For example, &quot;\Mouse\Next&quot; is  macro &quot;Next&quot; in folder &quot;Mouse&quot;.</li>
+  <li>Can be <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, like &quot;sub.SubFunctionName&quot;. Then cannot be variable.</li>
+</ul>
+
+<p> <b>command</b> - some string or number. How it is interpreted depends on item 
+type. Default: &quot;&quot;.</p>
+<table class="tflags">
+<tr> 
+  <th>If macro is</th>
+  <th>command is interpreted as</th>
+</tr>
+<tr> 
+  <td>Macro or function</td>
+  <td> Something to be stored into the <a href="../Language/IDP_SPECVAR.html">_command</a> 
+    variable.</td>
+</tr>
+<tr> 
+  <td><a href="../QM_Help/IDH_TOOLBAR.html">Toolbar</a></td>
+  <td>Window to be associated with the toolbar. Can be window name or handle. If the window does not exist, not error, and the toolbar will not be created.</td>
+</tr>
+<tr> 
+  <td>Menu</td>
+  <td>Menu item label. Instead of showing menu, will execute that item.</td>
+</tr>
+<tr> 
+  <td>Other</td>
+  <td>Not used.</td>
+</tr>
+</table>
+<p> <b>a1 ...</b> - arguments for <b>macro</b>. It receives them  through <A href="../Language/IDP_FUNCTION.html" class="blue">function</a> statement.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+
+<table class="tflags">
+  <tr>
+    <td>Default</td>
+    <td>Run <b>macro</b>.</td>
+  </tr>
+  <tr> 
+    <td>+</td>
+    <td>Open <b>macro</b> in editor (don't run).</td>
+  </tr>
+  <tr> 
+    <td>-</td>
+    <td>End this <A href="../Other/IDP_THREADS.html">thread</a>      and run <b>macro</b>.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Launches <b>macro</b>. Unlike <a href="https://quickmacros.com/help/Commands/..%5CLanguage%5CIDH_FUNCTIONS.html">function</a> call, <b>macro</b> runs asynchronously, in separate <a href="../Other/IDP_THREADS.html">thread</a>.</p>
+<p>&nbsp;</p>
+<p class="red">Some features not available in <a href="../QM_Help/IDH_MAKEEXE.html#a4">exe</a>.</p>
+<p>&nbsp;</p>
+<p> Error if <b>macro</b> does not exist when executing the <span class="blue">mac</span> statement. If <b>macro</b> is a <a href="../Language/IDP_DIR_SUB.html">sub-function</a> - when compiling.</p>
+<p>&nbsp;</p>
+<p> Supported <a href="../QM_Help/IDH_ITEMS.html">QM item</a> types: all except folders and member functions.</p>
+<p>&nbsp;</p>
+<p><span class="blue">mac</span> can be used as function. The return value depends on item type.</p>
+<table class="tnormal">
+  <tr> 
+    <th>If macro is</th>
+    <th>mac returns</th>
+  </tr>
+  <tr> 
+    <td>Macro or function</td>
+    <td><p>Thread handle. You can use it, for example, to <a href="IDP_WAIT_FOR.html">wait</a> 
+      until the thread ends (see example). Don't close the handle.</p></td>
+  </tr>
+  <tr> 
+    <td>Toolbar</td>
+    <td>Toolbar window handle. <a href="../QM_Help/IDH_TOOLBAR.html">Read more</a>.</td>
+  </tr>
+  <tr> 
+    <td>Menu</td>
+    <td>If used as function (like <span class=cod>variable<span class=o>=</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;menu&#34;</span><span class=p>)</span></span>), 
+      <span class="blue">mac</span> waits until the menu is closed. It then returns 
+      a nonzero value if an item clicked, or 0 if not. If used like <span class=cod><span class=fq>mac</span> <span class=s>&#34;menu&#34;</span></span>, it does not wait. <a href="../QM_Help/IDH_POPUP.html">Read 
+      more</a>. </td>
+  </tr>
+  <tr>
+    <td>File link</td>
+    <td>Thread handle of function that has &quot;file link run&quot; trigger for that file type.</td>
+  </tr>
+  <tr>
+    <td>Other</td>
+    <td>0</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>If <b>macro</b> and current thread both are <a href="../QM_Help/IDH_MACRO.html">macros</a> (not functions etc) without option 'Run simultaneously', <b>macro</b> starts when this thread 
+  ends. Then <span class="blue">mac</span> returns 0.</p>
+<p>&nbsp;</p>
+<p>Note: <span class="blue">mac</span> does not wait until the new thread ends. In exe, when the main thread ends, other threads also are terminated.   You can use <span class="blue">wait</span> 0 H or <span class="UDF">WaitForThreads</span> to wait for them.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>To quickly insert <span class="blue">mac</span> statement, you can drag and drop.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="https://quickmacros.com/help/Commands/..%5CLanguage%5CIDH_FUNCTIONS.html">functions</a>, 
+  <a href="IDP_NET.html">net</a>, <span class="UDF">EndThread</span>, <span class="UDF">RunTextAsFunction</span>, <a href="IDP_WAIT_FOR.html">wait for thread (handle)</a>, <a href="../Functions/IDP_QMITEM.html">find 
+  macro</a>, <a href="../Functions/IDP_NEWITEM.html">create macro</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>mac</span> <span class=s>&#34;Macro5&#34;</span> <span class=c2>;;run macro &#34;Macro5&#34;
+</span><span class=fq>mac</span> <span class=s>&#34;\Folder\Macro5&#34;</span> <span class=c2>;;run &#34;Macro5&#34; that is in &#34;Folder&#34; folder
+</span><span class=fq>mac</span><span class=o>-</span> <span class=s>&#34;Macro5&#34;</span> <span class=s>&#34;a&#34;</span> <span class=c2>;;end current macro and run &#34;Macro5&#34;. Also, send string &#34;a&#34; as command.
+</span><span class=fq>mac</span> <span class=s>&#34;Func&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;some string&#34;</span> <span class=n>1</span> <span class=n>55.5</span> <span class=c2>;;run function &#34;Func&#34; and send three arguments</span>
+<span class=fq>mac</span> <span class=s>&#34;sub.Sub1&#34;</span> <span class=c2>;;run sub-function Sub1 in separate thread
+
+ Get id of &#34;Macro5&#34; and run it:
+</span><span class=t>int</span> i <span class=o>=</span> <span class=fq>qmitem</span><span class=p>(</span><span class=s>&#34;Macro5&#34;</span><span class=p>)</span>
+<span class=fq>mac</span> i
+<span class=c> 
+ If window &#34;Notepad&#34; exists, create toolbar &#34;TB&#34; and attach it to the window:
+</span><span class=fq>mac</span> <span class=s>&#34;TB&#34;</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+
+<span class=c> Run function &#34;Function1&#34; in separate thread and wait until it ends:
+</span><span class=t>int</span> hThread<span class=o>=</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;Function1&#34;</span><span class=p>)</span>
+<span class=fq>wait</span> <span class=n>0</span> H hThread
+
+<span class=c> Call function Function1 (unlike mac, it does not create new thread):
+</span><span class=fu>Function1</span></pre>
+
+</body>
+
+</html>
