@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>act</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Activate window, set focus</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>act</b> <i>[</i>window<i>] [</i>flags<i>]</i></pre>
+
+<p>&nbsp;</p>
+<p>Can be used as function:</p>
+<pre class=syntax><i>int </i><b>act</b>(<i>[</i>window<i>] [</i>flags<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - window or child window.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b> (QM 2.3.2):</p>
+<table class="tflags">
+<tr>
+  <td width="10%">1 (QM 2.3.2)</td>
+  <td width="90%">Not error  if  activates other window of same thread. Add this flag when <span class="blue">act</span> activates correct window but throws error after ~1 s.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> If <b>window</b> is a top-level window, activates.</p>
+<p> If <b>window</b> is a <a href="../Other/IDP_WINDOWSTYLES.html">child</a> window, activates its parent window and sets focus.</p>
+<p>If <b>window</b> is omitted, activates previous window, as if you would press Alt+Tab.</p>
+<p>&nbsp;</p>
+<p>If used as function, <span class="blue">act</span> activates window and returns 
+  window handle.</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a>.</p>
+<p>&nbsp;</p>
+<p>Error if fails to activate.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>If <span class="blue">act</span> does not work properly, try to check &quot;Disable Windows foreground lock feature&quot; in Options.</p>
+
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>act</span> <span class=s>&#34;Notepad&#34;</span> <span class=c2>;;activate &#34;Notepad&#34; window
+</span><span class=fq>act</span> <span class=s>&#34;+IEFrame&#34;</span> <span class=c2>;;activate window with class name &#34;IEFrame&#34;
+</span><span class=fq>act</span> <span class=c2>;;activate next window
+</span><span class=fq>act</span> <span class=fq>win</span><span class=p>(</span><span class=n>100</span> <span class=n>200</span><span class=p>)</span> <span class=c2>;;activate window from point (100, 200 pixels of the screen)
+</span><span class=fq>act</span> <span class=fq>id</span><span class=p>(</span><span class=n>142</span> <span class=s>&#34;Calc&#34;</span><span class=p>)</span> <span class=c2>;;activate (set focus) &#34;Calc&#34; child with id = 142
+</span></pre>
+
+</body>
+
+</html>
