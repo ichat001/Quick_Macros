@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Toolbar properties</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Toolbar properties</h1>
+
+<p><a href="IDH_TOOLBAR.html">Toolbars</a> have two sets of properties - dynamic and static.</p>
+<p>&nbsp;</p>
+<p>Dynamic properties can be changed while the toolbar is running. Position - move the toolbar (right-drag). Size - resize the toolbar (drag an edge). Some other properties can be changed in the <a href="IDH_TOOLBARMENU.html">right-click 
+menu</a>. Dynamic properties are  automatically saved in current main <a href="IDH_QML.html">QM file</a>.</p>
+<p>&nbsp;</p>
+<p>Static properties can be changed in the 
+Properties dialog. They are saved in toolbar text, first line, and also can be edited directly there. They are described below. If toolbar position, size or right-click menu settings are specified, the specified static properties are used instead of the automatically saved dynamic properties.</p>
+<p>&nbsp;</p>
+<p><a onClick="doSection(e1)" class="expand">Syntax</a></p>
+<div id="e1" class="expand"> 
+<pre class=syntax><em> /option1 </em><i>[</i><span class="green">parameters</span><i>] [</i><em>/option2 </em><i>[</i><em>parameters</em><i>] ...]</i></pre>
+  <p>&nbsp;</p>
+  <p>Space or semicolon, and one or more options. 
+    Each option begins with / and can have 1-2 parameters. If some 
+    parameter is not used, it can be omitted or &quot;&quot;. Numeric parameters can be simple integer values, 
+    named constants, global variables, functions, 
+    {code} and expressions with operators. Expression with spaces or / must be enclosed 
+    in parentheses.</p>
+  <p>&nbsp;</p>
+  <p> Example (first line of toolbar text):</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=c> /col 0x80C0FF /hcol &#34;&#34; 0xFF /style WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX 0</span></pre>
+  <p>&nbsp;</p>
+  <p> A numeric parameter can be or contain code enclosed in { }. The code is executed 
+    as function, when creating the toolbar, in main QM thread. The code should return a value (<span class="blue">ret</span>). In code and user-defined functions, toolbar owner window handle is <span class=cod><span class=fq>val</span><span class=p>(</span>_command<span class=p>)</span></span>.</p>
+  <p>&nbsp;</p>
+  <p> Examples:</p>
+  <pre class=cod><span class=c> /mov 200 {ret GetClientTop(val(_command))-20}
+ /mov 200 TB_ClientY-20</span></pre>
+  
+  <p>&nbsp;</p>
+  <p>Use <span class=syntax><em>mov0</em></span>, <span class=syntax><em>siz0</em></span>, 
+    <span class=syntax><em>ssiz0</em></span> and <span class=syntax><em>set0</em></span> 
+    to apply these options only first time and after Reset.</p>
+</div>
+<h2>Available options</h2>
+<p>1. Set toolbar position.</p>
+
+<pre class=syntax><em> /mov x y</em></pre><p>&nbsp;</p>
+
+<p>Here <b>x </b>and <b>y</b> are toolbar position, in pixels. If the parameters 
+  are (or begin with) xm and ym, toolbar will be under the mouse pointer. Coordinates 
+  are relative to the owner window or screen top-left or other corner (depends 
+  on the Coordinates setting; see also <span class="green">/client</span>). Use <span class=syntax><em>mov0</em></span> to 
+  apply only first time.</p>
+<p>&nbsp;</p>
+<p> Examples:</p>
+
+<pre class=cod><span class=c> /mov 200 0
+ /mov xm ym+100
+ /mov 200 -23 /client</span></pre>
+
+<p>&nbsp;</p>
+
+
+<p>2. Set toolbar dimensions.</p>
+
+<pre class=syntax><em> /siz width height</em></pre><p>&nbsp;</p>
+<p>Use <span class=syntax><em>siz0</em></span> to apply only first time.</p>
+
+<p>&nbsp;</p>
+
+
+<p>3. Set toolbar dimensions for shrinked state.</p>
+
+<pre class=syntax><em> /ssiz width height</em></pre><p>&nbsp;</p>
+<p>Use <span class=syntax><em>ssiz0</em></span> to apply only first time.</p>
+
+<p>&nbsp;</p>
+
+
+<p>4. Set icon size.</p>
+
+<pre class=syntax><em> /isiz width height</em></pre><p>&nbsp;</p>
+
+<p>Default size is 16x16. If <b>cy</b> is omitted, it will be equal to <b>cx</b>. 
+  If <b>cx</b> is more than <b>cy</b>, text is placed below icon.</p>
+
+<p>&nbsp;</p>
+<p>5. Set maximum and/or minimum button size.</p>
+<pre class=syntax><em> /bsiz maxwidth minwidth</em></pre><p>&nbsp;</p>
+
+<p>QM 2.2.1: Works with all styles. Added minwidth.</p>
+<p>&nbsp;</p>
+<p>6. Set initial settings of the <a href="IDH_TOOLBARMENU.html">right-click 
+  menu</a>. In the Properties dialog it is &quot;Style flags&quot;.</p>
+<pre class=syntax><em> /set flags mask</em></pre><p>&nbsp;</p>
+
+<div class="parts">
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr> 
+  <td width="20%">1</td>
+  <td width="40%">Follow owner window when it is moved or resized.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Show button text.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Activate owner window on click.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Auto shrink.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>Equal-width buttons.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>No sizing border.</td>
+</tr>
+<tr> 
+  <td>64</td>
+  <td>Show tooltips always, even if button text is shown.</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>Use as vertical toolbar. Line breaks will be horizontal.</td>
+</tr>
+<tr>
+  <td>0x000</td>
+  <td>Coordinates: top-left.</td>
+</tr>
+<tr>
+  <td>0x100</td>
+  <td>Coordinates: top-right.</td>
+</tr>
+<tr>
+  <td>0x200</td>
+  <td>Coordinates: bottom-left.</td>
+</tr>
+<tr>
+  <td>0x300</td>
+  <td>Coordinates: bottom-right.</td>
+</tr>
+<tr>
+  <td>0x400</td>
+  <td>Coordinates: auto select.</td>
+</tr>
+<tr>
+  <td>0x1000</td>
+  <td>Show in all virtual desktops.</td>
+</tr>
+<tr>
+  <td>0x2000</td>
+  <td>Quick icons. Uses an icon cache.</td>
+</tr>
+<tr>
+  <td>0x4000 (QM 2.2.0)</td>
+  <td>1-pixel border.</td>
+</tr>
+<tr>
+  <td>0x8000 (QM 2.2.1)</td>
+  <td>3D buttons.</td>
+</tr>
+<tr>
+  <td>0x10000 (QM 2.3.1)</td>
+  <td>When a file dropped, open it with the button program. Don't show a menu.</td>
+</tr>
+<tr>
+  <td>0x20000 (QM 2.3.3)</td>
+  <td>Hide if a full-screen window is active.</td>
+</tr>
+<tr>
+  <td>0x40000 (QM 2.3.3)</td>
+  <td>Super on-top. Make on top of other alway-on-top windows, eg taskbar.</td>
+</tr>
+</table>
+<p><b>mask</b> -  use to change only some flags. Will be changed 
+  only those bits of <b>flags</b> that are 1 in <b>mask</b>. First time are applied all flags regardless of <b>mask</b>.</p>
+</div>
+<p>&nbsp;</p>
+<p> Example:</p>
+
+
+<pre class=cod><span class=c> /set 1|2|8|0x400</span></pre>
+<p>&nbsp;</p>
+<p>Use <span class=syntax><em>set0</em></span> to apply only first time.</p>
+<p>&nbsp;</p>
+
+
+<p>7. Set toolbar window style and extended style.</p>
+
+<pre class=syntax><em> /style st exst</em></pre><p>&nbsp;</p>
+
+<p>Here <b>st</b> and <b>exst</b> are style and extended style of the toolbar 
+  window. Can be used style constant names, like in the example. Reference - <a href="../Other/IDP_MSDN.html">MSDN</a>.</p>
+<p>&nbsp;</p>
+<p> Example:</p>
+
+<pre class=cod><span class=c> /style (WS_CAPTION | WS_SYSMENU)</span></pre>
+
+<p>&nbsp;</p>
+<p>8. Set background and text color.</p>
+<pre class=syntax><em> /col color textcolor</em></pre><p>&nbsp;</p>
+<p>Here <b>color</b> and <b>textcolor</b> are <a href="../Other/IDP_COLOR.html">colors</a> 
+  in 0xBBGGRR format. Value 1 to 31 will set one of system colors.</p>
+<p>&nbsp;</p>
+<p>9. Set hot item background and text color.</p>
+<pre class=syntax><em> /hcol color textcolor</em></pre><p>&nbsp;</p>
+<p>If you set hot item background color, Windows themes (visual styles) are not 
+  applied, and the toolbar may look differently.</p>
+<p>&nbsp;</p>
+<p>Does not work when 3D buttons.</p>
+<p>&nbsp;</p>
+<p>10. Set transparency.</p>
+<pre class=syntax><em> /transp opacity color</em></pre><p>&nbsp;</p>
+<div class="parts">
+<p><b>opacity</b> - value between 0 (makes the toolbar completely transparent) 
+and 255 (completely opaque).</p>
+<p><b>color</b> - sets the specified color completely transparent. Completely 
+transparent areas are transparent to the mouse too. Optional.</p>
+</div>
+<p>&nbsp;</p>
+<p>On Vista and later, hot button may look distorted. It is because its color is gradient, 
+  and some lines match the transparent color and therefore are transparent. Try 
+  to change background color with /col.</p>
+<p>&nbsp;</p>
+<p>11. Set background image. Can be bmp, gif, jpg. QM 2.3.4: also can be png.</p>
+<pre class=syntax><em> /bmp &quot;file&quot;</em></pre><p>&nbsp;</p>
+<p> Example:</p>
+<pre class=cod><span class=c> /bmp &#34;$my qm$\images	b1.bmp&#34;</span></pre>
+<p>&nbsp;</p>
+
+<p>12. Glass. QM 2.2.0.</p>
+<pre class=syntax><em> /glass</em></pre><p>&nbsp;</p>
+<p>Translucent toolbar. Incompatible with /bmp, transparent color and hot color (these are ignored if /glass is used). Does not work if Windows Aero theme is disabled.</p>
+<p>&nbsp;</p>
+<p>13. Set font. QM 2.2.0.</p>
+<pre class=syntax><em> /font XXXX</em></pre><p>&nbsp;</p>
+<p>Font can be set in Properties.</p>
+<p>&nbsp;</p>
+<p>On Vista and later, does not work when 3D buttons.</p>
+<p>&nbsp;</p>
+
+<p>14. Lock toolbar.</p>
+
+
+<pre class=syntax><em> /lock flags</em></pre><p>&nbsp;</p>
+<div class="parts">
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>don't show the right-click menu.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>disable moving.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>disable resizing.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>disable modifying. This disables drag&amp;drop features, and three first 
+    items in the right-click menu. Even if this option is not used, a toolbar 
+    cannot be modified if it is encrypted or in a read-only folder or file.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>disable the Close item in the right-click menu.</td>
+</tr>
+<tr> 
+  <td>128</td>
+  <td>lock only if the toolbar is in a shared file ([s] folder).</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>If <b>flags</b> is not used, are applied all flags except 128.</p>
+<p>&nbsp;</p>
+<p>15. Toolbar position specified in mov/mov0 is relative to the client area of the owner window, or to the work area if no owner. QM 2.4.3.</p>
+<pre class=syntax><em> /client</em></pre>
+<p>&nbsp;</p>
+<p>16. Set <a href="IDH_EXTOOLBAR.html">hook function</a>.</p>
+
+</body>
+
+</html>
