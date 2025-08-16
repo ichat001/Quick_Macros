@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>set</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Set part of string</h1>
+
+<h3>Syntax1</h3>
+
+<pre class=syntax>s.<b>set</b>(ss <i>[</i>from<i>] [</i>nc<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2</h3>
+
+<pre class=syntax>s.<b>set</b>(char <i>[</i>from<i>] [</i>nc<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>ss </b>- source string.</p>
+
+<p> <b>char</b> - source character. Integer <a href="../Tables/IDP_ASCII.html">character code</a>.</p>
+
+<p> <b>from </b>- where to copy (0-based character index in <b>s</b>). Default: 
+0.</p>
+
+<p> <b>nc </b>- number of characters to copy.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <i>Syntax1: </i> Copies <b>nc</b> characters from <b>ss</b> (or whole <b>ss</b>, 
+  if <b>nc</b> omitted) to <b>s</b>, starting from <b>from</b>.</p>
+<p>&nbsp;</p>
+<p> <i>Syntax2: </i>If <b>from</b> and <b>nc</b> are omitted, fills <b>s</b> with 
+  <b>char</b>. Otherwise, copies <b>nc</b> (default is 1) <b>char</b> characters 
+  to <b>s</b>, starting from <b>from</b>. In <a href="../Other/IDP_UNICODE.html">Unicode</a> 
+  mode, don't use non ASCII characters. </p>
+<p>&nbsp;</p>
+
+<p> <i>Common:</i> If <b>from</b>+<b>nc</b>&gt;<b>s</b>.len, <b>s</b> is automatically 
+  expanded. If <b>from</b>&gt;<b>s</b>.len, area from <b>s</b>.len to <b>from</b> 
+  is filled with spaces. </p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;My dog&quot;</span>
+s.<span class=fq>set</span><span class=p>(</span><span class=s>&quot;cat&quot;</span> <span class=n>3</span><span class=p>)</span>
+<span class=c> now s is &quot;My cat&quot;</span>
+
+<span class=t>str</span> s.<span class=fq>all</span><span class=p>(</span><span class=n>6</span> <span class=n>2</span><span class=p>)</span>
+<span class=c> now s has allocated 6 bytes. String content is undefined.</span>
+s.<span class=fq>set</span><span class=p>(</span><span class=n>' '</span><span class=p>)</span>
+<span class=c> now s is &quot; &quot; (6 spaces)</span>
+
+<span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;Number&quot;</span>
+s.<span class=fq>set</span><span class=p>(</span><span class=n>'1'</span> <span class=n>7</span><span class=p>)</span>
+<span class=c> now s is &quot;Number 1&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
