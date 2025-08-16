@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>iif</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Inline if</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>any</i><b> iif</b>(x a b)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>x </b>- any <A href="../Other/IDP_EXPRESSION.html">expression</a> that is either true (not 0) or false (0).</p>
+
+<p> <b>a, b</b> - expressions of any type. Can be numeric or string values, variables, functions, expressions with operators.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Selects one of two expressions. If <b>x</b> is true<b> </b>(not 0), returns <b>a</b>, else returns <b>b</b>.</p>
+
+<p>&nbsp;</p>
+<p>Does not evaluate the other expression. For example, if <b>a</b> and <b>b</b> are functions, calls only one of them.</p>
+<p>&nbsp;</p>
+
+<p>Expressions <b>a</b> and <b>b</b> must have same or similar types. If one is pointer or string, other can be 0. The return type depends on types 
+  of <b>a</b> and <b>b</b>. If both are pointers of different types, the return 
+  type is type of <b>b</b>.</p>
+<p>&nbsp;</p>
+<p> <i>See also: </i> <A href="../Language/IDH_OPERATORS.html">Operators</a> <A href="../Flow/IDP_IF.html" class="blue">if</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=c> if i&#60;10 then j=i, else j=10
+</span>j<span class=o>=</span><span class=fq>iif</span><span class=p>(</span>i<span class=o>&#60;</span><span class=n>10</span> i <span class=n>10</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
