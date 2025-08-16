@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>acc</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find <a href="IDP_ACCESSIBLE.html">accessible object</a>; compare properties 
+</h1>
+
+<p class="red">Note: In QM 2.3.3 and later, there are functions of Acc class that replace acc/acctest. They are simpler to use. Use acc/acctest if you want to make the macro compatible with older QM versions. Also, here you can find more info than in Acc.Find help (it calls acc).</p>
+<p>&nbsp;</p>
+
+<h3>Syntax1 - get specified object</h3>
+
+<pre class=syntax><i>Acc </i><b>acc</b>(name <i>[</i>role<i>] [</i>window<i>] [</i>class<i>] [</i>value<i>] [</i>flags<i>] [</i>x y<i>] [</i>navig<i>]</i><i> [</i>waitS<i>] [</i>matchindex<i>]</i>)
+<i>int </i><b>acctest</b>(object name <i>[</i>role<i>] [</i>window<i>] [</i>class<i>] [</i>value<i>] [</i>flags<i>] [</i>x y<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax2 - get object from point</h3>
+
+<pre class=syntax><i>Acc </i><b>acc</b>(x y<i> [</i>window<i>] [</i>flags2<i>]</i>)
+<i>int </i><b>acctest</b>(object<i></i> x y<i> [</i>window<i>] [</i>flags2<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax3 - get object from mouse pointer position</h3>
+
+<pre class=syntax><i>Acc </i><b>acc</b>(mouse)
+<i>int </i><b>acctest</b>(object<i></i> mouse)</pre>
+
+<p>&nbsp;</p><h3>Syntax4 - get object from window handle</h3>
+<pre class=syntax><i>Acc </i><b>acc</b>(hwnd)
+<i>int </i><b>acctest</b>(object<i></i> hwnd)</pre>
+
+<p>&nbsp;</p>
+<h3>Syntax5 - get focused object</h3>
+<pre class=syntax><i>Acc </i><b>acc</b>
+<i>int </i><b>acctest</b>(object<i></i>)</pre>
+
+<p>&nbsp;</p>
+<h3>Syntax6 - get adjacent object</h3>
+<pre class=syntax><i>Acc </i><b>acc</b>(object navig)</pre>
+
+<p>&nbsp;</p>
+<h3>Syntax7 - get object from html element</h3>
+<pre class=syntax><i>Acc </i><b>acc</b>(htmlelement)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+<div class="parts">
+  <p> <b>name </b>- object name.  </p>
+  <ul>
+    <li> By default, <b>name</b> can be partial. Case insensitive.</li>
+    <li> Empty string 
+      (&quot;&quot;) matches any name.</li>
+    <li>Usually it is text that 
+    is displayed in the object or before the object. Not all objects have name.</li>
+  </ul>
+  <p> <b>role</b> - object type. Supported are all role types that are returned by <span class="type">Acc</span>.<span class="UDF">Role</span>:</p>
+  <ul>
+    <li> Standard role constant (numeric), eg 
+    ROLE_SYSTEM_PUSHBUTTON.</li>
+    <li>String that matches the part that 
+    follows ROLE_SYSTEM_, eg &quot;PUSHBUTTON&quot;.</li>
+    <li>Role 
+      string like &quot;push button&quot;.</li>
+    <li> Default: 0 or &quot;&quot; 
+      (any).</li>
+  </ul>
+  <p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - container 
+    window (top-level or child).</p>
+  <ul>
+    <li> If omitted or &quot;&quot; - the active 
+      window.</li>
+    <li> Searches only in the first found matching 
+      top-level window.</li>
+    <li> With <span class="blue">acc</span> it also can be an accessible 
+      object (variable of type <span class="type">Acc</span> or <span class="type">IAccessible</span>).</li>
+  </ul>
+  <p><b>class</b> - class name of direct container window. Usually it is a <a href="../Other/IDP_WINDOWSTYLES.html">child</a> window of the <b>window</b>.</p>
+  <ul>
+    <li>Must be full or with wildcard characters (QM 2.3.4). Case insensitive.</li>
+    <li>Also can include 
+      id. Full syntax is <span class=syntax>&quot;<i>[</i>id=digits<i>] [</i>classname<i>]</i>&quot;</span>, where digits 
+      is control id.</li>
+    <li> Default: &quot;&quot; (any).</li>
+    <li> Not used if <b>window</b> 
+      is accessible object. </li>
+  </ul>
+  <p><b>value </b>- object value.</p>
+  <ul>
+    <li> For example, value of an edit 
+      control is it's text; value of a link is its URL; value of an outline (treeview) 
+      item is it's level within the hierarchy. Most objects don't have a value.</li>
+    <li> By default, <b>value</b> 
+      can be partial. Case insensitive.</li>
+    <li> Empty string (&quot;&quot;) matches 
+      any value.</li>
+  </ul>
+  <p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+  <tr> 
+    <td>1</td>
+    <td><p><b>name</b> is full or with <a href="IDP_MATCHW.html">wildcard 
+      characters</a> (*?).</p>
+      <ul>
+        <li> String &quot;*&quot; matches objects without name.</li>
+        <li> Without this flag, <b>name</b> can be partial.</li>
+        <li>This flag cannot be used 
+          with flag 2.</li>
+      </ul>      </td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td> <b>name</b> is <A href="../RegExp/IDP_PCRE.html">regular expression</a>.
+      <ul>
+        <li>Case sensitive, 
+          unless contains (?i).</li>
+      </ul>      </td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td><p><b>value</b> is full or with wildcard characters.</p>
+      <ul>
+        <li> String &quot;*&quot; matches objects without value.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td> <b>value</b> is regular expression.
+      <ul>
+        <li>Case sensitive, 
+          unless contains (?i).</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td><p>Search invisible objects too (and their descendants).</p></td>
+  </tr>
+  <tr> 
+    <td>32</td>
+      <td><p>Search useless objects too (and their descendants): scrollbar, grip, invisible titlebar, 
+        separator.</p></td>
+  </tr>
+  <tr> 
+    <td>64</td>
+      <td><p>Search only direct children.</p>
+        <ul>
+          <li> Can be useful when <b>window</b> is accessible object.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td>128</td>
+      <td><p>Search in reverse order (starting from bottom).</p>
+        <ul>
+          <li>Applied only to objects in the <b>class</b> child window. Finds the child window not in reverse order.</li>
+          <li>This flag is not used with <span class="blue">acctest</span>.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td>0x1000</td>
+    <td><p>Error if object not found.</p>
+      <ul>
+        <li>This flag is not used with <span class="blue">acctest</span>.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td>0x2000</td>
+    <td><p>QM 2.3.3. Search only in web page, the active tab.</p>
+      <ul>
+        <li> Makes <span class="blue">acc</span> faster.</li>
+        <li><b>class</b> is ignored.</li>
+        <li><b>window</b> must be the browser window. Cannot be a control or accessible object.</li>
+        <li>This flag can be used  with IE, IE-based browsers, Firefox, Chrome, Thunderbird.</li>
+        <li>This flag is not used with <span class="blue">acctest</span>.</li>
+      </ul>    </td>
+  </tr>
+  <tr>
+    <td>0x4000</td>
+    <td>QM 2.3.3. <b>value</b> is CSV containing various properties. Documented in function <span class="type">Acc</span>.<span class="UDF">Find</span>.</td>
+  </tr>
+  <tr>
+    <td>0x10000</td>
+    <td><p>QM 2.4.3. This flag removes a 1-2 s delay in some web pages in Firefox.</p>
+      <ul>
+        <li>Use with pages where even finding DOCUMENT takes 1-2 s. It happens if the DOCUMENT always has &quot;busy&quot; state. Only with flag 0x2000.</li>
+        <li>For reliability also use <strong>waitS</strong> (see below).</li>
+      </ul>      </td>
+  </tr>
+</table>
+
+<p><a onClick="doSection(obsFlags)" class="expand">Obsolete flags</a></p>
+<div id="obsFlags" class="expand">
+  <p>These flags are not used with <span class="type">Acc</span> class functions. Now these properties can be specified in CSV (see flag 0x4000).</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>0x100</td>
+      <td><p><b>x</b> and <b>y</b> are coordinates in window client area.</p>
+        <ul>
+          <li>Ignored if <b>window</b> is accessible object. Then must be screen coordinates.</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>0x200</td>
+      <td><b>x</b> and <b>y</b> are coordinates in the screen.</td>
+    </tr>
+    <tr>
+      <td>0x300</td>
+      <td><b>x</b> and <b>y</b> are coordinates in the work area of the screen.</td>
+    </tr>
+    <tr>
+      <td>0x400</td>
+      <td><b>value</b> is description.</td>
+    </tr>
+    <tr>
+      <td>0x800</td>
+      <td><p>Check object's state.</p>
+        <ul>
+          <li> <b>x</b> must be state.</li>
+          <li> <b>y</b> must be state mask 
+            (state flags that must match must be 1, others - 0). If <b>y</b> is -1 
+            (0xFFFFFFFF), state must match exactly.</li>
+          <li> Object state constants are documented in <a href="../Other/IDP_MSDN.html">MSDN</a>. Example: STATE_SYSTEM_READONLY.</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>0x8000</td>
+      <td><p><A href="../Other/IDP_ENUMWIN.html">Use callback function</a>.</p></td>
+    </tr>
+  </table>
+</div>
+
+<p>&nbsp;</p>
+<p><b>x</b>, <b>y</b> - the object must be at this <A href="../Other/IDP_PIXELS.html">point</a> 
+  in the window. Default: 0 0 (any).</p>
+<ul>
+  <li> For 
+    syntax1, it must be top-left corner coordinates. For syntax2, <span class="blue">acc</span> gets object 
+    that contains the point.</li>
+  <li>Obsolete with syntax1. Now can be specified in CSV (see flag 0x4000).</li>
+</ul>
+<p><b>navig</b> - post-navigation string. Read in Remarks.</p>
+<p><b>waitS</b> -  time (seconds) to wait for the object in the window.</p>
+  <p><b>matchindex</b> (QM 2.2.0) - 1-based index of matched object in the window. Use when there are several objects (in the window) that match 
+    other properties (<b>name</b>, <b>role</b>, <b>class</b>, <b>value</b>, <b>flags</b>, 
+    <b>x</b>, <b>y</b>).</p>
+</div>
+<p>&nbsp; </p>
+<div class="parts">
+<p><b><a href="../Other/IDP_FLAGS.html">flags2</a></b> - combination of values 
+  listed below. Default: 0.</p>
+
+<table class="tflags"><col>
+  <tr> 
+    <td>1</td>
+    <td> <b>x</b> and <b>y</b> are coordinates in client area of window.</td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td> <b>x</b> and <b>y</b> are coordinates in the screen.</td>
+  </tr>
+  <tr> 
+    <td>3</td>
+    <td><b>x</b> and <b>y</b> are coordinates in the work area of the screen.</td>
+  </tr>
+</table>
+
+<p><b>hwnd</b> - handle of some window (child or top-level).</p>
+<p><b>mouse</b> - literal <tt>mouse</tt>.</p>
+<p><b>object</b> - accessible object. Variable of <span class="type">Acc</span> type.</p>
+<p><b>htmlelement</b> - <a href="IDP_HTM.html">html element</a>. Variable of <span class="type">Htm</span> or <span class="type">IHTMLElement</span> type.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p><i>Syntax1:</i> Finds accessible object whose name and other properties match 
+the specified properties.</p>
+<p>&nbsp;</p>
+<p><i>Syntax2:</i> Gets object from the specified point in the window. If <b>window</b> 
+  is omitted or &quot;&quot; - active window. If <b>window</b> is literal 0 
+  - any window (<b>x</b> and <b>y</b> are screen coordinates).</p>
+
+<p>&nbsp;</p>
+
+<p><i>Syntax3:</i> Gets object from mouse pointer position.</p>
+
+<p>&nbsp;</p>
+<p><i>Syntax4:</i> Gets accessible object of window (<b>hwnd</b>) itself. 
+  Window can be child or top-level. To get window handle from accessible object, 
+  use <a href="IDP_CHILD.html" class="blue">child</a> function.</p>
+<p>&nbsp;</p>
+<p><i>Syntax5:</i> Gets the focused accessible object.</p>
+<p>&nbsp;</p>
+<p><i>Syntax6:</i> Gets adjacent object.</p>
+<p>&nbsp;</p>
+<p><i>Syntax7:</i> Gets accessible object that matches html element <b>htmlelement</b>.</p>
+<p>&nbsp;</p>
+<p><span class="blue">acc</span>  should be assigned to a variable of type <a href="IDP_ACCESSIBLE.html">Acc</a>. 
+If  object not found, the variable will be empty. You can use code like <span class=cod><span class=fq>if</span><span class=p>(</span>a.a<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;not found&#34;</span></span>. Or use flag 0x1000 (error if not found) and  <a href="../Flow/IDP_ERR.html" class="blue">err</a>. Always error if window does not exist.</p>
+<p>&nbsp;</p>
+
+<p><span class="blue">acctest</span> compares accessible object properties with the specified, 
+  and returns 1 if they match, or 0 if not. If <b>window</b> is omitted or literal 0, 
+  does not compare it.</p>
+
+<p>&nbsp;</p>
+<p>To capture accessible objects and create code, use the &quot;Find Accessible 
+  Object&quot; dialog. Starting from QM 2.3.3, it inserts code like <span class=cod><span class=t>Acc</span> a.Find<span class=p>(</span>...<span class=p>)</span></span>. The Find function  calls <span class="blue">acc</span>, therefore all its parameters are similar.</p>
+<p>&nbsp; </p>
+<p> The <b>navig</b> string can be used to get an adjacent object. Let's call it <i>post-navigation</i>. After <span class="blue">acc</span> 
+  finds the specified object, it navigates from the found object to another object according to the <b>navig</b> string. 
+  In the<b> </b>string you can use one or more of the following words or 
+abbreviations:</p>
+<table class="tnormal">
+  <tr> 
+    <td><i><b>u</b>p</i>, <i><b>d</b>own</i>, <i><b>le</b>ft</i>, 
+      <i><b>r</b>ight</i></td>
+    <td>Spatial navigation. Most objects don't support it.</td>
+  </tr>
+  <tr> 
+    <td><i><b>n</b>ext</i>, <i><b>pr</b>evious</i></td>
+    <td>Next or previous sibling.</td>
+  </tr>
+  <tr> 
+    <td><i><b>pa</b>rent</i></td>
+    <td> Parent.</td>
+  </tr>
+  <tr> 
+    <td><i><b>f</b>irst</i>, <i><b>la</b>st</i></td>
+    <td> First or last child.</td>
+  </tr>
+  <tr> 
+    <td><i><b>c</b>hild</i></td>
+    <td>Child x. To specify child object, append 
+      1-based child index.</td>
+  </tr>
+</table>
+<p>Each word can be followed by a number that specifies the number of navigation 
+operations in the specified direction. For example, use &quot;next3&quot; instead of &quot;next next next&quot;.</p>
+<p>&nbsp;</p>
+<p> Post-navigation is useful when the wanted 
+  object cannot be uniquely identified (does not have name, etc). Then you can find an adjacent object, and use <b>navig</b> to get the object you actually need. Post-navigation also can be 
+  used to reduce search time. To view relationships between objects, use the &quot;Find 
+  accessible object&quot; dialog. Navigation does not always work in all directions. 
+  Sometimes, invisible objects are skipped (except with <i>parent</i> and <i>child</i>). 
+  Example of <b>navig</b> string: &quot;pa n2 c15 f&quot; (get parent,  get next object two times, get 15-th child, 
+get first child).</p>
+<p>&nbsp;</p>
+<p> <span class="blue">acc</span> is much slower than similar functions <span class="blue">id</span> and <span class="blue">child</span>. 
+   If window or web page has stable structure (hierarchy), post-navigation 
+  can significantly reduce search time. You can specify some object in top of 
+  hierarchy (e.g., PANE or DOCUMENT object in web page), and use post-navigation to navigate 
+  to the object you need.</p>
+<p>&nbsp;</p>
+<p><span class="blue">acc</span> is mostly used with  web pages. There are two alternatives that often are faster. With Internet Explorer and IE-based 
+  browsers you can use function <a href="IDP_HTM.html" class="blue">htm</a> (find 
+html element). With Firefox and Chrome try to check 'as Firefox node' in the 'Find accessible object' dialog.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=t>Acc</span> a<span class=o>=</span><span class=fq>acc</span><span class=p>(</span><span class=s>&#34;Google Search&#34;</span> <span class=s>&#34;PUSHBUTTON&#34;</span> <span class=s>&#34; Internet Explorer&#34;</span> <span class=s>&#34;Internet Explorer_Server&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0x1001</span><span class=p>)</span>
+a.DoDefaultAction</pre>
+<p>&nbsp; </p>
+
+</body>
+
+</html>
