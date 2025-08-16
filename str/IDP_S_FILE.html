@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getfile, setfile</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_FILES"></a>Read or write file</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>getfile</b>(file <i>[</i>from<i>] [</i>nbytes<i>]</i>)
+s.<b>setfile</b>(file <i>[</i>from<i>] [</i>nbytes<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>file </b>- <a href="../Other/IDP_SEARCHPATHS.html">file</a>.</p>
+
+<p> <b>from</b> - offset in file. Default: 0.</p>
+
+<p> <b>nbytes</b> - number of bytes to read or write. Default: -1.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b> (used only with <span class="blue">setfile</span>):</p>
+<table class="tflags">
+<tr>
+  <td>1</td>
+  <td>Append new line characters.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>When writing to existing file (OPEN_ALWAYS), set end of file where writing ends. Read more in remarks.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><p>QM 2.3.2. Create new or open existing file. Read more in remarks.</p></td>
+</tr>
+<tr>
+  <td>0x100</td>
+  <td>QM 2.4.0. Safe saving. The file will never be corrupted on power failure etc. Writes to a temporary file, flushes its buffers, and renames the temporary file to <b>file</b>, replacing if exists.</td>
+</tr>
+<tr>
+  <td>0x200</td>
+  <td>QM 2.4.0. Safe saving and backup. Same as 0x100, but also creates a backup file, named <b>file</b>-backup.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<hr>
+<p><span class="blue">getfile</span> loads file content to <b>s</b>.</p>
+<p>&nbsp;</p>
+<p> Error if the file 
+  does not exist.</p>
+<p>&nbsp;</p>
+<p> If <b>from</b> and <b>nbytes</b> are not used or are 0 and -1, loads whole file.</p>
+<p>If <b>from</b> is &gt;0 and <b>nbytes</b>  not used or -1, loads whole file starting from <b>from</b>.</p>
+<p>Not error if <b>from</b>+<b>nbytes</b> is more than file length. Then <b>s</b> will contain less than <b>nbytes</b> or will be empty.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. <span class="blue">getfile</span> supports <a href="../Other/IDP_RESOURCES.html">macro resources</a>. If <b>file</b> is resource name (eg &quot;resource:data.bin&quot;), gets resource data. When creating <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, QM adds the macro resource to exe resources, and in exe <span class="blue">getfile</span> gets data from the exe resource. Don't use <b>from</b> and <b>nbytes</b>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. <span class="blue">getfile</span> supports <a href="../QM_Help/IDH_MAKEEXE.html#a3">exe resources</a>. If <b>file</b> begins with : and an integer number 1 to 0xffff (eg &quot;:5 
+  c:\data.bin&quot;), 
+  in exe <span class="blue">getfile</span> gets data 
+  from exe resource whose id is the number and type is RT_RCDATA (10). When the macro runs in QM, it gets data from the file. When creating exe, if &quot;Auto 
+  add files ...&quot; is checked, QM adds the file to exe resources. Don't use <b>from</b> and <b>nbytes</b>.</p>
+<p>&nbsp;</p>
+<p>Don't use this function to load large files, because then may fail to allocate memory for <b>s</b>. Instead read parts of the file. It is more efficient with Windows API functions; you can use class <span class="type">__HFile</span>. Or use a database, for example <span class="type">Sqlite</span> class.</p>
+<p>&nbsp;</p>
+<hr>
+
+<p> <span class="blue">setfile</span> writes <b>s</b> to file.</p>
+<p>&nbsp;</p>
+<p> If the file does 
+  not exist, creates. Uses Windows API function <span class="dll">CreateFile</span> with creation mode CREATE_ALWAYS or OPEN_ALWAYS.</p>
+<ul>
+  <li> By default uses CREATE_ALWAYS. If the file exists, deletes it and creates new.</li>
+  <li>Uses OPEN_ALWAYS if flag 4 or <b>from</b> is not 0. If the file exists, opens it for writing. It preserves old data that is not overwritten with new data. You can use flag 2 to truncate old data if need.</li>
+</ul>
+<p>&nbsp;</p>
+<p> If <b>from</b> 
+is -1, appends.</p>
+<p> If <b>nbytes</b> is &lt; 0 or &gt; <b>s</b>.len, writes whole <b>s</b>.</p>
+<p>&nbsp;</p>
+<p>Safe saving is slower, mostly because immediately writes to disk (else Windows would write later). Then just renames file, which is fast. However if OPEN_ALWAYS used, copies old file to the temporary file, which can be slow if the file is big. </p>
+<p>&nbsp;</p>
+<p>Some possible <span class="blue">setfile</span> errors:</p>
+<p>The filename contains invalid filename characters. To avoid it, you can use 
+  <span class="type">str</span> function ReplaceInvalidFilenameCharacters.</p>
+<p>The file is opened for exclusive access by another process or some QM function.</p>
+
+<p> QM is running not as administrator and the file is in Program Files, Windows, 
+  or some other protected folder.</p>
+<p>The file has read-only attribute. When using safe saving, the function removes this attribute and does not fail.</p>
+<p>&nbsp;</p>
+<p> QM 2.3.5. Creates parent folder if does not exist. In older QM would be error.</p>
+<p>&nbsp;</p>
+<hr>
+<p>Note: In <a href="../Other/IDP_UNICODE.html">Unicode</a> mode, other string 
+  functions interpret text as UTF-8. If you use <span class="blue">getfile</span> 
+  to load an ANSI text file that contains non ASCII characters, and pass the text 
+  to other string functions, you may have to <a href="IDP_S_UNICODE.html">convert</a> 
+  ANSI to UTF-8. You also may have to do conversions in some other cases.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+
+
+<p>You can use the My QM folder (in My Documents) to save various files used by 
+  your macros. Use <a href="../Other/IDP_SEARCHPATHS.html">special folder</a> 
+  string $my qm$.</p>
+<p>These functions open the file, write/read, and close. To perform multiple write/read 
+  operations without reopening, instead use Windows API functions; you can use class <span class="type">__HFile</span>.</p>
+<p>If it is possible that several threads (running functions) access the same 
+  file simultaneously, use <a href="../Commands/IDP_LOCK.html" class="blue">lock</a> 
+  to prevent it. If several processes or computers write to the file simultaneously, 
+  use <span class="type">CFileInterlocked</span> class, it is in the 
+  forum.</p>
+<p>You can use functions <a href="../Functions/IDP_RGET.html" class="blue">rget</a> and <span class="blue">rset</span> to write to or read from ini files.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_ICSV.html">CSV</a>, <a href="../User/IDP_IXML.html">XML</a>, <span class="type">Sqlite</span> class, other file category functions and classes.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+<pre class=cod><span class=t>str</span> s1 s2 f
+f<span class=o>=</span><span class=s>&quot;$my qm$\test.txt&quot;</span>
+s1<span class=o>=</span><span class=s>&quot;test data&quot;</span>
+s1.<span class=fq>setfile</span><span class=p>(</span>f<span class=p>)</span>
+s2.<span class=fq>getfile</span><span class=p>(</span>f<span class=p>)</span>
+<span class=fq>out</span> s2
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
