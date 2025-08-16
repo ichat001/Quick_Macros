@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: QM events</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: QM events</h1>
+
+<p>Launches the macro on certain Quick Macros events. To assign this trigger, use 
+  the Properties dialog.</p>
+<p>&nbsp;</p>
+<h3>Startup</h3>
+
+<p>These events occur when opening <a href="IDH_QML.html">QM file</a>, for example when QM started. If &quot;Run synchronously&quot; is checked, QM waits until the function ends, therefore it should be fast to avoid QM startup delay. The _command variable 
+  is &quot;1&quot; on file change, &quot;2&quot; on QM startup, &quot;3&quot; 
+  on Windows startup (QM started with command line parameter S). These events 
+  can occur in this sequence: file loaded, QM started, Windows started.</p>
+<p>&nbsp;</p>
+<p>If exists a user-defined function named <span class="UDF">init2</span>, it is called 
+  when opening QM file, before any other functions/macros, after initializing QM extensions. Don't need a trigger for it.</p>
+
+<p>&nbsp;</p>
+
+<h3>Exit</h3>
+
+<p>These events occur when closing QM 
+  file,  for example before QM exits. The function runs synchronously and should be fast. 
+  The _command variable is &quot;1&quot; on file change, &quot;2&quot; on QM exit, 
+  &quot;3&quot; on Windows shutdown/restart/logoff. These events can occur in 
+  this sequence: Windows exits, QM exits, file unloading.</p>
+
+<p>&nbsp;</p>
+
+<h3>Tray icon</h3>
+
+<p>These events occur when you click the QM tray icon. These triggers disable 
+  default QM actions (show QM on left click, exit QM on Ctrl+left click, show 
+  menu on right click, disable/enable on middle click).</p>
+<p>&nbsp;</p>
+<h3>Trigger management</h3>
+<p>Used by <a href="IDH_TRIG_EXT.html">user-defined triggers</a>.</p>
+<p>&nbsp;</p>
+<h3>Add to a menu</h3>
+<p>QM items that have this trigger are added to the QM menu bar, to the New menu, 
+  or to the tray menu.</p>
+<p>&nbsp;</p>
+<p> QM 2.2.0. Menu bar triggers launch the macro with two arguments, which are 
+  x and y coordinates where <a href="IDH_POPUP.html">popup menu</a> should be 
+  displayed.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. For macros and menus that have menu bar trigger, you can include 
+  &amp; character in macro name. Then next character in menu bar will be underlined, 
+  and you can use the keyboard to show the menu.</p>
+<p>&nbsp;</p>
+<h3>File link run (QM 2.3.0)</h3>
+<p>Run when a QM item of type <a href="IDH_ITEMS.html">file link</a> is launched. 
+  To run only for certain file types or files, specify a filename pattern. Can 
+  be used wildcard characters * (matches 0 or more characters) and ? (matches 
+  any single character). When you assign the trigger using the Properties dialog, 
+  it inserts code that provides file link item <a href="../Functions/IDP_QMITEM.html">id</a> 
+  and its file path.</p>
+<p>&nbsp;</p>
+<h3>End thread (QM 2.3.0)</h3>
+<p>Run when the user tries to end a thread in the Threads dialog or in the Running 
+  Items list. If the function returns 0, QM does not end the thread. The function, 
+  for example, can display a warning message box, or just silently deny the user's 
+  request, or correctly end the thread in a special way.</p>
+<p>&nbsp;</p>
+<h3>QM show/hide (QM 2.3.3)</h3>
+<p>QM show: Run when QM window is shown. For example, on tray icon click.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. Added option 'Run synchronously'. The function runs before showing QM window. If it returns not 0, QM window remains hidden. <a onClick="doSection(epwd)" class="expand">Example with password</a>. </p>
+<div id="epwd" class="expand">
+<pre class=cod><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>inpp</span><span class=p>(</span><span class=s>&quot;p&quot;</span> <span class=s>&quot;Password to show window&quot;</span> <span class=s>&quot;Quick Macros&quot;</span><span class=p>))</span> <span class=fq>ret</span> <span class=n>1</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>QM hide: Run when QM window is hidden. For example, on X button click. Not  on QM exit.</p>
+<p>&nbsp;</p>
+<h3>Recording ended (QM 2.3.3)</h3>
+<p>Run when recording ends, except on Cancel. Must be function. Receives recorded macro string, and can change it.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
