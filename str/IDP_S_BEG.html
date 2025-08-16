@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>beg, begi, end, endi, mid, midi</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_BEGI"></a>Compare beginning, end or middle</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int</i> s.<b>beg</b>(string <i>[</i>lens<i>]</i>)
+<i>int</i> s.<b>begi</b>(string <i>[</i>lens<i>]</i>)
+<i>int</i> s.<b>end</b>(string <i>[</i>lens<i>]</i>)
+<i>int</i> s.<b>endi</b>(string <i>[</i>lens<i>]</i>)
+<i>int</i> s.<b>mid</b>(string from <i>[</i>lens<i>]</i>)
+<i>int</i> s.<b>midi</b>(string from <i>[</i>lens<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>string </b>- string to compare with.</p>
+
+<p> <b>lens </b>- number of characters to compare. Default: -1 (function itself 
+finds <b>string</b> length).</p>
+
+<p> <b>from </b>- 0-based character index in <b>s</b> from where to begin comparison.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">beg</span> returns 1 if <b>s</b> begins with <b>string</b>, 
+  or 0 if not.</p>
+<p><span class="blue">end</span> returns 1 if <b>s</b> ends with <b>string</b>, 
+  or 0 if not.</p>
+<p><span class="blue">mid</span> returns 1 if <b>s</b> contains <b>string</b> 
+  at <b>from</b> position, or 0 if not.</p>
+<p>&nbsp;</p>
+
+<p> <span class="blue">begi</span>, <span class="blue">endi</span> and <span class="blue">midi</span> 
+  perform case insensitive comparison.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&quot;Edit\Copy&quot;</span>
+<span class=fq>if</span><span class=p>(</span>s.<span class=fq>beg</span><span class=p>(</span><span class=s>&quot;Edit&quot;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&quot;True&quot;</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;False&quot;</span>
+<span class=fq>if</span><span class=p>(</span>s.<span class=fq>midi</span><span class=p>(</span><span class=s>&quot;cop&quot;</span> <span class=n>5</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&quot;True&quot;</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;False&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
