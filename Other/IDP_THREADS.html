@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Thread</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>
+Threads</h1>
+
+<p>A thread is a running macro or function. All functions it calls run 
+  in the same thread.</p>
+
+<p>&nbsp;</p>
+
+<p> A thread is the basic unit to which the operating system allocates 
+  CPU time. It executes code. Each thread runs simultaneously with other threads. Every process (running program) has one or more threads. To create effect 
+  of several simultaneously running threads, operating system divides CPU time 
+  into time slices (~20 ms). It allocates a CPU time slice to each 
+  thread that need it. The currently executing thread is suspended when its time 
+  slice elapses, allowing another thread to run. If there are multiple CPU, threads 
+  may run simultaneously on different CPU. You can read more in <a href="http://en.wikipedia.org/wiki/Thread_(computing%29" target="_blank">wikipedia</a>.</p>
+
+<p>&nbsp;</p>
+
+<p>QM creates new thread for each macro or function started by the user, a trigger, <a href="../Commands/IDP_MAC.html" class="blue">mac</a> or <a href="../Commands/IDP_TIM.html" class="blue">tim</a>. It also 
+  creates new thread for  menu/toolbar/autotext items. Multiple threads can run simultaneously, except macros without option 'Run simultaneously'. Multiple threads of the same function etc also can run simultaneously.</p>
+<p>&nbsp;</p>
+<p>All currently running threads, except special threads, are displayed in the 
+  Running Items list. To see the list, check View Active Items in the Run menu. 
+  Private threads are hidden by default. To see threads without opening QM window, use QM tray menu.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#EnumQmThreads" class="dll">EnumQmThreads</a>, <a href="../User/IDP_QMDLL.html#IsThreadRunning" class="dll">IsThreadRunning</a>, <span class="UDF">EndThread</span>.</p>
+<p>&nbsp;</p>
+<h3>Special threads</h3>
+<p>&nbsp;</p>
+<p>There are two threads that run all the time:</p>
+<p>&nbsp;</p>
+<p>1. QM main thread. Functions that run in it: global variable constructors/destructors, 
+  toolbar hook functions, functions executed during compilation and some other 
+  functions. Also, a macro or other application can send <a href="../QM_Help/IDH_TRIG_COMMANDLINE.html">message</a> 
+  to run a function in the main thread.</p>
+<p>2. Thread of <a href="../QM_Help/IDH_TFF.html">filter functions</a>. All filter functions of key, mouse and window triggers run in this thread.</p>
+<p>&nbsp;</p>
+<p><a href="../Language/IDP_SCOPE.html">Thread variables</a> of these threads are destroyed when unloading <a href="../QM_Help/IDH_QML.html">QM file</a>, before destroying global variables.</p>
+<p>&nbsp;</p>
+<p> Threads also can be explicitly or implicitly created by some dll functions, for example <span class="dll">CreateThread</span>. Avoid such functions if possible, because then QM cannot destroy thread variables and free some other memory allocated for that thread.</p>
+<p>&nbsp;</p>
+<p>In all these special threads don't use <a href="../Flow/IDP_ATEND.html" class="blue">atend</a>.</p>
+<p>&nbsp;</p>
+<h3>Notes</h3>
+<p>&nbsp;</p>
+<p>Before a thread ends:</p>
+<ol>
+  <li>QM 2.3.4. All top-level windows of that thread receive <span class="def">WM_QM_ENDTHREAD</span> message. They should destroy self (<span class="dll">DestroyWindow</span>) and free their allocated data to avoid memory leaks.</li>
+  <li>Called functions registered with <a href="../Flow/IDP_ATEND.html" class="blue">atend</a>.</li>
+  <li>Destroyed local variables of thread main function.</li>
+  <li>Destroyed thread variables.</li>
+</ol>
+</body>
+
+</html>
