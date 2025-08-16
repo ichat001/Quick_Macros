@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Make exe</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Make exe</h1>
+<p>By default, macros run in QM, but you also can create standalone 
+  programs (exe files) from them. Exe files run  like macros, but don't need 
+  QM. It is especially useful if you distribute them. Distributing exe also is 
+  better because it does not depend on QM version, whereas macros that run in 
+QM may not run on older QM versions.</p>
+<p>&nbsp;</p>
+<p>To make exe from current macro or function, click menu Run -&gt; Make Exe.</p>
+<p>&nbsp;</p>
+<p>The &quot;make exe&quot; feature also is used to <a href="IDH_MAKEEXE.html#a8">run 
+    macros in separate process</a>. QM creates a .qmm (compiled macro) or .exe file and executes it in separate process. Therefore in most cases here terms &quot;exe&quot; or &quot;program&quot; mean &quot;.exe program or a macro that runs in separate process&quot;.</p>
+<p>&nbsp;</p>
+<p><a href="IDH_MAKEEXE.html#a1" name="L1">Options</a></p>
+<p><a href="IDH_MAKEEXE.html#a2" name="L2">Notes</a></p>
+<p><a href="IDH_MAKEEXE.html#a3" name="L3">Resources</a></p>
+<p><a href="IDH_MAKEEXE.html#a4" name="L4">Features that are unavailable in exe</a></p>
+<p><a href="IDH_MAKEEXE.html#a5" name="L5">Features that are different in exe</a></p>
+<p><a href="IDH_MAKEEXE.html#a7" name="L7">UAC</a></p>
+<p><a href="IDH_MAKEEXE.html#a8" name="L8">Properties -&gt; Run in separate process</a></p>
+<p><a href="IDH_MAKEEXE.html#a6" name="L6">License</a></p>
+<p>&nbsp;</p>
+<h2><a href="IDH_MAKEEXE.html#L1" name="a1">Options</a></h2>
+<p><i>Main</i> - the macro or function that runs first when the program 
+  runs.</p>
+<p>&nbsp;</p>
+<p><i>Make</i> - the program file to create. Can be .exe or .qmm (used with the &quot;run in separate process&quot; feature).</p>
+<p>&nbsp;</p>
+<p><i>Icon</i> - program's icon. It also will be used in dialogs etc. Can be ico, exe, dll, ocx. Icon index can be specified like shell32.dll,18.</p>
+<p>&nbsp;</p>
+<p><i>Manifest</i> - <a onClick="doSection(manifest)" class="expand">manifest file</a>. </p>
+<div id="manifest" class="expand">
+<p>It is optional but should always be used. 
+  You can use the default file default.exe.manifest. Manifest enables visual styles 
+  (dialogs will look nicer). UAC: manifest 
+  specifies whether the exe must run with higher privileges. Read more <a href="IDH_MAKEEXE.html#a7">below</a>.</p>
+</div>
+<p>&nbsp;</p>
+<p><i>.res</i> - an optional .res file containing resources to add to  exe  <a href="IDH_MAKEEXE.html#a3">resources</a>.</p>
+<p>&nbsp;</p>
+<p><i>Auto add files...</i> - add files used in exe macro/functions to  exe  <a href="IDH_MAKEEXE.html#a3">resources</a>. Adds only files where a resource id specified. Example: <span class=cod><span class=fq>scan</span> <span class=s>&quot;:10 $my qm$\file.bmp&quot;</span></span>.</p>
+<p>&nbsp;</p>
+<p><i>Version</i> - file version and other optional info. Valid version formats: 1, 1.2, 1.2.3, 1.2.3.4. The list in the 'Version info' dialog can include anything.</p>
+<p>&nbsp;</p>
+<p><i>End hotkey</i> - a hotkey that can be used to end the program. <a onClick="doSection(hotkey)" class="expand">Notes</a>. </p>
+<div id="hotkey" class="expand">
+<p>Only a 
+  single program can use the hotkey. The hotkey will not work if another instance 
+  of the program or another program already uses that hotkey. For example, Windows 
+  Explorer may use it for a shortcut. Don't use hotkeys with modifiers (Ctrl, 
+  Shift, Alt) if the macro uses keyboard/mouse commands, because then user-pressed 
+  modifier keys will be mixed with macro-pressed keys/buttons and the result may 
+  be dangerous.</p>
+</div>
+<p>&nbsp;</p>
+<h4><a onClick="doSection(aat)" class="expand">Run functions when creating exe</a></h4>
+<div id="aat" class="expand">
+<p>When creating exe, QM can call your functions that automate  related tasks. The functions receive full path of the program in the _command 
+  variable.</p>
+<p>&nbsp;</p>
+<p><i>Before</i> - a function to call before starting to create exe (when you 
+  click OK). QM waits while it is running. Error if it returns 0. The function, for example, can end 
+  the program if it is running (you can use function <span class="UDF">MakeExeCloseRunning</span>).</p>
+<p>&nbsp;</p>
+<p><i>After</i> - function to call after the exe is successfully created. 
+  QM waits while it is running. Error if it returns 0. The function, for example, can add the exe file 
+  to a zip file. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s1 s2
+
+<span class=c> exe file</span>
+s1<span class=o>=</span>_command
+
+<span class=c> other files</span>
+s2<span class=o>=</span>
+<span class=s> $qm$\a.ico</span>
+<span class=s> $qm$\b.bmp</span>
+<span class=s> $qm$\c.dll</span>
+s1.<span class=fq>from</span><span class=p>(</span>s1 <span class=s>&quot;[]&quot;</span> s2<span class=p>)</span>
+
+<span class=c> add all to zip</span>
+<span class=fq>zip</span> <span class=s>&quot;$my qm$\myexe10.zip&quot;</span> s1
+<span class=fq>ret</span> <span class=n>1</span></pre>
+<p>&nbsp;</p>
+<p><i>On Run</i> - function to run when the program is launched from QM. If used, 
+  QM does not run the program. The function, for example, can run the program 
+with a command line. Example for .exe files: <span class=cod><span class=fq>run</span> _command <span class=s>&#34;/command line&#34;</span></span>. Example for .qmm files: <span class=cod><span class=fq>run</span> <span class=s>&quot;qmmacro.exe&quot;</span> <span class=o>F</span><span class=s>&quot;''{</span>_command<span class=s>}'' /command line&quot;</span></span>. To run with command line or pass function arguments, also can be used <span class="blue">mac</span>.</p>
+</div>
+<p>&nbsp;</p>
+<h4><a onClick="doSection(debug)" class="expand">Debug</a></h4>
+<div id="debug" class="expand">
+<p>&nbsp;</p>
+<p><i>Show added items</i> - display in the output all added functions, items 
+  that are added as text, ActiveX control classes (read below), and image files 
+  (read below).</p>
+<p>&nbsp;</p>
+<p><i>Run immediately</i> - run the program or the &quot;Run on Run&quot; function 
+  automatically when the program is created.</p>
+<p>&nbsp;</p>
+<p><i>Output to QM</i> - if QM is running, display all output of the program (<span class="blue">out</span>, RT 
+  error, etc) in QM. If unchecked, <span class="blue">out</span> does nothing, unless redirected (<a href="../User/IDP_QMDLL.html#RedirectQmOutput" class="dll">RedirectQmOutput</a>, <span class="UDF">ExeOutputWindow</span>, <span class="UDF">ExeConsoleRedirectQmOutput</span>). If unchecked or redirected, RT error is
+  shown in a timed message box.</p>
+<p>&nbsp;</p>
+<p> <i>Go to error</i> - if QM is running, show RT errors of the program in QM 
+  (open the function and show the place). This works correctly only if the function 
+  is not modified and not renamed since the program was created last time.</p>
+<p>&nbsp;</p>
+<p>Note: the last two options are active even if the exe runs on other computers 
+  where QM is installed and running.</p>
+</div>
+<p>&nbsp;</p>
+<p><i>Console</i> (QM 2.4.1) - create console exe. A console process has a console window or uses console of parent process (eg cmd.exe). Also, cmd.exe does not wait until a non-console process ends. <a onClick="doSection(e1)" class="expand">Console exe code example</a>. </p>
+<div id="e1" class="expand">
+<pre class=cod><span class=fd>SetConsoleTitle</span> <span class=s>&quot;QM test console&quot;</span>
+<span class=fu>ExeConsoleRedirectQmOutput</span> <span class=c2>;;redirect out etc to ExeConsoleWrite</span>
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a<span class=p>;</span> <span class=t>int</span> i
+<span class=fu>ExeParseCommandLine</span> _command a
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.<span class=fq>len</span><span class=p>)</span> <span class=fq>out</span> a[i]
+
+<span class=fu>ExeConsoleWrite</span> <span class=s>&quot;Type something and press Enter&quot;</span>
+<span class=t>str</span> s
+<span class=fu>ExeConsoleRead</span> s
+<span class=fu>ExeConsoleWrite</span> <span class=o>F</span><span class=s>&quot;s=''{</span>s<span class=s>}''&quot;</span>
+<span class=n>2</span>
+</pre>
+</div>
+<p>&nbsp;</p>
+<p>These macro/function properties also are applied when creating exe: &quot;allow only single 
+  instance&quot; (function) and &quot;don't run/wait/terminate&quot; (macro). 
+  Read more below.</p>
+<h2><a href="IDH_MAKEEXE.html#L2" name="a2">Notes</a></h2>
+<h3> Where are saved Make Exe dialog settings</h3>
+<p>When creating an exe first time, you can choose where to save 
+   its  settings - in current macro or folder. Choose to save in  folder if exe will have more functions that are in the folder; then later these settings will be used when you make (update) exe while any of the functions is 
+  open. The folder name  should be the same as the program name (e.g. &quot;X 
+Editor&quot;); it is used in exe, for example in error message boxes. You can find exe settings in Folder Properties dialog.</p>
+<p>&nbsp;</p>
+<h3> How to run exe</h3>
+<p>You can use whatever 
+  way that you can use to run programs (double 
+  click   in Windows Explorer, etc).</p>
+<p>&nbsp;</p>
+<p> If you click the Run button, the macro 
+  runs in QM, as usually. To run exe when you click the Run button, check &quot;<a href="IDH_MAKEEXE.html#a8">Run 
+  in separate process</a>&quot; in Properties<a href="IDH_MAKEEXE.html#a8"></a>.</p>
+<p>&nbsp;</p>
+<h3>Source code</h3>
+<p>When creating exe, QM compiles the main function and all other used functions, 
+  including threads created using <span class="blue">mac</span>. Compiled code 
+  is added to exe. Source code is not added, unless need to get certain text from it at run time (read below). In some cases need to use 
+  <a href="../Language/IDP_DIR_EXE.html" class="dir">#exe</a> to explicitly add 
+  some functions and other data. To see what is added, check 'Show added items'.</p>
+<p>&nbsp;</p>
+<p>Full text (source code) of a macro/function is added to exe if it contains a dialog definition used with ShowDialog, a menu definition used with ShowDialog or DT_CreateMenu, or an other-language script used with CsExec, CsFunc, CsScript.AddCode, CsScript.Compile, CsScript.Exec, WshExec, VbsExec, VbsAddCode, JsExec, JsAddCode, PsCmd, __Tcc.Compile. To avoid adding full source code, store dialog definitions etc in separate macros or in variables. <a onClick="doSection(exDDVar)" class="expand">Example</a>. </p>
+<div id="exDDVar" class="expand">
+  <p>This source code will be added to exe because need to extract the dialog definition from it.</p>
+  <pre class=cod><span class=c> BEGIN DIALOG</span>
+<span class=c> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=c> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=c> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=c> END DIALOG</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;This Macro&quot;</span> <span class=n>0</span> <span class=n>0</span><span class=p>))</span> <span class=fq>ret</span>
+</pre>
+  <p>&nbsp;</p>
+  <p>This source code will not be added to exe because the dialog definition is in a variable. Will be added only the dialog definition string.</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=s> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=s> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=s> END DIALOG</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=n>0</span> <span class=n>0</span><span class=p>))</span> <span class=fq>ret</span>
+</pre>
+</div>
+<p>&nbsp;</p>
+<p>Exe cannot be decompiled to see the source code that is not added to exe as text, but it is possible to see 
+  strings that were in source code. You can encrypt (in Options -&gt; Security) items that contain passwords or other 
+confidential information in strings.</p>
+<p>&nbsp;</p>
+<h3>Other files</h3>
+<p>External files (e.g. dll) are not added to exe automatically. You can 
+  add them together with exe file to a zip file or setup program, and on other computers extract everything to the same folder. You can also add files to exe 
+  as resources, like function <span class="UDF">ExeQmGridDll</span>  does (you can see its code). Read more <a href="IDH_MAKEEXE.html#a3">below</a>.</p>
+<p>&nbsp;</p>
+<p>You may need these files. Take them from QM folder.</p>
+<ul>
+  <li>qmgrid.dll. Required if exe uses QM <a href="../User/IDP_QMGRID.html">grid control</a>. To add it to exe, you can use function <span class="UDF">ExeQmGridDll</span>.</li>
+  <li>qmtc32.dll and qmtc64.dll. Required if exe uses <span class="type">WindowText</span> class.</li>
+  <li>sqlite3.dll. Required if exe uses <span class="type">Sqlite</span> class.</li>
+  <li>mailbee.dll. Required if exe uses QM email functions (<span class="UDF">SendMail</span>, <span class="UDF">ReceiveMail</span>, <span class="type">SmtpMail</span>, <span class="type">Pop3Mail</span>).</li>
+  <li>arservicesmgr.dll. Required if exe uses functions from Services type library.</li>
+  <li>tcc folder. Required if exe uses <span class="type">__Tcc</span> class (C compiler).</li>
+</ul>
+<p>&nbsp;</p>
+<p>If exe runs on your computer, it finds these files in QM folder. You don't have to copy them to your exe folder. The same when it runs on other computers where QM is installed (should be same version). Particularly, if a dll whose <a href="../Language/IDP_DLL.html">path</a> begins with &quot;$qm$&quot;  isn't in exe's folder, exe also searches in QM folder, if QM is installed.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. Although mailbee.dll and arservicesmgr.dll are COM components, don't need to register them.</p>
+<p>&nbsp; </p>
+  <!--
+  <p>When creating exe, QM also may create more files. These temporary files are 
+  not used by exe, and should not be distributed. Current QM version does not 
+  create more files.</p>
+<p>&nbsp;</p>
+-->
+<h3>Creating Setup program</h3>
+<p>If you want to create a setup program for your exe, you'll need a software that does it. It adds all used files (exe, dll files, Help file, etc) to a single compressed setup program, on user's computer runs setup wizard, creates folders, extracts files, creates shortcuts, creates uninstaller, and more.</p>
+<p>&nbsp;</p>
+<p>Recommended free software - <a href="http://www.jrsoftware.org/isinfo.php" target="_blank">Inno Setup</a>. The QM setup program also is created with it. Download and install the QuickStart Pack unicode version. To start creating your setup script, use Example1.iss as an example.</p>
+<p>&nbsp;</p>
+<h3>Errors</h3>
+<p>Compile-time errors (&quot;unknown identifier&quot;, etc) will not occur in 
+  exe, because exe contains already compiled code. Declarations, type libraries 
+  and other references are not used in exe (all required information is added 
+  to exe when creating it). However, like any other program, the program will 
+  fail if a required <a href="../Language/IDP_DLL.html">dll function</a> or COM 
+  component does not exist on the computer. To check whether a dll function exists, 
+  you can use <a href="../Language/IDP_SPECVAR.html">version variables</a> and 
+  delay-loading (<span class=cod><span class=fq>dll</span><span class=o>-</span> ...</span>). To handle &quot;No such interface supported&quot; errors you 
+  can use <span class="blue">err</span>.</p>
+<p>&nbsp;</p>
+<p> When an unhandled run-time error (&quot;window not found&quot;, etc) occurs,  the program exits. The error is shown 
+  in QM output or message box, depending on 'Output to QM' checkbox in 'Make Exe' dialog (see above). See also: <span class="UDF">ExeOutputWindow</span>, <a href="../User/IDP_QMDLL.html#RedirectQmOutput" class="dll">RedirectQmOutput</a>.</p>
+<p>&nbsp;</p>
+<h3>Global variables and settings</h3>
+<p>If you use global variables that are initialized at QM startup (for example in your <span class="UDF">init2</span> function), you should 
+  add the initialization code to the exe, or these variables in exe will be empty. 
+  For example, call the initialization function at the beginning of the main function 
+  (you can use <span class=cod><span class=dir>#if</span> <span class=d>EXE</span></span> 
+  to skip it when running in QM). Don't need it for <a href="../Language/IDP_SPECVAR.html">predefined 
+    global variables</a> and for global variables that 
+  are initialized by constructor. If you change global run-time settings with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>, do it in exe too.</p>
+<p>&nbsp;</p>
+<h3>Single instance</h3>
+<p>If the main function has &quot;Allow only single instance&quot; option checked 
+  in Properties, only single instance of the program can run at a time. If it 
+  is a macro, macro properties &quot;don't run/wait/terminate&quot; are applied, 
+  which also means that only single instance of the program can run at a time. 
+  In both cases, limited is only the number of instances of the same program. 
+  Don't use &quot;Allow only single instance&quot; if you want to have more control, 
+  e.g. relay the command line to already running instance. You can use a <a href="http://www.google.com/search?q=site%3Amicrosoft.com%20synchronization%20objects" target="_blank">mutex</a> 
+  instead. Note that <span class="blue">getopt</span> nthreads will not work. 
+  <a onClick="doSection(e_mutex)" class="expand">Mutex example</a></p>
+<div id="e_mutex" class="expand">
+<pre class=cod><span class=c> at the beginning of exe main function:</span>
+<span class=fd>SetLastError</span> <span class=n>0</span>
+<span class=t>__Handle</span> m<span class=o>=</span>CreateMutex<span class=p>(</span><span class=n>0</span> <span class=n>1</span> <span class=s>&#34;mutex_my_exe&#34;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span>m<span class=p>)</span> <span class=fq>mes</span><span class=o>-</span> <span class=s>&#34;Error&#34;</span>
+<span class=fq>if</span><span class=p>(</span><span class=fd>GetLastError</span><span class=o>=</span>ERROR_ALREADY_EXISTS<span class=p>)</span> <span class=c2>;;another instance of your exe is running</span>
+<span class=i>&#9;</span><span class=c> possibly execute some code here</span>
+<span class=i>&#9;</span><span class=fq>ret</span> <span class=c2>;;exit exe</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3>Command line arguments</h3>
+<p>If the program is launched with command line arguments, it is  in a special variable 
+  <a href="../Language/IDP_SPECVAR.html">_command</a>. To parse, you can use function <span class=cod><span class=fu>ExeParseCommandLine</span></span>.</p>
+<p>&nbsp;</p>
+<h3>Exit code</h3>
+<p> On success, it is the return value of the main function. 
+  It should be 0 or positive. On failure, it is: -1 if the main function 
+  ended due to a run-time error; -2 if the program didn't start because another 
+  instance is already running; -3 if terminated from outside (e.g. using hotkey); 
+  -4 if could not start (e.g., a dll function not found).</p>
+<p>&nbsp;</p>
+<h3>Threads</h3>
+<p>The main function runs not in the primary thread of the exe process. Like in 
+  QM, the primary thread is used to manage threads and provide other services. 
+  The main function is executed in a separate thread.</p>
+<p>&nbsp;</p>
+<p> More threads can be created using <span class="blue">mac</span>. The exe process 
+  ends when the main function's thread ends. To wait until other threads will 
+  end, the main thread can use <span class="UDF">WaitForThreads</span>.</p>
+<p>&nbsp;</p>
+<p>Functions <span class="UDF">OnScreenDisplay</span>, <span class="UDF">MsgBoxAsync</span>, <span class="UDF">Play</span> and <span class="UDF">Speak</span>   run asynchronously, in separate thread.   As well as <span class="blue">mac</span>. Your main thread can use <span class="blue">wait</span> 0 H or <span class="UDF">WaitForThreads</span> to wait for them. Some of them have a flag to run synchronously.</p>
+<p>&nbsp;</p>
+<p>You can use <span class=cod><span class=fq>shutdown</span> <span class=o>-</span><span class=n>6</span></span> to end a thread in the exe process. It will not end threads in QM 
+  and other processes. You can use <span class=cod><span class=fq>shutdown</span> <span class=o>-</span><span class=n>1</span></span> to end the exe process from any thread.</p>
+<p>&nbsp;</p>
+<p> Like in QM, constructors and destructors of global variables run in the primary 
+  thread.</p>
+<p>&nbsp;</p>
+<h3>Triggers</h3>
+<p>QM triggers cannot be used to launch exe (unless QM is running and you use its triggers).</p>
+<p>&nbsp;</p>
+<p> To launch exe using a hotkey, can be used a shortcut on desktop or in start 
+  menu (you can assign a hotkey in shortcut Properties dialog). To avoid possible 
+  problems when Ctrl/Shift/Alt are mixed with keys pressed by exe, exe created 
+  from macro waits until these keys are released before starting to execute commands. 
+  Exe created from function does not, but you can insert this code at the beginning:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>rep</span><span class=p>()</span> <span class=fq>if</span><span class=p>(</span><span class=fd>GetMod</span><span class=p>)</span> <span class=n>0.02</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>break</span></pre>
+<p>&nbsp;</p>
+<h3>How to get exe file path</h3>
+<p>Use <a href="../Language/IDP_SPECVAR.html">_qmdir</a> or <span class="UDF">ExeFullPath</span>.</p>
+<p>&nbsp;</p>
+<h3>Exe file size</h3>
+<p>QM cannot create small exe files. Minimal size is about 400 KB.</p>
+<p>&nbsp;</p>
+<h3>Speed</h3>
+<p>Programs created with QM run at the same speed as macros and functions in 
+  QM.</p>
+<p>&nbsp;</p>
+<p>QM does not create native machine code. In some cases QM code runs significantly slower than native machine code 
+(e.g. C++ programs).</p>
+<p>&nbsp;</p>
+<h3>Can QM create dll files?</h3>
+<p>QM can create only exe files.</p>
+<p>&nbsp;</p>
+<p>You can use class <span class="type">__Tcc</span> to create dlls in C language.</p>
+<p>&nbsp;</p>
+<h3>Supported Windows versions</h3>
+<p>Programs created with QM can run on Windows 7, 8, 10, 11. Read more <a href="IDH_MAKEEXE.html#a7">below</a>.</p>
+<h2><a href="IDH_MAKEEXE.html#L3" name="a3">Resources</a></h2>
+<p><i>See also:</i> <a href="../Other/IDP_RESOURCES.html">macro resources</a>. Note that exe resources is not the same as macro resources, but macro resources are automatically converted to exe resources when creating exe.</p>
+<p>&nbsp;</p>
+<p>Resources are files and other data added to exe file. Can be added bitmaps 
+  (pictures), icons, cursors, menus, accelerators, strings, version info, 
+  binary data (e.g. files), etc. If you use files in exe macros/functions, you 
+  can either distribute them together with the exe (for example in a zip file) 
+  or add them to exe as resources.</p>
+<p>&nbsp;</p>
+<p> If &quot;Auto add files ...&quot; is checked, QM searches the source code 
+  of all macros/functions that are added to exe (except as text) for strings that 
+  look like &quot;:resourceid filepath&quot; and adds the files to exe as resources. 
+  For example, to automatically add bitmap file used with <span class="blue">scan</span>, 
+  use code like <span class=cod><span class=fq>scan</span> <span class=s>&#34;:10 file.bmp&#34;</span></span>, and check &quot;Auto add files ...&quot;. The table shows 
+  what resources are added depending on file type (filename extension).</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>File type</th>
+    <th>Resource type</th>
+    <th>How to load explicitly</th>
+    <th>How to free explicitly</th>
+    <th>Comments</th>
+  </tr>
+  <tr> 
+    <td>bmp</td>
+    <td>Bitmap.</td>
+    <td><a href="../User/IDP_QMDLL.html#LoadPictureFile" class="dll">LoadPictureFile</a>. Returns bitmap handle.</td>
+    <td><span class="dll">DeleteObject</span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>ico</td>
+    <td>Icon.</td>
+    <td><a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a>. Returns icon handle.</td>
+    <td><span class="dll">DestroyIcon</span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>cur</td>
+    <td>QM 2.3.0. Cursor.</td>
+    <td><a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a> with flag 4. Returns cursor handle.</td>
+    <td><span class="dll">DestroyCursor</span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>exe, dll, ocx, icl</td>
+    <td>QM 2.3.0. Icon.</td>
+    <td><a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a>. Returns icon handle.</td>
+    <td><span class="dll">DestroyIcon</span></td>
+    <td>filepath must contain icon index or negative resource id. Examples: &quot;:10 
+      shell32.dll,15&quot;, &quot;:10 shell32.dll,-140&quot;. Otherwise whole 
+      file will be added as RT_RCDATA.</td>
+  </tr>
+  <tr> 
+    <td>gif, jpg, png</td>
+    <td>QM 2.3.0. RT_RCDATA.</td>
+    <td><a href="../User/IDP_QMDLL.html#LoadPictureFile" class="dll">LoadPictureFile</a>. Loads as bitmap; returns bitmap handle. QM 2.3.4: supports png.</td>
+    <td><span class="dll">DeleteObject</span></td>
+    <td><p>Can be used in dialog static picture controls. Assign &quot;:resourceid 
+    filepath&quot; to the variable before calling <span class="UDF">ShowDialog</span>. QM 2.3.4: supports png.</p></td>
+  </tr>
+  <tr> 
+    <td>ani</td>
+    <td>QM 2.4.1. RT_ANICURSOR.</td>
+    <td><a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a> with flag 4. Returns cursor handle.</td>
+    <td><span class="dll">DestroyCursor</span></td>
+    <td>In older QM - RT_RCDATA.</td>
+  </tr>
+  <tr> 
+    <td>Other</td>
+    <td>QM 2.3.0. RT_RCDATA.</td>
+    <td><a href="../str/IDP_S_FILE.html">str.getfile</a> or <span class="dll">ExeGetResourceData</span>. Loads raw data.</td>
+    <td>Don't need.</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>resourceid must be a number between 1 and 0xFFFF. Filename extension must consist 
+  of 1 - 4 alphanumeric characters. The string must not be in comments or #if-excluded 
+  code or F&quot;string&quot;.</p>
+<p>&nbsp;</p>
+<p>QM functions that support the &quot;:resourceid filepath&quot; syntax: <span class="UDF">ShowDialog</span> 
+  (title bar icon, icons, bitmaps, imagelists), <a href="../Functions/IDP_SCAN.html" class="blue">scan</a> (bmp, icon),  <a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a> (icon, cursor), <a href="../User/IDP_QMDLL.html#LoadPictureFile" class="dll">LoadPictureFile</a> 
+  (bmp, gif, jpg, png), <a href="../str/IDP_S_FILE.html">str.getfile</a>, <span class="type">IXml</span>.<span class="dll">FromFile</span>, <span class="type">ICsv</span>.<span class="dll">FromFile</span>, <span class="type">CsScript</span>.<span class="dll">Load</span>, <span class="dll">RichEditLoad</span>, <a href="../Commands/IDP_BEE.html" class="blue">bee</a> (QM 2.3.4), <span class="dll">__ImageListLoad</span>, <span class="type">__ImageList</span>.<span class="UDF">Load</span>, <span class="type">__ImageList</span>.<span class="UDF">Create</span>, <span class="dll">ShowDropdownList</span>, and functions that use 
+  them.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. When using &quot;:resourceid filepath&quot;, QM always gets data 
+  from the file when the macro runs in QM. In previous versions, QM would try 
+  to get the data from exe if it exists.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.1. Supports multiline strings. <a onClick="doSection(e_ms)" class="expand">Example</a></p>
+<div id="e_ms" class="expand">
+<pre class=cod><span class=t>str</span> multiline<span class=o>=</span>
+<span class=s> :206 $qm$\keyboard.ico</span>
+<span class=s> :207 $qm$\mouse.ico</span><span class=s></span></pre>
+</div>
+<p>&nbsp;</p>
+<p>Other way to add files to exe is <a href="../Language/IDP_DIR_EXE.html">#exe 
+addfile</a>.</p>
+<p>&nbsp;</p>
+<p> To create resources of other types, you can use a resource editor. QM does not have 
+  it, but you can download one. Using the 
+  resource editor, add all that you need and save to a file with .res extension. 
+  Specify the file in the Make Exe dialog. When creating exe, QM will add resources 
+  from the file to the exe. To load these resources, you can use syntax &quot;:resourceid&quot; 
+  (e.g. &quot;:300&quot;) with the functions listed above.</p>
+<p>&nbsp;</p>
+<p> Whenever you edit files that you have added to exe, you should make exe again, 
+  otherwise its resources will not be updated.</p>
+<p>&nbsp;</p>
+<p>Resources also can be used with Windows API functions (<span class="dll">LoadImage</span>, 
+  <span class="dll">FindResource</span>, and other). To get resource module handle, use 
+  <a href="../User/IDP_QMDLL.html#GetExeResHandle" class="dll">GetExeResHandle</a>. Example: <span class=cod><span class=t>int</span> hi<span class=o>=</span><span class=fd>LoadImage</span><span class=p>(</span><span class=fd>GetExeResHandle</span> <span class=o>+</span><span class=n>133</span> <span class=d>IMAGE_ICON</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span></span>. Such code will run in QM as well as in exe.</p>
+<p>&nbsp;</p>
+<p> You should not use dialog resources. You can create dialogs in QM. With dialog 
+  resources you could not use <span class="UDF">ShowDialog</span> and all additional 
+  features that QM provides (control variables, etc). Menus also can be created 
+  in QM.</p>
+<p>&nbsp;</p>
+<p>By default, exe contains these resources: icon 1 (if icon file specified), manifest 1 (if manifest file specified) and version info 1 (if version or other version info specified).</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Exe icon resource id changed from 133 to 1.</p>
+<p>&nbsp;</p>
+<p>The &lt;default&gt; exe icon is the main function's icon. Icons of other QM 
+  items are not automatically added to exe. For example, in exe all dialogs will 
+  have the same icon (exe icon). In QM they may have different icons. To have 
+  different icons in exe, specify the icon files explicitly when calling <span class="UDF">ShowDialog</span>, 
+  using the &quot;:resourceid filepath&quot; syntax.</p>
+  
+<h2><a href="IDH_MAKEEXE.html#L4" name="a4">Features that are unavailable in exe</a></h2>
+<p>Some functions and other QM features are unavailable in exe. Most of them are 
+  related to QM items and interface, and therefore have no sense in exe. Others 
+  use QM hooks, services, etc, that would cost too much in exe.</p>
+<p>&nbsp;</p>
+<p>Unavailable functions:</p>
+<ul>
+  <li><span class="blue">deb</span>, <span class="blue">dis</span>, <span class="blue">newitem</span>, str.setmacro.</li>
+  <li>Some <a href="../User/IDP_QMDLL.html">QM 
+    dll functions</a>.</li>
+  <li>Functions from folder &quot;\System\Functions\Qm\unavailable 
+  in exe&quot;.</li>
+</ul>
+<p>&nbsp; </p>
+<p>Unavailable only some features:</p>
+<ul>
+  <li><span class="blue">mac</span> can start only functions. Cannot open items (+).</li>
+  <li><span class="blue">qmitem</span> can be used only to get item id.</li>
+  <li>str.getmacro can only get text and name.</li>
+  <li><span class="blue">wait</span> x KF (wait for key-down and eat).</li>
+  <li>_error.line (will be empty).</li>
+  <li>flag 3 with <span class="blue">end</span> (will behave as without flag 3).</li>
+  <li><span class="blue">shutdown</span> -2, -3, -4, -5 (will fail at run time).</li>
+  <li>str.encrypt algorithm 16 (will fail at run time).</li>
+  <li><span class="dll">EnsureLoggedOn</span> cannot unlock (will always return 0 if locked).</li>
+</ul>
+<p>&nbsp;</p>
+<p> QM detects unavailable functions when creating exe. Also detects unavailable 
+  features used with <span class="blue">mac</span>, <span class="blue">qmitem</span>, 
+str.getmacro, <span class="blue">wait</span>.</p>
+<p>&nbsp; </p>
+<p>A special constant <a href="../Language/IDP_SPECVAR.html" class="def">EXE</a> can 
+  be used with <a href="../Language/IDP_DIR_IF.html" class="dir">#if</a> to include/exclude 
+  code that is not supported in exe. It is 1 if compiling .exe, 2 if .qmm, 0 if the macro runs in QM.</p>
+<p>&nbsp;</p>
+<p>Other unavailable features:</p>
+<ul>
+  <li>Menus, toolbars, autotext lists. Only macros, functions and member functions can 
+    be added to exe. Other items can be added only as text (to use with str.getmacro, 
+    etc).</li>
+  <li>QM user interface (editor, output, recording, tray icon, 
+    etc). To add tray icon, you can use <span class="UDF">AddTrayIcon</span>. To see output - <span class="UDF">ExeOutputWindow</span> or <a href="../User/IDP_QMDLL.html#RedirectQmOutput" class="dll">RedirectQmOutput</a>.</li>
+  <li>Source code.</li>
+  <li>Triggers.</li>
+  <li>QM command line parameters.</li>
+  <li>Sounds, as well as any other settings in the Options dialog.</li>
+  <li>Automatic registration of COM components. If you distribute COM components 
+    with the program, you can use <a href="../User/IDP_QMDLL.html#RegisterComComponent" class="dll">RegisterComComponent</a> 
+    to install them (admin privileges required). It is possible to <a href="../_COM/IDP_COM_USAGE.html">use COM components without registration</a>.</li>
+  <li>Does not load rich edit dll, except when a rich edit control is used in a dialog or with <span class="UDF">CreateControl</span>. 
+    You can load it: <span class=cod><span class=fd>LoadLibrary</span><span class=p>(</span><span class=s>&#34;Riched20&#34;</span><span class=p>)</span></span>. Similar with <a href="../User/IDP_QMGRID.html">QM_Grid control</a>.</li>
+  <li>  Although <span class="blue">net</span> in exe can be used to run macros in 
+    QM, exe itself cannot be controlled. Ie exe works as TCP client but not as server.</li>
+  <li>Cannot unlock locked computer (Properties -&gt; Common -&gt; Unlock ...).</li>
+</ul>
+<h2><a href="IDH_MAKEEXE.html#L5" name="a5">Features that are different in exe</a></h2>
+<p>Some <a href="../Language/IDP_SPECVAR.html">predefined variables</a> have different 
+  values when the macro runs in exe.</p>
+<p>&nbsp;</p>
+<p><a href="../Language/IDP_SPECVAR.html">Predefined constants</a> (as well as all 
+  constants) have values specific to the computer where the exe was created, not 
+  where it runs.</p>
+<p>&nbsp;</p>
+<p>Special folder $qm$ is exe file path, not qm.exe path.</p>
+<p>&nbsp;</p>
+<p> Special folder $my qm$ probably does not exist on computers where the program 
+  will run.</p>
+<p>&nbsp;</p>
+<p>Some functions are implemented differently in exe, and therefore may behave 
+  slightly differently in some cases. It includes:</p>
+<ul>
+  <li><span class="blue">run</span> flags 0x10000 and 0x20000 (run as admin) work 
+    differently.</li>
+  <li><span class="blue">web</span> may work differently.</li>
+  <li><span class="blue">key</span> may be slower and in some cases less reliable.</li>
+</ul>
+<p>&nbsp;</p>
+<h2><a href="IDH_MAKEEXE.html#L7" name="a7">UAC</a></h2>
+<p>Windows Vista and later has a security feature - <i>User Account Control (UAC)</i>. 
+  With UAC, even if you are working on an administrator user account, most programs 
+  have only standard user's privileges. It creates various problems for many programs, 
+  including QM. They cannot write to many file system and registry locations, 
+  manipulate services, and much more. Also, most of them cannot interact (use 
+  keyboard, mouse and menu commands, send messages, use hooks, etc) with programs 
+  that have higher privileges. QM can interact with all programs, but UAC may 
+  be a problem for QM-created programs. Read more about it <a href="../Other/IDP_VISTA.html">here</a>.</p>
+<p>&nbsp;</p>
+<p>Since most programs run with standard privileges, your QM-created 
+  programs will be able to automate them. If they have to automate programs with 
+  higher privileges (admin or uiAccess), or if they need higher privileges for 
+  other purposes, they must be started as administrator or marked as uiAccess.</p>
+<p>&nbsp;</p>
+<p> To mark a program as administrator or uiAccess program, add a manifest resource 
+  with certain tags. uiAccess programs also must be signed. A code signing certificate 
+  costs 100-500 $/year. The default manifest specifies normal privileges (level=&quot;asInvoker&quot; 
+  uiAccess=&quot;false&quot;). Other level values that can be specified are &quot;highestAvailable&quot; 
+  and &quot;requireAdministrator&quot;. uiAccess can be &quot;false&quot; or &quot;true&quot;. 
+  You can find more information about UAC and MS Authenticode code signing on 
+  the Internet. Also you can ask about it in the Quick Macros <A href="http://www.quickmacros.com/forum/index.php" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#GetProcessUacInfo" class="dll">GetProcessUacInfo</a>, 
+  <a href="IDH_MAKEEXE.html#a8">Run in separate process</a></p>
+
+<h2><a href="IDH_MAKEEXE.html#L8" name="a8">Properties -&gt; Run in separate process</a></h2>
+<p> Normally, macros run in QM process. If you check &quot;Run in separate process&quot; 
+  in Properties, the macro will run in its own process. This option is available 
+  for macros and functions.</p>
+<p>&nbsp;</p>
+<p>When you launch such a macro or function, QM creates and executes a .qmm or .exe file. By default uses .qmm, but you can change file extension to .exe, and then will be created .exe file. You can change exe/qmm settings in the Make Exe dialog.</p>
+<p>&nbsp;</p>
+<p>If the file already exists, QM checks macro and file times etc,  and creates file again if need. If settings 
+  are stored in a folder, QM also checks all macros/functions in the folder. 
+  If the macro directly or indirectly uses functions from other folders, after 
+  editing these functions need to create file again (use the Make Exe dialog or edit/run the macro).</p>
+<p>&nbsp;</p>
+<p>This feature can be useful when creating/debugging exe that is not to be run 
+  from QM. Instead of invoking menu Run -&gt; Make Exe and Run -&gt; Run Exe, 
+  you can just click the Run button. The exe file is exactly the same as if you 
+  create it using menu Run -&gt; Make Exe. If you initially have .qmm file, change file extension to .exe.</p>
+<p>&nbsp;</p>
+<h3>UAC integrity level</h3>
+<p>The &quot;Run in separate process&quot; feature can be useful when some functions require certain 
+  privileges while QM is running with different privileges. There are several 
+  predefined sets of privileges - <a href="../Other/IDP_VISTA.html"><i>integrity 
+  levels</i></a> (IL). Process IL is assigned when starting the process and cannot 
+  be changed later. QM itself can run as administrator (High IL), normal user (Medium IL) 
+or uiAccess (Medium+uiAccess IL); you can set it in Options. Macros running in separate process can run as:</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <td>0</td>
+    <td>As QM</td>
+    <td>The same IL as of QM.</td>
+  </tr>
+  <tr> 
+    <td>1</td>
+    <td>User</td>
+    <td>Medium IL, even if QM is running as administrator.</td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td>Administrator</td>
+    <td>High IL. On non-admin accounts also runs as admin but shows a password 
+      dialog.</td>
+  </tr>
+  <tr> 
+    <td>3</td>
+    <td>Highest available</td>
+    <td>High IL on admin accounts. As QM on non-admin accounts.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Low</td>
+    <td>Low IL, like Internet Explorer running in protected mode.</td>
+  </tr>
+  <tr> 
+    <td>5</td>
+    <td>As QM, -uiAccess</td>
+    <td>The same IL as of QM, but without uiAccess privileges.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>To run exe files with various IL, QM uses function <a href="../User/IDP_QMDLL.html#StartProcess" class="dll">StartProcess</a>. 
+  You can also use it in macros, except in exe. The first argument can be one 
+  of values from the table.</p>
+<p>&nbsp;</p>
+
+<p>Integrity levels are used if UAC (User Account Control) 
+  is on. Otherwise, exe will run with same privileges as QM, regardless what IL 
+  is selected. The only exception is &quot;Administrator&quot;, which also is 
+  applied on non-administrator accounts on other OS.</p>
+<p>&nbsp;</p>
+<p>On non-administrator accounts, if IL is different than QM, exe may run as other 
+  user than QM. Possible problems with user-specific special folders (&quot;$personal$, 
+  &quot;$my qm$, etc) and registry keys. If exe does not run, try to change its 
+  path (in Make Exe dialog) from &quot;$my qm$&quot; to some common folder, for 
+  example &quot;$common appdata$\qmexe&quot;.</p>
+<p>&nbsp;</p>
+<p>UAC IL that is specified in Properties is applied only if the exe is started 
+  by QM like a macro. It is not applied if the exe is started using <span class="blue">run</span> 
+  or when you double click exe icon in Windows Explorer. To apply it when you 
+  double click exe icon, check &quot;Run in separate process&quot;, create shortcut 
+  to the macro, and use the shortcut.</p>
+<p>&nbsp;</p>
+<p>There are some limitations in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<h3>Notes</h3>
+
+<p>When you run the macro using <a href="../Commands/IDP_MAC.html" class="blue">mac</a>, 
+  a command line can be passed to the exe process. The main exe thread receives 
+  the string through the _command variable. String and numeric arguments also 
+  can be passed (use <span class="blue">function</span>). Don't pass pointers 
+  and references.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>mac</span> <span class=s>&#34;macro name&#34;</span> <span class=s>&#34;command line&#34;</span> <span class=n>5</span> <span class=s>&#34;string arg&#34;</span></pre>
+<p>&nbsp;</p>
+<p>To manage the exe process (display running macro icon, end macro on Pause, 
+  etc), QM creates a thread in QM. It is listed in the Running Items list and in the 
+  Threads dialog. If you end the thread (or end macro using Pause), it also ends 
+  the process. If you use <span class="blue">mac</span> as function (ie assign 
+  to a variable), it returns thread handle. The caller macro can wait until macro 
+  ends.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> h<span class=o>=</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;macro name&#34;</span><span class=p>)</span>
+<span class=fq>wait</span> <span class=n>0</span> H h</pre>
+<p>&nbsp;</p>
+<p>Note: This does not work if both the macro and the caller are macros. At least 
+  one of them must be function.</p>
+<p>&nbsp;</p>
+<p>If you use &quot;On Run&quot; function, it receives the command line and 
+  arguments through its first parameter. The _command variable contains exe file 
+  path. The function should run the exe file and wait until it exits (e.g., <a href="../Commands/IDP_RUN.html" class="blue">run</a> 
+  with flag 0x400, or <a href="../User/IDP_QMDLL.html#StartProcess" class="dll">StartProcess</a> and <a href="../Commands/IDP_WAIT_FOR.html" class="blue">wait</a> 
+  for handle). If it does not wait, QM cannot manage the exe process. Also, it 
+  should exit soon after the process ends.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> <span class=o>$</span>ca
+<span class=fq>run</span> _command ca <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0x400</span></pre>
+<p>&nbsp;</p>
+<p>In some cases, the macro does not run in separate process, even if &quot;Run 
+  in separate process&quot; is checked: 1. If it is a function called from code. 
+  2. If it is a function started from exe (using <span class="blue">mac</span>). 
+  3. If it is a function started by a QM startup/exit trigger and is set to run 
+  synchronously. 4. If it is a function called by QM using some special way, e.g. 
+  like a filter function.</p>
+<p>&nbsp;</p>
+<p>As described earlier in this topic, some QM features are unavailable or different when the macro runs in separate process. 
+  For example, global variables are not shared by processes.</p>
+<p>&nbsp;</p>
+<h3>.qmm files</h3>
+<p>A .qmm file contains compiled macro and related resources. Unlike .exe, it is not executable. The macro is executed by qmmacro.exe when you run the macro from QM as separate process. Executing not from QM also is possible, but not recommended, because .qmm file version must match qmmacro.exe version.</p>
+<p>&nbsp;</p>
+<p>The .qmm file format is the same as of a resource-only dll. For example, you can add icons and use as an icon library.</p>
+<p>&nbsp;</p>
+<h3>Possible problems with antivirus software</h3>
+<p>1. Macros that run in separate process may start with a delay. Probably your antivirus program scans the .exe or .qmm file, and also qmmacro.exe that executes .qmm files.</p>
+<p>2. Macros running in separate process may not run normally when using .exe (should not be problems with .qmm). Your antivirus program may show a warning. For an antivirus program, unknown (not commonly downloaded) and unsigned program files may look suspicious. For example, Avast puts them into its sandbox and terminates.</p>
+<p>&nbsp;</p>
+<p>Antivirus programs usually allow you to exclude some files and folders from scanning/autosandboxing.  Make exclusions for your exe folder (My QM) and QM folder. It should solve the above problems. Or change autosandbox settings, if it triggers too often for other programs too.</p>
+
+<h2><a href="IDH_MAKEEXE.html#L6" name="a6">License</a></h2>
+<p>With  Quick Macros you can create, use and distribute programs without restrictions.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
