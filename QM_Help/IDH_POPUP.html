@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Pop-up menu</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><img src="../image/icon_popup.gif"> Pop-up menu</h1>
+
+<p>Pop-up menus are used to launch macros, files, and to execute any other commands. 
+  To create new menu, click menu File -&gt; New -&gt; New Menu.</p>
+
+<p>&nbsp;</p>
+
+<p>The following information applies to pop-up menus and <a href="IDH_TOOLBAR.html">toolbars</a> 
+  (syntax is almost identical). For example, &quot;menu item&quot; in most cases 
+  also means &quot;toolbar button&quot;.</p>
+
+<h2>Menu items</h2>
+
+<p>Each line in menu text creates one menu item. Syntax:</p>
+<p>&nbsp;</p>
+<pre class=syntax><i>[</i>label <i>]</i><span class="red">:</span>statements<i>[</i> <span class="magenta">* icon</span><i>]</i></pre><p>&nbsp;</p>
+<p><b>label</b> - menu item's text. Optional. Can contain <a href="../Language/IDP_CONSTANT.html">escape 
+  sequences</a>.</p>
+<p><b>statements</b> - one or more commands. If several commands are used, use 
+  semicolon to separate.</p>
+<p><b>icon</b> - icon file.</p>
+<p>&nbsp;</p>
+<p>There are also two simpler forms:</p>
+<p>&nbsp;</p>
+<p>1. Run macro:</p>
+<pre class=syntax>Macro<i>[</i> <span class="magenta">* icon</span><i>]</i></pre><p>&nbsp;</p>
+<p>2. Run file:</p>
+<pre class=syntax><i>[</i>label <i>]</i>&quot;file&quot;<i>[</i> <span class="magenta">* icon</span><i>]</i></pre><p>&nbsp;</p>
+<p>Here <b>Macro</b> is macro name, which also is menu item's label; <b>file</b> 
+  is file name (ful path or filename) or <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST 
+  string</a>.</p>
+<p>&nbsp;</p>
+<p>Lines that begin with space or semicolon can be used for comments.</p>
+<p>&nbsp;</p>
+<p>Menu items can be added using dialogs from the code toolbar. Also, you 
+  can drag and drop macros, files and Internet links.</p>
+<p>&nbsp;</p>
+<p>Menu example:</p>
+<pre class=cod>My Macro <span class=p>:</span><span class=fq>mac</span> <span class=s>&#34;My Macro&#34;</span>
+IE <span class=p>:</span><span class=fq>run</span> <span class=s>&#34;iexplore.exe&#34;</span>
+Select All <span class=p>:</span><span class=fq>key</span> Ca<span class=mi> * text.ico</span>
+Arial italic <span class=p>:</span><span class=fq>spe</span><span class=p>;</span> <span class=fq>men</span> <span class=n>57696</span> <span class=s>&#34;WordPad&#34;</span><span class=p>;</span> <span class=fq>key</span> <span class=s>&#34;Arial&#34;</span> TPDY
+<span class=p>:</span><span class=fq>mes</span> <span class=s>&#34;Label is optional&#34;</span>
+-
+<span class=c> comments
+</span>My Macro
+IE <span class=s>&#34;iexplore.exe&#34;</span></pre>
+<p>&nbsp;</p>
+
+<h2>Separators</h2>
+
+<p><tt>-</tt>&nbsp;&nbsp;horizontal separator (for toolbars, 
+  it can be vertical or horizontal).</p>
+
+<p><tt>-digits</tt>&nbsp;wide separator (for toolbars only). 
+  Digits is separator width.</p>
+
+<p><tt>|</tt>&nbsp;&nbsp;vertical separator (for menus).</p>
+
+<h2>Submenus</h2>
+
+<p>Submenus are created using &gt; and &lt; characters, as in the example below. 
+  Line that begins with &gt; opens submenu. Line containing only &lt; ends the 
+  submenu. Submenus in toolbars are not supported. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod>Macro1
+<span class=mi>&#62;</span>Submenu
+<span class=i>&#9;</span>Macro2
+<span class=i>&#9;</span>Macro3
+<span class=mi>&#9;&#60;</span>
+Macro4</pre>
+
+<h2>Expanding file folders (QM 2.2.0)</h2>
+<p>In menu Properties you can set to expand file folders, ie automatically create 
+  submenus of files. Use the following syntax to create an expandable folder item:</p>
+<p>&nbsp;</p>
+<pre class=syntax>Label &quot;folder&quot; <i>[</i>&quot;folder2&quot; <i>...][</i> <span class="magenta">* icon</span><i>]</i></pre>
+<p>&nbsp;</p>
+<p>Label usually is folder name, although can be any text. Folder can be folder 
+  path or <a href="../Other/IDP_SEARCHPATHS.html">ITEMIDLIST string</a>. If several 
+  folders are specified (max 10), they are merged.</p>
+<p>&nbsp;</p>
+<p>Example menu:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /expandfolders
+</span>Start <span class=s>&#34;$start menu$&#34; &#34;$common start menu$&#34;</span>
+Desktop <span class=s>&#34;:: &#34;</span>
+My Computer <span class=s>&#34;:: 14001F50E04FD020EA3A6910A2D808002B30309D&#34;</span>
+C:\ <span class=s>&#34;C:\&#34;</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>If the menu contains only single expandable folder item and no other items, 
+  the folder is expanded in the main popup menu, otherwise it creates submenu.</p>
+<p>&nbsp;</p>
+<p>In Include/Exclude fields (in Properties), you can specify one or more patterns 
+  of files to be included or/and excluded. If both fields are empty, included 
+  are all files. Read <a href="IDH_MENUOPTIONS.html">more</a>.</p>
+<h2>Special characters in menu item labels</h2>
+<p>To create keyboard shortcut (underlined letter) for a menu item, insert &amp; 
+  before the letter. Example: <span class=cod>L&#38;abel</span>. Use &amp;&amp; 
+  for simple &amp;. Also, you can select an item with arrow keys and execute with 
+  Enter. Use Esc to close the menu or current submenu.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. To append hotkey name or some other text aligned at the right, insert 
+  tab. It can be literal tab, or several tabs, or [9]. Example: <span class=cod>Label[9]Ctrl+Shift+U</span>.</p>
+<h2>How to show a menu from code</h2>
+
+<p>To show a menu from code (e.g. from a macro, another menu or toolbar) use <a href="../Commands/IDP_MAC.html" class="blue">mac</a>. 
+  If used as function (like <span class=cod>variable<span class=o>=</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;menu&#34;</span><span class=p>)</span></span>), 
+  <span class="blue">mac</span> waits until the menu is closed. It then returns 
+  1-based index of selected line, or 0. Note that lines not necessary match visible 
+  menu items, because menu can have comments, separators, etc. If used like <span class=cod><span class=fq>mac</span> <span class=s>&#34;menu&#34;</span></span>, it does not wait.</p>
+<p>&nbsp;</p>
+<p> QM 2.2.0. For expanded folder items, <span class="blue">mac</span> returns 
+  -1. To get last clicked item info, use function <a href="../User/IDP_QMDLL.html#GetLastSelectedMenuItem" class="dll">GetLastSelectedMenuItem</a> 
+  after <span class="blue">mac</span>. The function also can be used to get info 
+  of other items. </p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. In Properties you can set to not run the command/file/macro when 
+  a menu item is clicked. The macro for example could get file path using <a href="../User/IDP_QMDLL.html#GetLastSelectedMenuItem" class="dll">GetLastSelectedMenuItem</a> 
+  and do some other action.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. While <span class="blue">mac</span> waits until the menu is closed, 
+  it processes messages. In previous versions, <span class="blue">mac</span> did 
+  not process messages, and therefore showing menus from dialogs did not work 
+  well.</p>
+<p>&nbsp;</p>
+
+<p>If menu is launched with a command (e.g., <span class=cod><span class=fq>mac</span> <span class=s>&#34;Menu&#34;</span> <span class=s>&#34;command&#34;</span></span>), the command is interpreted as 
+  menu item label, and, instead of showing menu, that item is executed.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. Menu position can be specified:</p>
+<p>&nbsp;</p>
+<p> <span class=cod><span class=fq>mac</span> <span class=s>&#34;Menu&#34;</span> <span class=s>&#34;&#34;</span> x y flags</span></p>
+<p>&nbsp;</p>
+<p> Here flags are <a href="../Other/IDP_MSDN.html" class="dll">TrackPopupMenuEx</a> 
+  flags, e.g. <span class="def">TPM_RIGHTALIGN</span>. To use default position, 
+  x and y can be &quot;&quot;.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDH_TRIG_QM.html">menu bar triggers</a></p>
+<h2>Sub-functions</h2>
+<p><a href="../Language/IDP_DIR_SUB.html">Sub-functions</a> can be used in menus, as well as in QM items of other types. The first <span class="dir">#sub</span> directive ends menu text. Use sub-functions for menu items that have multiple code lines and you don't want to create separate macros for them.</p>
+<p>&nbsp;</p>
+<p>Example menu:</p>
+<p>&nbsp;</p>
+<pre class=cod>A <span class=p>:</span><span class=fq>out</span> sub.Add<span class=p>(</span><span class=n>3</span> <span class=n>1</span><span class=p>)</span>
+B <span class=p>:</span>sub.Sub1
+
+<span class=dir>#sub</span> Add
+<span class=fq>function</span><span class=o>#</span> a b
+<span class=fq>out</span> <span class=d>__FUNCTION__</span>
+<span class=fq>ret</span> a<span class=o>+</span>b
+
+<span class=dir>#sub</span> Sub1 m
+<span class=c> With m attribute, this sub-function is used as menu item text, not called as function.</span>
+<span class=fq>out</span> <span class=d>__FUNCTION__</span>
+</pre><p>&nbsp;</p>
+<p>Like in all functions, default speed (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>) in sub-functions is 0. In sub-functions with m attribute it is like in macros and menu items, default 100.</p>
+<h2>The right-click menu (QM 2.2.0)</h2>
+<p>When you right-click a menu item, pops up another small menu. You can use it 
+  to quickly open the menu in QM, open the target macro, or open the folder of 
+  the target file. To right-click an item that opens a submenu, at first press 
+  Esc to close the submenu.</p>
+<p>&nbsp;</p>
+<hr>
+<p> <i>See also:</i> <A href="IDH_MENUICONS.html">menu and toolbar icons</a>, <span class="UDF"><a href="IDH_MENUOPTIONS.html">menu 
+  options</a>, <a href="../Commands/IDP_PASTE.html">hybrid paste</a>, DynamicMenu, ShowMenu</span>, <span class="UDF">ListDialog</span>, <a href="../User/IDP_QMCOMBOBOX.html" class="dll">ShowDropdownList</a>.</p>
+
+</body>
+
+</html>
