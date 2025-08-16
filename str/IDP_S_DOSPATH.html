@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>dospath</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1> <A name="IDP_S_EXPANDPATH"></a>Get short (DOS) path or long path</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>dospath</b>(<i>[</i>file<i>]</i> <i>[</i>flags<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>file </b>- full path of file or folder. Default: <b>s</b>.</p>
+
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Get long path. If flag 1 is not used, gets short path.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>QM 2.3.1. If fails to get short path, and the path contains spaces, enclose 
+    it in double quotes.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p> Added in QM 2.2.0.</p>
+<p>&nbsp;</p>
+<p>A file path can have two formats - long and short. Usually are used long paths, 
+  but also are supported short paths that were used in DOS. For example, short 
+  path version of &quot;c:\program files\some folder\some file.txt&quot; would 
+  be &quot;c:\progra~1\somefo~1\somefi~1.txt&quot; or similar. Some programs don't 
+  support long paths in command line, so you have to use short path. This function 
+  does conversion between long and short path versions.</p>
+<p>&nbsp;</p>
+<p>If <b>file</b> begins with a $spacial folder$ or %environment variable%, this 
+  function expands it.</p>
+<p>&nbsp;</p>
+<p>The file/folder must exist, or the function will be unable to get short or 
+  long path. If it does not exist, or the function fails for some other reason, 
+  <b>s</b> receives <b>file</b> (possibly expanded).</p>
+<p>&nbsp;</p>
+<p>Note: On some computers short path generation is disabled.</p>
+
+<p>&nbsp;</p>
+</body>
+
+</html>
