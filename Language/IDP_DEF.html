@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>def</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><a href="IDP_DECLARATION.html">Define</a> named constant</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>def</b> name value</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>name</b> - <A href="../Other/IDP_IDENTIFIERS.html">name</a>.</p>
+
+<p> <b>value</b> - value. Can be a <a href="IDP_CONSTANT.html">constant 
+value</a> of any type (number, string), or any other <a href="../Other/IDP_EXPRESSION.html">expression</a>. 
+Can include nonconstant values (global variables, functions).</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Defines a named constant. A named constant is a meaningful name that takes 
+  the place of a number, string or other expression. It is similar to a variable, 
+  but cannot be modified. Named constants have global scope, i.e. can be used in any macro.</p>
+<p>&nbsp;</p>
+<p>Named constants also can be defined in <a href="../QM_Help/IDH_SETT_FILES.html">reference 
+  files</a> and <A href="../_COM/IDP_TYPELIB.html">type libraries</a>. QM defines many Windows constants in WINAPI 
+  and other reference files. You can use them directly or with &quot;WINAPI.&quot; prefix, like in this example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>out</span> <span class=lib>WINAPI.</span><span class=d>ERROR_BAD_PATHNAME</span></pre>
+<p>&nbsp;</p>
+<p> <i>See also:</i> <a href="IDP_SPECVAR.html">predefined/special constants and variables</a>, <a href="IDP_DECLARATION.html">declarations</a>, <a href="../Other/IDP_IDENTIFIERS.html">scope</a>, <a href="http://www.quickmacros.com/forum/viewtopic.php?f=1&t=5692">how to define constants at startup</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>def</span> <span class=d>MAX_PATH</span> <span class=n>260</span>
+<span class=fq>def</span> <span class=d>GMEM_SHARE</span> <span class=n>0x2000</span>
+<span class=fq>def</span> <span class=d>dblconst</span> <span class=o>-</span><span class=n>1.25</span>
+<span class=fq>def</span> <span class=d>strconst</span> <span class=s>&#34;String constant&#34;</span>
+<span class=fq>def</span> <span class=d>GPTR</span> GMEM_FIXED<span class=o>|</span>GMEM_ZEROINIT
+<span class=fq>def</span> <span class=d>A10</span> A <span class=o>+</span> <span class=n>10</span>
+<span class=fq>def</span> <span class=d>IID_IShellFolder</span> <span class=fq>uuidof</span><span class=p>(</span><span class=s>&#34;{000214E6-0000-0000-C000-000000000046}&#34;</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
