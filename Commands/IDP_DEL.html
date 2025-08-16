@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>del</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Delete files and folders</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>del</b><i>[</i>-<i>] </i>file <i>[</i>flags<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>file</b> - file or folder.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b> - see <a href="IDP_COPFLAGS.html">here</a>.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags">
+<tr>
+<td> Default</td> <td>move file to Recycle Bin.</td>
+</tr>
+<tr>
+<td>-</td> <td>delete file.</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Deletes a file or folder.</p>
+<p>&nbsp;</p>
+<p>Like all QM file functions, supports <a href="../Other/IDP_SEARCHPATHS.html">special 
+  folders</a>. Also supports relative paths (in QM 2.3.0 and above it works better).</p>
+<p>&nbsp;</p>
+<p>To delete multiple files, can be used one of the following:</p>
+<p>1. Use <a href="../Other/IDP_WILDCARD.html">wildcard characters</a> in filename 
+  part of <b>from</b>. All matching files will be deleted. To delete matching 
+  folders too, FOF_FILESONLY flag must be removed. Use the 'Delete Files' dialog 
+  to insert correct flags.</p>
+<p>2. Use list of files (full paths) in <b>from</b>, one file in a line.</p>
+<p>3. Enumerate files. To insert the code, use the 'Enumerate Files' dialog.</p>
+<p>&nbsp;</p>
+<p>The function works almost in the same way as if the user would do it manually. 
+  It is quite slow with small files, especially on Vista. You can instead use 
+  faster function: <span class="UDF">FileDelete</span><span class="UDF"></span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Removed autodelay.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>Drag and drop a file onto the macro text to insert full path.</p>
+
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Send file to Recycle Bin
+</span><span class=fq>del</span> <span class=s>&#34;$desktop$\text.txt&#34;</span>
+<span class=c>
+ Delete file
+</span><span class=fq>del</span><span class=o>-</span> <span class=s>&#34;$desktop$\text.txt&#34;</span>
+
+<span class=c> Empt Recycle Bin
+</span><span class=fd>SHEmptyRecycleBin</span> <span class=n>0</span> <span class=n>0</span> <span class=d>SHERB_NOCONFIRMATION</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
