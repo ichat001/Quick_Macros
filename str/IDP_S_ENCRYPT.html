@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>encrypt</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_DECRYPT"></a>Encrypt, decrypt</h1>
+
+<h3>Syntax1 - BlowFish</h3>
+<pre class=syntax>s.<b>encrypt</b>(1 src key<i> [</i>flags<i>]</i>)
+s.<b>decrypt</b>(1 src key)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax2 - MD5</h3>
+<pre class=syntax>s.<b>encrypt</b>(2 <i>[</i>src<i>]</i> <i>[</i>src2<i>] [</i>flags<i>]</i>)</pre><p>&nbsp;</p>
+
+<h3>Syntax3 - Base64</h3>
+<pre class=syntax>s.<b>encrypt</b>(4 <i>[</i>src<i>] [</i>&quot;&quot; flags<i>]</i>)
+s.<b>decrypt</b>(4 <i>[</i>src<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax4 - Hex</h3>
+<pre class=syntax>s.<b>encrypt</b>(8 <i>[</i>src<i>]</i><i> [</i>&quot;&quot; flags<i>]</i>)
+s.<b>decrypt</b>(8 <i>[</i>src<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax5 - decrypt password</h3>
+<pre class=syntax>s.<b>encrypt</b>(16 password function<i> [</i>flags<i>]</i>)
+s.<b>decrypt</b>(16 password key<i> [</i>flags<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax6 - LZO compression</h3>
+<pre class=syntax>s.<b>encrypt</b>(32 <i>[</i>src<i>]</i>)
+s.<b>decrypt</b>(32 <i>[</i>src<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable. Receives result.</p>
+<p> <b>1,2,4,8,16,32</b> - encryption algorithm. Also can be 1|4 (BlowFish+Base64), 
+1|8 (BlowFish+Hex), 2|4 (MD5+Base64) and 2|8 (MD5+Hex), 32|4 (LZO+Base64) and 32|8 (LZO+Hex).</p>
+<p><b>src</b> - string to encrypt or decrypt. If <b>src</b> is str variable, it 
+can contain binary data. Default: <b>s</b> itself.</p>
+<p><b>key</b> - encryption key. String of 1 to 56 characters length.</p>
+<p><b>src2</b> - second string to hash with <b>src</b>. Optional.</p>
+<p><b>password</b> - password to encrypt or decrypt.</p>
+<p><b>function</b> - name of the function to which the password will be passed. 
+String.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b> - read in remarks.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Encrypts or decrypts  string or binary data using one of standard algorithms. The algorithms are used for different purposes. You can find more info about them on the Internet.</p>
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax1 - BlowFish (algorithms 1, 1|4, 1|8)</h4>
+<p>&nbsp;</p>
+<p>Encrypts/decrypts <b>src</b> using BlowFish algorithm.</p>
+<p>&nbsp;</p>
+<p>BlowFish is used to encrypt data for security purposes.</p>
+<p>&nbsp;</p>
+<p> Uses 
+  encryption key. To decrypt, use same key as  when 
+  encrypting.</p>
+<p>&nbsp;</p>
+<p> Error if <b>src</b> or <b>key</b> is invalid and cannot be encrypted or decrypted.</p>
+<p>&nbsp;</p>
+<p>By default, the result is binary. If  algoritm is 1|4 or 1|8, converts it to text in Base64 or Hex format.</p>
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax2 - MD5 (algorithms 2, 2|4, 2|8)</h4>
+<p>&nbsp;</p>
+<p><span class="blue">encrypt</span> generates  hash (&quot;digest&quot;, &quot;checksum&quot;) of <b>src</b> using MD5 algorithm.</p>
+<p>&nbsp;</p>
+<p>MD5 is used to check whether two strings (or files, passwords,  other data) are identical without comparing the strings. Instead you compare their MD5 hash values. The hash is a 16-byte value. It is different for different data. It cannot be decrypted.</p>
+<p>&nbsp;</p>
+<p>The purpose is similar as of  CRC (see <a href="../User/IDP_QMDLL.html#Crc32" class="dll">Crc32</a>), which generates a 4-byte value.  MD5 is more reliable. The speed is similar.</p>
+<p>&nbsp;</p>
+<p>By default, the result is binary. If  algoritm is 2|4 or 2|8, converts it to text in Base64 or Hex format.</p>
+<p>&nbsp;</p>
+
+<div class="parts">
+<p><b>flags</b>:</p>
+<table class="tflags"><col>
+<tr>
+<td>0x100 (QM 2.3.2)</td> <td><p><b>src</b> is file.</p>
+  <ul>
+    <li>Error if fails to open. To get  error info, call GetLastError or _s.dllerror.</li>
+  </ul></td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax3 - Base64 (algorithm 4)</h4>
+<p>&nbsp;</p>
+
+<p>Encodes/decodes <b>src</b> using Base64 algorithm.</p>
+<p>&nbsp;</p>
+<p> Base64  is used to convert binary data 
+  to  text.</p>
+<p>&nbsp;</p>
+<p> When encoding, is generated 
+  string of approximately 4/3 of <b>src</b> length and consisting of alphanumeric 
+  and several other characters.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>flags</b> - flags that can be used with <span class="blue">encrypt</span>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>don't add padding (default: if 
+encoded data is not 4-multiple, adds 1 to 3 characters =).</td>
+</tr>
+<tr>
+<td>2</td> <td>don't add 
+line breaks (default: if encoded data is long enough, adds line breaks).</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p>These flags also can be used with algorithms involving Base64: 1|4, 2|4 and 32|4.</p>
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax4 - Hex (algorithm 8)</h4>
+<p>&nbsp;</p>
+
+<p>Encodes/decodes <b>src</b> using Hex algorithm.</p>
+<p>&nbsp;</p>
+<p>Hex  is used to convert binary data to text. Faster than Base64, but the result is bigger.</p>
+<p>&nbsp;</p>
+<p> When encoding, generates 
+  string of <b>src</b> length * 2 and consisting of hexadecimal characters (0 
+  - 9, A - F).</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>flags</b> - flags that can be used with <span class="blue">encrypt</span>:</p>
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>add spaces to separate bytes, like &quot;AA BB CC DD&quot;.</td>
+</tr>
+<tr>
+<td>2, 4, 8, 16, 32, 64</td> <td>add line breaks. The number is the number of bytes in a line.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax5 - decrypt password (algorithm 16)</h4>
+<p>&nbsp;</p>
+<p><span class="blue">decrypt</span> decrypts password.</p>
+<p>&nbsp;</p>
+<p> An encrypted password has format &quot;[*XXXXXXXXXXXXXXXXXX*]&quot;. 
+  It also can be string containing one or more encrypted passwords, e.g. &quot;pwd=[*0123456789ABCDEF*];&quot;.</p>
+<p>&nbsp;</p>
+<p> If <b>password</b> does not contain an encrypted password, simply assigns <b>password</b> 
+  to <b>s</b>. But if flag 1 is used, generates error. Does not generate other 
+  errors.</p>
+<p>&nbsp;</p>
+<p> Passwords can be encrypted in <a href="../QM_Help/IDH_SETT_SECURITY.html">Options-&gt;Security</a> 
+  or using <span class="blue">encrypt</span> with algorithm 16. <a href="../QM_Help/IDH_FUNCTIONTIPS.html">Read 
+    more</a>.</p>
+<p>&nbsp;</p>
+<p>Syntax5 not available in exe. RT error if used.</p>
+<p>&nbsp;</p>
+<hr>
+<h4>Syntax6 (QM 2.3.2) - LZO compression (algorithms 32, 32|4, 32|8)</h4>
+<p>&nbsp;</p>
+<p>Compresses/decompresses using LZO (<a href="http://www.oberhumer.com/opensource/lzo/" target="_blank">http://www.oberhumer.com/opensource/lzo/</a>).</p>
+<p>&nbsp;</p>
+<p> Fast compression and extremely fast decompression. However compression rate is not high. Good for non-compressed images (bmp, ico).</p>
+<p>&nbsp;</p>
+<p>By default, the result is binary. If  algoritm is 1|4 or 1|8, converts it to text in Base64 or Hex format.</p>
+<p>&nbsp;</p>
+<hr>
+<p><i>See also: </i><a href="IDP_S_ESCAPE.html">str.escape</a>, <a href="IDP_S_UNICODE.html">str.ansi</a>, 
+  <a href="../Functions/IDP_INPP.html" class="blue">inpp</a>, <a href="../User/IDP_QMDLL.html#Crc32" class="dll">Crc32</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Set password. Save it in registry (MD5-encrypted).</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>inp</span><span class=p>(</span>s <span class=s>&quot;New password:&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;*&quot;</span><span class=p>))</span> <span class=fq>ret</span>
+s.<span class=fq>encrypt</span><span class=p>(</span><span class=n>10</span><span class=p>)</span>
+<span class=fq>rset</span> s <span class=s>&quot;Password11&quot;</span> <span class=s>&quot;\Test&quot;</span>
+<span class=c> ____________________________________</span>
+
+<span class=c> Ask for password that previously was saved in registry (MD5-encrypted).</span>
+<span class=t>str</span> ss sss
+<span class=fq>if</span><span class=p>(</span><span class=fq>rget</span><span class=p>(</span>ss <span class=s>&quot;Password11&quot;</span> <span class=s>&quot;\Test&quot;</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>inp</span><span class=p>(</span>sss <span class=s>&quot;Password:&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;*&quot;</span><span class=p>))</span> <span class=fq>ret</span>
+<span class=i>&#9;</span>sss.<span class=fq>encrypt</span><span class=p>(</span><span class=n>10</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>sss<span class=o>!=</span>ss<span class=p>)</span> <span class=fq>mes</span><span class=o>-</span> <span class=s>&quot;Password is incorrect&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;!&quot;</span>
+<span class=fq>mes</span> <span class=s>&quot;OK&quot;</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
