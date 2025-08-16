@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>findreplace</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find and replace</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int</i> s.<b>findreplace</b>(findwhat <i>[</i>replaceto<i>] [</i>flags<i>] [</i>delim<i>] [</i>from<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>findwhat </b>- string to find.</p>
+
+<p> <b>replaceto</b> - replacement string. Default: &quot;&quot;.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>case insensitive.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>whole word.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>single replacement.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>repeat replacement until <b>s</b> will not contain substrings 
+    that match <b>findwhat</b>. Without this flag, the result string can contain 
+    new such substrings. For example, if in string &quot;abbcc&quot; is replaced 
+    &quot;bc&quot; to &quot;&quot;, the result is &quot;abc&quot;. With this 
+    flag, the result is &quot;a&quot;.</td>
+</tr>
+<tr> 
+  <td>16</td>
+  <td>replace with [0] character. <b>replaceto</b> is not used and can 
+    be &quot;&quot;.</td>
+</tr>
+<tr> 
+  <td>32</td>
+  <td>replace [0] character (QM 2.2.0). <b>findwhat</b> is not used and can 
+    be &quot;&quot;.</td>
+</tr>
+<tr>
+  <td>64</td>
+  <td>QM 2.3.3. Match always if <b>findwhat</b> begins/ends with a delimiter. Can be used with flag 2.</td>
+</tr>
+<tr> 
+  <td>0x100</td>
+  <td> <b>delim</b> is table of delimiters.</td>
+</tr>
+<tr>
+  <td>0x200</td>
+  <td>QM 2.3.3. Add blanks to <b>delim</b>.</td>
+</tr>
+</table>
+
+<p> <b>delim</b> - <a href="../Other/IDP_TABLEOFDELIM.html">delimiters</a>.</p>
+
+<p> <b>from</b> - start from here. 0-based character index in <b>s</b>. Default: 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Searches in <b>s</b> for <b>findwhat</b>, and replaces with <b>replaceto</b>. 
+  If flag 2 is set, searches for substrings delimited by characters in <b>delim</b>, 
+  else <b>delim</b> is ignored.</p>
+
+<p>&nbsp;</p>
+
+<p>If flag 4 is not set, replaces all found <b>findwhat</b> and returns the number 
+  of replacements. If flag 4 is set, replaces only the first found <b>findwhat</b>, 
+  and returns 0-based character index of <b>findwhat</b> in <b>s</b>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&quot;one two one twoo one.two&quot;</span>
+s.<span class=fq>findreplace</span><span class=p>(</span><span class=s>&quot;two&quot;</span> <span class=s>&quot;THREE&quot;</span> <span class=n>2</span> <span class=s>&quot; .&quot;</span><span class=p>)</span>
+<span class=c> now s is &quot;one THREE one twoo one.THREE&quot;</span>
+<span class=c> </span>
+s<span class=o>=</span><span class=s>&quot;one two one two one two&quot;</span>
+s.<span class=fq>findreplace</span><span class=p>(</span><span class=s>&quot;two&quot;</span> <span class=s>&quot;THREE&quot;</span> <span class=n>4</span> <span class=s>&quot;&quot;</span> <span class=n>5</span><span class=p>)</span>
+<span class=c> now s is &quot;one two one THREE one two&quot;</span>
+<span class=c> </span>
+<span class=c> remove empty lines:</span>
+s<span class=o>=</span><span class=s>&quot;one[][][][][]two&quot;</span>
+s.<span class=fq>findreplace</span><span class=p>(</span><span class=s>&quot;[][]&quot;</span> <span class=s>&quot;[]&quot;</span> <span class=n>8</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
