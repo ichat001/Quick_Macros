@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Options: Files</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Options: Files</h1>
+
+<p> <i>Auto backup</i> - create backup copies of currently used <a href="IDH_QML.html">QM files</a> in 
+  the backup folder.</p>
+<ul>
+  <li>Default folder is My Documents\My QM\Backup.</li>
+  <li>QM 2.4.0. Backups shared files too.</li>
+  <li>QM 2.4.0. If you use some other software to backup QM files, note that currently open .qml files usually don't contain new changes. QM at first writes new changes to temporary .qml-wal files in the same folder. Let the backup software copy the files too. See also <a href="../User/IDP_QMFILE.html">_qmfile.FullSave</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p><i>Older files</i> - keep older backup files of specified age or less.</p>
+<ul>
+  <li>For example, if it is <tt>15m 1h 4h 1d</tt>, there will be maximum 5 backup files for a QM file. The older four files are maximum 15 minutes, 1 hour, 4 hours and 1 days older (sometimes more older). Other auto-created backup files are auto-deleted.</li>
+  <li>QM 2.3.5. In the older files list, you can append m, h or d to specify minutes, hours or days. If not specified, h assumed. In previous QM versions the numbers are always hours. Also there are more changes in QM 2.3.5. Different backup algorithm and file names.</li>
+  <li>When you manually backup with the 'Backup now' button, the backup files have different names and are not auto-deleted.</li>
+</ul>
+<p>&nbsp;</p>
+<p><i>My QM folder</i> - folder where QM and QM extensions will store various 
+  files. This folder also contains the default main QM file. In macros, 
+  where file path is used, this folder can be specified as $my qm$ (e.g., &quot;$my 
+  qm$\my file.txt&quot;). Default path is $personal$\My QM (My QM folder in My 
+  Documents). If there are multiple user accounts, each user has its own My Documents 
+  folder.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
