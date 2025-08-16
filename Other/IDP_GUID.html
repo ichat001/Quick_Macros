@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>GUID - globally unique identifier</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>GUID - globally unique identifier</h1>
+
+<p><i>Globally unique identifiers</i> (or <i>universally unique identifiers</i>) 
+  are used to identify COM interfaces, coclasses, type libraries, etc. It is like a name that is globally unique. A GUID  can be stored as a variable of type <span class="type">GUID</span>, or as string like 
+  {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}, where X are hexadecimal digits 0 to 
+  F. In programming, GUID sometimes is called differently: IID for interfaces, CLSID for classes, 
+  REFIID, etc.</p>
+<p>&nbsp;</p>
+<p>Use <a href="../Functions/IDP_UUIDOF.html" class="blue">uuidof</a> to get pointer to GUID of a COM interface or coclass, or to convert GUID string to variable. To convert variable to string, use function <span class="UDF">str.FromGUID</span>. To create new GUID, use <span class="UDF">str.Guid</span> or <span class="dll">CoCreateGuid</span>.</p>
+<p>&nbsp;</p>
+<p>In QM 2.4.0 and later, <a href="../QM_Help/IDH_ITEMS.html">QM items</a> also have GUID. QM can find items by name or GUID string. It is supported in <a href="../QM_Help/IDH_TRIG_COMMANDLINE.html">QM command line</a>, <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a> and other functions. The GUID string can be followed by any text; the text is ignored. Example: <span class=cod><span class=t>int</span> iid<span class=o>=</span><span class=fq>qmitem</span><span class=p>(</span><span class=s>&quot;{a138af76-23b1-4ef8-a4e1-7f459f948dbd}Macro1&quot;</span><span class=p>)</span></span>. QM item GUID cannot be changed.</p>
+<p>&nbsp;</p>
+<p> Why to use QM item GUID instead of name, for example in a command line? The main reason - the command line with GUID will still work after renaming the QM item. If using just name, after renaming also would need to edit the command line.</p>
+<p>&nbsp;</p>
+<p>QM items that are in different <a href="../QM_Help/IDH_QML.html">QM files</a> but have the same name usually have different GUID. They can have the same GUID only in copied files.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
