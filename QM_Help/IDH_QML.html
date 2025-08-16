@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>QM macro-list files</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>QM macro-list files</h1>
+
+<p>QM stores multiple macros and other <a href="IDH_ITEMS.html">QM items</a> in a file with .qml extension. When starting, it loads the last used <i>main</i> file (initially it is Main.qml). Also loads System.qml (QM extensions) and optionally several other <i>shared files</i> (read below).</p>
+
+<p>&nbsp;</p>
+
+<p>QM closes the files when exits or when you open another file. Then it ends running threads, closes toolbars, 
+  deletes variables and declarations.</p>
+<p>&nbsp;</p>
+<p>All changes are saved automatically. QM item management changes (add/delete/move items, etc) are saved immediately. Text changes are saved with some delay, also when you click the Save button. Less important changes, such as open/expanded states, are saved when closing file or hiding QM.</p>
+<h2>What's new in QM 2.4.0</h2>
+<p>Changed file format. Now it is a <a href="http://www.quickmacros.com/forum/viewtopic.php?f=12&t=5882&p=27149" target="_blank">SQLite</a> database.</p>
+<p>&nbsp;</p>
+<p>When opening an old version file, QM converts it to the new format. Older QM versions cannot open files of the new format. The file extension is the same. When converting, QM backups the old file.</p>
+<p>&nbsp;</p>
+<p>While a file is open in QM, other QM instances cannot open it, unless all open it as read-only. Read more below about locally cached copies. See also <a href="IDH_NETWORK.html">network setup</a>.</p>
+<p>&nbsp;</p>
+<p>When you edit macros etc, QM at first writes new changes to a temporary  file (.qml-wal). Transfers the changes to the true file (.qml) when closing it, also when hiding QM and when there are many new changes. See also <a href="../User/IDP_QMFILE.html">_qmfile.FullSave</a>. There may be more temporary files. See also <a href="IDH_SETT_FILES.html">backup</a>. Note: the temporary files sometimes may grow to 4 MB or more, it is normal.</p>
+<p>&nbsp;</p>
+<p>Now custom toolbars save their position, size and style in file, not in registry. All currently loaded toolbars save in current main file (the file that is currently open in QM), even those that are in currently loaded shared files. See also: <a href="IDH_SETT_GENERAL.html">Options -&gt; Layout of toolbars</a>.</p>
+<p>&nbsp;</p>
+<p>Why file format has been changed:</p>
+<ul>
+  <li>The old format was too limited and unreliable.</li>
+  <li>Now much easier to add new QM features.</li>
+  <li>Now faster when file is big and disk slow.</li>
+  <li>QM does not have to load whole file into memory, and recreate from memory when saving.</li>
+  <li>QM does not have to save some data in other files.</li>
+  <li>You can use <a href="../User/IDP_QMFILE.html">QM file management functions</a> or <span class="type">Sqlite</span> class to manage macro resources, custom data, etc.</li>
+  <li>You can open and edit QM files in a database manager program. Recommended - SQLite Expert. Exit QM, it locks the file.</li>
+</ul>
+<h2> <img src="../image/icon_sharedfolder.gif"> Shared files</h2>
+
+<p>A <i>shared file</i> is another QM file loaded into a virtual folder in the main file. Such virtual folders, aka <i>shared folders</i>, have S letter on the folder icon. To add a shared folder, use menu File -&gt; Import. If a shared folder is not at the root (is in another folder), QM does not load the file.</p>
+
+<p>&nbsp;</p>
+<p>A shared folder is like a link to a shared file. Items that you see in the folder are saved in the shared file, not in the main file. But you can use, edit and manage them like they would be in the main file. QM automatically saves changes and makes backups (QM 2.4.0).</p>
+<p>&nbsp;</p>
+<p>The System folder (System.qml file) is a special shared folder containing QM extensions. QM always adds it to every opened main file.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.0. There are two other special shared folders - Temp and Deleted. The Temp folder contains temporary items created by QM and macros. It is an in-memory database, not a real file, therefore all items in it disappear when closing the main file. The Deleted folder contains items that you delete. It is similar to the Recycle Bin in Windows. By default it is an in-memory database too, but you can right-click the folder and specify a file.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.0. If a shared file is on another computer, 
+  QM loads its locally cached copy in read-only mode. Then QM does not have to wait or fail when the file is unavailable. You can enable or disable this in the Folder Properties -&gt; Shared File dialog.</p>
+<h2>Installed files</h2>
+<p> Quick Macros installs several .qml files:</p>
+<p>&nbsp;</p>
+<p> $my qm$\Main.qml (Main.qml in My Documents\My QM folder) - your initial main file. This file is NOT replaced when upgrading QM.</p>
+<p>&nbsp;</p>
+<p> $qm$\Installed Files\Main.qml - original Main.qml file of current 
+  QM version. This file is replaced when upgrading QM. Don't use it as main file.</p>
+<p>&nbsp;</p>
+<p> $qm$\System.qml - <a href="IDH_EXTEND.html">QM extensions</a>. This file is replaced when upgrading QM. Don't use it as main file.</p>
+<p>&nbsp;</p>
+<p>Notes:</p>
+<p> $qm$ - folder where QM is installed. Probably C:\Program Files (x86)\Quick Macros 
+  2.</p>
+<p>$my qm$ - your personal folder for QM files. By default, it is ...\My Documents\My 
+  QM.</p>
+<p>&nbsp;</p>
+<p>You can find more files in QM <A href="http://www.quickmacros.com/forum/index.php" target="_blank">forum</a>.</p>
+<h2>How to transfer Quick Macros, along with macros and other QM data, to another 
+  computer </h2>
+<p>To transfer Quick Macros from computer A to computer B:</p>
+<p>&nbsp;</p>
+<p>1. Install Quick Macros on B.</p>
+<p>2. Make sure Quick Macros on B is not running. If running, exit (menu File -&gt; 
+Exit program).</p>
+<p>3. On computer A, locate My QM folder. It is in My Documents, unless you changed 
+it in Options.</p>
+<p>4. Copy the My QM folder to My Documents on B. If My QM already exists there, 
+at first delete it.</p>
+<p>5. If your macro file on A is not in My QM, copy it to B too. You can see your 
+macro file path in menu File -&gt; Recent -&gt; first entry.</p>
+<p>6. Run Quick Macros on B.</p>
+<p>7. If it did not open your file, open it using menu File -&gt; Open/New File.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDH_NETWORK.html">network setup</a>.</p>
+<h2>The File Viewer</h2>
+<p> When opening an unknown QM file, at first it is opened in the File 
+  Viewer. It allows you to safely preview file content. Then you can open, import, 
+  add as shared file, or cancel. Downloaded files may contain malicious, incompatible 
+  (duplicate functions, triggers, etc) or useless code. If you think the file 
+  is unsafe or useless, you can cancel. Or, you can import it with disabled triggers. 
+  Also, you can import only selected items.</p>
+<p>&nbsp;</p>
+<p> The File Viewer also is used to preview the file when importing, to restore items from the backup folder, to view other files, 
+  to find an item in multiple files in a folder.</p>
+<p>&nbsp;</p>
+<p>A file is considered unknown if it isn't in the recent files list (menu File 
+  -&gt; Recent) and is not currently open in QM.</p>
+<h2>How to restore a corrupt file</h2>
+<p> It is possible to <a href="http://www.sqlite.org/howtocorrupt.html" target="_blank">corrupt</a> a QM file (SQLite database). Then QM fails to load the file or fails to open/save/delete/etc macros and other data stored in the file.</p>
+<p>&nbsp;</p>
+<p>Usually the best way to fix it - replace the file with the newest backup file. You can find backup files in folder ...Documents\My QM\Backup, unless the path is changed in <a href="IDH_SETT_FILES.html">Options -&gt; Files</a>.</p>
+<p>&nbsp;</p>
+<p>Or you can try to <a href="http://www.quickmacros.com/forum/viewtopic.php?f=12&t=5882&p=27149" target="_blank">repair</a> the file.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr>
+<p> <i>See also:</i> <a href="IDH_TRIG_COMMANDLINE.html">command line</a>, <a href="IDH_MENU_FILE.html">File 
+  menu</a>, <a href="IDH_FOLDERPROP.html">file properties</a>, <a href="IDH_NETWORK.html">network setup</a>, <A href="IDH_SETT_FILES.html">backup</a></p>
+
+</body>
+
+</html>
