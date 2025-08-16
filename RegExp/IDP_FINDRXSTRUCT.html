@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>FINDRX</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>FINDRX type</h1>
+
+<p>A variable of FINDRX type can be used with <a href="../Functions/IDP_FINDRX.html" class="blue">findrx</a>. Definition:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>FINDRX</span> ifrom ito fcallout paramc</pre>
+
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>ifrom</b> - start from here. 0-based character index in 
+<b>string</b>.</p>
+
+<p>
+<b>ito</b> - until here. If 0, until 
+<b>string</b> length.</p>
+
+<p>
+<b>fcallout</b> - 
+<a href="IDP_CALLOUT.html">callout callback function</a>.</p>
+
+<p>
+<b>paramc</b> - some value to pass to the callout callback function.</p>
+</div>
+
+
+<p>&nbsp;</p>
+
+<p>Before passing the variable to the function, you can set some its members, and leave unused members uninitialized, that is 0. For example, if you don't need a callout, you can set only <b>ifrom</b> and/or <b>ito</b>.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+<pre class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&quot;One two three&quot;</span>
+<span class=t>str</span> rx<span class=o>=</span><span class=s>&quot;[a-z]+(?C)o&quot;</span>
+<span class=t>FINDRX</span> r
+r.fcallout<span class=o>=&amp;</span><span class=fu>sub.CalloutCallbackFunction</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span>s rx r<span class=p>)</span>
+
+<span class=dir>#sub</span> CalloutCallbackFunction
+<span class=fq>function</span>[c]<span class=o>#</span> <span class=t>CALLOUT</span><span class=o>*</span>p
+<span class=fq>out</span> p.start_match</pre>
+
+</body>
+
+</html>
