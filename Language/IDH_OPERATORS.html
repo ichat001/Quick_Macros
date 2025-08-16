@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Operators</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Operators</h1>
+<p>An operator is a special symbol used to perform assignment, arithmetic, comparison 
+  or other operation. Here are listed binary operators, that is, operators that 
+  are used with two operands, like a+b. See also: <a href="IDP_OPUNARY.html">unary 
+  operators</a> (used with single operand), <a href="IDP_TYPEUSAGE.html">member 
+  access operator</a> <tt>.</tt> and <a href="../_COM/IDP_OLE_ARRAY.html">array 
+  element access operator</a> <tt>[]</tt>.</p>
+<p>&nbsp;</p>
+
+<h3>Syntax1</h3>
+
+<pre class=syntax>result = operand1 operator operand2</pre>
+
+<p>&nbsp;</p>
+<p>For example, <span class=cod>a <span class=o>=</span> b <span class=o>+</span> <span class=n>1</span></span> means &quot;add b and 1, 
+  and assign the result to  a&quot;. Here b is <b>operand1</b>, + 
+  is <b>operator</b>, 1 is <b>operand2</b>.</p>
+<p>&nbsp;</p>
+
+<h3>Syntax2</h3>
+
+<pre class=syntax>operand1 operator operand2</pre>
+
+<p>&nbsp;</p>
+<p>Here <b>operand1</b> receives result. For example, <span class=cod>a <span class=o>+</span> <span class=n>1</span></span> means &quot;add 1 to  
+a&quot; (the same as  <span class=cod>a <span class=o>=</span> a <span class=o>+</span> <span class=n>1</span></span>).</p>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>operands </b> - any <A href="../Other/IDP_EXPRESSION.html">expressions</a> (variables, constants, functions, expressions with operators).</p>
+<p> <b>operator</b> - one of symbols listed below.</p>
+</div>
+
+<p>&nbsp;</p>
+<h2>Assignment</h2>
+<p>To assign something to a variable, use  =. Example: <span class=cod>a <span class=o>=</span> <span class=n>1</span></span></p>
+<p>&nbsp;</p>
+<p>When used with <span class="blue">if</span> or in  other assignment, = is interpreted as comparison operator (see below).</p>
+<h2>Arithmetic and bitwise operators</h2>
+<table class="tnormal"><col>
+  <tr> 
+    <td colspan=2> <i>Arithmetic</i></td>
+  </tr>
+  <tr> 
+    <td><tt>+</tt></td>
+    <td> add. Example: <span class=cod>a <span class=o>=</span> b <span class=o>+</span> <span class=n>1</span></span></td>
+  </tr>
+  <tr> 
+    <td><tt>-</tt></td>
+    <td> subtract</td>
+  </tr>
+  <tr> 
+    <td><tt>*</tt></td>
+    <td> multiply</td>
+  </tr>
+  <tr> 
+    <td><tt>/</tt></td>
+    <td> divide</td>
+  </tr>
+  <tr> 
+    <td><tt>%</tt></td>
+    <td> modulus</td>
+  </tr>
+</table>
+
+<table class="tnormal"><col>
+  <tr> 
+    <td colspan=2> <i>Bitwise</i></td>
+  </tr>
+  <tr> 
+    <td><tt>&amp;</tt></td>
+    <td> AND</td>
+  </tr>
+  <tr> 
+    <td><tt>|</tt></td>
+    <td> OR</td>
+  </tr>
+  <tr> 
+    <td><tt>^</tt></td>
+    <td> XOR</td>
+  </tr>
+  <tr> 
+    <td><tt>~</tt></td>
+    <td> AND NOT</td>
+  </tr>
+  <tr> 
+    <td><tt>&lt;&lt;</tt></td>
+    <td> left shift</td>
+  </tr>
+  <tr> 
+    <td><tt>&gt;&gt;</tt></td>
+    <td> right shift (unsigned)</td>
+  </tr>
+</table>
+<p><a href="IDP_OPPRIORITY.html">Priority</a> of all arithmetic and bitwise operators is equal. For example, in <span class=cod>a<span class=o>=</span>b<span class=o>+</span>c<span class=o>*</span>d</span>, at first is calculated b+c, then multiplied by d.</p>
+<h2>Comparison operators</h2>
+<table class="tnormal"><col>
+  <tr> 
+    <td><tt>=</tt><br><tt>==</tt></td>
+    <td> equal. Example: <span class=cod><span class=fq>if</span><span class=p>(</span>a<span class=o>=</span><span class=n>5</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;a is 5&#34;</span></span></td>
+  </tr>
+  <tr> 
+    <td><tt>!</tt><br><tt>!=</tt><br><tt>&lt;&gt;</tt> </td>
+    <td> not equal</td>
+  </tr>
+  <tr> 
+    <td><tt>&gt;</tt> </td>
+    <td> more</td>
+  </tr>
+  <tr> 
+    <td><tt>&gt;=</tt> </td>
+    <td> more or equal</td>
+  </tr>
+  <tr> 
+    <td><tt>&lt;</tt> </td>
+    <td> less</td>
+  </tr>
+  <tr> 
+    <td><tt>&lt;=</tt> </td>
+    <td> less or equal</td>
+  </tr>
+</table>
+
+<p>Priority of comparison operators is lower than of arithmetic and bitwise operators. For example, <span class=cod><span class=fq>if</span><span class=p>(</span>a <span class=o>&#60;</span> b<span class=o>+</span>c<span class=p>)</span></span>, at first is calculated b+c, then compared with a.</p>
+<p>&nbsp;</p>
+<p>Result of comparison  operators is 1 (true) or 0 (false).</p>
+<h2>Logical operators</h2>
+<table class="tnormal"><col>
+  <tr> 
+    <td> <span class="blue">and</span><br><tt>&amp;&amp;</tt> 
+    </td>
+    <td> logical AND. Example: <span class=cod><span class=fq>if</span><span class=p>(</span>a<span class=o>=</span>b <span class=fq>and</span> c<span class=o>&#60;</span>d<span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;a is equal to b, and c is less than d&#34;</span></span></td>
+  </tr>
+  <tr> 
+    <td> <span class="blue">or</span><br><tt>||</tt> </td>
+    <td> logical OR</td>
+  </tr>
+</table>
+<p>Priority of logical operators is lower than of arithmetic, bitwise and comparison operators. For example, in <span class=cod><span class=fq>if</span><span class=p>(</span>a<span class=o>&#62;</span>b <span class=fq>and</span> c<span class=o>!=</span>d<span class=p>)</span></span>, at first are compared a&gt;b, then c!=d.</p>
+<p>&nbsp;</p>
+<p>Result of  logical operators is 1 or 0. Operator <span class="blue">and</span> gives 1 if both operands are not 0. If <b>operand1</b> is 0, <b>operand2</b> is not evaluated. Operator <span class="blue">or</span> gives 1 if one of 
+operands is not 0. If <b>operand1</b> is not 0, <b>operand2</b> is not evaluated.</p>
+<h2>Operators used with str variables</h2>
+
+<table class="tnormal"><col>
+  <tr> 
+    <td colspan=2> <i>Comparison</i></td>
+  </tr>
+  <tr> 
+    <td><tt>=</tt></td>
+    <td> equal, case sensitive. Example: <span class=cod><span class=fq>if</span><span class=p>(</span>s<span class=o>=</span><span class=s>&#34;abc&#34;</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;s is ''abc''&#34;</span></span></td>
+  </tr>
+  <tr> 
+    <td><tt>!</tt></td>
+    <td> not equal, case sensitive</td>
+  </tr>
+  <tr> 
+    <td><tt>~</tt></td>
+    <td> equal, case insensitive</td>
+  </tr>
+</table>
+<p>Note that &quot;&quot; and null are not equal. Don't use <span class=cod><span class=fq>if</span><span class=p>(</span>s<span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>)</span></span> to check if s is empty. Instead 
+      use <span class=cod><span class=fq>if</span><span class=p>(</span><span class=fq>empty</span><span class=p>(</span>s<span class=p>))</span></span> or <span class=cod><span class=fq>if</span><span class=p>(</span><span class=o>!</span>s.len<span class=p>)</span></span>. 
+See also: <a href="../Functions/IDP_EMPTY.html" class="blue">empty</a>, <a href="../User/IDP_QMDLL.html#StrCompare" class="dll">StrCompare</a>.</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr> 
+    <td colspan=2> <i>Join (syntax2)</i></td>
+  </tr>
+  <tr> 
+    <td><tt>+</tt></td>
+    <td> append. Example: <span class=cod><span class=t>str</span> s<span class=p>;</span> s<span class=o>=</span><span class=s>&#34;notepad&#34;</span><span class=p>;</span> s<span class=o>+</span><span class=s>&#34;.exe&#34;</span></span></td>
+  </tr>
+  <tr> 
+    <td><tt>-</tt></td>
+    <td> append to the beginning</td>
+  </tr>
+</table>
+<p>Operators + and - are not used with <i>syntax1</i> to join strings. Instead of s1=s2+s3  use <span class=cod>s1.from<span class=p>(</span>s2 s3<span class=p>)</span></span> or <span class=cod>s1<span class=o>=</span>F<span class=s>&#34;{s2}{s3}&#34;</span></span>.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../str/IDH_STRINGS.html">strings</a></p>
+<h2>&nbsp;</h2>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p> Only the assignment operator can be used with all variable types. Other operators can be used with  QM intrinsic types (int, byte, word, long, double, str, lpstr). With other types, some operators cannot be used, or  the result may be not as you need. Therefore  usually it is better to  convert to the intrinsic type that you need. Example: <span class=cod><span class=t>BSTR</span> b<span class=o>=</span><span class=s>&#34;xx&#34;</span><span class=p>;</span> <span class=t>str</span> s<span class=o>=</span>b<span class=p>;</span> <span class=fq>if</span><span class=p>(</span>s<span class=o>=</span><span class=s>&#34;xx&#34;</span><span class=p>)</span> <span class=c2>;;don't use if(b=&#34;xx)</span></span>.</p>
+<p>&nbsp;</p>
+<h4>Syntax1</h4>
+
+<p>Operands of type str are interpreted as lpstr, except<b> </b>with 
+str comparison operators =, !, ~.</p>
+<p>&nbsp;</p>
+<p>  lpstr and pointers  are 
+  interpreted as numeric (unsigned int). For example <span class=cod><span class=fq>if</span><span class=p>(</span>s1<span class=o>=</span>s2<span class=p>)</span></span> compares pointers, but not the strings. Another example: in <span class=cod>s1<span class=o>=</span>s2<span class=o>+</span><span class=n>1</span></span>, s1 receives address of the second character of s2 (if s2 was &quot;tree&quot;, s1 will be &quot;ree&quot;).</p>
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p> Like in C/C++, arithmetic and bitwise operators may be followed by =. Example: <span class=cod>a<span class=o>+=</span><span class=n>1</span></span>.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p> <i>See also:</i> <A href="IDP_OPPRIORITY.html">operator 
+  priority</a> <A href="IDP_OPTYPE.html">expression type and precision</a> <A href="IDP_OPCRT.html">C 
+  run-time library</a> <A href="../Tables/IDP_VARTABLE.html">conversions, etc.</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod>i <span class=o>=</span> <span class=n>5</span> <span class=c2>;;assign 5 to variable i
+</span>i <span class=o>+</span> <span class=n>2</span> <span class=c2>;;add 2 to variable i
+</span>a <span class=o>=</span> b <span class=o>+</span> <span class=n>10</span> <span class=c2>;;calculate sum of b and 10, and assign it to variable a
+</span>a <span class=o>+</span> b <span class=o>+</span> <span class=n>10</span> <span class=c2>;;calculate sum of b and 10, and add it to variable a
+</span><span class=t>int</span> j <span class=o>=</span> i <span class=o>+</span> <span class=n>2</span> <span class=c2>;;declaration and assignment in the same statement
+</span>ave <span class=o>=</span> i <span class=o>+</span> j <span class=o>/</span> <span class=n>2</span> <span class=c2>;;add j to i, divide by 2, then assign result to variable ave
+</span>f <span class=o>=</span> i <span class=o>-</span> <span class=p>(</span><span class=n>10</span> <span class=o>*</span> j<span class=p>)</span> <span class=o>+</span> <span class=fu>Func</span><span class=p>(</span>a b<span class=p>)</span> <span class=o>*</span> <span class=n>10</span> <span class=c2>;;multiply 10 and j, extract result from i, call function Func and add its return value, multiply by 10, then assign result to variable f
+</span><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;notepad&#34;</span> <span class=c2>;;declare variable s and assign string &#34;notepad&#34;
+</span>s <span class=o>+</span> <span class=s>&#34;.exe&#34;</span> <span class=c2>;;append &#34;.exe&#34;
+</span><span class=fq>if</span><span class=p>(</span>i <span class=o>&#60;</span> <span class=n>10</span> <span class=fq>and</span> s <span class=o>=</span> <span class=s>&#34;notepad.exe&#34;</span><span class=p>)</span> i <span class=o>+</span> j <span class=o>/</span> <span class=n>10</span> <span class=c2>;;if i is less than 10, and s is equal to &#34;notepad.exe&#34;, calculate j / 10 and assign result to variable i
+</span>i <span class=o>=</span> <span class=fu>Func2</span><span class=p>(</span>j s <span class=p>(</span>i <span class=o>+</span> <span class=n>5</span><span class=p>)</span> f<span class=p>)</span> <span class=c2>;;call function Func2 and assign its return value to variable i; pass four arguments, one of them is sum of i and 5 
+</span><span class=fq>lef</span> a<span class=o>-</span><span class=n>10</span> <span class=n>100</span> <span class=c2>;;left click; x is a-10, y is 100
+</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
