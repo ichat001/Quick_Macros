@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Variable storage and scope (2)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable storage and scope (2)</h1>
+
+<p>Beside normal QM variables, you also can also use other media to store data.</p>
+
+<h2>Environment variables</h2>
+
+<p>When QM starts, it receives a copy of system environment variables. You also 
+  can create and use your own environment variables. Your environment variables 
+  exist until QM exits (differently than normal global variables, that are destroyed 
+  when loading other file or reloading current file). Environment variables are 
+  strings.</p>
+<p>&nbsp;</p>
+<p> To get/set/delete environment variables, use functions <span class="UDF">GetEnvVar</span> 
+  and <span class="UDF">SetEnvVar</span>. </p>
+<p>&nbsp;</p>
+<p>QM file commands, <span class="blue">dll</span>, menus, toolbars, etc automatically 
+  <A href="../Other/IDP_SEARCHPATHS.html">expand</a> environment variables. See 
+  also: <a href="../str/IDP_S_SEARCHPATH.html">str.expandpath</a>.</p>
+<p>&nbsp;</p>
+<p>Environment variables usually are inherited from 
+  parent process, however not always.</p>
+<h2>Window properties</h2>
+<p>To associate some values with a window, you can use window properties. A window 
+  property is some numeric value (it can be int, pointer or lpstr), which has 
+  some name and can be set/retrieved/deleted using functions <span class="dll">SetProp</span>, 
+  <span class="dll">GetProp</span> and <span class="dll">RemoveProp</span>. 
+  Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>RECT</span><span class=o>*</span> r
+r._new
+<span class=fd>SetProp</span><span class=p>(</span>hwnd <span class=s>&quot;ra&quot;</span> r<span class=p>)</span>
+<span class=c> ...
+</span>r<span class=o>=+</span><span class=fd>GetProp</span><span class=p>(</span>hwnd <span class=s>&quot;ra&quot;</span><span class=p>)</span>
+<span class=c> ...
+</span><span class=fd>RemoveProp</span><span class=p>(</span>hwnd <span class=s>&quot;ra&quot;</span><span class=p>)</span>
+r._delete</pre>
+<p>&nbsp;</p>
+<p>Call <span class="dll">RemoveProp</span> when destroying the window, for example 
+  on WM_NCDESTROY message. Read more about these functions in <a href="../Other/IDP_MSDN.html">MSDN 
+  library</a>.</p>
+
+<h2>Registry</h2>
+<p>You can use functions <A href="../Functions/IDP_RGET.html"> <span class="blue">rget</span> 
+  and <span class="blue">rset</span></a> to save variables in the registry.</p>
+<h2>Memory in other process</h2>
+<p>You can use <span class="type">__ProcessMemory</span> class to allocate, write 
+  and read memory in context of other process.</p>
+<h2>Dll variables</h2>
+<p>Some dlls export variables. You can declare such variable as dll function, 
+  but you cannot use it directly as variable. Instead, use it indirectly through 
+  reference or pointer variable. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>dll</span> adll <span class=o>#</span>_variable
+<span class=t>int</span><span class=o>+&#38;</span> _var <span class=o>=</span> <span class=o>&#38;</span>_variable
+<span class=c> now _var can be used as dll variable _variable</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
