@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Format fields</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Format fields</h1>
+
+<p>Format fields are used in strings  with functions <a href="../str/IDP_S_FORMAT.html">str.format</a>, <span class="blue">out</span>, <span class="blue">paste</span> and <a href="../Language/IDP_FSTRING.html">operator F</a>. A format field is a special character, or several characters, preceded with 
+  %.  The whole string is followed by variables or other values that 
+  will replace the format fields. The format fields tell how to format the values.</p>
+
+<p>&nbsp;</p>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>%<i>[</i>flags<i>][</i>width<i>][</i>.precision<i>][</i>h<i>|</i>l<i>|</i>I64<i>|</i>L<i>]</i>type</pre>
+
+<p>&nbsp;</p>
+<div class="parts">
+  <p> <A href="IDP_PRINTF.html#type"> <b>type</b></a> - character that determines whether the  argument is interpreted as a character, a string, or a number. </p>
+
+<p> <A href="IDP_PRINTF.html#flags"> <b>flags</b></a> - character or characters 
+  that control justification of output and adding of signs, blanks, decimal points, 
+  and octal and hexadecimal prefixes.</p>
+
+<p> <A href="IDP_PRINTF.html#width"> <b>width</b></a> - number that specifies the minimum number of characters in output.</p>
+
+<p> <A href="IDP_PRINTF.html#precision"> <b>precision</b></a> - number that specifies 
+  the maximum number of characters used for all or part of the output field, or 
+  the minimum number of digits used for integer values.</p>
+
+<p> <b><a href="IDP_PRINTF.html#size">h, l, I64, L</a></b> - character that specifies argument size. For arguments of type 
+  long, use I64. Note: here I is uppercase i, not lowercase L.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>%% in format strings is replaced with %.</p>
+<p>&nbsp;</p>
+<p>Almost everything is the same as  with C/C++ printf, sprintf and similar functions. Differences:</p>
+<ul>
+  <li>Does not add &quot;(null)&quot; for null strings.</li>
+  <li>QM 2.3.3. Supports binary data (%m).</li>
+</ul>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>50</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&#34;stringvar&#34;</span>
+<span class=t>double</span> d<span class=o>=</span><span class=n>3.1415926535897932384626433832795</span>
+<span class=t>str</span> f
+f.format<span class=p>(</span><span class=s>&#34;variables: i=%i, s=''%s'', d=%.10G&#34;</span> i s d<span class=p>)</span>
+<span class=fq>out</span> f <span class=c2>;;variables: i=50, s=&#34;stringvar&#34;, d=3.141592654</span></pre>
+<p>&nbsp;</p>
+<h2><a name="type"></a>Type</h2>
+<p><b>type</b> is a character that determines whether the  argument is interpreted 
+as a  number, string, character, etc.</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr>
+    <th>Char.</th>
+    <th>Type</th>
+    <th>Output format</th>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>i, d</td>
+    <td>integer</td>
+    <td>Signed decimal integer. Example: <span class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=fq>out</span> <span class=s>&quot;i=%i&quot;</span> i</span></td>
+  </tr>
+  <tr>
+    <td>u</td>
+    <td>integer</td>
+    <td>Unsigned decimal integer.</td>
+  </tr>
+  <tr>
+    <td>x</td>
+    <td>integer</td>
+    <td>Unsigned hexadecimal integer, using &quot;abcdef.&quot;</td>
+  </tr>
+  <tr>
+    <td>X</td>
+    <td>integer</td>
+    <td>Unsigned hexadecimal integer, using &quot;ABCDEF.&quot;</td>
+  </tr>
+  <tr>
+    <td>e </td>
+    <td>double</td>
+    <td>Signed value having the form [ - ]d.dddd e [sign]ddd where 
+      d is a single decimal digit, dddd is one or more decimal digits, ddd is 
+      exactly three decimal digits, and sign is + or -.</td>
+  </tr>
+  <tr>
+    <td>E</td>
+    <td>double</td>
+    <td>Identical to the e format except that E rather than e introduces 
+      the exponent.</td>
+  </tr>
+  <tr>
+    <td>f</td>
+    <td>double</td>
+    <td>Signed value having the form [ - ]dddd.dddd, where dddd 
+      is one or more decimal digits. The number of digits before the decimal 
+      point depends on the magnitude of the number, and the number of digits 
+      after the decimal point depends on the requested precision.</td>
+  </tr>
+  <tr>
+    <td>g</td>
+    <td>double</td>
+    <td>Signed value in f or e format, whichever is more compact for the given value 
+      and precision. The e format is used only when the exponent of the value 
+      is less than -4 or greater than or equal to the precision field. Trailing 
+      zeros are truncated, and the decimal point appears only if one or more digits 
+      follow it.</td>
+  </tr>
+  <tr>
+    <td>G</td>
+    <td>double</td>
+    <td>Identical to the g format, except that E, rather than e, 
+      introduces the exponent (where appropriate).</td>
+  </tr>
+  <tr>
+    <td>s</td>
+    <td>string </td>
+    <td>Characters are added up to the first null character or until the precision value is reached.</td>
+  </tr>
+  <tr>
+    <td>S</td>
+    <td>word*</td>
+    <td>QM 2.3.3. Unicode UTF-16 string. Example: <span class=cod><span class=t>BSTR</span> b<span class=o>=</span><span class=s>&quot;utf-16 string&quot;</span><span class=p>;</span> <span class=fq>out</span> <span class=s>&quot;%S&quot;</span> b.pstr</span><span class=cod><span class=p></span></span></td>
+  </tr>
+  <tr>
+    <td>c</td>
+    <td>integer</td>
+    <td><p><a href="IDP_ASCII.html">Character code</a>.</p>
+      <p> Note: In Unicode mode, don't use non ASCII characters.</p></td>
+  </tr>
+  <tr>
+    <td>C</td>
+    <td>integer</td>
+    <td>QM 2.3.3. Unicode UTF-16 character code. Must be &lt;0x10000.</td>
+  </tr>
+  <tr>
+    <td>m</td>
+    <td>pointer</td>
+    <td>QM 2.3.3. Binary data. Length must be specified using precision. Example: <span class=cod>_s.<span class=fq>format</span><span class=p>(</span><span class=s>&quot;%.*m&quot;</span> <span class=n>10</span> ptr<span class=p>)</span> <span class=c2>;;10 bytes from ptr</span></span></td>
+  </tr>
+  <tr>
+    <td>m</td>
+    <td>byte</td>
+    <td>QM 2.3.3. Fill with an ASCII character. Length must be specified using precision. Example: <span class=cod><span class=fq>out</span> <span class=s>&quot;%.*m&quot;</span> <span class=n>4</span> <span class=n>'*'</span> <span class=c2>;;****</span></span>. For character code 0 use argument value 0x100.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2><a name="flags"></a>Flags</h2>
+<p><b>flags</b> is a character that justifies output and adds signs, blanks, 
+  decimal points, and octal and hexadecimal prefixes. More than one flag may appear 
+in a format field.</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr>
+    <th>Flag</th>
+    <th>Meaning</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>-</td>
+    <td>Left align the result within the given field <b>width</b>. </td>
+    <td>Right align.</td>
+  </tr>
+  <tr>
+    <td>+</td>
+    <td>Prefix the output value with a sign (+ or -) if the output 
+      value is of a signed type.</td>
+    <td>Sign appears only for negative signed values (-).</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>If <b>width</b> is prefixed with 0, zeros are added until 
+      the minimum width is reached. If 0 and - appear, the 0 is ignored. If 
+      0 is specified with an integer format (i, u, x, X, o, d) the 0 is ignored. </td>
+    <td>No padding.</td>
+  </tr>
+  <tr>
+    <td>space</td>
+    <td>Prefix the output value with a space if the output value 
+      is signed and positive; the blank is ignored if both the space and + flags 
+      appear.</td>
+    <td>No blank appears.</td>
+  </tr>
+  <tr>
+    <td>#</td>
+    <td>When used with the o, x, or X format, the # flag prefixes 
+      any nonzero output value with 0, 0x, or 0X, respectively.</td>
+    <td>No blank appears.</td>
+  </tr>
+  <tr>
+    <td>#</td>
+    <td>When used with the e, E, or f format, the # flag forces 
+      the output value to contain a decimal point in all cases. </td>
+    <td>Decimal point appears only if digits follow it.</td>
+  </tr>
+  <tr>
+    <td>#</td>
+    <td>When used with the g or G format, the # flag forces the 
+      output value to contain a decimal point in all cases and prevents the 
+      truncation of trailing zeros.<br></td>
+    <td>Decimal point appears only if digits follow it. Trailing 
+      zeros are truncated.</td>
+  </tr>
+  <tr>
+    <td>#</td>
+    <td><p>QM 2.3.3. When used with the s format, # specifies that <b>precision</b> is the number of characters, not bytes. In 
+      Unicode mode, non-ASCII characters have several bytes.  Example: <span class=cod><span class=fq>out</span> <span class=s>&quot;%#.5s&quot;</span> <span class=s>&quot;&#261;&#269;&#281;&#279;&#303;&#353;&#371;&#363;&#382;&quot;</span></span></p></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2><a name="width"></a>Width</h2>
+<p><b>width</b> is a decimal integer controlling the minimum number of characters 
+  added. If the number of characters in the output value is less than the specified 
+  width, blanks are added to the left or the right of the values (depending on 
+  whether the - flag (for left alignment) is specified) until the minimum width 
+  is reached. If width is prefixed with 0, zeros are added until the minimum width 
+is reached (not useful for left-aligned numbers).</p>
+<p>&nbsp;</p>
+<p>The <b>width</b> specification never causes a value to be truncated. If the 
+  number of characters in the output value is greater than the specified <b>width</b>, 
+  or if <b>width</b> is not given, all characters of the value are added.</p>
+<p>&nbsp;</p>
+<p>If the width specification is an asterisk (<B>*</B>), an <B>int</B> argument   from the argument list supplies the value. The <I>width</I> argument must   precede the value being formatted in the argument list. Example: <span class=cod><span class=fq>out</span> <span class=s>&quot;%*s&quot;</span> <span class=n>20</span> <span class=s>&quot;string&quot;</span></span></p>
+<p>&nbsp;</p>
+<h2><a name="precision"></a>Precision</h2>
+<p><b>precision</b> is a nonnegative decimal integer, preceded by dot (.), which specifies the number of characters to be added, the number 
+  of decimal places, or the number of significant digits. Unlike the <b>width</b> specification, the <b>precision</b> specification can cause either truncation 
+of the output value or rounding of a floating-point value.</p>
+<p>&nbsp;</p>
+<p>The type determines the interpretation of <b>precision</b> and the default when <b>precision</b> is omitted, as shown in table:</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr>
+    <th>Type</th>
+    <th>Meaning</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>c, C</td>
+    <td><b>precision</b> has no effect.</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>d, i, u, o, x, X</td>
+    <td><b>precision</b> specifies the minimum number of digits to be added. 
+      If the number of digits in the argument is less than <b>precision</b>, the 
+      output value is padded on the left with zeros. The value is not truncated 
+      when the number of digits exceeds <b>precision</b>.</td>
+    <td>Default precision is 1.</td>
+  </tr>
+  <tr>
+    <td>e, E</td>
+    <td><b>precision</b> specifies the number of digits to be added after 
+      the decimal point. The last added digit is rounded.</td>
+    <td>Default precision is 6; if precision is 0 or if . appears without 
+      a number following it, no decimal point is added. </td>
+  </tr>
+  <tr>
+    <td>f </td>
+    <td><b>precision</b> value specifies the number of digits 
+      after the decimal point. If a decimal point appears, at least one digit 
+      appears before it. The value is rounded to the appropriate number of digits. </td>
+    <td>Default precision is 6; if precision is 0 or if . appears 
+      without a number following it, no decimal point is added.</td>
+  </tr>
+  <tr>
+    <td>g, G</td>
+    <td><b>precision</b> specifies the maximum number of significant digits 
+      added.</td>
+    <td>Six significant digits are added, with any trailing zeros truncated.</td>
+  </tr>
+  <tr>
+    <td>s, S</td>
+    <td><p><b>precision</b> specifies the maximum number of characters to 
+      be added. Characters in excess of precision are not added.</p>
+      <p>&nbsp;</p>
+      <p> Note: With s, <b>precision</b> is the number of bytes. In 
+        Unicode mode, non-ASCII characters have several bytes. In QM 2.3.3 and later you can use flag # to specify that <b>precision</b> must be number of characters. Example: <span class=cod><span class=fq>out</span> <span class=s>&quot;%#.5s&quot;</span> <span class=s>&quot;&#261;&#269;&#281;&#279;&#303;&#353;&#371;&#363;&#382;&quot;</span></span></p></td>
+    <td>Characters are added until a null character is encountered.</td>
+  </tr>
+  <tr>
+    <td>m</td>
+    <td><b>precision</b> specifies the  number of bytes to 
+      be added.</td>
+    <td>0</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Example:</p>
+<pre class=cod><span class=t>str</span> s.<span class=fq>format</span><span class=p>(</span><span class=s>&quot;%.4s %.3f&quot;</span> <span class=s>&quot;123456789&quot;</span> <span class=n>1.12345</span><span class=p>)</span>
+<span class=fq>out</span> s <span class=c2>;;1234 1.123</span></pre>
+<p>&nbsp;</p>
+<p>If the precision specification is an asterisk (<B>*</B>), an <B>int</B> argument   from the argument list supplies the value. The precision argument must   precede the value being formatted in the argument list. Example:</p>
+<pre class=cod><span class=t>str</span> s.<span class=fq>format</span><span class=p>(</span><span class=s>&quot;%.*s %.*f&quot;</span> <span class=n>4</span> <span class=s>&quot;123456789&quot;</span> <span class=n>3</span> <span class=n>1.12345</span><span class=p>)</span>
+<span class=fq>out</span> s <span class=c2>;;1234 1.123</span></pre>
+<p>&nbsp;</p>
+<h2><a name="size"></a>Argument size</h2>
+<p>For arguments of type long need to specify size I64. Example:</p>
+<pre class=cod><span class=t>long</span> k<span class=o>=</span><span class=n>123456789012345</span>
+<span class=fq>out</span> <span class=s>&quot;incorrect: %i&quot;</span> k
+<span class=fq>out</span> <span class=s>&quot;correct: %I64i&quot;</span> k
+</pre>
+<p>&nbsp;</p>
+<p>For arguments of other types usually don't need to specify size. But anyway, here is the table:</p>
+<table class="tnormal">
+  <tr>
+    <th>To specify</th>
+    <th>Use prefix</th>
+    <th>With type</th>
+  </tr>
+  <tr>
+    <td>int</td>
+    <td>l</td>
+    <td>d, i, o, x, or X</td>
+  </tr>
+  <tr>
+    <td>unsigned int</td>
+    <td>l</td>
+    <td>u</td>
+  </tr>
+  <tr>
+    <td>signed word</td>
+    <td>h</td>
+    <td>d, i, o, x, or X</td>
+  </tr>
+  <tr>
+    <td>word</td>
+    <td>h</td>
+    <td>u</td>
+  </tr>
+  <tr>
+    <td>long</td>
+    <td>I64</td>
+    <td>d, i, o, u, x, or X</td>
+  </tr>
+  <tr>
+    <td>Single-byte character </td>
+    <td>h</td>
+    <td>c or C</td>
+  </tr>
+  <tr>
+    <td>Wide character</td>
+    <td>l</td>
+    <td>c or C</td>
+  </tr>
+  <tr>
+    <td>Single-byte character string</td>
+    <td>h</td>
+    <td>s or S</td>
+  </tr>
+  <tr>
+    <td>Wide-character string</td>
+    <td>l</td>
+    <td>s or S</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+
+</html>
