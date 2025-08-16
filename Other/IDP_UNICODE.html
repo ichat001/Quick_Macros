@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Unicode, UTF-8</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1> Unicode, UTF-8</h1>
+
+<p>Unicode is used to display text in any language, 
+  including Chinese, Japanese, Korean, Arabic, Russian. It is a character set 
+  consisting of more than 100000 characters. ANSI character sets have only <a href="../Tables/IDP_ASCII.html">256 
+  different characters</a>.</p>
+<p>&nbsp;</p>
+<p>QM supports Unicode, starting from version 2.3.0. 
+  You can use any characters in macros, triggers, window names, file names, etc.</p>
+<p>&nbsp;</p>
+<p> QM can run in ANSI mode (like in previous versions) 
+  or Unicode mode. To enable Unicode mode, check the checkbox in Options. If the 
+  checkbox in Options is unchecked, QM runs in ANSI mode, like in previous versions. 
+  To enable Unicode for a <a href="../User/IDH_DIALOG_EDITOR.html#L18">dialog</a>, 
+  also check the checkbox in dialog editor Options.</p>
+<p>&nbsp;</p>
+<p> QM does not use wide character strings (UTF-16). 
+  Instead, when running in Unicode mode, it uses UTF-8. It is a Unicode encoding. 
+  Characters in range 0 to 127 (<a href="../Tables/IDP_ASCII.html">ASCII</a> characters) 
+  are the same in both modes. They consist of 1 byte. Other characters consist 
+  of 2-4 bytes. In ANSI mode, all characters consist of 1 byte.</p>
+<p>&nbsp;</p>
+<p>It is recommended to use Unicode mode. Especially 
+  if your system character set is multibyte, for example chinese simplified, because 
+  then in ANSI mode some characters also consist of more than 1 byte, and QM does not work well with it. </p>
+<p>&nbsp; </p>
+<p> If you enable Unicode mode, you also have to retype 
+  all non ASCII characters in macros, triggers and everywhere in QM interface. 
+  Or run the converter, read below. It is because in Unicode mode text is interpreted 
+  as UTF-8, and these characters must be encoded using UTF-8. Since the text was 
+  entered in ANSI mode, these characters in Unicode mode are invalid. Invalid 
+  characters are displayed as hexadecimal character codes in black rectangles. 
+  You also will have to retype non ASCII character <a href="../Language/IDP_CONSTANT.html">escape 
+  sequences</a> in strings. If something containing non ASCII characters is encrypted 
+  - you'll have to re-encrypt it. If you switch back to ANSI mode, non ASCII characters 
+  entered in Unicode mode also will become invalid because they are encoded as 
+  several bytes.</p>
+<p>&nbsp;</p>
+<p> QM does not do any conversions of data when you change Unicode 
+  mode. However, there is an ANSI to Unicode converter. After switching to Unicode 
+  mode, in Options click the small arrow button beside the Unicode checkbox. It displays all items containing 
+  non-ASCII characters. These items must be converted to Unicode, unless you already 
+  did it. Click an item name in the output to open the item. Click again to convert. 
+  Note that QM cannot know whether the item is already converted. If QM thinks 
+  it might be already converted, QM displays a warning message box. Note that 
+  QM may fail to convert macros created on other computers because of different 
+  ANSI character set (Control Panel -&gt; Regional -&gt; Advanced or Administrative 
+  -&gt; Language for non-Unicode programs). An Unicode to ANSI converter is not 
+  available.</p>
+<p>&nbsp;</p>
+<p>After switching Unicode mode, you also may have to 
+  change something else in macros created in other mode. It is documented in help 
+  topics of the functions that behave differently in ANSI and Unicode modes. Search 
+  for &quot;UTF-8&quot; or &quot;Unicode&quot;.</p>
+<p>&nbsp;</p>
+<p> If you did not use non ASCII characters, after switching 
+  to/from Unicode mode everything should work well without any modifications.</p>
+<p>&nbsp;</p>
+<p>Not all QM functions and other features support Unicode. Where it is not supported, 
+  or partially supported, or needs to review/edit code, it is documented in the 
+  Help.</p>
+<p>&nbsp;</p>
+<p>All string functions where you can specify string length (or 
+  character offset, number of characters, etc), always interpret it as number 
+  of bytes. In Unicode mode, it is not always equal to the number of characters 
+  because non ASCII characters consist of several bytes. Some functions may have 
+  an option to specify number of UTF-8 characters instead of bytes. Be careful 
+  when working with strings that contain non ASCII characters. For example, if 
+  you split a string in a middle of a character that consists of several bytes, 
+  the string will be invalid.</p>
+<p>&nbsp;</p>
+<p>You can use <a onClick="doSection(e1)" class="expand">this macro</a> to see 
+  what characters require more than 1 byte.</p>
+<div id="e1" class="expand">
+  <p>Macro</p>
+  <pre class=cod><span class=c> displays Unicode character codes, characters, and number of UTF-8 bytes when QM is running in Unicode mode
+</span><span class=fq>out</span>
+<span class=t>int</span> i
+<span class=fq>for</span> i <span class=n>1</span> <span class=n>0x10000</span>
+<span class=i>&#9;</span><span class=t>str</span> s<span class=o>=</span><span class=fu>UnicodeCharToString</span><span class=p>(</span>i<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%i %s    [%i]&#34;</span> i s s.len</pre>
+  <p>&nbsp;</p>
+  <p>Function UnicodeCharToString</p>
+  <pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>~</span> ch
+
+<span class=c> Converts Unicode character to string.
+ In Unicode mode the string will be UTF-8.
+ Otherwise it will be ANSI, and Unicode characters that cannot be translated to ANSI will be converted to ?.
+</span>
+
+<span class=fq>if</span><span class=p>(</span>ch<span class=o>&#38;</span><span class=n>0xffff0000</span><span class=p>)</span> <span class=fq>end</span> <span class=d>ES_BADARG</span>
+
+<span class=t>str</span> s
+<span class=t>lpstr</span> ss<span class=o>=+&#38;</span>ch
+s.ansi<span class=p>(</span>ss<span class=p>)</span>
+
+<span class=fq>ret</span> s</pre>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>Unicode characters with character codes &gt;0xFFFF are rarely used. They 
+    require 4 bytes when encoded in UTF-8. In UTF-16 they require 2 words (4 bytes). 
+    Other characters (0 to 0xFFFF) in UTF-8 require 1 to 3 bytes.</p>
+</div>
+<p>&nbsp;</p>
+<p>When working in Unicode mode, sometimes you have ANSI text that you get 
+  from an external source, for example from a file. If the text contains non ASCII 
+  characters, you may have to convert 
+  it to UTF-8 to make compatible with QM functions. And vice versa. Use <span class="type">str</span> function <span class="UDF">ConvertEncoding</span> or <a href="../str/IDP_S_UNICODE.html" class="blue">unicode/ansi</a> or <span class="UDF">LoadUnicodeFile</span>. Explicit conversions are rarely needed, because QM functions 
+  that know external text format convert the text automatically. For example 
+    window/control/object names, file 
+  names, etc.</p>
+<p>&nbsp;</p>
+<p>To store Unicode text, often is used UTF-16 format, where all characters consist 
+  of 2 bytes (rarely 4). For example, variables of BSTR type use UTF-16. 
+  In some cases working with such text is easier than with UTF-8, because of fixed length 
+  characters. However it is difficult to use in some programs (including QM), 
+  and in most cases requires more space. To store text of various languages without 
+  using UTF-16, are used various character sets and encodings. The UTF-8 encodes 
+  Unicode characters in a string so that the string in most cases looks like ANSI 
+  for programs that don't use UTF-16, but UTF-8-aware programs (including QM, 
+  when it runs in Unicode mode) can display all Unicode characters in the string.</p>
+<p>&nbsp;</p>
+<p>Examples of characters, their values and size in ANSI, UTF-16 and UTF-8:</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+  <tr> 
+    <td>&nbsp;</td>
+    <td>ANSI</td>
+    <td>UTF-16</td>
+    <td><p>Number of bytes used in UTF-8</p></td>
+  </tr>
+  <tr> 
+    <td>A</td>
+    <td>65</td>
+    <td>65 (2 bytes: 65 0)</td>
+    <td>1, like all characters in range 0 to 127</td>
+  </tr>
+  <tr> 
+    <td>&copy;</td>
+    <td>169</td>
+    <td>169 (2 bytes: 169 0)</td>
+    <td>2, like all characters in range 128 to 255</td>
+  </tr>
+  <tr> 
+    <td>&#x03B2;</td>
+    <td>&nbsp;</td>
+    <td>0x03B2 (2 bytes)</td>
+    <td>2, like all characters in range 0x100 (256) to 0x7FF</td>
+  </tr>
+  <tr> 
+    <td>&#x5CB8;</td>
+    <td>&nbsp;</td>
+    <td>0x5CB8 (2 bytes)</td>
+    <td>3, like all characters in range 0x800 to 0xFFFF</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p> You can find more information about Unicode and UTF-8 on the Internet.</p>
+<p>&nbsp;</p>
+<p><i>See also: </i><a href="../str/IDP_S_UNICODE.html">str.unicode/ansi</a>, 
+  <a href="../Language/IDP_SPECVAR.html">_unicode variable</a>, <a href="../User/IDH_DIALOG_EDITOR.html#L18">Unicode 
+  dialogs</a>, <a href="../Language/IDP_DLL.html">Unicode dll functions</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
