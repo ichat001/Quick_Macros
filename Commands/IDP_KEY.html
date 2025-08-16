@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>key</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Send keys and text</h1>
+
+<h3>Syntax1</h3>
+
+<pre class=syntax><b>key</b><i>[</i>+<i>|</i>-<i>]</i> keys<i></i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax2</h3>
+
+<pre class=syntax>'keys<i></i></pre>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Generates (synthesizes, simulates) keyboard events. It works like you would press keyboard keys manually. The key events will be sent to the focused window or to the application that uses them as a global hotkey.</p>
+<p>&nbsp;</p>
+<p>To create code for <span class="blue">key</span>, you can use dialogs 'Text' and 'Keys'.</p>
+<p>&nbsp;</p>
+<p><b>keys</b> can include any number of parts of these types:</p>
+
+<p>&nbsp;</p>
+
+<p>1. Parts without quotes and parentheses. Sends keys specified using <a href="../Tables/IDP_KEYCODES.html">QM key codes</a>.</p>
+<ul>
+  <li> Use uppercase letters for non-text keys, such as Ctrl, Enter, F2, and numeric keypad keys.<ul>
+  <li> Example: <span class=cod><span class=fq>key</span> TT Y F2 N3 <span class=c2>;;Tab Tab Enter F2 Num3</span></span>.</li></ul></li>
+  <li> Use lowercace letters and other characters for text keys.<ul><li>Example: <span class=cod><span class=fq>key</span> a/2 <span class=c2>;;A / 2</span></span>.</li>
+  <li> Characters <tt>;&quot;{}()</tt> have special meaning. Instead use 
+    <tt>:'[]90</tt> or enclose in double quotes.</li></ul></li>
+  <li> Add modifier keys (Ctrl, Shift, Alt, Win) before the modified key.
+    <ul>
+      <li> Example: <span class=cod><span class=fq>key</span> Wf CSF2 <span class=c2>;;Win+F Ctrl+Shift+F2</span></span>.</li>
+  <li> If several keys, enclose in <tt>{}</tt>. Example: <span class=cod><span class=fq>key</span> A{ev} <span class=c2>;;Alt+E+V</span></span>.</li></ul></li>
+</ul>
+<p>&nbsp;</p>
+
+<p>2. Text in double quotes. Sends keys that type the text. </p>
+<ul>
+  <li>Example: <span class=cod><span class=fq>key</span> <span class=s>&quot;Text&quot;</span> <span class=c2>;;types Text (sends Shift+T E X T)</span></span>.</li>
+  <li> Can be used <a href="../Language/IDP_CONSTANT.html">escape sequences</a>, like in all strings. Example: <span class=cod><span class=fq>key</span> <span class=s>&quot;a[][9]b&quot;</span> <span class=c2>;;A Enter Tab B</span></span>.</li>
+  <li>Can be <a href="../Language/IDP_FSTRING.html">F-string</a>. Example: <span class=cod><span class=t>int</span> x<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=fq>key</span> <span class=o>F</span><span class=s>&quot;x={</span>x<span class=s>}&quot;</span> <span class=c2>;;x=5</span></span>.</li>
+  <li>The key messages received by the target window depend on <a href="IDP_OPT.html">opt keychar</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>3. String expression (e.g. variable) in parentheses. Types  text, like in case 2.</p>
+<ul>
+  <li> Example: <span class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&quot;Text[]more text&quot;</span><span class=p>;</span> <span class=fq>key</span> <span class=p>(</span>s<span class=p>)</span></span>.</li>
+  <li>To type  a non-string variable, convert it to string. Example: <span class=cod><span class=t>int</span> x<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=t>str</span> s<span class=o>=</span>x<span class=p>;</span> <span class=fq>key</span> <span class=p>(</span>s<span class=p>)</span></span>. Or use F-string, see above.</li>
+</ul>
+<p>&nbsp;</p>
+
+<p>4. Windows <a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key code</a> in parentheses. Sends the key.</p>
+<ul>
+  <li> Example: <span class=cod><span class=fq>key</span> <span class=p>(</span><span class=d>VK_VOLUME_UP</span><span class=p>)</span></span>.</li>
+  <li>Example: <span class=cod><span class=t>int</span> vk<span class=o>=</span><span class=n>'A'</span><span class=p>;</span> <span class=fq>key</span> <span class=p>(</span>vk<span class=p>)</span></span>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>5. Scan code in parentheses. Sends the key.</p>
+<ul>
+  <li>Use flag 0x10000. If it is an extended key, add flag 0x20000.</li>
+  <li>Example: <span class=cod><span class=fq>key</span> <span class=p>(</span><span class=n>0x30000</span><span class=o>|</span><span class=n>0x38</span><span class=p>)</span> <span class=c2>;;Right Alt (scan code 0x38, extended key)</span></span>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>6. Unicode character code in parentheses. Types the character.</p>
+<ul>
+  <li>Use flag 0x40000.</li>
+  <li> Example: <span class=cod><span class=fq>key</span> <span class=p>(</span><span class=n>0x3A3</span><span class=o>|</span><span class=n>0x40000</span><span class=p>)</span> <span class=c2>;;&Sigma;</span></span>.</li>
+  <li> In <a href="../Other/IDP_UNICODE.html">Unicode</a> mode you can instead simply use Unicode characters in text 
+    enclosed in double quotes (case 2).</li>
+</ul>
+<p>&nbsp;</p>
+<p>7. Double (floating-point) expression in parentheses inserts a delay.</p>
+<ul>
+  <li> Example: <span class=cod><span class=fq>key</span> a <span class=p>(</span><span class=n>1.0</span><span class=p>)</span> b <span class=c2>;;A, wait 1 s, B</span></span>.</li>
+  <li>Example: <span class=cod><span class=t>double</span> d<span class=o>=</span><span class=n>0.5</span><span class=p>;</span> <span class=fq>key</span> a <span class=p>(</span>d<span class=p>)</span> b</span>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>8 (QM 2.2.1). Flags in parentheses.</p>
+<ul>
+  <li>0x01000000 - same as option +.</li>
+  <li>0x02000000 - same as option -.</li>
+  <li>0x03000000 - removes the above flags and options + -.</li>
+</ul>
+<p>&nbsp;</p>
+<p>9 (QM 2.3.3). Key repeat count in parentheses, with # prefix.</p>
+<ul>
+  <li>Example: <span class=cod><span class=fq>key</span> T<span class=p>(</span><span class=o>#</span><span class=n>10</span><span class=p>)</span><span class=c2>  ;;press Tab 10 times</span></span>.</li>
+  <li>Example: <span class=cod><span class=t>int</span> i<span class=o>=</span><span class=n>5</span><span class=p>;</span> <span class=fq>key</span> a<span class=p>(</span><span class=o>#</span>i<span class=p>)</span> <span class=c2>;;press A i times</span></span>.</li>
+</ul>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags">
+  <col>
+  <tr>
+    <td>+</td>
+    <td>press keys down but don't release.</td>
+  </tr>
+  <tr>
+    <td>-</td>
+    <td> release keys, don't press.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Options and flags 0x01000000 and 0x02000000 can be used in case 1, 4 and 5.</p>
+<p>&nbsp;</p>
+<p><i>Syntax2</i> can be used to make macro smaller.</p>
+<p>&nbsp;</p>
+<p>The speed depends on <a href="IDP_SPE.html" class="blue">spe</a> and <a href="IDP_OPT.html">opt slowkeys</a>.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1: <span class="blue">key</span> can be used as function. Then it does not send keys, but instead 
+  returns virtual-key codes. <a onClick="doSection(e1)" class="expand">Read more</a></p>
+<div id="e1" class="expand"> 
+  <p>If used as function, <span class="blue">key</span> returns <span class="type">ARRAY</span>(<span class="type">KEYEVENT</span>). 
+    Definition of <span class="type">KEYEVENT</span>:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=t>KEYEVENT</span> <span class=o>!</span>vk <span class=o>!</span>flags <span class=o>@</span>sc [<span class=n>0</span>]wt</pre>
+  <p>&nbsp;</p>
+  <p><b>vk</b> - virtual-key code.</p>
+  <p><b>flags</b> - <span class="def">KEYEVENTF_x</span> flags. Also can be 0x80, 
+    which says that next element contains wait time (see below).</p>
+  <p><b>sc</b> - scan code, or UNICODE character, depending on flags.</p>
+  <p><b>wt</b> - wait time in milliseconds. A delay is specified using two elements. 
+    First element contains nothing more than flag 0x80. Next element contains 
+    nothing more than wait time. Note that <b>wt</b> is in <a href="../Language/IDP_UNIONS.html">union</a> 
+    with other members.</p>
+  <p>&nbsp;</p>
+  <p>All this info (except delay) is prepared to use with <a href="../Other/IDP_MSDN.html" class="dll">SendInput</a>. 
+    Also can be used with some other Windows API functions, for example <span class="dll">keybd_event</span>, 
+    <span class="dll">PostMessage</span>(<span class="def">WM_KEYDOWN</span>/<span class="def">WM_KEYUP</span>).</p>
+  <p>&nbsp;</p>
+  <p>It is convenient to use <span class="blue">key</span> as an argument of a 
+    function that accepts <span class="type">ARRAY</span>(<span class="type">KEYEVENT</span>). 
+    Example:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fu>KeyPostToControl</span> <span class=fq>key</span><span class=p>(</span>abc<span class=p>)</span> <span class=fq>id</span><span class=p>(</span><span class=n>15</span> <span class=s>&#34;Notepad&#34;</span><span class=p>)</span></pre>
+  <p>&nbsp;</p>
+  <p>Function <span class="UDF">KeyPostToControl</span>:</p>
+  <pre class=cod><span class=c> /
+</span><span class=fq>function</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>KEYEVENT</span><span class=p>)'</span>a hwnd
+...</pre>
+  <p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>You can use function <span class="dll">BlockInput</span> to block keyboard 
+  and mouse input while macro is running. If you want to manually end macro when input is blocked, 
+  at first press Ctrl+Alt+Delete.</p>
+<p>&nbsp;</p>
+<p>When not using <a href="../QM_Help/IDH_SETT_TRIGGERS.html">low level 
+  keyboard hook</a>, if the user presses keys simultaneously with the <span class="blue">key</span> 
+  command, user-pressed keys may be inserted between <span class="blue">key</span>-sent 
+  keys. To avoid it, use <a href="IDP_OPT.html">opt keymark 1</a>.</p>
+<p>&nbsp;</p>
+
+<p><i>See also:</i> <a href="../Tables/IDP_KEYSHORTCUTS.html">Windows keyboard 
+  shortcuts</a>, <a href="IDP_OPT.html">opt slowkeys/keysync/hungwindow</a>, <a href="../Language/IDP_CONSTANT.html">escaping special 
+  characters</a>, <a href="../Other/IDP_VISTA.html">UAC</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>key</span> ab c F12 T Y      <span class=c2>;;A, B, C, F12, Tab, Enter</span>
+<span class=fq>key</span> Ca                <span class=c2>;;Ctrl+A</span>
+<span class=fq>key</span> CSf A{ec} Wd      <span class=c2>;;Ctrl+Shift+F, Alt+E+C, Win+D</span>
+<span class=fq>key</span> <span class=s>&quot;Send Keys&quot;</span>       <span class=c2>;;type &quot;Send Keys&quot;</span>
+<span class=fq>key</span> SsendVSkeys       <span class=c2>;;type &quot;Send Keys&quot; using QM key codes</span>
+<span class=fq>key</span> <span class=p>(</span>s<span class=p>)</span>               <span class=c2>;;type string variable s</span>
+<span class=fq>key</span> <span class=o>F</span><span class=s>&quot;{</span>x<span class=s>}&quot;</span>            <span class=c2>;;type non-string variable x</span>
+<span class=fq>key</span> <span class=p>(</span><span class=d>VK_F2</span><span class=p>)</span>           <span class=c2>;;F2 (use virtual-key code constant)</span>
+<span class=fq>key</span> A<span class=p>(</span><span class=n>44</span><span class=p>)</span>             <span class=c2>;;Alt+PrintScreen (use virtual-key code)</span>
+<span class=fq>key</span> a <span class=p>(</span><span class=n>0.5</span><span class=p>)</span> b         <span class=c2>;;A, wait 0.5 s, B</span>
+<span class=fq>key</span> Skeys <span class=s>&quot;Keys&quot;</span> A<span class=p>(</span><span class=n>44</span><span class=p>)</span> AT <span class=p>(</span><span class=n>0.5</span><span class=p>)</span> Cv A{fa} Y
+<span class=p>'</span>AT                   <span class=c2>;;Alt+Tab (same as key AT)</span>
+
+<span class=c> Ctrl+Shift+click:</span>
+<span class=fq>key</span><span class=o>+</span> CS
+<span class=fq>lef</span>
+<span class=fq>key</span><span class=o>-</span> SC
+</pre>
+
+</body>
+
+</html>
