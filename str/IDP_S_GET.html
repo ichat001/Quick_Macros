@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>left, right, get, geta</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_GETA"></a>Get part of other string</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>left</b>(ss nc)
+s.<b>right</b>(ss nc)
+s.<b>get</b>(ss from <i>[</i>nc<i>]</i>)
+s.<b>geta</b>(ss from <i>[</i>nc<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s</b> - str variable.</p>
+
+<p> <b>ss </b>- source string.</p>
+
+<p> <b>nc </b>- number of characters to copy.</p>
+
+<p> <b>from </b>- 0-based index of first character to copy.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Get part of <b>ss</b>.</p>
+
+<p> <span class="blue">left</span> gets <b>nc</b> characters from the beginning of 
+  <b>ss</b>.</p>
+
+<p> <span class="blue">right</span> gets <b>nc</b> characters from the end of <b>ss</b>.</p>
+
+<p> <span class="blue">get</span> gets <b>nc</b> characters from middle of <b>ss</b>, 
+  starting from <b>from</b>. If <b>nc</b> is omitted or negative, gets all right 
+  part of <b>ss</b>.</p>
+
+<p> <span class="blue">geta</span> - gets and appends.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>lpstr</span> lp <span class=o>=</span> <span class=s>&quot;notepad.exe&quot;</span>
+<span class=t>str</span> s
+s.<span class=fq>left</span><span class=p>(</span>lp <span class=n>2</span><span class=p>)</span>
+<span class=c> now s is &quot;no&quot;</span>
+s.<span class=fq>right</span><span class=p>(</span>lp <span class=n>3</span><span class=p>)</span>
+<span class=c> now s is &quot;exe&quot;</span>
+s.<span class=fq>get</span><span class=p>(</span>lp <span class=n>7</span><span class=p>)</span>
+<span class=c> now s is &quot;.exe&quot;</span>
+s.<span class=fq>get</span><span class=p>(</span>lp <span class=n>1</span> <span class=n>2</span><span class=p>)</span>
+<span class=c> now s is &quot;ot&quot;</span>
+s.<span class=fq>geta</span><span class=p>(</span>lp <span class=n>7</span> <span class=n>1</span><span class=p>)</span>
+<span class=c> now s is &quot;ot.&quot;</span>
+</pre>
+<p>&nbsp;</p>
+
+
+</body>
+
+</html>
