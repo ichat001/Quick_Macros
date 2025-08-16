@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Flags</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Flags</h1>
+
+<p>Many functions have parameters, often called &quot;flags&quot;, that can consists of several values (bits). To create flags from several values, use operator | (bitwise 
+  or). Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>int</span> hwnd<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&#34;Window&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>1</span><span class=o>|</span><span class=n>8</span><span class=p>)</span> 
+<span class=fd>SetWindowPos</span><span class=p>(</span>hwnd <span class=d>HWND_TOPMOST</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=d>SWP_NOSIZE</span><span class=o>|</span><span class=d>SWP_NOMOVE</span><span class=o>|</span><span class=d>SWP_SHOWWINDOW</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Usually flag values are divisible by two (1, 2, 4, 8, 16, and so on). If so, 
+  the | operator is the same as the + operator. For example, to specify flags 
+  1, 4 and 16, you can use 1|4|16, or you can use 21. Flags usually are easier 
+  to read when they are in hexadecimal format, so instead of 21 you can use 0x15. 
+  Another example: 5|0x10.</p>
+<p>&nbsp;</p>
+<p>A flag takes  1 bit, therefore an int value can have  32 flags: 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, ... 0x80000000.</p>
+<p>&nbsp;</p>
+<p>If flags is an optional parameter of a function, its default value is 0.</p>
+<p>&nbsp;</p>
+<h3>How to compare flags</h3>
+<p>Usually you need to know whether one of flags is set. Use operator &amp;. Example: <span class=cod><span class=fq>if</span><span class=p>(</span>flags<span class=o>&#38;</span><span class=n>8</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>Don't use operator = (for example, <span class=cod><span class=fq>if</span><span class=p>(</span>flags<span class=o>=</span><span class=n>3</span><span class=p>)</span></span>), usually it has no sense.</p>
+<p>&nbsp;</p>
+<h3> How to read flags from a hexadecimal number, and vice versa</h3>
+<p>QM dialogs often create code that includes flags, usually in hexadecimal format, like 0x3011. How to know what flags are encoded in the number?</p>
+<p>&nbsp;</p>
+<p> At first, need to understand hexadecimal number format:</p>
+<p> <a href="https://en.wikipedia.org/wiki/Hexadecimal">https://en.wikipedia.org/wiki/Hexadecimal</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Flag_field">https://en.wikipedia.org/wiki/Flag_field</a></p>
+<p>&nbsp;</p>
+<p>Each hexadecimal digit (after 0x) is a sum of max four flags at that digit position: 1, 2, 4 and 8.</p>
+<p>&nbsp;</p>
+<p>Examples:<br>
+  0x5 contains flags 0x4 (4) and 0x1 (1).<br>
+  0x500 contains flags 0x400 (1024) and 0x100 (256).<br>
+  0x52A contains flags 0x400, 0x100, 0x20, 0x8 and 0x2.<br>
+  0x3011 contains flags 0x2000, 0x1000, 0x10 and 0x1.<br>
+  <br>
+  Table:<br>
+Digit - flags<br>
+0 - none<br>
+1 - 1<br>
+2 - 2<br>
+3 - 1, 2<br>
+4 - 4<br>
+5 - 4, 1<br>
+6 - 4, 2<br>
+7 - 4, 2, 1<br>
+8 - 8<br>
+9 - 8, 1<br>
+A - 8, 2<br>
+B - 8, 2, 1<br>
+C - 8, 4<br>
+D - 8, 4, 1<br>
+E - 8, 4, 2<br>
+F - 8, 4, 2, 1<br>
+  <br>
+  To add a flag to a hexadecimal number containing flags, simply   add the flag value at that position if it does not exist. In code we   use operator |, not +. This is to avoid adding when already exists etc.<br>
+  Example: add flag 0x100 to 0x402: 0x402|0x100 = 0x502.<br>
+  <br>
+  To remove a flag from a hexadecimal number containing flags, simply subtract the flag value at that position if it exists. In code we use operator &amp;~ (or just ~ in QM), not -. <br>
+  Example: remove flag 0x100 from 0x5C0: 0x5C0~0x100 = 0x4C0.<br>
+  <br>
+Don't   translate a hexadecimal flags number like 0x3011 to decimal, it will   not have sense. But can translate a single flag, for example to write   shorter, eg can write 4 instead of 0x4, or 16 instead of 0x10.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
