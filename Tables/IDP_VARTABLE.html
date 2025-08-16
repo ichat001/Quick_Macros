@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Variable types: conversions, etc</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable types: conversions, etc</h1>
+
+<table class="tnormal">
+
+<tr>
+<td rowspan=2 style="width: 35; ">&nbsp;</td>
+<td rowspan=2 style="width: 85; "><b>Type</b></td>
+<td colspan=2 style="width: 400; "><b>Assignment: type checking, conversions, memory management, etc</b></td>
+<td rowspan=2 style="width: 90; "><b>When goes out of scope</b></td>
+<td rowspan=2 style="width: 90; "><b>In expression with operators</b></td>
+</tr>
+
+<tr>
+    <td style="width: 150;"><b>At right can be</b></td>
+    <td style="width: 250;"><b>Comments</b></td>
+</tr>
+
+<tr>
+	<td rowspan=7 style="width: 35; ">in<br>tr<br>in<br>si<br>c<br>&nbsp;<br>ty<br>pe<br>s</td>
+	<td>int</td>
+	<td>any, except <a href="../Language/IDP_TYPE.html">structures</a></td>
+	<td>from str and lpstr receives string pointer. From BSTR and VARIANT gets numeric value (converts from string if need).</td>
+	<td>&nbsp;</td>
+	<td>int</td>
+</tr>
+
+<tr>
+    <td>byte</td>
+	<td>any, except structures</td>
+	<td>the same</td>
+	<td>&nbsp;</td>
+	<td>int</td>
+</tr>
+
+<tr>
+    <td>word</td>
+	<td>any, except structures</td>
+	<td>the same</td>
+	<td>&nbsp;</td>
+	<td>int</td>
+</tr>
+
+<tr>
+    <td>long</td>
+	<td>any, except structures</td>
+	<td>the same</td>
+	<td>&nbsp;</td>
+	<td>long</td>
+</tr>
+
+<tr>
+    <td>double</td>
+	<td>any, except structures</td>
+	<td>the same</td><td>&nbsp;</td>
+	<td>double</td>
+</tr>
+
+<tr>
+    <td>lpstr</td>
+	<td>strings (lpstr, str, BSTR, VARIANT(BSTR)), byte*, 0</td>
+	<td>from str and lpstr receives pointer value. BSTR is converted to a hidden local str variable.</td>
+	<td>&nbsp;</td>
+	<td>lpstr or unsigned int</td>
+</tr>
+
+<tr>
+    <td>str</td>
+    <td>any, except structures</td>
+    <td>copies strings, converts numeric types to string</td>    
+    <td>frees string</td>    
+    <td>lpstr or unsigned int</td>
+</tr>
+
+<tr>
+	<td rowspan=7>&nbsp;<br>O<br>L<br>E<br>&nbsp;<br>t<br>y<br>p<br>e<br>s</td>
+	<td>FLOAT</td>
+    <td><a href="../Language/IDH_VARIABLES.html">intrinsic and OLE types</a></td>
+	<td>converts strings to numeric</td>
+	<td>&nbsp;</td>
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>DATE</td>
+    <td>intrinsic and OLE types</td>
+    <td>the same</td>
+    <td>&nbsp;</td>
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>CY</td>
+    <td>intrinsic and OLE types</td>
+    <td>the same</td>
+    <td>&nbsp;</td>
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>DECIMAL</td>
+    <td>intrinsic and OLE types</td>
+    <td>the same</td>
+    <td>&nbsp;</td>
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>BSTR</td>
+    <td>intrinsic and OLE types</td>
+    <td>copies strings, converts numeric types to string</td>    
+    <td>frees string</td>    
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>VARIANT</td>
+    <td>any, except structures</td>
+    <td>copies all data, internally calls AddRef, Release, QueryInterface, etc.</td>
+    <td>frees/Releases all data</td>    
+    <td>double</td>
+</tr>
+
+<tr>
+    <td>ARRAY</td>
+    <td>ARRAY of the same type, VARIANT, strings</td>
+    <td>copies all elements and associated data, calls required functions, etc</td>
+	<td>the same</td>
+    <td>cannot be used</td>
+</tr>
+
+<tr>
+	<td>&nbsp;</td>
+    <td>structure</td>
+    <td>structure of the same type</td>
+    <td>copies all data, calls required functions, etc</td>
+	<td>the same</td>
+	<td>cannot be used</td>
+</tr>
+
+<tr>
+	<td>&nbsp;</td>
+	<td>interface pointer</td>
+    <td>interface pointer of the same type, 0, IUnknown, IDispatch, VARIANT</td>
+	<td>Calls AddRef. Calls Release on previous interface pointer. If type differs, calls QueryInterface.</td>
+	<td>calls Release</td>
+    <td>cannot be used</td>
+</tr>
+
+<tr>
+	<td rowspan=3>po<br>in<br>te<br>rs</td>
+    <td>pointer</td>    
+    <td>pointer of the same type, 0, byte*</td>
+	<td>function parameter of reference type also is pointer</td>
+	<td>&nbsp;</td>
+	<td>pointer or unsigned int</td>
+</tr>
+
+<tr>
+    <td>byte*</td>
+    <td>pointer of any type, 0, interface pointer, str, lpstr</td>
+    <td>similar as void* in C, or Any in VB</td>
+    <td>&nbsp;</td>
+    <td>pointer or unsigned int</td>
+</tr>
+
+<tr>
+    <td>reference</td>
+    <td>the same as variable</td>    
+    <td>the same as variable</td>
+    <td>does nothing</td>    
+    <td>the same as variable</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<p>&nbsp;<i>Columns:</i></p>
+
+<p>1. Groups of variable types.</p>
+
+<p>2. Variable type or types.</p>
+
+<p>3. Types that are allowed at right side of assignment operation when at left 
+  side is variable of type from column 2. Assignment operation occurs when using 
+  operator =, passing argument to function, returning from function (<span class="blue">ret</span>).</p>
+
+<p>4. Comments.</p>
+
+<p>5. This column shows how are released associated memory when variable is destroyed 
+  (goes out of scope).</p>
+
+<p>6. This column shows how variable is interpreted in expression with operators.</p>
+
+<p>&nbsp;</p>
+
+<h4>Notes:</h4>
+<p>1. Type checking is more strict with function arguments, and less strict with 
+  = and <span class="blue">ret</span>.</p>
+
+<p>2. When a str, BSTR, VARIANT, ARRAY or interface pointer variable is a parameter 
+  or return value of a function (except user-defined functions), QM does not copy 
+  the associated data and does not call AddRef (the function does it itself, if 
+  necessary).</p>
+<p>3. A structure is a user-defined type other that listed in this table.</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
