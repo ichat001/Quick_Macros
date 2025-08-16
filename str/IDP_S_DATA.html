@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>str properties (lpstr, len, nc, flags)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_DATA2"></a>str properties (lpstr, len, nc, flags)</h1>
+
+<p>str member variables:</p>
+<p>&nbsp;</p>
+
+<div class="parts">
+<p> <b>lpstr </b>- pointer to string.</p>
+<ul>
+  <li>The string is in a string buffer (a block of memory) that is automatically allocated/freed.</li>
+  <li><b>lpstr</b> is address of first character of the string.</li>
+  <li><b>lpstr</b> is 0 if there is no buffer allocated.</li>
+</ul>
+<p> <b>len </b>- length of string (number of bytes), not including  <a href="IDH_STRINGS.html">terminating 
+  null character</a>.</p>
+<p> <b>nc </b>- size of string buffer.</p>
+<ul>
+  <li> It is number of allocated bytes, not including  terminating null 
+    character.</li>
+  <li> To avoid frequent reallocations (it slows down), str variables may allocate more memory than need for string. Then <b>nc</b> is &gt; <b>len</b>. The difference is called <i>extra bytes</i>.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td>1 (optimization)</td>
+  <td>str functions should never free extra bytes. It means that allocated string memory can grow but not shrink. Use this flag to avoid frequent reallocations. However some functions 
+    may ignore it.</td>
+</tr>
+<tr> 
+  <td>2 (optimization)</td>
+  <td>str functions should allocate more extra bytes to avoid frequent 
+    reallocations.</td>
+</tr>
+<tr>
+  <td><p>4</p>
+    <p> (security)</p></td>
+  <td><p>QM 2.3.3. Erase string memory before freeing it. Use this flag for passwords and other confidential data. It makes much harder to retrieve the string from  memory. To set this flag you can use this: <span class=cod><span class=t>str</span> s<span class=p>;</span> s.<span class=fu>__set_secure</span></span>. In older QM versions you would have to erase explicitly: <span class=cod><span class=t>str</span> s<span class=o>=</span><span class=s>&quot;password&quot;</span><span class=p>;</span> ... s.<span class=fq>set</span><span class=p>(</span><span class=n>0</span><span class=p>)</span></span>.</p></td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>When a str variable is just declared without initializing, all data members 
+  are 0.</p>
+
+<p>&nbsp;</p>
+
+<p>To get  string length of a str variable,  use its <b>len</b> property.</p>
+
+<p>&nbsp;</p>
+
+<p>When various operations are performed with a str variable, it's data members 
+  are managed automatically. You should not modify them. There are two 
+  cases when you can modify them:</p>
+
+<p>&nbsp;</p>
+
+<p>1. You can modify <b>flags</b> to improve performance when multiple operations 
+  are performed with a str variable.</p>
+
+<p>2. If you want to steal string buffer from a str variable, set <b>lpstr</b> 
+  to 0. To free the stealed memory, use <a href="../User/IDP_QMDLL.html#q_free" class="dll">q_free</a>.</p>
+
+<p>&nbsp;</p>
+<p>In C++, str definition would look like:</p>
+<p>&nbsp;</p>
+<pre><span class="blue">class</span> str
+{
+<span class="blue">public</span>:
+	LPSTR lpstr;
+	<span class="blue">int</span> len, nc;
+	BYTE flags;
+<span class="green">//member functions</span>
+...
+};</pre>
+<p>&nbsp;</p>
+<p>In QM, str definition would look like:</p>
+<p>&nbsp;</p>
+<span class=cod><span class=fq>class</span> <span class=t>str</span> <span class=t>lpstr</span><span class=p>'</span>lpstr len nc <span class=t>byte</span><span class=p>'</span>flags</span>
+
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;string&#34;</span>
+<span class=t>int</span> i <span class=o>=</span> s.len
+<span class=c> now i is 6
+</span>s.flags <span class=o>=</span> <span class=n>1</span>
+<span class=c> now s buffer can grow, but not shrink
+</span></pre>
+
+
+</body>
+
+</html>
