@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>inp</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Input box</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>inp</b><i>[</i>-<i>]</i>(var <i>[</i>text<i>] [</i>caption<i>] [</i>default<i>] [</i>checkvar<i>] [</i>checktext<i>] [</i>func<i>] [</i>hwndowner<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>var</b> - receives input. Variable of intrinsic non-pointer type except 
+lpstr. </p>
+
+<p> <b>text</b> - text above the edit field. String. Default: &quot;&quot; (empty). Supports <a href="../Other/IDP_SYSLINK.html">links</a>.</p>
+
+<p> <b>caption</b> - input box title. String. Default: &quot;&quot; (&quot;QM 
+Input&quot;).</p>
+
+<p> <b>default</b> - edit control text. String. Default: &quot;&quot; (empty).</p>
+
+<p> <b>checkvar</b> - integer variable. Sets and receives checkbox state (0 or 
+1). Default: 0 (hide checkbox).</p>
+
+<p> <b>checktext</b> - checkbox text. String. Default: &quot;&quot;.</p>
+
+<p> <b>func</b> - name of and user-defined function that is called when text changes. 
+The function must begin with <span class=cod><span class=fq>function</span><span class=o>#</span> <span class=t>str</span><span class=o>&#38;</span>s</span>. 
+Here <b>s</b> is text of the input box edit field. The function can modify it. 
+The function should return 0. Or, it can return 1 to press OK or 2 to press 
+Cancel. Default: literal 0.</p>
+<p> <b>hwndowner</b> (QM 2.2.1) - owner window handle. The dialog box will be 
+on top of the owner window. The owner window, if belongs to the same thread, 
+will be disabled. Default: 0.</p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>on 'Cancel' end macro.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Displays input dialog box. If user selects OK, populates <b>var</b> with input 
+  value and returns 1. Else returns 0.</p>
+
+<p>&nbsp;</p>
+
+<p>If <b>default</b> begins with &quot;*&quot;, text is hidden (use for password). Else, if <b>default</b> begins with &quot;[]&quot; (new line), text 
+  can be multiline.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <span class="UDF">InputBox</span>.</p>
+<p><i>Tips:</i> If need more input fields, instead create a <a href="../User/IDH_DIALOG_EDITOR.html">dialog</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> i
+<span class=fq>inp</span> i
+<span class=t>
+str</span> p
+<span class=t>int</span> rem <span class=o>=</span> <span class=n>1</span>
+<span class=fq>inp</span><span class=o>-</span> p <span class=s>&#34;Password&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;*&#34;</span> rem <span class=s>&#34;Remember&#34;</span>
+<span class=fq>if</span><span class=p>(</span>p <span class=o>=</span> <span class=s>&#34;p11&#34;</span><span class=p>)</span> <span class=fq>ret</span> rem
+<span class=fq>else</span> <span class=fq>mes</span><span class=o>-</span> <span class=s>&#34;x&#34;</span> <span class=s>&#34;Password incorrect&#34;</span> <span class=s>&#34;&#34;</span></pre>
+
+</body>
+
+</html>
