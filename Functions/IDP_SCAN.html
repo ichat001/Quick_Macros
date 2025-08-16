@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>scan</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Find image on screen</h1>
+
+<h3>Syntax1 - find</h3>
+
+<pre class=syntax><i>int </i><b>scan</b>(image <i>[</i>window<i>]</i> <i>[</i>rect<i>]</i> <i>[</i>flags<i>] [</i>colorDiff<i>] [</i>matchIndex<i>|</i>array<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax2 - wait</h3>
+<pre class=syntax><i></i><b>wait</b> timeS <i>[</i>-<i>]</i>S image <i>[</i>window<i>]</i> <i>[</i>rect<i>]</i> <i>[</i>flags<i>] [</i>colorDiff<i>] [</i>matchIndex<i>|</i>array<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>image</b> - image to find. Can be:</p>
+<ul>
+  <li>QM 2.4.0. Image <a href="../Other/IDP_RESOURCES.html">resource</a> name. Format: &quot;image:name&quot; or &quot;resource:&lt;macro&gt;image:name&quot;. Read more in Remarks.</li>
+  <li>Bitmap <a href="../Other/IDP_SEARCHPATHS.html">file</a>. Must end with &quot;.bmp&quot;.</li>
+  <li>Icon file. Any file path that does not end with &quot;.bmp&quot;. Icon index can be specified, like <span class=cod><span class=s>&#34;shell32.dll,5&#34;</span></span>.</li>
+  <li>QM 2.3.2. <a href="../Other/IDP_COLOR.html">Color</a> of a single pixel. Format: &quot;color:0xBBGGRR&quot;. To use a variable: <span class=cod><span class=o>F</span><span class=s>&quot;color:{</span>variable<span class=s>}&quot;</span></span>.</li>
+  <li>QM 2.4.3. Bitmap or icon handle. Format: &quot;hbitmap:handle&quot;, &quot;hicon:handle&quot;. To use a variable: <span class=cod><span class=o>F</span><span class=s>&quot;hbitmap:{</span>variable<span class=s>}&quot;</span></span>.</li>
+  <li>QM 2.4.3. Can be a list of images or colors, like <span class=cod><span class=s>&quot;image:image1[]image:image2[]image:image3&quot;</span></span>. Read more in Remarks.</li>
+  <li><a onClick="doSection(e1)" class="expand">Other options, now obsolete</a>.
+    <div id="e1" class="expand">
+      <ul>
+        <li>QM 2.3.2. Macro containing bmp  file data. Format: &quot;macro:name&quot;. Obsolete, use macro resources instead.</li>
+        <li>Bitmap or icon handle. Now instead you can use F&quot;hbitmap:{h}&quot; or F&quot;hicon:{h}&quot;.</li>
+      </ul>
+    </div>
+  </li>
+</ul>
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+  or child window where to search.</p>
+<ul>
+  <li>If omitted or literal 0, searches in whole screen, all monitors.</li>
+  <li>QM 2.4.3. Can be an accessible object (an <span class="type">Acc</span> or <span class="type">IAccessible</span> variable).</li>
+  <li>See also flag 0x200.</li>
+</ul>
+<p><b>rect</b> - variable of type <span class="type">RECT</span>. Default: 0.</p>
+<ul>
+  <li>In the variable <span class="blue">scan</span> stores  image coordinates in screen (relative to the top-left of the primary monitor).</li>
+  <li>Also used to limit the search area, unless the variable is empty or used flag 128. Read more in Remarks.</li>
+</ul>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+  <tr> 
+    <td width="9%">1</td>
+    <td width="85%">Move mouse to the image. This flag not used with flag 0x200 and -S.</td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td>Error if image not found. This flag not used with <span class="blue">wait</span>.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Use the top-left pixel color of the image as transparent color.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td>Search only in the client area of the window. This flag is not used when searching in whole screen or bitmap. When <strong>window</strong> is an accessible object, this flag is useful with flags 0x100 and 0x1000.</td>
+  </tr>
+  <tr> 
+    <td>32</td>
+    <td>When <b>image</b> is icon file, use large icon (32x32). Default - small 
+      icon (16x16).</td>
+  </tr>
+  <tr> 
+    <td>64</td>
+    <td>If <b>image</b> is handle or exe resource id, use this flag to specify that it 
+      is icon.</td>
+  </tr>
+  <tr>
+    <td>128</td>
+    <td>QM 2.3.2. Use <b>rect</b>  for results, but not to limit the search area.</td>
+  </tr>
+  <tr>
+    <td>0x100</td>
+    <td><p>QM 2.3.2. Get pixel colors not from screen but directly from window, with function <span class="dll">PrintWindow</span>.</p>
+      <p>Notes:</p>
+      <ul>
+        <li>Works even if the window is in background (covered by other windows) or offscreen, but not when minimized or hidden.</li>
+        <li> The window may flicker, especially when waiting. The speed depends on window.</li>
+        <li>With this flag <span class="blue">scan</span> cannot find images in some windows (including Windows store apps), and in some window parts (nonclient, glass). Error if the window is of a higher <a href="../Other/IDP_VISTA.html">integrity level</a> process.</li>
+        <li>This flag is ignored: 1. If the window is <a href="../Other/IDP_DPI.html">DPI-scaled</a>. 2. With  flag 0x1000 if Aero is enabled.</li>
+      </ul>    </td>
+  </tr>
+  <tr>
+    <td>0x200</td>
+    <td>QM 2.3.2. Search in  bitmap stored in memory. Then <b>window</b> must be bitmap handle. If <strong>rect</strong> used, it receives coordinates of the found image in the bitmap; it is not used to limit the search area.</td>
+  </tr>
+  <tr>
+    <td>0x400</td>
+    <td>QM 2.3.2. When found, wait until mouse buttons released. It is more useful with <span class="blue">wait</span> and flag 1 (move mouse).</td>
+  </tr>
+  <tr>
+    <td>0x800</td>
+    <td>QM 2.4.3. Find all images specified in <strong>images</strong>. Return 1 if all found, else return 0 (or error, if flag 2).</td>
+  </tr>
+  <tr>
+    <td>0x1000</td>
+    <td><p>QM 2.4.3.  Use a fast and flicker-free method to get pixel colors directly from window.</p>
+      <p>Notes:</p>
+      <ul>
+        <li>Works only if Windows Aero theme is enabled. Else this flag is ignored. Also it is ignored if the window is <a href="../Other/IDP_DPI.html">DPI-scaled</a>.</li>
+        <li>Works even if the window is in background (covered by other windows) or offscreen, but not when minimized or hidden.</li>
+        <li>This flag makes <span class="blue">scan</span> faster when Aero is enabled (Aero makes it slower). The speed depends on window and control.</li>
+        <li>With this flag <span class="blue">scan</span> cannot find images in some windows (including Windows store apps), and in some window parts (nonclient, glass).</li>
+        <li>On Windows 7 Aero can be disabled.</li>
+      </ul>    </td>
+  </tr>
+</table>
+<p><b>colorDiff</b> (QM 2.3.2) - maximal allowed color/brightness difference of the on-screen image. Allows to find images that don't match exactly. Can be 0-255, but should be as small as possible.</p>
+<p><b>matchIndex</b> (QM 2.3.2) - 1-based index of matched image. 0 is same as 1. Use when there are several matching images in the search area and you need not the first one.</p>
+<p><b>array</b> (QM 2.3.3) - variable of type <span class="type">ARRAY(RECT)</span> that will receive coordinates of all matching images.</p>
+</div>
+
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>timeS</b> - max time (seconds) to wait. Error on timeout. If &lt;=0, waits infinitely.</p>
+<p><b>S</b> - literal S.</p>
+<ul>
+  <li> If -S, waits until image disappears.</li>
+  <li> If -S, and <b>image</b> is &quot;&quot;, waits until something changes 
+    in the window or rectangle.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">scan</span> searches for the specified image on the screen. Returns 1 if found, 0 if not (or throws 
+  error if flag 2 is set).</p>
+<p>&nbsp;</p>
+<p><span class="blue">wait</span> waits for the specified image on the screen. Almost everything is the same as with <span class="blue">scan</span>. In the following text, &quot;<span class="blue">scan&quot;</span> or &quot;the function&quot; means &quot;<span class="blue">scan</span> and <span class="blue">wait</span>&quot;.</p>
+<p>&nbsp;</p>
+<p>To capture/save an image and create code, use the 'Find image' dialog. The captured image can be saved in macro resources or in a .bmp file.</p>
+<p>&nbsp;</p>
+<p>By default the dialog saves the captured image as a <a href="../Other/IDP_RESOURCES.html">resource</a> of current macro, with name like &quot;image:hFBDB67A2&quot; or &quot;image:button1&quot; (if button1 specified in the dialog). The resource name is used in macro, like <span class=cod><span class=fq>scan</span> <span class=s>&quot;image:button1&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span></span>. When the macro runs, <span class="blue">scan</span> gets the image from resources of its macro, or from resources of a caller in the function call stack.</p>
+<p>&nbsp;</p>
+<p>You can also select an existing resource. Supported are resources with names that begin with &quot;image:&quot; or end with &quot;.bmp&quot;, &quot;.png&quot; or &quot;.ico&quot;. You can use resources of other macros too, like  <span class=cod><span class=fq>scan</span> <span class=s>&quot;resource:&lt;macro1&gt;image:button1&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span></span>.</p>
+<p>&nbsp;</p>
+<p>When creating <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>, QM adds macro resources to exe resources, and <span class="blue">scan</span> in exe uses these exe resources. If in exe you use image files instead, the files must be available where exe runs. Or you can  <a onClick="doSection(inExe)" class="expand">add files to exe resources</a>.</p>
+<div id="inExe" class="expand">
+  <p>You can add bitmap and icon files to exe resources:</p>
+<p>1. In &quot;Make exe&quot; dialog check &quot;Auto add files...&quot;.</p>
+<p>2. In code use resource id in file path.</p>
+<p>&nbsp;</p>
+<p>Assume there are 3 scan with 2 images:</p>
+<pre class=cod><span class=fq>scan</span> <span class=s>&quot;A.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+<span class=c> ...</span>
+<span class=fq>scan</span> <span class=s>&quot;B.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+<span class=c> ...</span>
+<span class=fq>scan</span> <span class=s>&quot;B.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+</pre>
+<p>&nbsp;</p>
+<p>Add resource id:</p>
+<pre class=cod><span class=fq>scan</span> <span class=s>&quot;:1 A.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+<span class=c> ...</span>
+<span class=fq>scan</span> <span class=s>&quot;:2 B.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+<span class=c> ...</span>
+<span class=fq>scan</span> <span class=s>&quot;:2 B.bmp&quot;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+</pre><p>&nbsp;</p>
+<p>Then A.bmp and B.bmp will be added to exe resources. In exe will be used the resource images. If the macro runs in QM, it uses file (ignores the &quot;:1 &quot; part).</p>
+</div>
+
+<p>&nbsp;</p>
+<p>QM 2.4.3. Multiple images or colors can be specified. Then <span class="blue">scan</span> will search for any or all of them:</p>
+<ul>
+  <li>Without flag 0x800 searches for any image and returns 1-based index of the first found image. If finds the first image, returns 1, else if finds the second, returns 2, and so on. If all not found, returns 0 (or error, if flag 2). If <strong>array</strong> used, stores coordinates of all found instances of all images in it. The array may not match the specified list because for each image may find 0, 1 or more instances.</li>
+  <li>With flag 0x800 searches for all images and returns 1 if all found, else 0 (or error). If <strong>array</strong> used, stores coordinates of each first found image in it (the array will match the specified list).</li>
+  <li>Example: <span class=cod><span class=fq>scan</span> <span class=s>&quot;image:h43312EF0[]image:h65F5BD95[]image:h2FC19D26&quot;</span> w <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span><span class=o>|</span><span class=n>16</span></span></li>
+</ul>
+<p>&nbsp;</p>
+<p>You can make <span class="blue">scan</span> faster by limiting 
+  the search area. Always specify <b>window</b>. Even better 
+  if it is a control or accessible object. To measure the search time, press Test in the 'Find Image' dialog.</p>
+<p>&nbsp;</p>
+<p> To limit the search area you also can use <b>rect</b> (variable of type <span class="type">RECT</span>). 
+ The rectangle specified in <b>rect</b> must be relative to the search area defined by <strong>window</strong> (screen, window/control,  window/control client area (flag 16) or accessible object).</p>
+<p>&nbsp;</p>
+<p> If you use <b>rect</b> for results but don't want to limit the search 
+  area, the <span class="type">RECT</span> variable must be initially empty (all 
+  members  0). Or use flag 128.</p>
+<p>&nbsp;</p>
+<p>The speed also depends on computer hardware, Windows version, whether Aero is enabled and whether the correct video driver is installed. With flags 0x100 and 0x1000 depends on window.</p>
+<p>&nbsp;</p>
+<p>The function can find only images that are visible on the screen, unless  used flag 0x100, 0x1000 or 0x200. If <b>window</b> 
+ used, make sure that the window is not covered by other windows. The function 
+ does not test whether the image belongs to the window. You can use <span class="blue">act</span> 
+  to activate the window.</p>
+<p>&nbsp;</p>
+<p> The function can only find on-screen images that exactly match 
+  the specified image. If you use <b>colorDiff</b>, it can find  images with slightly different 
+  colors and brightness. It cannot find images with different  shapes.</p>
+<p>&nbsp;</p>
+<p>The function may fail to find image after you change Windows theme, color scheme, skin, etc, because the background color may change. To make the function independent 
+  from such changes, try flag 4. Then it does not compare pixels that have the 
+  same color as the top-left pixel of the captured image. Usually it is background 
+  color, so if background will change in the future, the function will not fail. The function also may fail after changing: display color resolution; <a href="../Other/IDP_DPI.html">DPI</a> (text size); font smoothing (if the image contains text). Also be aware of window shadows.</p>
+<p>&nbsp;</p>
+<p>With icons you  should always use <b>colorDiff</b>. Recommended 8. Because icons often are displayed with slightly different colors than in the icon file.</p>
+<p>&nbsp;</p>
+<p><b>image</b> also can be a bitmap or icon handle, ie when the bitmap or 
+  icon is loaded in memory. These functions can be used to get handle: <a href="../Other/IDP_MSDN.html" class="dll">LoadImage</a>, 
+  <a href="../User/IDP_QMDLL.html#LoadPictureFile" class="dll">LoadPictureFile</a>, <a href="../User/IDP_QMDLL.html#GetFileIcon" class="dll">GetFileIcon</a>, <a href="../User/IDP_QMDLL.html#GetWindowIcon" class="dll">GetWindowIcon</a>, 
+  <span class="UDF">CaptureImageOnScreen</span>, <span class="UDF"> CaptureImageOrColor</span>. 
+  Later use <span class="dll">DeleteObject</span> for bitmap or <span class="dll">DestroyIcon</span> for icon.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2: If flag 0x200 used, the function searches in bitmap whose handle is passed as argument 2 (<b>window</b>). The bitmap can be loaded using <a href="../User/IDP_QMDLL.html#LoadPictureFile" class="dll">LoadPictureFile</a> or other function (see above), and later must be deleted using <span class="dll">DeleteObject</span>. Must not be selected into a device context.  Searching in bitmap is faster because the slowest part usually is getting pixels from screen or window.</p>
+<p>&nbsp;</p>
+<p>Error if:</p>
+<ul>
+  <li> file not found, or resource does not exist, or image cannot be extracted.</li>
+  <li> window not found.</li>
+  <li> object (image) not found. Only if flag 2 is set.</li>
+  <li> failed (an unexpected error, such as invalid handle or not enough memory).</li>
+  <li>timeout (with <span class="blue">wait</span>).</li>
+</ul>
+
+<p>&nbsp;</p>
+<p>The RECT type is used to specify a rectangle.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>RECT</span> left top right bottom</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>left</b> and <b>top</b> - top-left corner coordinates.</p>
+<p><b>right</b> and <b>bottom</b> - bottom-right corner coordinates. This point 
+actually is outside the rectangle. Rectangle width is <b>right</b>-<b>left</b>. 
+Height is <b>bottom</b>-<b>top</b>.</p>
+</div>
+<p>&nbsp;</p>
+<p><i>See also</i>: <a href="../Commands/IDP_WAIT_FOR.html">wait for image or color</a>, <a href="IDP_PIXEL.html" class="blue">pixel</a>, 
+  <a href="IDP_ID.html" class="blue">id</a>, <a href="IDP_CHILD.html" class="blue">child</a>, 
+  <a href="IDP_ACC.html" class="blue">acc</a>, <a href="IDP_HTM.html" class="blue">htm</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Find image (stored in resource) in &#34;Abc&#34; window. If found, click, else error:
+</span><span class=fq>scan</span> <span class=s>&#34;image:example&#34;</span> <span class=s>&#34;Abc&#34;</span> <span class=n>0</span> <span class=n>1</span><span class=o>|</span><span class=n>2</span>
+<span class=fq>lef</span>
+
+<span class=c> Wait for image (stored in file) max 10 s:
+</span><span class=fq>wait</span> <span class=n>10</span> S <span class=s>&#34;example.bmp&#34;</span> <span class=s>&#34;Abc&#34;</span>
+
+<span class=c> Find image in window, and get its location:
+</span><span class=t>RECT</span> r
+<span class=fq>if</span><span class=p>(</span><span class=fq>scan</span><span class=p>(</span><span class=s>&#34;image:example&#34;</span> <span class=s>&#34;Abc&#34;</span> r<span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;x=%i y=%i width=%i height=%i&#34;</span> r.left r.top r.right<span class=o>-</span>r.left r.bottom<span class=o>-</span>r.top
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;not found&#34;</span>
+
+<span class=c> Find image in specified rectangle area, and get its location:
+</span><span class=t>RECT</span> r<span class=p>;</span> r.left<span class=o>=</span><span class=n>100</span><span class=p>;</span> r.top<span class=o>=</span><span class=n>100</span><span class=p>;</span> r.right<span class=o>=</span><span class=n>300</span><span class=p>;</span> r.bottom<span class=o>=</span><span class=n>300</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>scan</span><span class=p>(</span><span class=s>&#34;image:example&#34;</span> <span class=n>0</span> r<span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;x=%i y=%i width=%i height=%i&#34;</span> r.left r.top r.right<span class=o>-</span>r.left r.bottom<span class=o>-</span>r.top
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;not found&#34;</span>
+</pre>
+</body>
+
+</html>
