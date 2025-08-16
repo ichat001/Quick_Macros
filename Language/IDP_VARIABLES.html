@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>int, byte, word, double, lpstr, str</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Declare (create) and initialize variables</h1>
+
+<h3>Simplest syntax - create local variable with initial value = 0/empty</h3>
+
+<pre class=syntax>type var</pre>
+
+<p>&nbsp;</p>
+
+<h3>Full syntax</h3>
+
+<pre class=syntax>type<i>[</i>scope<i>][</i>ptr<i>][</i>&amp;<i>]</i> var<i>[</i>(expression)<i>]</i> <i>[</i>var2<i>[</i>(expression)<i>]</i> <i>...] [</i>= expression<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parts</h3>
+
+<div class="parts">
+<p> <b>type</b> - variable <a href="IDH_VARIABLES.html">type</a> name.</p>
+
+<p> <b>var</b> - variable <A href="../Other/IDP_IDENTIFIERS.html">name</a>.</p>
+
+<p> <b>scope </b>- variable <A href="IDP_SCOPE.html">storage and scope</a>. Can be one of symbols listed below. Default: <b>var</b> is local.</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td><tt>+</tt></td>
+  <td> <b>var</b> is global variable.</td>
+</tr>
+<tr> 
+  <td><tt>-</tt></td>
+  <td> <b>var</b> is thread variable, shared by all functions of 
+    current <a href="../Other/IDP_THREADS.html">thread</a>.</td>
+</tr>
+<tr> 
+  <td><tt>--</tt></td>
+  <td> <b>var</b> is thread variable, private to current function.</td>
+</tr>
+</table>
+
+<p> <b>ptr</b> - up to three <tt>*</tt> characters used to declare <A href="IDH_POINTERS.html">pointer</a> variable.</p>
+
+<p> <b>&amp;</b> - declare <A href="IDH_POINTERS.html">reference</a> variable.</p>
+
+<p> <A href="../Other/IDP_EXPRESSION.html"> <b>expression</b></a> - initial value. Default: 0 or empty.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Creates one or several <A href="IDH_VARIABLES.html">variables</a>.</p>
+<p>&nbsp;</p>
+
+<p> For ARRAY variables, also must be specified array type (type of 
+  elements): <span class=syntax><span class="type">ARRAY</span>(type) var</span></p>
+<p>&nbsp;</p>
+<p>Member functions can be called inside declaration statement: <span class=syntax>type var.member(args)</span></p>
+<p>&nbsp;</p>
+
+<p>Local variables  
+  can be declared inline, using syntax <span class=syntax>type'var</span>. See example with <span class="blue">for</span>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> a <span class=c2>;;declare local variable a of type int
+</span><span class=t>byte</span> b c d <span class=c2>;;declare 3 local variables b, c and d of type byte
+</span><span class=t>int</span> i <span class=o>=</span> <span class=n>5</span> <span class=c2>;;declare local variable i of type int; i=5
+</span><span class=t>int</span> e<span class=p>(</span><span class=n>10</span><span class=p>)</span> f<span class=p>(</span><span class=n>20</span><span class=p>)</span> <span class=c2>;;declare 2 local variables e and f of type int; e=10; f=20
+</span><span class=t>int</span><span class=o>+</span> hwnd <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span> <span class=c2>;;declare global variable hwnd of type int; hwnd=win(&#34;Notepad&#34;)
+</span><span class=t>double</span> d1 <span class=c2>;;declare local variable d1 of type double
+</span><span class=t>double</span> d2 <span class=o>=</span> d1 <span class=o>+</span> <span class=p>(</span><span class=n>0.45</span> <span class=o>*</span> i<span class=p>)</span> <span class=c2>;;declare local variable d2 of type double;  d2 = d1 + (0.45 * i)
+</span><span class=t>str</span> S1 <span class=o>=</span> <span class=s>&#34;Little Alien&#34;</span> <span class=c2>;;declare local variable S1 of type str; S1=&#34;Little Alien&#34;
+</span><span class=t>str</span> S2.from<span class=p>(</span><span class=s>&#34;Little &#34;</span> <span class=s>&#34;Alien&#34;</span><span class=p>)</span> <span class=c2>;;declare local variable S2 of type str; S2.from(&#34;Little &#34; &#34;Alien&#34;)
+</span><span class=t>str</span><span class=o>*</span> sp <span class=o>=</span> <span class=o>&#38;</span>S1 <span class=c2>;;declare local variable sp of type str* (pointer to variable of type str); sp=&#38;S1 (sp is address of S1)
+</span><span class=t>str</span><span class=o>&#38;</span> sr <span class=o>=</span> <span class=o>&#38;</span>S2 <span class=c2>;;declare local variable sr of type str&#38; (reference to variable of type str); sr is reference to (alias of) S2
+</span><span class=t>str</span><span class=o>&#38;</span> sr <span class=o>=</span> S2 <span class=c2>;;the same (&#38; may be omitted)
+</span><span class=t>str</span><span class=o>*&#38;</span> spr <span class=o>=</span> <span class=o>&#38;</span>sp <span class=c2>;;declare local variable spr of type str*&#38;; spr is reference to sp
+</span><span class=t>str</span><span class=o>**</span> spp <span class=o>=</span> <span class=o>&#38;</span>sp <span class=c2>;;declare local variable spp of type str** (pointer to pointer to variable of type str); spp=&#38;sp (spp is address of sp)
+</span><span class=t>str</span><span class=o>***</span> sppp <span class=o>=</span> <span class=o>&#38;</span>spp <span class=c2>;;declare local variable sppp of type str*** (pointer to pointer to pointer to variable of type str); sppp=&#38;spp (sppp is address of spp)
+</span><span class=t>POINT</span> point <span class=c2>;;declare local variable point of user-defined type POINT
+</span><span class=fq>function</span> <span class=t>word</span><span class=p>'</span>w <span class=t>int</span><span class=o>**</span>i <span class=t>str</span><span class=o>&#38;</span>s <span class=c2>;;declare function parameters (local variables w, i and s)
+</span><span class=fq>for</span><span class=p>(</span><span class=t>int</span><span class=p>'</span>j <span class=n>0</span> <span class=fq>len</span><span class=p>(</span>S1<span class=p>))</span> <span class=fq>out</span> S1[j] <span class=c2>;;here j is declared inline. Same as int j; for(j 0 len(S1)) out S1[j]
+</span><span class=fq>inp</span> <span class=t>str</span><span class=p>'</span>s <span class=c2>;;same as str s; inp s
+</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a.create<span class=p>(</span><span class=n>10</span><span class=p>)</span> <span class=c2>;;create local safe array of 10 elements of type str
+</span><span class=lib>Excel.</span><span class=t>Application</span> b._create <span class=c2>;;create object of type Excel.Application (type Application is declared in Excel type library)
+</span></pre>
+<pre>&nbsp;</pre>
+
+</body>
+
+</html>
