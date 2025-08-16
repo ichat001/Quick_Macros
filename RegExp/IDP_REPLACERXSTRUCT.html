@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>REPLACERX; replacement callback function</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>REPLACERX; replacement callback function</h1>
+
+<p>REPLACERX type can be used with <a href="../str/IDP_S_REPLACERX.html"> str.replacerx</a> instead of replacement string. Definition:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>REPLACERX</span> ifrom ito fcallout paramc frepl paramr <span class=o>$</span>repl</pre>
+
+<p>&nbsp;</p>
+
+
+
+<div class="parts">
+<p>
+<b>ifrom</b> - start from here. 0-based character index in 
+<b>s</b> 
+(subject string). Default: 0.</p>
+
+<p>
+<b>ito</b> - do until here. Default: 
+<b>s</b> length.</p>
+
+<p>
+<b>fcallout</b> - 
+<a href="IDP_CALLOUT.html">callout callback function</a>.</p>
+
+<p>
+<b>paramc</b> - some value or pointer to be accessed by callout callback function.</p>
+
+<p>
+<b>frepl</b> - replacement callback function.</p>
+
+<p>
+<b>paramr</b> - some value or pointer to be accessed by replacement callback function.</p>
+
+<p>
+<b>repl</b> - replacement string. Ignored if 
+<b>frepl</b> 
+is nonzero.</p>
+</div>
+
+
+<p>&nbsp;</p>
+
+<p>Before passing the variable to the function, you can set one or more members that you use, leaving other members uninitialized, that is 0. </p>
+
+<p>&nbsp;</p>
+
+<p>If <b>frepl</b> and <b>fcallout</b> are 0, str.replacerx behavior is same as usually (when using <b>replaceto</b> string), plus you can set <b>s</b> portion (<b>ifrom</b> to <b>ito</b>) where replacements must occur.</p>
+
+<h2>Replacement callback function</h2>
+
+<p>If <b>frepl</b> is address of a user-defined function, the function is called each time when a match is found during replacement process. It provides replacement string.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+<p>The function must begin with:</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> <span class=t>REPLACERXCB</span><span class=o>&#38;</span>x</pre>
+
+<p>&nbsp;</p>
+
+<p><b>x</b> is variable of type REPLACERXCB. This variable is filled by str.replacerx. Callback function can (and should) modify <b>match</b> and maybe some other members. In most cases you will only set <b>match</b> to be replacement string, and return 0.</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>REPLACERXCB</span> <span class=o>~</span>match <span class=o>~</span>strnew <span class=o>$</span>subject <span class=t>CHARRANGE</span><span class=o>*</span>vec lenv number <span class=t>REPLACERX</span><span class=o>*</span>rrx</pre>
+
+<p>&nbsp;</p>
+
+
+
+<div class="parts">
+<p><b>match</b> - copy of matched substring. Function can modify it. It will become replacement 
+string.</p>
+
+<p>
+<b>strnew</b> - string that is being formatted from replacements and nonmatching 
+    portions of <b>s</b>. Finally it will replace <b>s</b>. Now it contains 
+    the portion of <b>s</b> from the beginning to the current match, with previous 
+    replacements.</p>
+
+<p>
+<b>subject</b> - unmodified subject string (
+<b>s</b>).</p>
+
+<p>
+<b>vec</b> - array of offsets in 
+<b>s</b>. First 
+element (vec[0]) contains offsets (beginning and end) of match. Subsequent 
+elements contain offsets for submatches. If n-th subexpression not found 
+then vec[n].cpMin and vec[n].cpMax are -1.</p>
+
+<p>
+<b>lenv</b> - number of elements in 
+<b>vec</b> array. 
+It can be 1 (if no submatches) or more.</p>
+
+<p>
+<b>number</b> - number of replacements (1 on first replacement, 2 on second and so on).</p>
+
+<p>
+<b>rr</b> - address of variable that was passed to str.replacerx.</p>
+</div>
+
+
+<p>&nbsp;</p>
+
+<h4>Return values</h4>
+
+<table class="tflags">
+
+<tr>
+<td>0</td>
+<td>indicates that 
+<b>match</b> is replacement 
+ string. It will be appended to string being formatted. If 
+<b>match</b> 
+ is not modified, matched substring will not be replaced.</td></tr>
+
+<tr>
+<td>&gt; 0</td>
+<td>indicates that nothing should be appended to string being formatted. 
+ This return value can be used either to remove matched substring, or when 
+ callback function itself appends replacement to 
+<b>strnew</b>.</td></tr>
+
+<tr>
+<td>-1</td>
+<td>stop replacement process. str.replacerx 
+ will return immediately. It returns number of replacements not including 
+ current, or -1 for single replacement mode. To stop replacement process 
+ and include current replacement, set x.rr.ito = 0.</td></tr>
+
+<tr>
+<td>&lt; -1</td>
+<td>generate error with this error number. Should be &lt; -100.</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+<pre class=cod><span class=c> multiply all decimal numbers in s by 5:</span>
+<span class=t>str</span> s<span class=o>=</span><span class=s>&quot;A2 B100&quot;</span>
+<span class=t>REPLACERX</span> r
+r.frepl<span class=o>=&amp;</span><span class=fu>sub.replacerx_callback</span>
+s.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;\d+&quot;</span> <span class=o>&amp;</span>r<span class=p>)</span>
+<span class=fq>out</span> s <span class=c2>;;A10 B500</span>
+
+<span class=dir>#sub</span> replacerx_callback
+<span class=fq>function</span><span class=o>#</span> <span class=t>REPLACERXCB</span><span class=o>&amp;</span>x
+x.match <span class=o>=</span> <span class=fq>val</span><span class=p>(</span>x.match<span class=p>)</span> <span class=o>*</span> <span class=n>5</span>
+</pre>
+
+</body>
+
+</html>
