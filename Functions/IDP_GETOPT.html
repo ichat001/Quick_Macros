@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getopt</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Get run-time options</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int|lpstr </i><b>getopt</b>(option <i>[</i>context<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>option</b> - one of options that can be set with <A href="../Commands/IDP_OPT.html" class="blue">opt</a>, 
+or one of options listed below.</p>
+
+<table class="tflags">
+<tr> 
+  <td>speed</td>
+  <td>macro speed (autodelay) in milliseconds. Speed can be set locally (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>) and globally 
+    (<a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>).</td>
+</tr>
+<tr> 
+  <td>itemid</td>
+  <td> <A href="IDP_QMITEM.html">QM tem id</a>.</td>
+</tr>
+<tr>
+  <td>itemname</td>
+  <td>QM item name. Unlike other options, the return type is lpstr (string), not int. See also context 6 (below).</td>
+</tr>
+<tr> 
+  <td>nargs</td>
+  <td>number of arguments passed. Can be used in a function with optional parameters.</td>
+</tr>
+<tr> 
+  <td>nthreads</td>
+  <td><p>number of threads currently running. Does not include <a href="../Other/IDP_THREADS.html">special 
+    threads</a>. If <b>context</b> is 4, returns total number of running threads. 
+    Otherwise, returns number of threads started by function defined by <b>context</b>.</p>
+    <p>&nbsp;</p>
+    <p><i>See also:</i> <a href="../User/IDP_QMDLL.html#IsThreadRunning" class="dll">IsThreadRunning</a></p></td>
+</tr>
+</table>
+
+<p><b>context</b> - one of values listed below. Default: 0.</p>
+<table class="tflags"><col>
+<tr> 
+  <td>0</td>
+  <td>Get option of current QM item (from which is called this 
+    function).</td>
+</tr>
+<tr> 
+  <td>1</td>
+  <td>Get option of <a href="../Other/IDP_FUNCTIONCALL.html">direct 
+    caller</a> (if current item is function and it 
+    is called from other item).</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Get option of callback entry function or thread entry function.</td>
+</tr>
+<tr> 
+  <td>3</td>
+  <td>Get option of thread entry function (macro or function that 
+    started execution).</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Get global option. Valid only for <i>speed</i> and <i>nthreads</i>.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><p>QM 2.3.3. Get option of this function or of the nearest function in the call stack where the option is not 0. Return 0 if all 0.</p>
+  <p>&nbsp;</p>
+  <p>Example:</p>
+  <p> There are 3 functions, calling each other like F1-&gt;F2-&gt;F3.</p>
+  <p> In F3 <span class="blue">getopt</span> returns 1 if the option is 1 in F3, F2 or F1.</p></td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>QM 2.4.1. Get option of parent item of current <a href="../Language/IDP_DIR_SUB.html">sub-function</a>. If not in a sub-function - same as 0.</td>
+</tr>
+<tr>
+  <td>&lt;0</td>
+  <td><p>QM 2.3.5. Get option of -<b>context</b> caller in the function call stack. For example, if <b>context</b> is -2, gets option of caller's caller. Returns 0 if there is no caller at this level.</p>
+    <p>&nbsp;</p>
+    <p><i>See also:</i> <a href="../User/IDP_QMDLL.html#GetCallStack" class="dll">GetCallStack</a></p></td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Returns 0 if the option is unavailable in the specified context.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.1. Added slowmouse, slowkeys, keymark, keysync.</p>
+
+<p>QM 2.3.0. Added hungwindow.</p>
+<p>QM 2.3.3. Added nowarnings.</p>
+<p>QM 2.3.5. Added nowarningshere, noerrorshere.</p>
+<p>QM 2.4.1. Added itemname.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=c> show number of passed arguments 
+</span><span class=t>int</span> na<span class=o>=</span><span class=fq>getopt</span><span class=p>(</span>nargs<span class=p>)</span>
+<span class=fq>out</span> na
+</pre>
+</body>
+
+</html>
