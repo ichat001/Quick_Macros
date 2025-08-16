@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Window styles</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>
+Window styles</h1>
+
+<h2>Top-level windows (windows)</h2>
+<p>A top-level window is a window that is not a part 
+  of other window.</p>
+<p>&nbsp;</p>
+
+<h4>Overlapped window</h4>
+
+<p>An overlapped window is a top-level window that typically has a title bar, 
+  menu bar, border and client area. It is meant to serve as an application's main 
+  window. Example - Quick Macros main window.</p>
+
+<p>&nbsp;</p>
+
+<h4>Pop-up window</h4>
+
+<p>A pop-up window is a special type of top-level window used for dialog boxes, 
+  message boxes, and other temporary windows. Example - Quick Macros Options dialog. 
+  Popup windows have WS_POPUP style flag (0x80000000). Window style is displayed 
+  in QM status bar. If first character after 
+  &quot;0x&quot; is 8, 9, A or B, it is popup window.</p>
+
+<h2>Child windows (controls)</h2>
+
+<p>A child window (or &quot;control&quot;) is confined to the client area of another 
+  window. Client area is window area except title bar (with buttons and icon), 
+  menu bar, scroll bars and border. The parent window (window that contains the 
+  child window) can be top-level window or another child window. An application 
+  typically uses child windows to divide the client area of a parent window into 
+  functional areas.</p>
+
+<p>&nbsp;</p>
+
+<p>Almost all macro commands that work with windows also work with child windows.</p>
+
+<p>&nbsp;</p>
+
+<p>In the picture, Calculator is top-level window. It has several child windows 
+  - edit, static, several buttons. For example, C is child of Calculator, and 
+  Calculator is parent of C. Buttons in the title bar, and the menu bar, are not 
+  child windows. This area, plus border, is nonclient area.</p>
+
+<p>&nbsp;</p>
+
+<p><img src="../image/calculator.gif"></p>
+
+</body>
+
+</html>
