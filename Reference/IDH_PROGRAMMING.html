@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>Programming in QM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../QM-Help.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Programming in QM</h1>
+
+<p><a href="IDH_PROGRAMMING.html#a1" name="L1">Predefined commands and functions</a></p>
+<p><a href="IDH_PROGRAMMING.html#a2" name="L2">Constants</a></p>
+<p><a href="IDH_PROGRAMMING.html#a3" name="L3">Variables</a></p>
+<p><a href="IDH_PROGRAMMING.html#a4" name="L4">Operators</a></p>
+<p><a href="IDH_PROGRAMMING.html#a5" name="L5">Functions</a></p>
+<p><a href="IDH_PROGRAMMING.html#a6" name="L6">If-else</a></p>
+<p><a href="IDH_PROGRAMMING.html#a7" name="L7">Go to</a></p>
+<p><a href="IDH_PROGRAMMING.html#a8" name="L8">Repeat</a></p>
+<p><a href="IDH_PROGRAMMING.html#a9" name="L9">String manipulation</a></p>
+<p><a href="IDH_PROGRAMMING.html#a10" name="L10">Errors</a></p>
+<p><a href="IDH_PROGRAMMING.html#a11" name="L11">Threads</a></p>
+
+<p>&nbsp;</p>
+<p>As you can read in the <A href="IDP_SYNTAX.html">syntax</A> topic, QM macro 
+  code is a sequence of various statements - macro commands, functions, calculations, 
+  <a href="../Language/IDP_DECLARATION.html">declarations</a>, flow-control and 
+  everything you need for programming. A single line of code can contain a single 
+  statement or several statements separated by semicolons. For comments, use space 
+  at the beginning of line, or two semicolons after statements. Tabs at the beginning 
+  of a line are used with flow-control statements (<span class="blue">if</span>, 
+  <span class="blue">rep</span> and other). Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> if a is less than 10, left-click, else exit
+</span><span class=fq>if</span><span class=p>(</span>a<span class=o>&#60;</span><span class=n>10</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>lef</span> <span class=n>5</span> a <span class=s>&#34;Some Window&#34;</span><span class=p>;</span> <span class=fq>wait</span> <span class=n>1</span>
+<span class=i>&#9;</span>a <span class=o>+</span> <span class=n>1</span> <span class=c2>;;increment a
+</span><span class=fq>else</span> <span class=fq>ret</span></pre>
+<h2><a href="IDH_PROGRAMMING.html#L1" name="a1">Predefined commands and functions</a></h2>
+<p>Quick Macros has about 200 built-in <a href="IDH_REFERENCE.html">keywords</a>. They include macro commands, 
+  functions, member functions, flow control statements, declaration statements, 
+  intrinsic types, compiler directives and operators. You can also use <A href="../Language/IDP_DLL.html">dll 
+  functions</A>, <A href="../_COM/IDH_COM.html">COM functions</A>, and <a href="../QM_Help/IDH_FUNCTION.html">user-defined 
+  functions</a>.</p>
+<p>&nbsp;</p>
+<p>QM offers several <A href="../QM_Help/IDH_TYPEINFO.html">features</A> to simplify 
+  programming. You can use <a href="../Other/IDP_F1.html">F1</a> to get help 
+  for functions and other identifiers. Basic syntax or definition of these identifiers 
+  also is displayed in QM status bar. To browse and insert available identifiers, 
+  you can use lists of members. Some commands may be entered through dialogs, 
+  or recorded.</p>
+<h2><a href="IDH_PROGRAMMING.html#L2" name="a2">Constants</a></h2>
+<p><A href="../Language/IDP_CONSTANT.html">Constants</A> are simple numeric or 
+  string values, such as <span class=cod><span class=n>45</span></span> (integer constant), <span class=cod><span class=n>0x1A</span></span> 
+  (integer constant in hexadecimal format), <span class=cod><span class=n>10.57</span></span> 
+  (floating-point constant), <span class=cod><span class=s>&#34;text&#34;</span></span> (string 
+  constant). String constants are enclosed in double quotes. To insert a double 
+  quote in a string, use two single quotes (<tt>''</tt>). 
+  For new line, use <tt>[]</tt>. Constants can be assigned 
+  to variables, used as arguments of macro commands and functions, and in expressions 
+  with operators. You can also define <A href="../Language/IDP_DEF.html">named 
+  constants</A>.</p>
+<h2><a href="IDH_PROGRAMMING.html#L3" name="a3">Variables</a></h2>
+<p><A href="../Language/IDH_VARIABLES.html">Variables</A> are used to temporarily 
+  store data (numeric, text, etc) at run time. The data can be changed during 
+  various operations. Like constants, variables can be assigned to variables, 
+  used as arguments of macro commands and functions, and in expressions with operators.</p>
+<p>&nbsp;</p>
+<p>Before using a variable, you must <A href="../Language/IDP_VARIABLES.html">declare</A> 
+  it (except <A href="../Language/IDP_SPECVAR.html">predefined variables</A>). 
+  Declaration includes type and <A href="../Other/IDP_IDENTIFIERS.html">name</A>. 
+  Mostly used types are int (for numeric integer values), str (for strings) and 
+  double (for numeric floating-point values). In the following example, we declare 
+  <A href="../Language/IDP_SCOPE.html">local</A> variable i of type int, local 
+  variable S3 of type str, and global variable g_var of type double. Then we assign 
+  some values:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> i
+<span class=t>str</span> S3
+<span class=t>double</span><span class=o>+</span> g_var
+i<span class=o>=</span><span class=n>5</span>
+S3<span class=o>=</span><span class=s>&#34;text&#34;</span>
+g_var<span class=o>=</span><span class=n>15.477</span></pre>
+<p>&nbsp;</p>
+<p>You can also use <A href="../Language/IDH_POINTERS.html">pointers</A> and <A href="../_COM/IDP_OLE_ARRAY.html">arrays</A>. 
+  In the following example, we declare array a of str variables, allocate 10 elements, 
+  then store string &quot;abc&quot; into element with index 0:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a.create<span class=p>(</span><span class=n>10</span><span class=p>)</span>
+a[<span class=n>0</span>]<span class=o>=</span><span class=s>&#34;abc&#34;</span></pre>
+<p>&nbsp;</p>
+<p>You can <A href="../Language/IDP_TYPE.html">define new types</A>. User-defined 
+  types usually have several member variables that may have different types. For 
+  example, type <span class="type">POINT</span> has members x and y. In the following 
+  example, we declare variable p of type <span class="type">POINT</span>, and assign 
+  10 to its member y:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>POINT</span> p
+p.y<span class=o>=</span><span class=n>10</span></pre>
+<h2><a href="IDH_PROGRAMMING.html#L4" name="a4">Operators</a></h2>
+<p><A href="../Language/IDH_OPERATORS.html">An operator</A> is a special symbol 
+  used to perform assignment, arithmetic, comparison or other operation. Several 
+  examples with comments:</p>
+<p>&nbsp;</p>
+<pre class=cod>i <span class=o>=</span> <span class=n>5</span> <span class=c2>;;assign 5 to variable i
+</span>i <span class=o>+</span> <span class=n>2</span> <span class=c2>;;add 2 to variable i
+</span>a <span class=o>=</span> b <span class=o>+</span> <span class=n>10</span> <span class=c2>;;calculate sum of b and 5 and assign it to variable a
+</span>ave <span class=o>=</span> i <span class=o>+</span> j <span class=o>/</span> <span class=n>2</span> <span class=c2>;;add j to i, divide by 2, then assign result to variable ave
+</span>f <span class=o>=</span> i <span class=o>-</span> <span class=p>(</span><span class=n>10</span> <span class=o>*</span> j<span class=p>)</span> <span class=o>+</span> func<span class=p>(</span>a b<span class=p>)</span> <span class=o>*</span> <span class=o>-</span><span class=n>10</span> <span class=c2>;;multiply 10 and j, extract result from i, call function Func and add its return value, multiply by -10, then assign result to variable f
+</span><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;notepad&#34;</span> <span class=c2>;;declare variable s and assign string &#34;notepad&#34;
+</span>s <span class=o>+</span> <span class=s>&#34;.exe&#34;</span> <span class=c2>;;append &#34;.exe&#34;
+</span><span class=fq>if</span><span class=p>(</span>i<span class=o>&#60;</span><span class=n>10</span> <span class=fq>and</span> s<span class=o>=</span><span class=s>&#34;notepad.exe&#34;</span><span class=p>)</span> i <span class=o>=</span> j<span class=o>/</span><span class=n>10</span> <span class=c2>;;if i is less than 10, and s is equal to &#34;notepad.exe&#34;, then calculate j / 10 and assign result to variable i
+</span>i <span class=o>=</span> <span class=fu>Func2</span><span class=p>(</span>j s <span class=p>(</span>i <span class=o>+</span> <span class=n>5</span><span class=p>)</span> f<span class=p>)</span> <span class=c2>;;call function Func2 and assign its return value to variable i; pass four arguments; the third argument is sum of i and 5 
+</span><span class=fq>lef</span> a<span class=o>-</span><span class=n>10</span> <span class=n>100</span> <span class=c2>;;left click; x is a-10, y is 100
+</span></pre>
+<p>&nbsp;</p>
+<p>In QM, operators belong to 3 priority classes: first are calculated arithmetic 
+  and bitwise operators, then comparison operators (=, !, &lt;, etc), and lastly 
+  logical operators (<span class="blue">and</span>, <span class="blue">or</span>). 
+  Operators that belong to the same priority class are calculated from left to 
+  right. Parentheses can be used to change this order.</p>
+<p>&nbsp;</p>
+<p>See also: <a href="../Language/IDP_OPUNARY.html">unary operators</a> ( <tt>-</tt> 
+  and other), <a href="../Language/IDP_TYPEUSAGE.html">member access operator</a> 
+  <tt>.</tt> and <a href="../_COM/IDP_OLE_ARRAY.html">array 
+  element access operator</a> <tt>[]</tt>.</p>
+
+<h2><a href="IDH_PROGRAMMING.html#L5" name="a5">Functions</a></h2>
+<p><i>See also:</i> <a href="../Language/IDH_FUNCTIONS.html">functions</a>, <a href="../QM_Help/IDH_FUNCTION.html">user-defined 
+  functions</a>, <a href="../Language/IDP_DIR_SUB.html">sub-functions</a>, <a href="../QM_Help/IDH_FUNCTIONTIPS.html">function tips</a>.</p>
+<p>&nbsp;</p>
+<p>A function is a named piece of code executed as a unit. It can receive several 
+  values (arguments) and return some value. Beside the predefined functions, you 
+  can create your own (user-defined) functions. Usually, you create a function 
+  when you want to have a piece of code that can be executed more than once, in 
+  any macro. Instead of placing the same code in each macro, you place it in a 
+  function, and then call the function by name from any macro. Like constants 
+  and variables, functions can be assigned to variables, used as arguments of 
+  macro commands and other functions, and in expressions with operators. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fu>Func</span> a <span class=s>&#34;text&#34;</span> <span class=n>100</span> <span class=c2>;;call function Func with three arguments
+</span>a <span class=o>=</span> <span class=fu>Func2</span><span class=p>(</span><span class=n>10</span><span class=p>)</span> <span class=c2>;;call function Func2 with one argument, and assign its return value to variable a
+</span><span class=fu>Func3</span><span class=p>(</span>a <span class=fu>Func4</span><span class=p>(</span>b c<span class=p>))</span> <span class=c2>;;call function Func4 with arguments b and c, then call function Func3 with two arguments (second argument is return value of Func4)
+</span>d <span class=o>=</span> e <span class=o>+</span> <span class=fu>Func5</span><span class=p>(</span>b c<span class=p>)</span> <span class=o>/</span> <span class=n>10</span> <span class=c2>;;use function Func5 in expression with operators
+</span></pre>
+<p>&nbsp;</p>
+<p>Some variable types have member functions. A member function is called with 
+  a variable of that type. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s s2<span class=o>=</span><span class=s>&#34;notepad&#34;</span>
+s.from<span class=p>(</span>s2 <span class=s>&#34;.exe&#34;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>s.end<span class=p>(</span><span class=s>&#34;.exe&#34;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&#34;s ends with ''.exe''&#34;</span></pre>
+<p>&nbsp;</p>
+
+<p>To create new <A href="../QM_Help/IDH_FUNCTION.html">user-defined function</A>, 
+  select New Function from the File/New menu and type function's <A href="../Other/IDP_IDENTIFIERS.html">name</A> 
+  in the temporary edit field. To define function's return type and parameters, use the 
+  <A href="../Language/IDP_FUNCTION.html" class="blue">function</A> statement 
+  at the beginning. To return a value, use the <A href="../Flow/IDP_RET.html" class="blue" >ret</A> 
+  statement. By default, a function can be called from code or launched as a macro. 
+  To allow it only to be called from code, the first line should be space and 
+  /, as in the following example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=p>'</span><span class=t>int</span> <span class=t>str</span><span class=p>'</span>a <span class=t>str</span><span class=o>&#38;</span>b [<span class=t>int</span><span class=p>'</span>c]
+statements
+<span class=fq>ret</span> <span class=n>1</span></pre>
+<p>&nbsp;</p>
+<p>This function returns a value of type int. It has three parameters (local variables 
+  that receive the passed values (arguments) when the function is called). Variables a and 
+  c receive copies of passed values. Variable b is reference to the str variable 
+  that is passed. When this function modifies b, it actually modifies that variable. 
+  The last argument is optional, that is, caller can omit it, in which case c 
+  is 0. The function executes statements and returns 1. If it returns not through 
+  <span class="blue">ret</span>, or <span class="blue">ret</span> is without a 
+  value, the return value is 0.</p>
+<h2><a href="IDH_PROGRAMMING.html#L6" name="a6">If-else</a></h2>
+<p>Often you need to execute or skip several statements depending on some condition. 
+  Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>if</span> a<span class=o>&#62;</span><span class=n>0</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;a is greater than zero&#34;</span>
+<span class=i>&#9;</span>a<span class=o>-</span><span class=n>1</span>
+<span class=fq>else</span> <span class=fq>if</span> a<span class=o>=</span><span class=n>0</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;a is equal to zero&#34;</span>
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;a is less than zero&#34;</span></pre>
+<p>&nbsp;</p>
+<p>The <A href="../Flow/IDP_IF.html" class="blue" >if</A> statement evaluates 
+  some expression (in this case, <span class=cod>a<span class=o>&#62;</span><span class=n>0</span></span>), and, if 
+  the expression is true (nonzero), allows to execute the following tab-indented 
+  statements. The <span class="blue">if</span> statement optionally can be combined 
+  with the <span class="blue">else</span> statement, which allows to execute the 
+  following tab-indented statements if the expression is false (zero). As you 
+  see in the example, <span class="blue">else if</span> can be used to evaluate 
+  more expressions. The statements also can be in the same line:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>if</span><span class=p>(</span>a<span class=o>&#62;</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;a is greater than zero&#34;</span><span class=p>;</span> a<span class=o>-</span><span class=n>1</span>
+<span class=fq>else</span> <span class=fq>if</span><span class=p>(</span>a<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;a is equal to zero&#34;</span>
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;a is less than zero&#34;</span></pre>
+<p>&nbsp;</p>
+<p>When need to compare a variable with multiple constant values, it is more convenient to use 
+  <A href="../Flow/IDP_SEL.html" class="blue" >sel</A>.</p>
+<h2><a href="IDH_PROGRAMMING.html#L7" name="a7">Go to</a></h2>
+<p>The <A href="../Flow/IDP_GOTO.html" class="blue" >goto</A> statement is used 
+  to jump to some other place in code. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>goto</span> g1
+statements
+<span class=c> g1
+</span>statements</pre>
+<p>&nbsp;</p>
+<p>In the example, statements after <span class="blue">goto</span> are skipped, 
+  and execution continues from the statement that follows the label <span class="green">g1</span>. 
+  Note that the label is preceded by single space (same as comments).</p>
+<h2><a href="IDH_PROGRAMMING.html#L8" name="a8">Repeat</a></h2>
+<p>The <A href="../Flow/IDP_REP.html" class="blue" >rep</A> statement is used 
+  to repeatedly execute the following tab-indented statements. It optionally can 
+  include number of times to repeat. To exit the loop, use the <span class="blue">break</span> 
+  statement. The statements also can be in the same line. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>rep</span><span class=p>(</span><span class=n>100</span><span class=p>)</span> i<span class=o>-</span><span class=n>1</span></pre>
+<p>&nbsp;</p>
+<p>In this example, <span class=cod>i<span class=o>-</span><span class=n>1</span></span> is executed 100 times. In 
+  the following example, <span class=cod><span class=fq>out</span> i</span> is executed while i is less than 100, that is, also 100 times:</p>
+<p>&nbsp;</p>
+<pre class=cod>i<span class=o>=</span><span class=n>0</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span>i<span class=o>&#62;=</span><span class=n>100</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> i
+<span class=i>&#9;</span>i<span class=o>+</span><span class=n>1</span></pre>
+<p>&nbsp;</p>
+<p>You can also use <A href="../Flow/IDP_FOR.html" class="blue" >for</A> (repeat 
+  with counter variable) and <A href="../Flow/IDP_FOREACH.html" class="blue" >foreach</A>. 
+  Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>for</span> i <span class=n>0</span> <span class=n>100</span>
+<span class=i>&#9;</span><span class=fq>out</span> i</pre>
+<p>&nbsp;</p>
+<p>This example does the same job as the second example with <span class="blue">rep</span>. 
+  Initially, variable i is set to 0. Then, <span class=cod><span class=fq>out</span> i</span> is repeatedly executed, and after each loop i is incremented. This 
+  process stops when i becomes equal to 100.</p>
+<h2><a href="IDH_PROGRAMMING.html#L9" name="a9">String manipulation</a></h2>
+<p>QM has a set of functions to process <a href="../str/IDH_STRINGS.html">strings</a> 
+  (text). To store and manipulate strings, use variables of type str. In the following 
+  example, we declare variable s and assign string &quot;Cat&quot;. </p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> s <span class=o>=</span> <span class=s>&#34;Cat&#34;</span> <span class=c2>;;now variable s is &#34;Cat&#34; (string &#34;Cat&#34; is stored in variable s).
+</span></pre>
+<p>&nbsp;</p>
+<p>There are two groups of string functions. The first group - global functions 
+  - are used to get certain information about a string (length, numeric value, 
+  find substring, etc) or a character. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod>i<span class=o>=</span><span class=fq>val</span><span class=p>(</span>s<span class=p>)</span> <span class=c2>;;i = numeric value of string s (or 0, if s does not begin with digits).
+</span>i<span class=o>=</span><span class=fq>find</span><span class=p>(</span>s <span class=s>&#34;substring&#34;</span><span class=p>)</span> <span class=c2>;;i = index of first character of &#34;substring&#34; in string s (or -1, if &#34;substring&#34; is not found in s).
+</span><span class=fq>if</span><span class=p>(</span><span class=fd>IsCharLower</span><span class=p>(</span>s[<span class=n>0</span>]<span class=p>))</span> s[<span class=n>0</span>]<span class=o>=</span><span class=fd>CharUpper</span><span class=p>(</span><span class=o>+</span>s[<span class=n>0</span>]<span class=p>)</span> <span class=c2>;;if first character of string s is lowercase, convert it to uppercase.
+</span></pre>
+<p>&nbsp;</p>
+<p>The second group - str member functions. Most of them are used to build or 
+  modify string. The calling syntax slightly differs: function's name is preceded 
+  by variable's name and dot. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod>s.from<span class=p>(</span><span class=s>&#34;word1&#34;</span> <span class=s>&#34;, &#34;</span> <span class=s>&#34;word2&#34;</span><span class=p>)</span> <span class=c2>;;build string variable s from three strings (join). Now s is &#34;word1, word2&#34;. Here s is variable of type str.
+</span>s.ucase <span class=c2>;;make s uppercase. Now s is &#34;WORD1, WORD2&#34;.
+</span><span class=t>str</span> ss.get<span class=p>(</span>s <span class=n>7</span> <span class=n>5</span><span class=p>)</span> <span class=c2>;;declare str variable ss and get part of s. Now ss is &#34;WORD2&#34;.
+</span></pre>
+<p>&nbsp;</p>
+<p>With str variables, you can use operators + and - to append and prepend:</p>
+<p>&nbsp;</p>
+<pre class=cod>s<span class=o>+</span><span class=s>&#34;.txt&#34;</span> <span class=c2>;;append &#34;.txt&#34;
+</span>s<span class=o>-</span><span class=s>&#34;C:\Doc\&#34;</span> <span class=c2>;;prepend &#34;C:\Doc\&#34;
+</span></pre>
+<p>&nbsp;</p>
+<p>To compare str variables, use operators = (equal, case sensitive), ~ (equal, 
+  case insensitive) and ! (not equal, case sensitive). To compare part of string, 
+  use str member functions beg, mid and other. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>if</span><span class=p>(</span>s<span class=o>~</span><span class=s>&#34;Monday&#34;</span><span class=p>)</span> ... <span class=c2>;;if s is &#34;Monday&#34; (case insensitive) ...
+</span><span class=fq>if</span><span class=p>(</span>s.endi<span class=p>(</span><span class=s>&#34;.exe&#34;</span><span class=p>))</span> ... <span class=c2>;;if s ends with &#34;.exe&#34; (case insensitive) ...
+</span></pre>
+<h2><a href="IDH_PROGRAMMING.html#L10" name="a10">Errors</a></h2>
+<p>When you launch a macro, QM <A href="../QM_Help/IDH_DEBUG.html">compiles</A> it, 
+  which includes checking for syntax <A href="../Other/IDP_ERRORS.html">errors</A>. 
+  On error, QM highlights the error place and gives error description. Macro with 
+  errors is not executed.</p>
+<p>&nbsp;</p>
+<p>At run time, in certain conditions, a macro command may fail. Then QM generates 
+  run-time error, and the macro ends. The <A href="../Flow/IDP_ERR.html" class="blue" >err</A> 
+  statement allows you to continue execution after a run-time error in the preceding 
+  statement. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>clo</span> <span class=s>&#34;Notepad&#34;</span><span class=p>;</span> <span class=fq>err</span>
+
+<span class=n>5</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=fq>err</span>
+<span class=i>&#9;</span><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span></pre>
+<p>&nbsp;</p>
+<p>In the first example, <span class="blue">err</span> allows to continue if an 
+  error occurs. In the second example, on error is executed <span class=cod><span class=fq>run</span> <span class=s>&#34;$system$\notepad.exe&#34;</span></span> statement, which would not be executed otherwise.</p>
+<h2><a href="IDH_PROGRAMMING.html#L11" name="a11">Threads</a></h2>
+<p><A href="../Other/IDP_THREADS.html">A thread</A> is like a subprogram within 
+  a running program. In QM it is a running macro or function, including all functions 
+  that it calls. Multiple <A href="../QM_Help/IDH_FUNCTION.html">function</A> threads can run simultaneously, 
+  including several instances of the same function. Multiple <a href="../QM_Help/IDH_MACRO.html">macro</a> threads can run simultaneously if the macro has option 'Run simultaneously'.</p>
+<p>&nbsp;</p>
+</body>
+</html>
