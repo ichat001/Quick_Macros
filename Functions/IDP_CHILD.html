@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>child</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Find child window (get handle); compare properties</h1>
+
+<h3>Syntax1 - specified child window</h3>
+
+<pre class=syntax><i>int </i><b>child</b>(text<i> [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>propCSV<i>] [</i>matchindex<i>|</i>array<i>]</i>)
+<i>int </i><b>childtest</b>(hwnd text<i> [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>propCSV<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Before QM 2.3.4 used <a onClick="doSection(obsolete)" class="expand">this</a> instead.</p>
+<div id="obsolete" class="expand">
+  <p>Instead of <b>propCSV</b> used two parameters <b>x y</b> and several additional flags.</p>
+  <p>&nbsp;</p>
+  <pre class=syntax><i>int </i><b>child</b>(text<i> [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>x y<i>] [</i>matchindex<i>|</i>array<i>]</i>)
+<i>int </i><b>childtest</b>(hwnd text<i> [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>x y<i>]</i>)</pre>
+  <p>&nbsp;</p>
+  <p>Control id can be specified before text:</p>
+  <pre class=syntax><i>int </i><b>child</b>(id <i>[</i>text<i>] [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>x y<i>] [</i>matchindex<i>|</i>array<i>]</i>)
+<i>int </i><b>childtest</b>(hwnd id <i>[</i>text<i>] [</i>class<i>] [</i>window<i>] [</i>flags<i>] [</i>x y<i>]</i>)</pre>
+  <p>&nbsp;</p>
+  <p><b>x y</b> - used for multiple purposes, depending on flags. Default: the child window must contain this point in window.</p>
+  <p>&nbsp;</p>
+  <p>These flags can be used to change <b>x y</b> meaning:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>8</td>
+      <td><b>x</b> and <b>y</b> are coordinates in window client area.</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td><b>x</b> and <b>y</b> are screen coordinates.</td>
+    </tr>
+    <tr>
+      <td>8|32</td>
+      <td><b>x</b> and <b>y</b> are coordinates in the work area.</td>
+    </tr>
+    <tr>
+      <td>128</td>
+      <td><b>x</b> is style.</td>
+    </tr>
+    <tr>
+      <td>0x100</td>
+      <td><b>y</b> is extended style.</td>
+    </tr>
+    <tr>
+      <td>0x8000</td>
+      <td><b>x</b> and <b>y</b> used to specify a callback function and a value to pass to it.</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<h3>Syntax2 - child window from point</h3>
+
+<pre class=syntax><i>int </i><b>child</b>(x y<i> [</i>window<i>] [</i>flags2<i>]</i>)
+<i>int </i><b>childtest</b>(hwnd x y<i> [</i>window<i>] [</i>flags2<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Syntax3 - child window from mouse position</h3>
+
+<pre class=syntax><i>int </i><b>child</b>(mouse) <i>[</i>flags2<i>]</i>
+<i>int </i><b>childtest</b>(hwnd mouse) <i>[</i>flags2<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax4 - child window from accessible object</h3>
+<pre class=syntax><i>int </i><b>child</b>(acc)
+<i>int </i><b>childtest</b>(hwnd acc)</pre>
+<p>&nbsp;</p>
+<h3>Syntax5 - the focused child window</h3>
+<pre class=syntax><i>int </i><b>child</b></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+
+<p> <b>text </b>- child window text.</p>
+<ul>
+  <li> By default, <b>text</b> can be partial and 
+    must match case.</li>
+  <li> Underlined character must be preceded with &amp;.</li>
+  <li> Empty string 
+    (&quot;&quot;) matches any text.</li>
+</ul>
+<p> <b>class</b> - child window class name.</p>
+<ul>
+  <li> Must be full or with wildcard characters (*?). Case insensitive.</li>
+  <li> Default: &quot;&quot; (any).</li>
+  <li>Before QM 2.3.4, to use wildcard characters, need flag 0x800.</li>
+  <li>You can see class name in QM status bar.</li>
+</ul>
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - parent 
+  window.</p>
+<ul>
+  <li> If omitted or &quot;&quot; - the active window.</li>
+  <li> The function searches only 
+    in the first found matching window.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+  <tr> 
+    <td>1</td>
+    <td><p><b>text</b> is full or with <a href="IDP_MATCHW.html">wildcard 
+      characters</a> (*?).</p>
+      <ul>
+        <li>String &quot;*&quot; matches child windows with no 
+          name.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td><b>text</b> case insensitive.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Get text using an alternative  method. Use for
+      Edit and some other controls if gets wrong text.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td>Must be direct child. If not set, the function also finds children 
+      of direct children and so on.</td>
+  </tr>
+  <tr> 
+    <td>0x200</td>
+    <td> <b>text</b> is <A href="../RegExp/IDP_PCRE.html">regular 
+      expression</a>.</td>
+  </tr>
+  <tr> 
+    <td>0x400</td>
+    <td>Must be visible.</td>
+  </tr>
+</table>
+
+<p><b>propCSV</b> - list of other properties in format &quot;name1=value1[]name2=value2[]...&quot;. It is <a href="../User/IDP_ICSV.html">CSV</a> string with separator =. Default: &quot;&quot;.</p>
+<table class="tflags">
+  <col>
+  <tr>
+    <td><b>name</b></td>
+    <td><b>value</b></td>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Control <a href="IDP_ID.html">id</a>.</td>
+  </tr>
+  <tr>
+    <td>accName</td>
+    <td>Accessible object Name property. Must be full or with wildcard characters; case insensitive. Useful with controls that take accessible name from a sibling Static control.</td></tr>
+  <tr>
+    <td>wfName</td>
+    <td><p>Windows Forms (.NET) control name. Must be full or with wildcard characters; case insensitive.</p>
+      <p>Use with controls where class name looks like &quot;WindowsForms10.xxx.xxx&quot;. Don't use id, it is not constant. You can see wfName in QM status bar. Also can record.</p></td>
+  </tr>
+  <tr>
+    <td>xy</td>
+    <td><p>x and y coordinates of a <A href="../Other/IDP_PIXELS.html">point</a> in window that must be in the child window too. Relative to the client area of the window. Examples:</p>
+<pre class=cod><span class=s>&quot;xy=100 50&quot;</span>
+<span class=s>&quot;xy=0.9 0.1&quot;</span> <span class=c2>;;near top-right</span></pre></td>
+  </tr>
+  <tr>
+    <td>callback</td>
+    <td><p>Address of a <A href="../Other/IDP_ENUMWIN.html">callback function</a>, optionally followed by a value to pass to it. Example:</p>
+      <p><span class=cod><span class=o>F</span><span class=s>&quot;callback={</span><span class=o>&amp;</span><span class=fu>Function</span><span class=s>} {</span>aValue<span class=s>}&quot;</span></span></p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>Also supports style, exStyle, cClass, cText, cId, cFlags, GetProp. Same as with <a href="IDP_WIN.html" class="blue">win</a>.</td>
+  </tr>
+</table>
+<p><b>matchindex</b> (QM 2.2.0) - 1-based index of matched child window in the 
+    parent window. Use when there are several child windows (in the parent window) 
+    that match other properties (<b>text</b>, <b>class</b>, etc).</p>
+<p><b>array</b> (QM 2.2.1) - variable of type ARRAY(int) that will receive handles 
+  of all matching child windows.</p>
+<p>&nbsp;</p>
+<p><B>x, y</B> - a <A href="../Other/IDP_PIXELS.html">point</A> in   the parent window or screen (if <b>window</b> is 0 or used flag 32).</p>
+<ul>
+  <li>The function gets the visible child window that contains this point.</li>
+</ul>
+<p><b><a href="../Other/IDP_FLAGS.html">flags2</a></b> (syntax 2 and 3):</p>
+
+<table class="tflags"><col>
+  <tr>
+    <td>1</td>
+    <td>QM 2.3.4. If there is no child window, get the top-level window.</td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td> <b>x</b> and <b>y</b> are coordinates in client area of window.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td>Must be direct child.</td>
+  </tr>
+  <tr> 
+    <td>32</td>
+    <td> <b>x</b> and <b>y</b> are screen coordinates.</td>
+  </tr>
+  <tr> 
+    <td>8|32</td>
+    <td><b>x</b> and <b>y</b> are coordinates in the work area.</td>
+  </tr>
+</table>
+
+<ul>
+  <li>QM 2.3.4. <b>flags2</b> also can be used with syntax3 (mouse). Only 1 and 16.</li>
+</ul>
+<p><b>mouse</b> (syntax 3) - literal <tt>mouse</tt>.</p>
+<p><b>accobj</b>  (syntax 4) - <a href="IDP_ACC.html">accessible object</a> (an <span class="type">Acc</span> or  <span class="type">IAccessible</span> variable).</p>
+<p> <b>hwnd</b> (<span class="blue">childtest</span>) - handle of child window to test.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Finds a <A href="../Other/IDP_WINDOWSTYLES.html">child window</a> (control) 
+  in the specified window, and returns its handle. Returns 0 if not found. Error 
+  if parent window does not exist.</p>
+<p>&nbsp;</p>
+
+<p><i>Syntax1:</i> Finds child window whose text and other properties 
+  match the specified.</p>
+
+<p>&nbsp;</p>
+<p><i>Syntax2:</i> Gets handle of child window from the specified point in 
+  its parent window. If <b>window</b> is omitted or &quot;&quot; - active window. 
+  If <b>window</b> is literal 0, parent can be any window (<b>x</b> and <b>y</b> 
+  are screen coordinates).</p>
+
+<p>&nbsp;</p>
+
+<p><i>Syntax3:</i> Gets handle of child window (except invisible) from mouse 
+  pointer position.</p>
+
+<p>&nbsp;</p>
+<p><i>Syntax4:</i> Gets handle of child or top-level window that matches 
+  or contains accessible object <b>accobj</b>.</p>
+<p>&nbsp;</p>
+<p><i>Syntax5:</i> Gets handle of child window that has focus. To get focused 
+  window of current thread, use <span class="dll">GetFocus</span> instead.</p>
+<p>&nbsp;</p>
+
+<p>Function <span class="blue">childtest</span> compares child window (<b>hwnd</b>) 
+  properties with the specified, and returns 1 if they match, or 0 if not. If <b>window</b> is omitted 
+  or literal 0, does not compare it. See also <a href="../User/IDP_QMDLL.html#WinTest" class="dll">WinTest</a>.</p>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_ID.html" class="blue">id</a> <a href="IDP_ACC.html" class="blue">acc</a> 
+  <a href="IDP_HTM.html" class="blue">htm</a> </p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>act</span> <span class=fq>child</span><span class=p>(</span><span class=s>&#34;Hex&#34;</span> <span class=s>&#34;Button&#34;</span> <span class=s>&#34;Calculator&#34;</span><span class=p>)</span>
+<span class=fq>if</span> <span class=fq>child</span><span class=p>(</span><span class=s>&#34;The text*&#34;</span> <span class=s>&#34;Static&#34;</span> <span class=s>&#34;Notepad&#34;</span> <span class=n>1</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>bee</span>
+<span class=t>int</span> h <span class=o>=</span> <span class=fq>child</span><span class=p>(</span><span class=n>100</span> <span class=n>100</span> <span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+h <span class=o>=</span> <span class=fq>child</span><span class=p>(</span><span class=lib>mouse</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=fq>childtest</span><span class=p>(</span>h <span class=s>&#34;OK&#34;</span> <span class=s>&#34;Button&#34;</span><span class=p>))</span> <span class=fq>but</span> h</pre>
+
+</body>
+
+</html>
