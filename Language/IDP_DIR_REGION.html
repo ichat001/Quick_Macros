@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#region</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#region</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#region</span><i>[</i>-<i>]</i> <i>[</i>name<i>]</i>
+statements
+<i>[</i><span class="dir">#endregion</span><i></i> <i>[</i>comments<i>]]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+  <p><b>name</b>, <b>comments</b> - can be any text. Optional.</p>
+  <p> <b>statements </b> - any statements.</p>
+</div>
+<p>&nbsp;</p>
+<h4>Options:</h4>
+<table class="tflags">
+  <col>
+  <tr>
+    <td>-</td>
+    <td>Don't nest this block in previous #region block. Adding this option is the same as inserting #endregion line before.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>Lets you specify a block of code that you can expand or collapse (hide, fold) in the code editor. Can be used in QM items of all types (macros, menus etc).</p>
+<p>&nbsp;</p>
+<p>QM uses this directive only when displaying code in the code editor. When compiling macro or creating menu etc, #region and #endregion lines are ignored, like comments.</p>
+<p>&nbsp;</p>
+<p>When first time displaying a #region line, QM adds a vertical bar with - and + boxes to collapse/expand regions. You also can use its right-click menu to collapse or expand all regions or create new region. Also you can use menu 'Edit -&gt; Lines -&gt; Hide selected' to create new region.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.1.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
