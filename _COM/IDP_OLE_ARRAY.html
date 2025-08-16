@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>ARRAY</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable type ARRAY</h1>
+
+<p>An array is a variable consisting of any number of variables (elements) of 
+  same type that are accessed by index. You can use safe arrays (read 
+  in this topic), <A href="../Language/IDH_POINTERS.html">pointer-based arrays</a>, 
+  <A href="../Language/IDP_TYPE.html">embedded arrays</a>, <a href="../User/IDP_ISTRINGMAP.html">string 
+  map</a> and <a href="../User/IDP_ICSV.html">CSV</a>.</p>
+<p>&nbsp;</p>
+<p>A variable of type ARRAY is an OLE-Automation-compatible dynamic (resizable) 
+  multi-dimensional (1 to 10 dimensions) safe array.</p>
+<p>&nbsp;</p>
+<p>When declaring a variable of type ARRAY, you also must specify the type of 
+  elements. Syntax:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax><span class="type">ARRAY</span>(type) var</pre>
+
+<p>&nbsp;</p>
+
+<div class="parts">
+<p><b>type</b> - any <a href="../Language/IDH_VARIABLES.html">type</a> except 
+ARRAY.</p>
+<p> <b>var</b> - variable name.</p>
+</div>
+<p>&nbsp;</p>
+<p>To access an element, use  syntax:</p>
+<p>&nbsp;</p>
+<pre class=syntax>arr[i1 <i>[</i>i2 <i>...]</i>]</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>arr</b> - variable of type ARRAY.</p>
+<p><b>i1</b> - element index in leftmost dimension (dimension 1).</p>
+<p><b>i2</b> - element index in dimension 2, etc.</p>
+</div>
+<p>&nbsp;</p>
+<p> Error if the index is invalid (the element does not exist).</p>
+<p>&nbsp;</p>
+<p> There 
+  are several functions and other ways to add elements. Read about it later in 
+  this topic.</p>
+<p>&nbsp;</p>
+<p> Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a <span class=c2>;;declare array of strings
+</span>a.create<span class=p>(</span><span class=n>10</span><span class=p>)</span> <span class=c2>;;add 10 empty elements
+</span>a[<span class=n>0</span>]<span class=o>=</span><span class=s>&#34;first element&#34;</span> <span class=c2>;;set first element
+</span><span class=t>str</span> s
+s<span class=o>=</span>a[<span class=n>0</span>] <span class=c2>;;assign value of first element to a variable
+</span><span class=fq>out</span> s
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> am.create<span class=p>(</span><span class=n>3</span> <span class=n>10</span><span class=p>)</span> <span class=c2>;;2 dimensions, 3 elements in first dimension, 10 in second
+</span><span class=t>int</span> i j
+<span class=fq>for</span> i <span class=n>0</span> am.len<span class=p>(</span><span class=n>2</span><span class=p>)</span> <span class=c2>;;enumerate dimension 2
+</span><span class=i>&#9;</span><span class=fq>for</span> j <span class=n>0</span> am.len<span class=p>(</span><span class=n>1</span><span class=p>)</span> <span class=c2>;;enumerate dimension 1
+</span><span class=i>&#9;&#9;</span>am[j i].from<span class=p>(</span>j <span class=s>&#34; &#34;</span> i<span class=p>)</span>
+<span class=i>&#9;&#9;</span><span class=fq>out</span> am[j i]</pre>
+<p>&nbsp;</p>
+<p>To add one element to a 1-dimension array and assign a value, can 
+  be used empty <tt>[]</tt>. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span> i
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span> a
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> <span class=n>10</span><span class=p>)</span> a[]<span class=o>=</span>i <span class=c2>;;adds and sets 1 element
+</span><span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span> <span class=fq>out</span> a[i]
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> b
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> <span class=n>10</span><span class=p>)</span> b[].from<span class=p>(</span><span class=s>&#34;element &#34;</span> i<span class=p>)</span> <span class=c2>;;adds and sets 1 element
+</span><span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> b.len<span class=p>)</span> <span class=fq>out</span> b[i]
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> c
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> <span class=n>10</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=t>str</span><span class=o>&#38;</span> s<span class=o>=</span>c[] <span class=c2>;;adds 1 element and gets reference to it
+</span><span class=i>&#9;</span>s.from<span class=p>(</span><span class=s>&#34;element &#34;</span> i<span class=p>)</span>
+<span class=i>&#9;</span>s<span class=o>+</span><span class=s>&#34; in array c&#34;</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> c.len<span class=p>)</span> <span class=fq>out</span> c[i]
+
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>POINT</span><span class=p>)</span> d
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> <span class=n>10</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=t>POINT</span><span class=o>&amp;</span> p<span class=o>=</span>d[] <span class=c2>;;adds 1 element and gets reference to it</span>
+<span class=i>&#9;</span>p.x<span class=o>=</span>i<span class=p>;</span> p.y<span class=o>=</span>i<span class=o>*</span><span class=n>2</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> d.<span class=fq>len</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=o>&amp;</span>p<span class=o>=</span>d[i]
+<span class=i>&#9;</span><span class=fq>out</span> F<span class=s>&quot;{p.x} {p.y}&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>To populate a string array with multiple values, you can assign a multiline 
+  string. You also can assingn array to a str variable. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a<span class=o>=</span><span class=s>&#34;zero[]one[]two&#34;</span>
+<span class=t>int</span> i
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> i a[i]
+
+<span class=t>str</span> s<span class=o>=</span>a
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<p>ARRAY variables are freed automatically. If you need to explicitly remove all 
+  elements, assign 0 or call <span class="blue">redim</span> without arguments:</p>
+<p>&nbsp;</p>
+<pre class=cod>a<span class=o>=</span><span class=n>0</span>
+<span class=c> or
+</span>a.redim</pre>
+<p>&nbsp;</p>
+<p><a onClick="doSection(e1)" class="expand">More details</a></p>
+<div id="e1" class="expand">
+  <p>ARRAY can be used in user-defined types, but cannot be used in embedded arrays. 
+    Example:</p>
+  <p>&nbsp;</p>
+  <pre class=cod><span class=fq>type</span> ABC <span class=t>int</span><span class=p>'</span>x <span class=t>ARRAY</span><span class=p>(</span><span class=t>BSTR</span><span class=p>)'</span>a</pre>
+  <p>&nbsp;</p>
+  <p>ARRAY can be passed to functions. When passing to a user-defined function, 
+    whole array is copied, unless it is passed by reference (address of ARRAY 
+    variable). Arrays are not copied when passing to other functions (not user-defined). 
+    COM functions usually accept SAFEARRAY*, which is the same as ARRAY, therefore 
+    ARRAY variable can be simply passed. Dll functions that accept arrays usually 
+    expect direct pointer to array data (not ARRAY or SAFEARRAY*). Then you can 
+    pass address of first element (e.g., <span class=cod><span class=o>&#38;</span>arr[<span class=n>0</span>]</span>).</p>
+  <p>&nbsp;</p>
+  <p>A variable of type ARRAY actually is pointer (4 bytes) to array descriptor. 
+    The array descriptor (variable of type SAFEARRAY), along with other properties, 
+    holds the pointer to the actual data. All memory allocation is <a href="../Tables/IDP_VARTABLE.html">managed</a> 
+    automatically.</p>
+  <p>&nbsp;</p>
+  <p>ARRAY is compatible with Visual Basic dynamic array. However, elements of 
+    multidimensional array are stored differently than in C or Pascal arrays. 
+    For example, <span class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span> a.create<span class=p>(</span>x y<span class=p>)</span></span> creates array that by storage order is equivalent to 
+    C array declared as <span class=cod><span class=t>int</span> a[y][x]</span>, that is, order of dimensions is reverse.</p>
+  <p>&nbsp;</p>
+  <p>ARRAY type supports operator = (assign). When you assign one array to another, 
+    whole array is copied, including all associated data.</p>
+  <p>&nbsp;</p>
+  <p>You can also assign string (str, lpstr or BSTR) to array of str or BSTR type. 
+    Result will be single-dimensional array of strings where each string is one 
+    line from source string. If you assign single-dimensional array of strings 
+    to str or BSTR variable, result will be string where every line is element 
+    of source array. If array is multidimensional, result will be string where 
+    all elements are joined.</p>
+  <p>&nbsp;</p>
+  <p>Array also can be assigned to variable of type VARIANT. When VARIANT variable 
+    is destroyed, or type is changed, containing array is freed. If you use operator 
+    =, array is copied. If you use function attach on VARIANT variable, it stores 
+    array into that variable, and sets ARRAY variable to 0.</p>
+  <p>&nbsp;</p>
+  <p>To declare a global variable or pointer to ARRAY, etc, use appropriate <a href="../Language/IDP_VARIABLES.html">characters</a> 
+    after the closing parenthese. Examples:</p>
+  <p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> as <span class=c2>;;array of str variables</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span><span class=o>+</span> ai <span class=c2>;;global array of int variables</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>VARIANT</span><span class=p>)</span> av <span class=c2>;;array of VARIANT variables. VARIANT can contain other data types, therefore we can say that array element types can be different.</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>RECT</span><span class=p>)</span> ar <span class=c2>;;array of RECT variables</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>RECT</span><span class=o>*</span><span class=p>)</span> arp <span class=c2>;;array of pointers to RECT variables</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span><span class=o>*</span> pai <span class=o>=</span> <span class=o>&#38;</span>ai <span class=c2>;;pointer to array of int variables</span></pre>
+  <p>&nbsp;</p>
+</div>
+<h2>Functions</h2>
+<p>Here <b>var</b> is variable 
+  of type ARRAY. If a return type is not specified, the function returns <b>var</b> 
+  itself.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>create</b>(<i>[</i>n1<i>] [</i>n2 <i>...]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Creates and initializes array.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>n1</b>, 
+<b>n2</b>, ... - number of elements in each dimension.</p>
+<ul>
+  <li> Array can have 1 to 
+    10 dimensions.</li>
+  <li> Lower bound of each dimension is 0.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p> This function also can be 
+  used to resize array without preserving previous content.</p>
+<p>&nbsp;</p>
+<p> If  called without arguments,  creates array 
+  descriptor but does not allocate memory for elements.</p>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>createlb</b>(n1 lb1 <i>[</i>n2 lb2 <i>...]</i>)</pre>
+<p>&nbsp;</p>
+<p>Same as <span class="blue">create</span>, but allows you 
+  to specify lower bounds.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>lb1</b>, <b>lb2</b>, ... -
+lower bound (index of first element) of each dimension. Can be negative.</p>
+</div>
+<p>&nbsp;</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>int </i>var.<b>redim</b>(<i>[</i>n<i>]</i> <i>[</i>lb<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Resizes rightmost dimension. If the array is not created, creates 1-dimension array.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>n</b> - new number of 
+elements. Negative <b>n</b> will add -<b>n</b> elements.</p>
+<p><b>lb</b> - new lower bound. If <b>lb</b> is omitted, does not change it.</p>
+</div>
+<p>&nbsp;</p>
+<p> If array is growing,  
+  returns index of the first added element (rightmost dimension). If  shrinking, 
+  the return value is undefined.</p>
+<p>&nbsp;</p>
+<p>The function preserves elements 
+  that exist in both old and new arrays.</p>
+<p>&nbsp;</p>
+<p>If called without arguments, 
+frees the array and sets <b>var</b> to 0. Other way to free array - assign 0 (a=0).</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax><i>int </i>var.<b>insert</b>(index)</pre>
+<p>&nbsp;</p>
+<p>Inserts new empty element. If the array is not created, creates 1-dimension array.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>index</b> -  element index. If it is index of last element + 1, adds to the end.</p>
+</div>
+<p>&nbsp;</p>
+<p> Returns <b>index</b>.</p>
+<p>&nbsp;</p>
+<p> Supports multi-dimension arrays. Inserts in the rightmost dimension. For example, if the array has 2 dimensions, where the first used for columns and the second for rows, the function inserts new row.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.2.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax>var.<b>remove</b>(index)</pre>
+<p>&nbsp;</p>
+<p>Deletes an element.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>index</b> -  element index.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Supports multi-dimension arrays. Removes from the rightmost dimension. For example, if the array has 2 dimensions, where the first used for columns and the second for rows, the function removes whole row.</p>
+<p>&nbsp;</p>
+<p>Note: When removing elements in <span class="blue">for</span> loop, start from the end. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a<span class=o>=</span><span class=s>&quot;a[]b[]c[]d[]e&quot;</span>
+<span class=t>int</span> i<span class=p>;</span> <span class=fq>for</span><span class=p>(</span>i a.<span class=fq>len</span><span class=o>-</span><span class=n>1</span> <span class=o>-</span><span class=n>1</span> <span class=o>-</span><span class=n>1</span><span class=p>)</span> <span class=fq>if</span><span class=p>(</span>i<span class=o>&amp;</span><span class=n>1</span><span class=p>)</span> a.<span class=fq>remove</span><span class=p>(</span>i<span class=p>)</span>
+<span class=fq>out</span> a
+</pre>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax><i>int </i>var.<b>len</b>(<i>[</i>dim<i>]</i>)
+<i>int </i>var.<b>lbound</b>(<i>[</i>dim<i>]</i>)
+<i>int </i>var.<b>ubound</b>(<i>[</i>dim<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p><span class="blue">len</span> returns the number of elements.</p>
+<p><span class="blue">lbound</span> returns index of the first element.</p>
+<p><span class="blue">ubound</span> returns index of the last element.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b>dim</b> - 1-based dimension index. Default: rightmost dimension.</p>
+</div>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>int </i>var.<b>ndim</b></pre>
+
+<p>&nbsp;</p>
+<p>Returns the number of dimensions.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax>var.<b>sort</b>(<i>[</i>flags<i>] [</i>sortfunction<i>] [</i>param<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Sorts array elements.</p>
+<p>&nbsp;</p>
+<div class="parts">
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Sort descending. This flag also 
+    is applied when using sort function.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td> Case insensitive.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>QM 2.3.2. Linguistic. Uses <span class="dll">StrCmp</span> to compare strings. </td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>QM 2.3.2. Number, linguistic, case insensitive. Uses <span class="dll">StrCmpLogicalW</span> to compare strings. It compares numbers in strings as number values, not as strings.</td>
+</tr>
+<tr>
+  <td>0x100 (flag)</td>
+  <td>QM 2.3.3. Date. Converts strings to DATE and compares. If cannot convert both strings, compares like without this flag.</td>
+</tr>
+</table>
+<p>Flags 2, 4 and 8 used  with <span class="type">str</span> and <span class="type">lpstr</span> arrays, when <b>sortfunction</b> not used. If without flags 4 and 8, uses <a href="../User/IDP_QMDLL.html#StrCompare" class="dll">StrCompare</a> to compare strings.</p>
+<p>&nbsp;</p>
+<p><b>sortfunction</b> - name of a user-defined callback function. Required only 
+if type of array elements is not <span class="type">str</span>, <span class="type">lpstr</span>, 
+<span class="type">int</span>, <span class="type">byte</span>, <span class="type">word</span>, 
+<span class="type">double</span>, <span class="type">long</span>.</p>
+<p><b>param</b> - some value to pass to the sort function. Default: 0.</p>
+</div>
+<p>&nbsp;</p>
+<p>The callback function is used for custom sorting. It is called multiple times 
+  while sorting, and must compare two elements in the array.</p>
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+<p>The function must begin with:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> param TYPE<span class=o>&amp;</span>a TYPE<span class=o>&amp;</span>b</pre>
+
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>param</b> - <b>param</b> of <span class="blue">sort</span>.</p>
+<ul>
+  <li> Can be 
+    declared as pointer or reference of any type. Then you can
+    pass <a href="../Language/IDP_OPUNARY.html">address</a> of a variable of that 
+    type to <span class="blue">sort</span> as <b>param</b>.</li>
+</ul>
+<p><b>TYPE</b> - type of array elements.</p>
+<p><b>a</b>, <b>b</b> - two array elements.</p>
+</div>
+<p>&nbsp;</p>
+<p>The callback function must compare <b>a</b> and <b>b</b>, and return:</p>
+<ul>
+  <li> -1 if <b>a</b> must be placed before <b>b</b>.</li>
+  <li> 1 if <b>a</b> must be placed after <b>b</b>.</li>
+  <li>0 if there is no difference.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> sorts multiline string
+</span><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;zero[]one[]TWO[]THREE&#34;</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a<span class=o>=</span>s
+a.sort<span class=p>(</span><span class=n>2</span><span class=p>)</span>
+s<span class=o>=</span>a
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Supports multi-dimension arrays. Sorts rightmost dimension.</p>
+<p>&nbsp;</p>
+<p>When sorting multi-dimension array, compares first element for each indice of  rightmost dimension. For example, if the array has 2 dimensions, where the first used for columns and the second for rows, the function compares the first element in each row. When using callback function, the function receives reference to that element. To compare other element, adjust references as in the example.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> param <span class=t>str</span><span class=o>&#38;</span>a <span class=t>str</span><span class=o>&#38;</span>b
+
+<span class=c> initially a and b are elements in column 0
+</span><span class=o>&#38;</span>a<span class=o>=&#38;</span>a<span class=o>+</span><span class=p>(</span><span class=n>2</span><span class=o>*</span><span class=fq>sizeof</span><span class=p>(</span>a<span class=p>))</span>
+<span class=o>&#38;</span>b<span class=o>=&#38;</span>b<span class=o>+</span><span class=p>(</span><span class=n>2</span><span class=o>*</span><span class=fq>sizeof</span><span class=p>(</span>b<span class=p>))</span>
+<span class=c> now a and b are elements in column 2
+</span>
+<span class=c> ...
+</span></pre>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre class=syntax>var.<b>shuffle</b></pre>
+<p>&nbsp;</p>
+<p>Shuffles (randomizes) array elements.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Supports multi-dimension arrays. Shuffles rightmost dimension.</p>
+<p>&nbsp;</p>
+<h2>Notes</h2>
+<p><span class="type">ARRAY</span> functions are not thread-safe. Don't use a single 
+  variable in multiple threads simultaneously. It can damage data. If need to 
+  use in multiple threads, use <a href="../Commands/IDP_LOCK.html">lock</a>.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
