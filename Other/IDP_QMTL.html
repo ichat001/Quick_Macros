@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Unlock computer</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Unlock computer</h1>
+<p>Some triggers (scheduler, file, event log, process) may start the macro while QM is not running in the currently active user session/desktop. For example, the computer 
+  may be locked (directly or by a secure screen saver), the user is not logged on, 
+  the user is switched off, a custom desktop is active. Then the macro runs in 
+  the background, and cannot use keyboard, mouse, and some other functions.</p>
+<p>&nbsp;</p>
+<p> To ensure that the macro will run only in normal conditions, check Properties 
+  -&gt; Macro properties -&gt; &quot;Don't run in background&quot;. This 
+  also will close nonsecure screensaver.</p>
+<p>&nbsp;</p>
+<p> If you also check &quot;If computer locked, unlock&quot;, QM unlocks computer if it is locked when the macro starts. Also closes screensaver. When the macro ends, QM can lock computer again. This feature is unavailable in <a href="IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<p> Before using this feature first time, configuration is necessary. To show 
+  the configuration dialog, click the 'How to unlock computer...' button. Enter the Windows user account password. If need, change keys and other options. Whenever in the future you change  Windows user account password,  need to change it here too.</p>
+<p>&nbsp;</p>
+<p>To unlock, QM uses keys specified in the dialog. The format is the same as 
+  with <a href="../Commands/IDP_KEY.html" class="blue">key</a>. For example, T is Tab, Y is Enter, Au is Alt+U, (1.0) is 1 second delay, &quot;Text&quot; is Text typed as simple text, etc. Some <span class="blue">key</span> features not supported, for example VK_ and (#n). Use (USERNAME) and (PASSWORD) to type username/password specified in the &quot;Unlock Computer - Options&quot; dialog. Examples: </p>
+<p>&nbsp;</p>
+<p>1. Windows XP, when shows dialog with user name and password fields:</p>
+<p>Au (USERNAME) Ap (PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>2. Windows XP, welcome screen, when initially shows password field:</p>
+<p>(PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>3. Windows XP, welcome screen, when initially does not show password field. Examples for user 1, 2 and 3:</p>
+<p>TT (PASSWORD) Y</p>
+<p>TTD (PASSWORD) Y</p>
+<p>TTDD (PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>4. Windows Vista/7. Examples for user 1, 2 and 3:</p>
+<p>V (1.0) B (PASSWORD) Y</p>
+<p>R V (1.0) B (PASSWORD) Y</p>
+<p>RR V (1.0) B (PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>5. Windows Vista/7,  when initially shows password field:</p>
+<p>(PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>6. Windows 8/8.1:</p>
+<p>Z (0.5) Z (1.5) (PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>7. Windows 10:</p>
+<p>Z (1.5) (PASSWORD) Y</p>
+<p>&nbsp;</p>
+<p>8. Windows 11:</p>
+<p>Z (PASSWORD)</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Alternatively you can use a program that unlocks computer. You can create it from a macro. It can do anything  - evaluate conditions, send keys, click, wait, use window and accessible object functions, etc. It should return a nonzero value if failed. <a onClick="doSection(prog)" class="expand">Example</a>.</p>
+<div id="prog" class="expand">
+<pre class=cod><span class=t>Acc</span> a.<span class=fu>Find</span><span class=p>(</span><span class=fq>win</span> <span class=s>&quot;TEXT&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;class=Edit&quot;</span> <span class=n>0x1005</span><span class=p>)</span> <span class=c2>;;find password field</span>
+<span class=fq>err</span>
+<span class=i>&#9;</span><span class=fq>key</span> Y
+<span class=i>&#9;</span><span class=n>2</span>
+<span class=i>&#9;</span>a.<span class=fu>Find</span><span class=p>(</span><span class=fq>win</span> <span class=s>&quot;TEXT&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;class=Edit&quot;</span> <span class=n>0x1005</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>err</span>
+<span class=i>&#9;&#9;</span><span class=fu>LogFile</span> <span class=s>&quot;no password field&quot;</span> <span class=n>0</span> <span class=s>&quot;qmtul.log&quot;</span>
+<span class=i>&#9;&#9;</span><span class=fq>ret</span> <span class=n>1</span> <span class=c2>;;error</span>
+<span class=fq>act</span> <span class=fq>child</span><span class=p>(</span>a<span class=p>)</span> <span class=c2>;;set focus</span>
+<span class=fq>key</span> <span class=s>&quot;password&quot;</span> Y
+
+<span class=c> note: out will not work. Use LogFile.</span>
+</pre>
+</div>
+<p>&nbsp;</p>
+<h4>Notes</h4>
+<ol>
+  <li> The options in the configuration dialog are common to all macros.</li>
+  <li> This feature has minimal impact on security. The password is saved encrypted. 
+    While temporarily unlocked, keyboard and mouse are disabled, and there is 
+    no way to access the computer. Pressing Ctrl+Alt+Delete will immediately lock 
+    the computer.</li>
+  <li> QM attempts to unlock computer only if it is locked (manually or by a secure 
+    screen saver). The macro will not run if not logged on, or another user is active, or 
+    another desktop is active.</li>
+  <li>While computer is temporarily unlocked, macros that have &quot;don't run 
+    in background&quot; checked are not allowed to run. They wait until computer 
+    is locked and unlocked again (if &quot;if locked, temporarily unlock&quot; 
+    is checked) or don't run.</li>
+  <li> The log file can be used to find problems. It does not have a size limit.</li>
+  <li> You also can use function <a href="../User/IDP_QMDLL.html#EnsureLoggedOn" class="dll">EnsureLoggedOn</a>.</li>
+  <li>Does not support <a href="IDP_UNICODE.html">Unicode</a>. User 
+    name, password, keys and file names must be ANSI.</li>
+  <li>On Windows XP fails to unlock in these conditions: a) After switching to other user and then logging off. b) When locked by Remote Desktop.</li>
+  <li>On Windows Vista and later fails to send Ctrl+Alt+Delete if security settings modified. To fix it, run gpedit.msc, open Computer Config/Admin Templ/Win Comp/Win Logon Opt/Disable Enable SAS, and enable Ease Access Apps.</li>
+  <li>Tested on Windows XP, Vista, 7, 8, 8.1, 10, 11. May not work on newer Windows versions.</li>
+</ol>
+<p>Use this macro to test unlocking:</p>
+<pre class=cod><span class=fq>shutdown</span> <span class=n>6</span> <span class=c2>;;lock</span>
+<span class=fq>wait</span> <span class=n>10</span>
+<span class=t>int</span> unlocked<span class=o>=</span><span class=fd>EnsureLoggedOn</span><span class=p>(</span><span class=n>1</span><span class=p>)</span>
+<span class=fq>out</span> <span class=s>&quot;unlocked=%i&quot;</span> unlocked <span class=c2>;;should be 2</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span>unlocked <span class=fq>and</span> <span class=fd>FileExists</span><span class=p>(</span><span class=s>&quot;$qm$\qmtul.log&quot;</span><span class=p>))</span> <span class=fq>run</span> <span class=s>&quot;$system$\notepad.exe&quot;</span> <span class=s>&quot;$qm$\qmtul.log&quot;</span>
+</pre>
+</body>
+
+</html>
