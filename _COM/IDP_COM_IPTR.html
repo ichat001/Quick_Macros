@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Interface pointer variables</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Interface pointer variables</h1>
+
+<p>An interface pointer variable is a reference to a COM object. You use it when 
+  calling COM object functions. Declaration syntax:</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax><span class="type">Interface</span> ip</pre>
+
+<p>&nbsp;</p>
+
+<p>Here <b>Interface</b> is either interface name or coclass name. <b>ip</b> is 
+  variable name. If you use interface name, the variable has <b>Interface</b> 
+  type. If you use coclass name, the type of the variable is the type of the default 
+  interface of the coclass.</p>
+<p>&nbsp;</p>
+<p>Usually, coclasses and interfaces are declared in type libraries. You should 
+  use type library name too, like in this example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=lib>Excel.</span><span class=t>Application</span> app</pre>
+<p>&nbsp;</p>
+
+<p>When you assign one interface pointer variable to another (for example, using 
+  operator =), it does not copy the object, but just increments its reference 
+  count. Both variables will refer to the same object. That is fast. QM may generate 
+  error on interface pointer type mismatch in an assignment operation. Use <A href="../Language/IDP_OPUNARY.html">operator 
+  +</a> to compile without error. If that interface is not supported, error will 
+  be generated at run time.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>Interface1</span> a._create
+<span class=t>Interface2</span> b<span class=o>=+</span>a</pre>
+<p>&nbsp;</p>
+<p>To explicitly delete the object, assign 0 to the interface pointer variable. 
+  It decrements object's reference count. It is not necessary because QM does 
+  it implicitly when the variable goes out of scope. You should not call AddRef 
+  or Release, because QM manages this automatically.</p>
+<p>&nbsp;</p>
+
+<p> COM objects usually cannot be used by multiple threads, and therefore interface 
+  pointer variables should be <A href="../Language/IDP_VARIABLES.html">declared</a> 
+  with local or thread <A href="../Language/IDP_SCOPE.html">scope</a>.</p>
+<p>&nbsp;</p>
+<p>An interface pointer variable itself is not an object. It is just pointer to 
+  the object, and double pointer to the interface. Like any other pointer, it 
+  is 4-byte integer.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
