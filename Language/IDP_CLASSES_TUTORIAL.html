@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Classes tutorial</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Classes tutorial</h1>
+
+<p>Most programming languages have classes. A <a href="IDP_CLASSES.html">class</a> 
+  is a user-defined type that also has functions. To understand user-defined 
+  classes, you have to be familiar with variables, user-defined types and user-defined 
+  functions.</p>
+<h2>Creating and using a class</h2>
+<p>Note: To create new class you can use menu File -&gt; New -&gt; New Class. 
+  This tutorial does not use it.</p>
+<p>&nbsp;</p>
+<p>Let's create a simple rectangle class. Class definition includes class name 
+  and member variables.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>class</span> <span class=t>CRect</span>
+<span class=i>&#9;</span><span class=t>double</span><span class=p>'</span>m_width
+<span class=i>&#9;</span><span class=t>double</span><span class=p>'</span>m_height</pre>
+<p>&nbsp;</p>
+<p> Put it in some macro and compile or run the macro. It lets QM know about the 
+  new class. To make it always available, put it in a function that runs at startup. 
+  For example, in init2 (create it if does not exist).</p>
+<p>&nbsp;</p>
+<p>Now create 3 member functions. To add member functions use menu File -&gt; 
+  New -&gt; New Member Function. The item name consists of class name, . and function 
+  name.</p>
+<p>&nbsp;</p>
+<p>Member function <b>CRect.Init</b></p>
+<pre class=cod><span class=fq>function</span> <span class=t>double</span><span class=p>'</span>width <span class=t>double</span><span class=p>'</span>height
+
+<span class=c> Initializes the object.</span>
+
+
+m_width<span class=o>=</span>width
+m_height<span class=o>=</span>height</pre>
+<p>&nbsp; </p>
+<p>Member function <b>CRect.Area</b></p>
+<pre class=cod><span class=fq>function</span><span class=p>'</span><span class=t>double</span>
+
+<span class=c> Calculates rectangle area.</span>
+
+
+<span class=fq>ret</span> m_width<span class=o>*</span>m_height</pre>
+<p>&nbsp; </p>
+<p>Member function <b>CRect.Hypotenuse</b></p>
+<pre class=cod><span class=fq>function</span><span class=p>'</span><span class=t>double</span>
+
+<span class=c> Calculates rectangle hypotenuse.</span>
+<span class=c> It is distance between two opposite corners.</span>
+
+
+<span class=fq>ret</span> <span class=fd>_hypot</span><span class=p>(</span>m_width m_height<span class=p>)</span></pre>
+<p>&nbsp; </p>
+<p>Now the class is created and you can use it anywhere. Declare variables of 
+  CRect type and call functions using syntax variable.Function(arguments). Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>CRect</span> r.Init<span class=p>(</span><span class=n>10</span> <span class=n>20</span><span class=p>)</span>
+<span class=fq>out</span> r.Area
+<span class=fq>out</span> r.Hypotenuse
+
+<span class=t>CRect</span> r2.Init<span class=p>(</span><span class=n>11</span> <span class=n>19</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>r2.Area<span class=o>&#62;</span>r.Area<span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;r2 is bigger&#34;</span>
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;r is bigger&#34;</span></pre>
+<p>&nbsp;</p>
+<h2>Class inheritance</h2>
+<p>You can create new classes that inherit member variableas and member functions 
+  of existing classes. Let's create a class that inherits from CRect.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>class</span> <span class=t>CColorRect</span> <span class=p>:</span><span class=t>CRect</span>
+<span class=i>&#9;</span>m_color</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<p>Member function <b>CColorRect.Init</b></p>
+<pre class=cod><span class=fq>function</span> <span class=t>double</span><span class=p>'</span>width <span class=t>double</span><span class=p>'</span>height color
+
+this.CRect.Init<span class=p>(</span>width height<span class=p>)</span>
+m_color<span class=o>=</span>color</pre>
+<p>&nbsp; </p>
+<p>Member function <b>CColorRect.GetColor</b></p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span>
+
+<span class=fq>ret</span> m_color</pre>
+<p>&nbsp; </p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>CColorRect</span> r3.Init<span class=p>(</span><span class=n>10</span> <span class=n>20</span> <span class=n>0xffff</span><span class=p>)</span>
+<span class=fq>out</span> <span class=s>&#34;0x%X&#34;</span> r3.GetColor <span class=c2>;;call function of CColorRect</span>
+<span class=fq>out</span> r3.Area <span class=c2>;;call function inherited from CRect</span></pre>
+<h2>Class member access control</h2>
+<p>By default, member variables and functions are public. They can be accessed 
+  like</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>CRect</span> r
+r.m_width<span class=o>=</span><span class=n>15</span></pre>
+<p>&nbsp;</p>
+<p>To protect member variables from accessing from outside of the class, in class 
+  definition add one or two hyphens before these members:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>class</span> <span class=t>CRect</span>
+<span class=i>&#9;</span><span class=o>-</span><span class=t>double</span><span class=p>'</span>m_width <span class=c2>;;m_width is protected. It can be used only in functions of CRect and inherited classes (eg CColorRect).</span>
+<span class=i>&#9;</span><span class=o>--</span><span class=t>double</span><span class=p>'</span>m_height <span class=c2>;;m_height is private. It can be used only in functions of CRect class.</span></pre>
+<p>&nbsp;</p>
+<p>Now r.m_width=15 would generate error.</p>
+<p>&nbsp;</p>
+<p>You also can protect some member functions from calling from outside the class. 
+  You can do it in function's Properties dialog.</p>
+<p>&nbsp;</p>
+<p>To hide member variables and functions without protecting, let the variable/function 
+  name begin with __. Examples: __m_hidden, CRect.__Hidden. Or place the functions 
+  in a folder that has 'private functions' checked in Folder Properties dialog.</p>
+<h2>Accessing the variable from a member function</h2>
+<p>Member functions always are called with a variable of that type. Example:</p>
+<pre class=cod><span class=t>CRect</span> r1 r2
+<span class=c> ...</span>
+r1.Func
+r2.Func</pre>
+<p>&nbsp;</p>
+<p>If Func wants to access the variable (r1, r2 or other), it can use <i>this</i>. 
+  It is a reference to the variable for which the function called. Example:</p>
+<p>&nbsp;</p>
+<p>Member function <b>CRect.Func</b></p>
+<pre class=cod><span class=fq>out</span> this.m_width <span class=c2>;;same as out m_width</span>
+<span class=fq>out</span> this.Area <span class=c2>;;same as out Area</span>
+<span class=fq>out</span> <span class=o>&#38;</span>this <span class=c2>;;address of the variable</span></pre>
+<p>&nbsp; </p>
+<h2>Special functions</h2>
+<p> A class can optionally have constructor, destructor and operator=. To add 
+  them, use item names like in the examples.</p>
+<p>&nbsp;</p>
+<h4>Constructor</h4>
+<p> Member function <b>CRect</b> (the name is the same as the class name)</p>
+<pre class=cod><span class=fq>out</span> <span class=s>&#34;This function is called when the variable is created.&#34;</span>
+
+m_width<span class=o>=</span><span class=n>1</span>
+m_height<span class=o>=</span><span class=n>1</span></pre>
+<p>&nbsp; </p>
+<h4>Destructor</h4>
+<p> Member function <b>CRect.</b> (the name is the same as the class name, with <b>.</b> at the end)</p>
+<pre class=cod><span class=fq>out</span> <span class=s>&#34;This function is called before destroying the variable.&#34;</span></pre>
+<p>&nbsp;</p>
+<h4>Operator =</h4>
+<p> Member function <b>CRect=</b> (the name is the same as the class name, with <b>=</b> at the end)</p>
+<pre class=cod><span class=fq>function</span> <span class=t>CRect</span><span class=o>&#38;</span>source
+
+<span class=fq>out</span> <span class=s>&#34;This function is called when you assigh one variable to another variable, both of CRect type.&#34;</span>
+
+this.m_width<span class=o>=</span>source.m_width
+this.m_height<span class=o>=</span>source.m_height</pre>
+<p>&nbsp;</p>
+<p>Test:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>CRect</span> r1 r2
+r1.Init<span class=p>(</span><span class=n>5</span> <span class=n>5</span><span class=p>)</span>
+<span class=fq>out</span> r1.Area
+<span class=fq>out</span> r2.Area
+r2<span class=o>=</span>r1
+<span class=fq>out</span> r1.Area
+<span class=fq>out</span> r2.Area</pre>
+</body>
+
+</html>
