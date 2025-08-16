@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#if, #else, #endif</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#if, #else, #endif</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#if</span> constexpr
+statements
+<i>[</i><span class="dir">#else</span>
+statements<i>]</i>
+<i>[</i><span class="dir">#endif</span><i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>constexpr</b> - constant integer expression.</p>
+<ul>
+  <li>Also can be a global variable 
+    of type int.</li>
+  <li>Also can be a user-defined function that returns int. It is executed while compiling, in QM main thread.</li>
+  <li>Expression with operators is evaluated 
+    from left to right, regardless of operator priority. </li>
+</ul>
+<p> <b>statements </b> - any statements.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> If value of <b>constexpr</b> is not 0, are compiled statements after <span class="dir">#if 
+  </span> and skipped statements after <span class="dir">#else</span>. Otherwise, 
+  are skipped statements after <span class="dir">#if</span> and compiled statements 
+  after <span class="dir">#else</span>.</p>
+
+<p>&nbsp;</p>
+<p> Unlike <a href="../Flow/IDP_IF.html" class="blue">if</a>, compiler directives are evaluated only at <a href="../QM_Help/IDH_DEBUG.html">compile time</a>.</p>
+<p>&nbsp;</p>
+<p>If <span class="dir">#endif </span> 
+  is omitted, are compiled (or skipped) all following statements until the end.</p>
+
+<p>&nbsp;</p>
+<p>QM 2.4.1. <span class="dir">#if</span>/<span class="dir">#ifdef</span>/<span class="dir">#ifndef</span> can be nested in other <span class="dir">#if</span>/<span class="dir">#ifdef</span>/<span class="dir">#ifndef</span> or <span class="dir">#else</span> code block. Also now most directives can be tab-indented.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_DIR_IFDEF.html" class="dir">#ifdef</a>, <a href="IDP_DIR_RET.html" class="dir">#ret</a>, <a href="IDP_SPECVAR.html">predefined variables and constants</a><a href="../QM_Help/IDH_MAKEEXE.html"></a>, <a href="../QM_Help/IDH_MAKEEXE.html">make exe</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=fq>def</span> <span class=d>TEST</span> <span class=n>5</span>
+<span class=dir>#if</span> <span class=o>!</span><span class=d>TEST</span>
+<span class=fq>out</span> <span class=s>&quot;TEST is 0&quot;</span>
+<span class=dir>#else</span>
+<span class=fq>rep</span> <span class=n>2</span>
+<span class=i>&#9;</span><span class=dir>#if</span> <span class=d>TEST</span><span class=o>&gt;=</span><span class=n>5</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;TEST is &gt;= 5&quot;</span>
+<span class=i>&#9;</span><span class=dir>#else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;TEST is &lt; 5&quot;</span>
+<span class=i>&#9;</span><span class=dir>#endif</span>
+<span class=dir>#endif</span>
+</pre>
+
+</body>
+
+</html>
