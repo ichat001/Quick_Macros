@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Command line parameters</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Command line parameters</h1>
+
+<p><a href="IDH_TRIG_COMMANDLINE.html#a1" name="L1">Command line</a></p>
+<p><a href="IDH_TRIG_COMMANDLINE.html#a2" name="L2">Shortcut</a></p>
+<p><a href="IDH_TRIG_COMMANDLINE.html#a3" name="L3">Task Scheduler</a></p>
+<p><a href="IDH_TRIG_COMMANDLINE.html#a5" name="L5">SendMessage</a></p>
+<h2><a href="IDH_TRIG_COMMANDLINE.html#L1" name="a1">Command line</a></h2>
+<p>Other programs can run QM macros using command line parameters. To create command line for current macro, click the Cmdline button in Properties.</p>
+<p>&nbsp;</p>
+<p>Syntax of QM command line:</p>
+
+<p>&nbsp;</p>
+
+<pre class=syntax><i>[</i>V<i>]</i> <i>[</i>E<i>]</i> <i>[</i>S<i>] [</i>Q c<i>]</i><i> [</i>T<i>]</i> <i>[</i>N &quot;networkfile&quot;<i>]</i> <i>[</i>L<i>[</i>I<i>]</i> &quot;file&quot;<i>]</i> <i>[</i>M<i>[</i>S<i>]</i> &quot;macro&quot; <i>[</i>&quot;command&quot;<i>]]</i> <i>[[</i>C command<i>] | [</i>A<i>[</i>(sep)<i>]</i> arguments<i>]]</i></pre>
+<p>&nbsp;</p>
+
+<p>Here used gray symbols aren't part of command line:</p>
+<ul>
+  <li><span class=syntax><i>[]</i></span> encloses optional parameters.</li>
+  <li><span class=syntax><i>| </i></span>is 
+    logic &quot;or&quot;.</li>
+</ul>
+<p>&nbsp; </p>
+<p>Quotes are required. Parameters enclosed in quotes cannot 
+  contain quotes. Order of parameters is arbitrary, except C and A.</p>
+<p>&nbsp;</p>
+<p>To pass command line parameters to QM, use qmcl.exe, not qm.exe. 
+  This small program quickly starts, relays the command line to QM and exits immediately. 
+  You can use qm.exe too, but some parameters (MS, N, T) are supported only by 
+  qmcl.exe.</p>
+<p>&nbsp;</p>
+
+<table class="tflags">
+  <tr> 
+    <td>V</td>
+    <td>Show QM window.</td>
+  </tr>
+  <tr> 
+    <td>E</td>
+    <td><p>Exit QM when macro ends, if QM was not running.</p>
+    <p>&nbsp;</p>
+    <p>Tip: instead you can craete exe from the macro and run it with a command line.</p></td>
+  </tr>
+  <tr> 
+    <td>S</td>
+    <td>Indicates that QM started at Windows startup. QM uses it for trigger 'Windows started'.</td>
+  </tr>
+  <tr> 
+    <td>Q c</td>
+    <td>Use character c instead of &quot; to enclose strings. 
+      For example, instead of M &quot;Macro&quot; you can use Q ^ M ^Macro^.</td>
+  </tr>
+  <tr> 
+    <td>L &quot;file&quot;</td>
+    <td><p>Open specified <a href="IDH_QML.html">QM file</a>.</p>
+      <ul>
+        <li> Use LI to import.</li>
+        <li> See also: <a href="../User/IDP_QMDLL.html#SilentImport" class="dll">SilentImport</a>.</li>
+        <li>Opens in the File Viewer if LI or if the file is unknown (not in the recent files list in the File menu).</li>
+    </ul>    </td>
+  </tr>
+  <tr> 
+    <td>M &quot;macro&quot; &quot;command&quot;</td>
+    <td><p>Run macro.</p>
+      <ul>
+        <li>Can be macro name or <a href="../Other/IDP_GUID.html">GUID</a>.</li>
+        <li>You can pass some string (command) to the macro. It will be in variable <A href="../Language/IDP_SPECVAR.html">_command</a>.</li>
+        <li>Use MS to run synchronously. Qmcl.exe waits while macro is running and returns its return value (<span class="blue">ret</span>).</li>
+        <li>QM 2.4.0: Not supported with L and LI.</li>
+      </ul>      </td>
+  </tr>
+  <tr> 
+    <td>C command</td>
+    <td>Alternative way to pass command to macro. Here command isn't 
+      enclosed in quotes. It itself can contain quotes.</td>
+  </tr>
+  <tr> 
+    <td>A arguments</td>
+    <td>Pass arguments to macro. Macro receives them through the <A href="../Language/IDP_FUNCTION.html" class="blue">function</a> 
+      statement. Use spaces to separate arguments. If an argument contains spaces, 
+      it must be enclosed in quotes or parentheses. An argument cannot contain 
+      quotes (unless it is enclosed in parentheses) and parentheses (unless it 
+      is enclosed in quotes). Numeric integer arguments can be numbers, named 
+      constants, global variables and expressions with operators. Expressions 
+      with operators are evaluated from left to right regardless of operator priority.</td>
+  </tr>
+  <tr> 
+    <td>A(sep) arguments</td>
+    <td>Alternative way to pass arguments. Here sep is some string that is used 
+      to separate arguments. Arguments can contain any characters, including &quot;().</td>
+  </tr>
+  <tr> 
+    <td>T</td>
+    <td>Used with scheduled tasks.</td>
+  </tr>
+  <tr> 
+    <td>N &quot;networkfile&quot;</td>
+    <td><p>Wait for a file (networkfile) that is on another computer 
+        on <a href="IDH_NETWORK.html">network</a> and may be still unavailable. 
+        Qmcl.exe waits for the file (max 5 minutes) and launches QM when 
+        the file becomes accessible. If QM is already running, or is started while waiting, qmcl.exe exits 
+        and does not pass command line to QM.</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<p>Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre>M &quot;Macro&quot;
+M &quot;Macro&quot; &quot;some string&quot;
+M &quot;Macro&quot; C some string
+M &quot;Macro&quot; A &quot;some string&quot; 1 55.5
+M &quot;Macro&quot; A(,,) some string,,1,,55.5</pre>
+<p>&nbsp;</p>
+<p>Or whole command line can be a macro or a file. 
+  If the file is not .qml, adds it as <a href="IDH_ITEMS.html">file link</a> and 
+  opens in QM (QM 2.3.0). Special folders are not supported. Can be several paths separated by spaces. Examples:</p>
+
+<p>&nbsp;</p>
+
+<pre>&quot;Macro10&quot;
+&quot;c:\program files\qm\list3.qml&quot;
+c:\Users\G\Desktop\test.txt</pre>
+<p>&nbsp;</p>
+<p>Disabled items don't run from command line trigger.</p>
+<p>&nbsp;</p>
+<p>QM command line can be used with desktop shortcuts, Task Scheduler and other programs that can launch programs with a command line.</p>
+
+<h2><a href="IDH_TRIG_COMMANDLINE.html#L2" name="a2">Shortcut</a></h2>
+
+<p>To create a shortcut to launch current macro, click the Shortcut button in 
+  the Properties dialog or in the Icons dialog. You can optionally assign a hot 
+  key to the shortcut. The hotkey will work even when QM is not running (QM will 
+  start). </p>
+
+<h2><a href="IDH_TRIG_COMMANDLINE.html#L3" name="a3">Task Scheduler</a></h2>
+
+<p>Quick Macros does not have its own scheduler. Instead, it uses Windows Task 
+  Scheduler service. It allows to run a macro even when QM is not running (QM 
+  will start). To create or edit a scheduled task that runs current macro, click the Schedule 
+  button in the Properties dialog.</p>
+<p>&nbsp;</p>
+<p>Although this is an external trigger, QM displays schedule times in the list of 
+  macros.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Other/IDP_QMTL.html">unlock computer</a></p>
+<h2><a href="IDH_TRIG_COMMANDLINE.html#L5" name="a5">SendMessage</a></h2>
+<p>Other programs or scripts can launch QM macros more efficiently, by sending 
+  a message to the QM main window. Syntax:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax>SendMessage(hwndQM, WM_SETTEXT, mode, commandline)</pre>
+
+<div class="parts">
+<p>&nbsp;</p><p> <b>commandline</b> - QM command line string. Don't forget to include quotes.</p>
+
+<p> <b>mode</b>:</p>
+
+<table class="tflags"><col>
+<tr>
+<td>1</td> <td>run macro or other item asynchronously. QM launches macro and returns control 
+to the calling application.</td>
+</tr>
+
+<tr>
+<td>2</td> <td>run function or macro synchronously. SendMessage returns function's return 
+value. This mode forces to run even if item is disabled, or QM command line 
+triggers are disabled.</td>
+</tr>
+
+<tr>
+<td>3</td> <td>similar as 2, but function runs in QM main thread. This is faster, because 
+new thread is not created. Can also be used by a macro to call a function that 
+must run in QM main thread. Be careful when creating macros that run in QM thread. 
+Don't use wait commands and other long-running code, because QM may stop responding.</td>
+</tr>
+
+</table>
+</div>
+<p>&nbsp;</p>
+<p>Don't use PostMessage or wParam=0. Can use SendMessageTimeout. Can use FindWindow(&quot;QM_Editor&quot;, 0) to get QM window handle. To support all Unicode characters, use SendMessageW and UTF-16 string.</p>
+<p>&nbsp;</p>
+<p>Example in QM:</p>
+<pre class=cod><span class=t>str</span> macro<span class=o>=</span><span class=s>&quot;func&quot;</span>
+<span class=t>int</span> arg1<span class=o>=</span><span class=n>5</span>
+<span class=t>str</span> arg2<span class=o>=</span><span class=s>&quot;text &#261;&quot;</span>
+<span class=t>int</span> qm<span class=o>=</span><span class=fd>FindWindow</span><span class=p>(</span><span class=s>&quot;QM_Editor&quot;</span> <span class=n>0</span><span class=p>);</span> <span class=fq>if</span><span class=p>(</span>qm<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>ret</span>
+<span class=fd>SendMessageW</span><span class=p>(</span>qm <span class=d>WM_SETTEXT</span> <span class=n>2</span> <span class=o>@F</span><span class=s>&quot;Q ` M `{</span>macro<span class=s>}` A(~~) {</span>arg1<span class=s>}~~{</span>arg2<span class=s>}&quot;</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p>Function func:</p>
+<pre class=cod><span class=fq>function</span> i <span class=t>str</span><span class=p>'</span>s
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;{</span>i<span class=s>} {</span>s<span class=s>}&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>The same in C# with the Au.dll library:</p>
+<pre class=cod>
+string macro = "func";
+int arg1 = 5;
+string arg2 = "text a";
+wnd qm = wnd.findFast(cn: "QM_Editor"); if (qm.Is0) return;
+qm.Send(0xC, 2, $"Q ` M `{macro}` A(~~) {arg1}~~{arg2}");
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
