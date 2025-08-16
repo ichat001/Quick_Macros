@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: Shell menu</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: Shell menu</h1>
+
+<p>Adds the macro to the shell context menu. It is the popup menu that appears when you right-click a file in a folder window or desktop. To assign this trigger, use the Properties dialog. Unavailable in <a href="../Other/IDP_PORTABLE.html">portable QM</a>.</p>
+<p>&nbsp;</p>
+<p> The macro runs when you
+click the menu item. It receives trigger information through the <a href="../Language/IDP_FUNCTION.html" class="blue">function</a> statement:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> \
+</span><span class=fq>function</span> <span class=o>$</span>files</pre>
+<p>&nbsp;</p>
+<p><b>files</b> - file path. If multiple files selected - list of paths.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>Label</h4>
+<p>Menu item label. To add the item to a submenu, use path like Submenu\Macro. The submenu will be created automatically, or you can create it
+(read more below).</p>
+<p>&nbsp;</p>
+<p>Single &amp; character makes following character underlined. Use &amp;&amp; for &amp;.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Single-hyphen (-) label creates separator.</p>
+<p>&nbsp;</p>
+<p>Other fields are optional.</p>
+<p>&nbsp;</p>
+<h4>
+  Include, File types
+</h4>
+<p> For what file types to show the menu item. By default, the macro is added to the menu for all files except folders.
+  To add it only for certain file types, enter one or more
+  extensions separated by space, eg txt doc rtf. For files
+with no extension, use &lt;noextension&gt;.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Works with drives too, like with folders. If need only drives, use ?:\ in Folders field. If need only folders, use ?:\ and check Not.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. You can set to display the menu item when user right clicks in desktop or folder backround, not on a file. The macro will receive full path of the folder.</p>
+<p>&nbsp;</p>
+<h4>Folders</h4>
+<p> Multiline list of folders where the menu item will be added or Not added. The menu item will be in subfolders too.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Can be used <a href="../Other/IDP_WILDCARD.html">wildcard characters</a>. Then compared is whole path of the selected file, not just its parent folder. </p>
+<p>&nbsp;</p>
+<h4>Image file</h4>
+<p> An icon file for the menu item, eg $my
+  qm$\copy.ico. Can be ico, bmp or other file. You can
+  specify icon index, eg icons.dll,4. Don't
+  use many icons from executable files, because they are
+extracted slowly.</p>
+<p>&nbsp;</p>
+<h4>Description</h4>
+<p>Text to display in
+status bar.</p>
+<p>&nbsp;</p>
+<h4>Submenu</h4>
+<p>If checked, it will be menu item that opens a submenu. The macro can be empty. Use this if you want to assign file types,  icon or other properties to the submenu, because there is no way to assign properties to auto-created submenus.</p>
+<p>&nbsp;</p>
+<h3> Notes</h3>
+<p> The number of menu items you can add is limited. On WinXP
+it is ~150.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Trigger string now begins with $sm. Previously was ^Shell_menu. QM automatically converts it at startup. Previously this trigger type was implemented as user-defined
+trigger.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Removed alphabetical sorting. Now menu items are ordered like in QM as they are when QM starts.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Now icons don't disable menu theme.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
