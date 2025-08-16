@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>rset, rget (registry, ini file)</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Registry and ini file functions</h1>
+<h2>Registry functions</h2>
+<p>The registry is a database where Windows and applications store  settings. Macros also can store their settings there.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>rset</b>(data <i>[</i>name<i>] [</i>key<i>] [</i>hive<i>] [</i>options<i>|</i>datatype<i>]</i>)
+<i>int </i><b>rget</b>(variable <i>[</i>name<i>] [</i>key<i>] [</i>hive<i>] [</i>default<i>] [</i>datatype<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>data </b>- data to be stored in the registry. Can be variable or other 
+expression.</p>
+
+<p> <b>variable </b>- variable that receives data stored in the registry.</p>
+
+<p> <b>name</b> - registry value name. Use &quot;&quot; for &quot;(Default)&quot;.</p>
+
+<p> <b>key</b> - registry key.</p>
+<ul>
+  <li> Default (or &quot;&quot;): &quot;Software\GinDi\QM2\User&quot;.</li>
+  <li> If begins with \, it is interpreted as subkey of default key.</li>
+  <li> Must not begin with &quot;HKEY_CURRENT_USER\&quot; 
+    or similar.</li>
+  <li>Also can be an 
+    open key handle (QM 2.3.0).</li>
+</ul>
+<p> <b>hive</b> - one of HKEY_... constants. Integer.</p>
+<ul>
+  <li>Default (or 0): HKEY_CURRENT_USER.</li>
+  <li>Add flag  HKEY_64BIT (eg <span class=cod><span class=d>HKEY_LOCAL_MACHINE</span><span class=o>|</span><span class=d>HKEY_64BIT</span></span>) if you need 64-bit key.</li>
+</ul>
+<p><b>default</b> - default value to be used if the value does not exist in the 
+  registry. Default: &quot;&quot; for strings, 0 for numeric variables. Cannot 
+  be used with user-defined types.</p>
+<p> <b>options</b>:</p>
+<table class="tflags">
+<tr>
+  <td>0 (default)</td>
+  <td>write data.</td>
+</tr>
+<tr> 
+  <td>-1</td>
+  <td><p>delete value.</p>
+    <ul>
+      <li> <b>data</b> is not used and can be 0 or &quot;&quot;.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>-2</td>
+  <td><p>delete subkey.</p>
+    <ul>
+      <li> <b>data</b> - not used and can be 0 or &quot;&quot;.</li>
+      <li> <b>name</b> - subkey name.</li>
+      <li> <b>key</b> - parent 
+        key.</li>
+      <li>QM 2.3.5. Can be used only <b>key</b>, like <span class=cod><span class=fq>rset</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;&quot;</span> <span class=s>&quot;ParentKey\KeyToDelete&quot;</span> <span class=n>0</span> <span class=o>-</span><span class=n>2</span></span></li>
+    </ul>    </td>
+</tr>
+<tr> 
+  <td>-3</td>
+  <td>delete subkey, but only if it does not contain subkeys.</td>
+</tr>
+<tr> 
+  <td>-4 (QM 2.2.0)</td>
+  <td>delete subkey, but only if it is empty (does not contain subkeys 
+    and values).</td>
+</tr>
+</table>
+
+<p><b>datatype </b>- registry data type. Can be used only with strings. Can be one of REG_... constants, for example REG_BINARY. Default: 
+REG_SZ.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p><span class="blue">rset</span> writes <b>data</b> to the registry. If the specified 
+  key does not exist, creates it. Also used to delete values and keys.</p>
+
+<p><span class="blue">rget</span> reads data from the registry and stores it into 
+  the <b>variable</b>.</p>
+
+<p>&nbsp;</p>
+<p>Each of these functions returns a nonzero value on success. For strings, it 
+  is string length+1. For data of other type, it is registry data length. If fails 
+  (e.g., key or value does not exist, access denied, etc), returns 0. You can 
+  get error description using <a href="../str/IDP_S_DLLERROR.html">str.dllerror</a>.</p>
+<p>&nbsp;</p>
+<p> When deleting, <span class="blue">rset</span> returns 1 if successful, 0 if failed. Returns 0 if  the value or key did not exist; then  <span class=cod><span class=fq>if</span><span class=p>(</span><span class=fd>GetLastError</span><span class=o>=</span><span class=d>ERROR_FILE_NOT_FOUND</span><span class=p>)</span></span> will be true, unless it failed for some other reason, for example if access is denied (ERROR_ACCESS_DENIED).</p>
+<p>&nbsp;</p>
+
+<p> Warning: You should not use <span class="blue">rset</span> if you are not 
+  sure that this will not damage something. You can safely use <span class="blue">rget</span>. 
+  It is quite safe to use <span class="blue">rset</span> if <b>key</b> is omitted, 
+  &quot;&quot;, or begins with \, because then you deal only with the key dedicated 
+  for QM macros.</p>
+<p>&nbsp;</p>
+<p>Hive HKEY_CURRENT_USER (default) is used for current user's settings. Other 
+  hives are used for settings common to all users.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_VISTA.html">UAC</a>: <span class="blue">rset</span>  cannot write 
+  to hives other than HKEY_CURRENT_USER if QM is running not 
+  as administrator.</p>
+<p>&nbsp;</p>
+
+<p>Registry data format:</p>
+<table class="tnormal">
+  <tr> 
+    <th>expression/variable type</th>
+    <th>registry data format</th>
+  </tr>
+  <tr> 
+    <td>str, lpstr</td>
+    <td>REG_SZ or <b>datatype</b></td>
+  </tr>
+  <tr> 
+    <td>int, byte, word</td>
+    <td>REG_DWORD</td>
+  </tr>
+  <tr> 
+    <td>other</td>
+    <td>REG_BINARY</td>
+  </tr>
+</table>
+<p>&nbsp; </p>
+<p> QM 2.3.0. If <b>variable</b> is a str variable, and <b>datatype</b> is REG_SZ 
+  or 0 or omitted, <span class="blue">rget</span> succeeds even if data type in 
+  registry is not of REG_SZ type. REG_EXPAND_SZ strings are automatically expanded. 
+  REG_MULTI_SZ strings are correctly retrieved too. REG_DWORD and REG_QWORD values 
+  are converted to string. Data of other nonstring types is copied to the str 
+  variable unmodified. In older QM versions, <span class="blue">rget</span> would 
+  fail if registry data type is not a string type. String types are REG_SZ, REG_MULTI_SZ 
+  and REG_EXPAND_SZ.</p>
+<p>&nbsp;</p>
+<p>If <b>variable</b> is a str variable, and <b>datatype</b> other than 0 or REG_SZ 
+  is specified, <span class="blue">rget</span> fails if data type of the value 
+  in the registry is other. With variables of other types, data type in the registry 
+  must match too.</p>
+<p>&nbsp;</p>
+<p>Variables of composite types except str cannot be used. These are ARRAY, BSTR, 
+  VARIANT, interface pointer, and types containing these types or str. With 
+  <span class="blue">rget</span> also cannot be used pointers and lpstr. Types 
+  containing str can be used if you convert them from/to string. See <a href="../str/IDP_S_STRUCT.html">str.getstruct/str.setstruct</a>.</p>
+<p>&nbsp;</p>
+<p><span class="blue">rset</span> and <span class="blue">rget</span> can be used 
+  with single argument. Then the argument must be a variable, in simplest form 
+  (without <tt>.</tt>, <tt>[]</tt>, etc). 
+  The variable name is used for the registry value name. For example, <span class=cod><span class=fq>rset</span> v</span> is the same as <span class=cod><span class=fq>rset</span> v <span class=s>&#34;v&#34;</span></span>.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>If your macro has many settings, try  class <span class="type">__Settings</span>. It makes easier to manage them.  Displays in grid control, where user can change them.</p>
+<p>&nbsp;</p>
+<!--
+<p>On 64-bit Windows some keys have two views - 32-bit and 64-bit. Example - keys 
+  in CLSID key in HKEY_CLASSES_ROOT. In registry editor they are merged, but registry 
+  functions by default can access only 32-bit keys. To access 64-bit key, add 
+  flag HKEY_64BIT (0x40000000) to <b>hive</b> (example: HKEY_CLASSES_ROOT|HKEY_64BIT). 
+  On 32-bit Windows the flag is ignored. The flag has been added in QM 2.3.0.8. 
+  The flag can be used with <span class="blue">rget</span>, <span class="blue">rset</span>, 
+  <span class="type">RegKey</span>.Open, <span class="UDF">FE_RegKey</span>, <span class="UDF">RegGetSubkeys</span>, 
+  <span class="UDF">RegGetValues</span>. Cannot be used when deleting key (<span class="blue">rset</span> 
+  with <b>options</b> -2, -3 or -4).</p>
+<p>&nbsp; </p>
+-->
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> retrieves value &#34;Logon User Name&#34; from HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=fq>rget</span><span class=p>(</span>s <span class=s>&#34;Logon User Name&#34;</span> <span class=s>&#34;Software\Microsoft\Windows\CurrentVersion\Explorer&#34;</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;the value or the key does not exist&#34;</span>
+
+<span class=c> retrieves the default value from HKEY_CLASSES_ROOT\mp3file\shell\play\command</span>
+<span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=fq>rget</span><span class=p>(</span>s <span class=s>&#34;&#34;</span> <span class=s>&#34;mp3file\shell\play\command&#34;</span> <span class=d>HKEY_CLASSES_ROOT</span><span class=p>))</span>
+<span class=i>&#9;</span><span class=fq>out</span> s
+
+<span class=c> sets value &#34;test&#34; in HKEY_CURRENT_USER\software\gindi\qm2\user\MyFunctionSettings</span>
+<span class=fq>rset</span> <span class=s>&#34;data&#34;</span><span class=s> &#34;test&#34;</span> <span class=s>&#34;\MyFunctionSettings&#34;</span>
+
+<span class=c> retrieves value &#34;test&#34; from HKEY_CURRENT_USER\software\gindi\qm2\user\MyFunctionSettings</span>
+<span class=t>str</span> s
+<span class=fq>rget</span> s <span class=s>&#34;test&#34;</span> <span class=s>&#34;\MyFunctionSettings&#34;</span>
+<span class=fq>out</span> s
+
+<span class=c> sets value &#34;test&#34; in HKEY_CURRENT_USER\software\gindi\qm2\user</span>
+<span class=t>int</span> test <span class=o>=</span> <span class=n>100</span>
+<span class=fq>rset</span> test
+
+<span class=c> retrieves value &#34;test&#34; from HKEY_CURRENT_USER\software\gindi\qm2\user</span>
+<span class=t>int</span> test
+<span class=fq>rget</span> test
+<span class=fq>out</span> test
+
+<span class=c> deletes value &#34;test&#34; in HKEY_CURRENT_USER\software\gindi\qm2\user\MyFunctionSettings</span>
+<span class=fq>rset</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;test&#34;</span> <span class=s>&#34;\MyFunctionSettings&#34;</span> <span class=n>0</span> <span class=o>-</span><span class=n>1</span>
+
+<span class=c> deletes key &#34;MyFunctionSettings&#34; in HKEY_CURRENT_USER\software\gindi\qm2\user</span>
+<span class=fq>rset</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;MyFunctionSettings&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0</span> <span class=o>-</span><span class=n>2</span></pre><p>&nbsp;</p>
+<hr>
+<h2>Ini file functions</h2>
+<p>Ini files can be used to store settings. However it is not recommended because 
+  is too limited. No Unicode, not all characters allowed, no hierarchy, etc. To 
+  store small-size settings, instead use the registry. For bigger-size settings 
+  and other data you can use <a href="../User/IDP_IXML.html">XML</a>, <a href="../User/IDP_ICSV.html">CSV</a> or <span class="type">Sqlite</span>.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+<pre class=syntax><i>int </i><b>rset</b>(data name section inifile <i>[</i>options<i>]</i>)
+<i>int </i><b>rget</b>(variable name section inifile <i>[</i>default<i>]</i>)</pre><p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>data </b>- data to be stored in the ini file. Can be variable or other 
+expression.</p>
+<p> <b>variable </b>- variable that receives data stored in the ini file.</p>
+<p> <b>name</b> - ini value name (also called <i>key</i>). Everything is the same 
+as with the registry.</p>
+<p> <b>section</b> - ini section name. In ini files section names are in [ ].</p>
+<p> <b>inifile</b> - ini <a href="https://quickmacros.com/help/Functions/..\Other\IDP_SEARCHPATHS.html">file</a>. 
+Default: &quot;$my qm$\User.ini.</p>
+<p><b>default</b> - default value to be used if the value does not exist. Everything 
+is the same as with the registry.</p>
+<p> <b>options</b>:</p>
+<table class="tflags"><col>
+  <tr>
+    <td>0 (default)</td>
+    <td>write data.</td>
+  </tr>
+  <tr> 
+  <td>-1</td>
+  <td><p>delete value.</p>
+    <ul>
+      <li> <b>data</b> is not used and can be &quot;&quot;.</li>
+    </ul></td>
+</tr>
+<tr> 
+  <td>-2</td>
+  <td><p>delete section.</p>
+    <ul>
+      <li> <b>data</b> and <b>name</b> are not used and can be 
+        &quot;&quot;.</li>
+    </ul></td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p><span class="blue">rset</span> writes <b>data</b> to the ini file. If the file 
+or section does not exist, creates.</p>
+<p><span class="blue">rget</span> reads data from the ini file and stores it into 
+  the <b>variable</b>.</p>
+<p>&nbsp;</p>
+<p>Each of these functions returns 1 on success, 0 on failure<b></b>. If <span class="blue">rset</span> 
+  failed, you can get error description using <a href="../str/IDP_S_DLLERROR.html">str.dllerror</a>.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=c> write to ini file
+</span><span class=fq>rset</span> <span class=s>&quot;data&quot;</span> <span class=s>&quot;a&quot;</span> <span class=s>&quot;section&quot;</span> <span class=s>&quot;$desktop$\test.ini&quot;</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
