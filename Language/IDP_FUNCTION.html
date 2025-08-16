@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>function</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Define function parameters and return type</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>function</b><i>[</i>[c]<i>][</i>functype<i>]</i> <i>[</i>parameters<i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_TYPESPEC.html"> <b>functype</b></a> <b> </b> <b>-</b>  return type. Default - int.</p>
+
+<p><b>parameters</b> - list of parameters.</p>
+<ul>
+<li> Parameter syntax: <span class=syntax><i>[</i><A href="../Other/IDP_TYPESPEC.html">type</a><i>]</i>name</span></li>
+<li>Optional parameter syntax: <span class=syntax>[<i>[</i><a href="../Other/IDP_TYPESPEC.html">type</a><i>]</i>name]</span></li>
+<li>Default <b>type</b> is int.</li>
+</ul>
+<p><b>c</b> -  __cdecl calling convention. Use for C callback 
+functions. Default: __stdcall.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Defines user-defined function's return type and parameters.</p>
+<p>&nbsp;</p>
+<p> It must 
+  be the first statement in the function or <a href="IDP_DIR_SUB.html">sub-function</a>. Only comments can be before.</p>
+<p>&nbsp;</p>
+<p>This 
+  statement is optional if don't need parameters. If not used, function's return type is int.</p>
+
+<p>&nbsp;</p>
+
+<p>Parameters are local variables. When calling the function, they receive values 
+  that are passed to the function (arguments).</p>
+<p>&nbsp;</p>
+<p> Parameters enclosed in [ ] are optional. 
+  When calling the function, values of unused optional parameters  will be 0.</p>
+
+<p>&nbsp;</p>
+
+<p>If a parameter is declared as pointer or reference, you must pass address of 
+  a variable of that type. Then function can modify that variable. This 
+  also can be used to pass str variables, arrays, (to avoid copying of whole string 
+  or array) and variables of user-defined types. To get address of a variable, 
+  prepend operator &amp;. If an parameter is declared as reference, operator &amp; 
+  is optional. Some functions may also accept 0 for pointer/reference parameters 
+  (usually, for optional parameters).</p>
+
+<p>&nbsp;</p>
+
+<p>Parameters of type byte* can receive pointers of any type, also str, lpstr and 
+  interface pointers of any type. For parameters of other types, must be passed 
+  values of same or compatible type (string to string, numeric to numeric, etc). 
+  If type casting is required, use <a href="IDP_OPUNARY.html">operator +</a>. 
+</p>
+
+<p>&nbsp;</p>
+
+<p>Functions can by called by other functions or macros, or  
+  as callback functions. If a function is started using some other way (Run button,  trigger, etc), usually  arguments are not passed, and values of all parameters are 0. Arguments can be passed with <a href="../Commands/IDP_MAC.html" class="blue">mac</a> and <A href="https://quickmacros.com/help/Language/..%5CQM_Help%5CIDH_TRIG_COMMANDLINE.html">command 
+line</a>.</p>
+<p>&nbsp;</p>
+
+<p> <i>See also: </i> <A href="IDH_FUNCTIONS.html">about functions</a><i>, </i><a href="../QM_Help/IDH_FUNCTION.html">Function as QM item 
+  type</a>, <a href="IDP_FUNCTION.html"></a><a href="../QM_Help/IDH_FUNCTIONTIPS.html">function 
+  tips</a>, <a href="../Other/IDP_FUNCTIONCALL.html">various 
+ways of calling</a>,  <a href="IDH_VARIABLES.html">variables</a>, <a href="IDH_POINTERS.html">pointers</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<p>Examples are given in pairs. The first example in a pair is function's text. 
+  The second one is how it can be called (code in another function or macro). 
+  Assume that function's name in all examples is &quot;Func&quot;.</p>
+
+<p>&nbsp;</p>
+
+<h4>Example 1:</h4>
+
+<pre class=cod><span class=c> Function accepts 2 int parameters and returns value of type int.
+</span><span class=fq>function</span><span class=o>#</span> a b
+<span class=fq>ret</span> a<span class=o>+</span>b<span class=o>/</span><span class=n>2</span>
+<span class=c>
+ Call it. Pass values 10 and 20. Assign function's return value to variable i.
+</span>i <span class=o>=</span> <span class=fu>Func</span><span class=p>(</span><span class=n>10</span> <span class=n>20</span><span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<h4>Example 2:</h4>
+
+<pre class=cod><span class=c> Function accepts 2 parameters (lpstr and str reference) and returns value of type int.
+</span><span class=fq>function</span><span class=o>#</span> <span class=t>lpstr</span><span class=p>'</span>sFile <span class=t>str</span><span class=o>&#38;</span>sr
+<span class=fq>if</span><span class=p>(</span><span class=o>!&#38;</span>sr<span class=p>)</span> <span class=fq>end</span> <span class=s>&#34;invalid argument&#34;</span>
+sr.from<span class=p>(</span><span class=s>&#34;$Desktop$\&#34;</span> sFile<span class=p>)</span>
+sr.searchpath<span class=p>()</span>
+<span class=fq>ret</span> s.len
+<span class=c>
+ Call it. Pass string constant and address of str variable. If function returns nonzero value then show s, else show error-string.
+</span><span class=t>str</span> s
+<span class=fq>if</span><span class=p>(</span><span class=fu>Func</span><span class=p>(</span><span class=s>&#34;my file.txt&#34;</span> <span class=o>&#38;</span>s<span class=p>))</span> <span class=fq>out</span> s
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&#34;file not found&#34;</span></pre>
+
+<p>&nbsp;</p>
+
+<h4>Example 3:</h4>
+
+<pre class=cod><span class=c> Function accepts 2 parameters (byte pointer) and returns value of type int. Function is called using  __cdecl calling convention.
+</span><span class=fq>function</span>[c]<span class=o>#</span> <span class=o>!*</span>a <span class=o>!*</span>b
+<span class=fq>if</span><span class=p>(</span>a[<span class=n>0</span>]<span class=o>&#62;</span>b[<span class=n>0</span>]<span class=p>)</span> <span class=fq>ret</span> <span class=n>1</span>
+<span class=fq>if</span><span class=p>(</span>a[<span class=n>0</span>]<span class=o>&#60;</span>b[<span class=n>0</span>]<span class=p>)</span> <span class=fq>ret</span> <span class=o>-</span><span class=n>1</span>
+<span class=c> If function returns not through ret, return value is 0.
+ Here we used type declaration character to define types of parameters. Same as function[c]# byte*a byte*b .
+
+ Here we don't call it directly, but call dll function qsort, which calls it as callback function.
+</span><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;New York&#34;</span>
+<span class=fd>qsort</span> s s.len <span class=n>1</span> <span class=o>&#38;</span><span class=fu>Func</span>
+<span class=fq>out</span> s
+<span class=c> Now s is &#34; NYekorw&#34; (sorted characters).
+</span></pre>
+
+</body>
+
+</html>
