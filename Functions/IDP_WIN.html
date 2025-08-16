@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>win</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Find window (get handle); compare properties</h1>
+
+<h3>Syntax1 - specified window</h3>
+
+<pre class=syntax><i>int </i><b>win</b>(name<i> [</i>class<i>] [</i>exename<i>] [</i>flags<i>] [</i>propCSV<i>] [</i>matchindex<i>|</i>array<i>]</i>)
+<i>int </i><b>wintest</b>(hwnd name<i> [</i>class<i>] [</i>exename<i>] [</i>flags<i>] [</i>propCSV<i>]</i>)</pre>
+<p>&nbsp;</p>
+<p>Before QM 2.3.4 used <a onClick="doSection(obsolete)" class="expand">this</a> instead. </p>
+<div id="obsolete" class="expand">
+  <p>Instead of <b>propCSV</b> used two parameters <b>x y</b> and several additional flags.</p>
+  <p>&nbsp;</p>
+  <pre class=syntax><i>int </i><b>win</b>(name<i> [</i>class<i>] [</i>exename<i>] [</i>flags<i>] [</i>x y<i>] [</i>matchindex<i>|</i>array<i>]</i>)
+<i>int </i><b>wintest</b>(hwnd name<i> [</i>class<i>] [</i>exename<i>] [</i>flags<i>] [</i>x y<i>]</i>)</pre>
+  <p>&nbsp;</p>
+  <p><b>x y</b> - used for multiple purposes, depending on flags. Default: the window must contain this point in screen.</p>
+  <p>&nbsp;</p>
+  <p>These flags can be used to change <b>x y</b> meaning:</p>
+<table class="tflags">
+    <col>
+    <tr>
+      <td>64</td>
+      <td><b>x</b> is handle of owner window.</td>
+    </tr>
+    <tr>
+      <td>128</td>
+      <td><b>x</b> is style.</td>
+    </tr>
+    <tr>
+      <td>0x100</td>
+      <td><b>y</b> is extended style.</td>
+    </tr>
+    <tr>
+      <td>0x8000</td>
+      <td><b>x</b> and <b>y</b> used to specify a callback function and a value to pass to it.</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Syntax2 - window from point</h3>
+
+<pre class=syntax><i>int </i><b>win</b>(x y <i>[</i>workarea<i>]</i>)
+<i>int </i><b>wintest</b>(x y <i>[</i>workarea<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax3 - window from mouse position</h3>
+<pre class=syntax><i>int </i><b>win</b>(mouse<i></i>)
+<i>int </i><b>wintest</b>(hwnd mouse<i></i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Syntax4 - the active window</h3>
+<pre class=syntax><i>int </i><b>win</b></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+<div class="parts">
+
+<p> <b>name</b> - window title.</p>
+<ul>
+  <li> By default, <b>name</b> can be partial and must 
+    match case.</li>
+  <li> Empty string (&quot;&quot;) matches any name.</li>
+</ul>
+<p> <b>class</b> - window class name.</p>
+<ul>
+  <li> Must be full or with wildcard characters (*?). Case insensitive.</li>
+  <li> Default: 
+    &quot;&quot; (any).</li>
+  <li>Before QM 2.3.4, to use wildcard characters, need flag 0x800.</li>
+  <li>You can see class name in QM status bar.</li>
+</ul>
+<p> <b>exename</b> - program. 
+  Default: &quot;&quot; (any). Can be:</p>
+<ul>
+  <li>Filename (e.g., &quot;NOTEPAD&quot;) or full path 
+    (e.g., &quot;$system$\notepad.exe&quot;).</li>
+  <li> QM 2.2.0. Process id.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+  <tr> 
+    <td>1</td>
+    <td> <p><b>name</b> is full or with <a href="IDP_MATCHW.html">wildcard 
+      characters</a> (*?).</p>
+      <ul>
+        <li>For example, if window name must end with 
+          &quot; - Notepad&quot;, use &quot;* - Notepad&quot; and flag 1. If it must be exactly &quot;Notepad&quot;, use &quot;Notepad&quot; 
+          and flag 1.</li>
+        <li>String &quot;*&quot; matches windows with no name.</li>
+      </ul>      </td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td> <b>name</b> is case insensitive.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Window must not be <a href="../Other/IDP_WINDOWSTYLES.html">popup</a>.</td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td>Window must be popup.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td> <b>name</b> is list of names.</td>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td><b>exename</b> is owner window. Can be handle, name or +classname.</td>
+  </tr>
+  <tr> 
+    <td>0x200</td>
+    <td> <b>name</b> is <A href="../RegExp/IDP_PCRE.html">regular expression</a>.</td>
+  </tr>
+  <tr> 
+    <td>0x400</td>
+      <td> <p>Must be visible. It is default if <b>class</b> is not specified, unless used <span class=cod><span class=fq>opt</span> hidden <span class=n>1</span></span> before. It isn't default for <span class="blue">wintest</span>.</p></td>
+  </tr>
+</table>
+
+  <p><b>propCSV</b> - list of other properties in format &quot;name1=value1[]name2=value2[]...&quot;. It is <a href="../User/IDP_ICSV.html">CSV</a> string with separator =. Default: &quot;&quot;.</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td><b>name</b></td>
+      <td><b>value</b></td>
+    </tr>
+    <tr>
+      <td>owner</td>
+      <td><p>Owner window handle. Example:</p>
+      <p><span class=cod><span class=o>F</span><span class=s>&quot;owner={</span>hwndOwner<span class=s>}&quot;</span></span></p></td>
+    </tr>
+    <tr>
+      <td>xy</td>
+      <td><p>x and y coordinates of a <A href="../Other/IDP_PIXELS.html">point</a> in screen that the window must contain. Examples:</p>
+        <pre class=cod><span class=s>&quot;xy=100 50&quot;</span>
+<span class=s>&quot;xy=0.9 0.1&quot;</span> <span class=c2>;;near top-right</span></pre></td>
+    </tr>
+    <tr>
+      <td>style</td>
+      <td><p>Style, optionally followed by a mask. Examples:</p>
+        <pre class=cod><span class=s>&quot;style=0x54032000&quot;</span> <span class=c2>;;must have exactly this style</span>
+<span class=o>F</span><span class=s>&quot;style=-1 {</span><span class=d>WS_DISABLED</span><span class=s>}&quot;</span> <span class=c2>;;must be disabled</span>
+<span class=o>F</span><span class=s>&quot;style=0 {</span><span class=d>WS_DISABLED</span><span class=s>}&quot;</span> <span class=c2>;;must not be disabled</span></pre></td>
+    </tr>
+    <tr>
+      <td>exStyle</td>
+      <td>Extended style, optionally followed by a mask.</td>
+    </tr>
+    <tr>
+      <td>cClass, cText, cId, cFlags</td>
+      <td><p>The window must have the specified control. Parameters are as with <a href="IDP_CHILD.html" class="blue">child</a>, all optional. Example:</p>
+      <p><span class=cod><span class=s>&quot;cClass=Static[]cText=Example*[]cFlags=1&quot;</span></span></p></td>
+    </tr>
+    <tr>
+      <td>GetProp</td>
+      <td><p>The window must have the specified <a href="http://www.google.com/search?q=site%3Amicrosoft.com window properties SetProp" target="_blank">window property</a>. Property name, optionally followed by value. If only name, value can be any nonzero. <a onClick="doSection(getprop)" class="expand">Read more</a>. </p>
+        <div id="getprop" class="expand">Window properties is a Windows feature that allows applications to assign named values to windows. A macro also can set window properties. Use function <span class="dll">SetProp</span>. Name can be any string without spaces. Value - any nonzero number. Use <span class="dll">SetProp</span> carefully, don't use many names, or applications may stop working. Property names are used by many applications, and the number of names is limited. Remove with <span class="dll">RemoveProp</span> when don't need.</div></td>
+    </tr>
+    <tr>
+      <td>callback</td>
+      <td><p>Address of a <A href="../Other/IDP_ENUMWIN.html">callback function</a>, optionally followed by a value to pass to it. Example:</p>
+        <p><span class=cod><span class=o>F</span><span class=s>&quot;callback={</span><span class=o>&amp;</span><span class=fu>Function</span><span class=s>} {</span>aValue<span class=s>}&quot;</span></span></p></td>
+    </tr>
+    <tr>
+      <td><p>threadId</p>
+      <p>(QM 2.4.2)</p></td>
+      <td><p>Thread id.</p>
+      <p>Some functions to get it: <span class="dll">GetCurrentThreadId</span>, <span class="dll">GetWindowThreadProcessId</span>, <span class="dll">GetQmThreadInfo</span>.</p></td>
+    </tr>
+    <tr>
+      <td>processHandle
+      (QM 2.4.2)</td>
+      <td><p>Process handle. Example:</p>
+      <pre class=cod><span class=t>__Handle</span> hp<span class=o>=</span><span class=fq>run</span><span class=p>(</span><span class=s>&quot;notepad.exe&quot;</span><span class=p>)</span>
+<span class=t>int</span> w<span class=o>=</span><span class=fq>wait</span><span class=p>(</span><span class=n>30</span> WC <span class=fq>win</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=s>&quot;Notepad&quot;</span> <span class=s>&quot;&quot;</span> <span class=n>0</span> <span class=o>F</span><span class=s>&quot;processHandle={</span>hp<span class=s>}&quot;</span><span class=p>))</span>
+</pre>
+<p>Note: it is not the same as process id. If you have id, pass it as the <b>exename</b> argument instead.</p></td>
+    </tr>
+  </table>
+  <p><b>matchindex</b> (QM 2.2.0) - 1-based index of matched window. Use when there 
+    are several windows that match other properties (<b>name</b>, <b>class</b>, 
+  etc).</p>
+<p><b>array</b> (QM 2.2.1) - variable of type <span class="type">ARRAY(int)</span> that will receive handles 
+    of all matching windows. See also <span class="UDF">GetMainWindows</span>.</p>
+<p>&nbsp;</p>
+<p><B>x, y</B> (syntax2) - a <A href="../Other/IDP_PIXELS.html">point</A> in screen.</p>
+<ul>
+  <li>The function gets the window that contains this point.</li>
+</ul>
+<p><b>workarea</b> (syntax2) - if nonzero, coordinates are relative to the work area (the screen area used for a maximized window).</p>
+<p> <b>mouse</b> (syntax3) - literal <tt>mouse</tt>.</p>
+<p> <b>hwnd</b> (<span class="blue">wintest</span>) - handle of window to test.</p>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p><span class="blue">win</span> returns <A href="../Other/IDP_WINDOWSTYLES.html">top-level</a> 
+  window <A href="../Other/IDP_WINDOWEXPRESSION.html">handle</a>. If window not 
+  found, returns 0.</p>
+<p>&nbsp;</p>
+<p>The handle then can be passed to any function that has a window parameter.</p>
+
+<p>&nbsp;</p>
+<p>To test window visibility, the function calls <span class="dll">IsWindowVisible</span>, and does not call <span class="UDF">IsWindowCloaked</span>. For example, it can find  inactive Windows 8 app windows and windows on inactive Windows 10/11 virtual desktops.</p>
+<p>&nbsp;</p>
+<p><span class="blue">wintest</span> compares window (<b>hwnd</b>) properties with the specified properties, 
+  and returns 1 if they match, or 0 if not. WIth flag 16 
+  returns 1-based index in the list. Error if <strong>hwnd</strong> is 0 or invalid. See also <a href="../User/IDP_QMDLL.html#WinTest" class="dll">WinTest</a>.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>To create code for <span class="blue">win</span>, use dialog &quot;Find window or control&quot;. Or press Ctrl+Shift+Alt+W, it shows a menu that creates code for some window functions. Recording and various other dialogs also create code with <span class="blue">win</span>.</p>
+
+
+<p> You can see window class, name and exename in QM status bar. Also you can use dialog &quot;Explore windows&quot;, it shows more window properties.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> h <span class=o>=</span> <span class=fq>win</span> <span class=c2>;;active window
+</span>h <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Notepad&#34;</span><span class=p>)</span> <span class=c2>;;name &#34;Notepad&#34;
+</span>h <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Find&#34;</span> <span class=s>&#34;#32770&#34;</span> <span class=s>&#34;NOTEPAD&#34;</span> <span class=n>1</span><span class=o>|</span><span class=n>0x400</span><span class=p>)</span> <span class=c2>;;name &#34;Find&#34;, class &#34;#32770&#34;, program &#34;notepad&#34;, name must match exactly, must be visible
+</span>h <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=s>&#34;Notepad&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0</span> <span class=s>&quot;xy=100 100&quot;</span><span class=p>)</span> <span class=c2>;;class &#34;Notepad&#34;, must be at 100x100 pixels in screen
+</span>h <span class=o>=</span> <span class=fq>win</span><span class=p>(</span><span class=n>200</span> <span class=n>0.5</span><span class=p>)</span> <span class=c2>;;window that is at 200 pixels horizontally and half of screen height vertically
+</span><span class=fq>act</span> <span class=fq>win</span><span class=p>(</span><span class=lib>mouse</span><span class=p>)</span> <span class=c2>;;activate window that is at the mouse position
+</span><span class=c> 
+</span><span class=t>int</span> h<span class=o>=</span><span class=fq>win</span>
+<span class=fq>sel</span> <span class=fq>wintest</span><span class=p>(</span>h <span class=s>&#34;Visual[]Quick&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>16</span><span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>1</span> <span class=fq>out</span> <span class=s>&#34;Visual&#34;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>2</span> <span class=fq>out</span> <span class=s>&#34;Quick&#34;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>0</span> <span class=fq>out</span> <span class=s>&#34;other&#34;</span>
+
+<span class=fq>out</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span> a<span class=p>;</span> <span class=t>int</span> i<span class=p>;</span> <span class=t>str</span> sc sn
+<span class=fq>out</span> <span class=s>&#34;[][9]ALL VISIBLE WINDOWS&#34;</span>
+<span class=fq>win</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span>
+<span class=i>&#9;</span>sc.getwinclass<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span>sn.getwintext<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%i '%s' '%s'&#34;</span> a[i] sc sn
+
+<span class=fq>out</span> <span class=s>&#34;[][9]ALL INVISIBLE WINDOWS&#34;</span>
+<span class=fq>opt</span> hidden <span class=n>1</span>
+<span class=fq>win</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fq>hid</span><span class=p>(</span>a[i]<span class=p>))</span> <span class=fq>continue</span> <span class=c2>;;this window is visible
+</span><span class=i>&#9;</span>sc.getwinclass<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span>sn.getwintext<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%i '%s' '%s'&#34;</span> a[i] sc sn
+
+<span class=fq>out</span> <span class=s>&#34;[][9]ALL WINDOWS OF EXPLORER&#34;</span>
+<span class=fq>opt</span> hidden <span class=n>1</span>
+<span class=fq>win</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;explorer&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span>
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> a.len<span class=p>)</span>
+<span class=i>&#9;</span>sc.getwinclass<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span>sn.getwintext<span class=p>(</span>a[i]<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%i '%s' '%s'&#34;</span> a[i] sc sn</pre>
+</body>
+
+</html>
