@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Windows API window functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Some Windows API window functions</h1>
+<p>Here  hWnd is window handle. Use function <A href="../Functions/IDP_WIN.html" class="blue">win</a> 
+  to get it. For controls, use <A href="../Functions/IDP_CHILD.html" class="blue">child</a> 
+  or <A href="../Functions/IDP_ID.html" class="blue">id</a>.</p>
+  <p>&nbsp;</p>
+  <table class="tnormal">
+    <tr>
+      <td><tt><span class="dll">IsWindow</span>(hWnd)</tt></td>
+      <td>returns 1 if the handle is valid window handle and the window is not 
+        destroyed.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">IsZoomed</span>(hWnd)</tt></td>
+      <td> returns 1 if window is maximized. See also <span class="blue">max</span>.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">IsIconic</span>(hWnd)</tt></td>
+      <td> returns 1 if window is minimized. See also <span class="blue">min</span>.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">IsWindowVisible</span>(hWnd)</tt></td>
+      <td> returns 1 if window is visible. See also <span class="blue">hid</span>.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">IsWindowEnabled</span>(hWnd)</tt></td>
+      <td> returns 1 if window is enabled.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">EnableWindow</span>(hWnd fEnable)</tt></td>
+      <td> enables (fEnable 1) or disables (fEnable 0) window.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">MoveWindow</span>(hWnd x y nWidth nHeight bRepaint)</tt></td>
+      <td> moves and resizes window. See also <span class="blue">mov+</span>.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">SetWindowPos</span>(hWnd 
+        hWndInsertAfter x y cx cy wFlags)</tt></td>
+      <td> moves and/or resizes and/or sets <a href="http://www.wikipedia.org/wiki/Z-order" target=_blank>Z 
+        order</a>, and/or more. For wFlags use SWP_ constants.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">GetWindowRect</span>(hWnd <span class="type">RECT</span>*lpRect)</tt></td>
+      <td> get window dimensions. See also <span class="dll">DpiGetWindowRect</span>.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">GetParent</span>(hWnd)</tt></td>
+      <td> returns handle of direct parent window of child window.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">GetAncestor</span>(hWnd 
+        gaFlags)</tt></td>
+      <td> returns handle of container window. gaFlags: 1 parent (the same as 
+        GetParent), 2 top-level parent, 3 top-level parent or owner.</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="dll">WindowFromPoint</span>(xPoint 
+        yPoint)</tt></td>
+      <td>returns handle of window or child window from point. See also <span class="blue">win</span>, <span class="blue">child</span>.</td>
+    </tr>
+  </table>
+<p>&nbsp;</p>
+  <table class="tnormal">
+    <tr> 
+      <td><tt><span class="blue">type</span> <span class="type">POINT</span> x 
+        y</tt></td>
+      <td>used to store point coordinates</td>
+    </tr>
+    <tr> 
+      <td><tt><span class="blue">type</span> <span class="type">RECT</span> left top right bottom</tt></td>
+      <td>used to store rectangle coordinates</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <p>You can use functions <span class="dll">GetSystemMetrics</span> and <span class="dll">SystemParametersInfo</span> 
+    to get various system parameters. These and other Windows API functions are 
+    documented in <A href="../Other/IDP_MSDN.html">MSDN library</a>.</p>
+  <p>&nbsp;</p>
+  <h3>Examples</h3>
+  <pre class=cod><span class=c> Toggle active window's maximized/restored state:
+</span><span class=fq>if</span><span class=p>(</span><span class=fd>IsZoomed</span><span class=p>(</span><span class=fq>win</span><span class=p>))</span> <span class=fq>res</span><span class=p>;</span> <span class=fq>else</span> <span class=fq>max</span>
+<span class=c> Display dimensions of active window:
+</span><span class=t>RECT</span> r<span class=p>;</span> <span class=fd>DpiGetWindowRect</span><span class=p>(</span><span class=fq>win</span> <span class=o>&#38;</span>r<span class=p>)</span>
+<span class=fq>out</span> <span class=s>&#34;x=%i y=%i width=%i height=%i&#34;</span> r.left r.top r.right<span class=o>-</span>r.left r.bottom<span class=o>-</span>r.top
+<span class=c> Get the work area (the portion of the screen not obscured by the system taskbar or by application desktop toolbars): 
+</span><span class=t>RECT</span> r<span class=p>;</span> <span class=fd>SystemParametersInfo</span><span class=p>(</span>SPI_GETWORKAREA <span class=n>0</span> <span class=o>&#38;</span>r <span class=n>0</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
