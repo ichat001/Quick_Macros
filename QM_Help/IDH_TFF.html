@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Filter functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Filter functions</h1>
+
+<p>Warning: Incorrectly used filter functions can decrease system performance 
+  and stability.</p>
+
+<p>&nbsp;</p>
+
+<p>Filter functions usually are used to narrow trigger scope. A filter function 
+  is called when QM is about to start the macro to which the filter function is 
+  assigned. Depending on filter function's return value, QM starts macro, or not, 
+  or starts other macro. You can make the macro specific to a certain window, 
+  window part, control, mouse pointer position, time, whatever. Filter functions are especially useful with triggers that &quot;eat&quot; trigger event (&quot;Eat&quot; 
+  is checked in Properties).</p>
+
+<p>&nbsp;</p>
+
+<p>A macro that has a trigger (key, mouse, window or autotext) can have a filter function. 
+  To assign a filter function, use the Filter Function dialog, which appears when 
+  you click the FF button in the Properties dialog. To use an existing filter 
+  function, click &quot;Use&quot; and select one from the drop-down list. To create 
+  new, click &quot;New&quot; (or click &quot;Copy&quot; and select an existing 
+  filter function) and optionally type the name for the new filter function. Alternatively, 
+  you can specify a filter function directly in the <A href="../Other/IDP_TRIGGER_CODING.html">Trigger</a> 
+  field on the toolbar.</p>
+
+<p>&nbsp;</p>
+
+<p>A filter function is an usual user-defined function. You must write code for 
+  it. It must begin with:</p>
+
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> iid <span class=t>FILTER</span><span class=o>&#38;</span>f</pre>
+
+<p>&nbsp;</p>
+
+<div class="parts">
+<p> <b>iid</b> - <A href="../Functions/IDP_QMITEM.html">identifier</a> of the 
+macro that is about to run (a macro  to which this 
+filter function is assigned).</p>
+
+<p> <b>f</b> - variable of type FILTER:</p>
+</div>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>FILTER</span> hwnd hwnd2 x y hit <span class=o>!</span>itype <span class=o>!</span>ttype <span class=o>!</span>tkey <span class=o>!</span>tmod <span class=o>!</span>tkey2 []<span class=o>!</span>tmon []<span class=o>!</span>tht</pre>
+<p>&nbsp;</p>
+
+
+
+<div class="parts">
+<p> <b>hwnd</b> - <A href="../Other/IDP_WINDOWEXPRESSION.html">handle</a> of 
+<A href="../Other/IDP_WINDOWSTYLES.html">top-level</a> window.</p>
+<ul>
+  <li> For window triggers, 
+    it is the trigger-window.</li>
+  <li> For mouse click triggers - the clicked window.</li>
+  <li> For other triggers - the active window.</li>
+</ul>
+<p> <b>hwnd2 -</b> handle of child window or top-level window.</p>
+<ul>
+  <li> For key triggers, 
+    it is the focused window (can be 0).</li>
+  <li> For mouse triggers -  window 
+    from mouse.</li>
+  <li>For other triggers - 0.</li>
+</ul>
+<p> <b>x</b>, <b>y -</b> mouse coordinates. Used only with mouse triggers.</p>
+
+<p> <b>hit -</b> hit-test code of mouse trigger. Hit-test codes documented in <a href="http://www.google.com/search?q=site%3Amicrosoft.com WM_NCHITTEST" target="_blank">WM_NCHITTEST</a> page.</p>
+<p>&nbsp;</p>
+<p> Other members provide some info about the macro. The same as in  
+  <a href="https://quickmacros.com/help/QM_Help/..%5CFunctions%5CIDP_QMITEM.html">QMITEM</a>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p>Return values for key, mouse and window triggers:</p>
+<p>&nbsp;</p>
+
+<table class="tnormal">
+  <tr> 
+    <th> Return value</th>
+    <th>Action</th>
+  </tr>
+  <tr> 
+    <td> <b>iid</b></td>
+    <td>run the macro. Other macros that have  same trigger will not run.</td>
+  </tr>
+  <tr> 
+    <td>id or name of some other macro</td>
+    <td>run other macro. For example, the filter function can select 
+      a macro from a list of macros that should run from one main trigger depending 
+      on other conditions (active window, mouse pointer position, etc).</td>
+  </tr>
+  <tr> 
+    <td>0</td>
+    <td>don't run. Other macros that have  same 
+      trigger also will not run.</td>
+  </tr>
+  <tr> 
+    <td>-1</td>
+    <td>don't run, but eat the trigger event (if &quot;Eat&quot; is checked in the 
+      Properties dialog). Usually -1 is used when the filter function itself 
+      starts other macro (<A href="../Commands/IDP_MAC.html" class="blue">mac</a>).</td>
+  </tr>
+  <tr> 
+    <td>-2</td>
+    <td>don't run. Other macros that have same trigger possibly will run.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+<p>Return values for  <a href="IDH_TSM.html">autotext</a> triggers:</p>
+<table class="tnormal">
+  <tr>
+    <th> Return value</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <td><b>iid</b></td>
+    <td>run the autotext list item. Other autotext lists that have  same trigger will not run.</td>
+  </tr>
+  <tr>
+    <td>0 or -1</td>
+    <td>don't run. Other autotext lists that have same trigger also will not run.</td>
+  </tr>
+  <tr>
+    <td>-2</td>
+    <td>don't run. Other autotext lists that have same trigger possibly will run.</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Possible various variants of usage of filter functions. Often a filter function 
+  is specific to a single macro, but it also can be assigned to several macros 
+  that have different triggers. If several macros must have the same trigger, 
+  but run e.g. in different windows, assign the trigger and filter function to 
+  one of them (or to the filter function itself); the filter function evaluates 
+  conditions and depending on results allows starting different macros.</p>
+
+<p>&nbsp;</p>
+
+<p>In <b>iid</b> and <b>f</b> variables the function receives  information about the trigger. 
+  To evaluate it, you can use functions <a href="../Flow/IDP_SEL.html" class="blue">sel</a>, 
+  <A href="../Functions/IDP_WIN.html" class="blue">wintest</a>, <A href="../str/IDP_S_WINDOW.html" class="blue">getwintext, getwinclass</a>, 
+  <span class="UDF">GetWinId</span>, <span class="UDF">GetWinStyle</span>, <span class="UDF">GetWinXY</span>, 
+  <A href="../Functions/IDP_CHILD.html" class="blue"> child, childtest</a>, 
+  <A href="../Functions/IDP_ID.html" class="blue">id</a>, <A href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a>, 
+  <span class="blue"> </span> <A href="../str/IDP_S_MACRO.html" class="blue">getmacro</a> 
+  and other. Information that the function receives in  <b>f</b> 
+  has different meaning for different trigger types (keyboard, mouse, etc). If a filter 
+ function is created for one trigger type,  often it cannot be used with other 
+ trigger types.</p>
+
+<p>&nbsp;</p>
+
+<p>While filter function runs, other application waits and cannot process user 
+  input. Therefore filter functions must be as fast as possible. They must only 
+  evaluate conditions, also can start other macros (<span class="blue">mac</span>), 
+  but itself MUST NOT CONTAIN MACRO COMMANDS (such as mouse, window, wait, dialogs, 
+  etc). Max allowed time is
+  1 second. You can use <a href="../Functions/IDP_PERF.html" class="blue">perf</a> 
+  to measure the time.</p>
+<p>&nbsp;</p>
+<p>Filter function runs while the target application is processing some input 
+  event. For this reason, some code that communicates with that window (e.g., 
+  <span class="blue">acc</span>(mouse)) in some cases may not work.</p>
+<p>&nbsp;</p>
+<p> All filter functions of key, mouse and window triggers run in one special <A href="../Other/IDP_THREADS.html">thread</a>. All filter functions of text triggers run in QM main thread.</p>
+<p>&nbsp;</p>
+<p>If a filter function is disabled, macros to which it is assigned run like without a filter function.</p>
+
+<p>&nbsp;</p>
+
+<p>Several filter function templates are available.</p>
+
+<p>&nbsp;</p>
+<p>When you edit a filter function, to apply the changes click  Save or Compile 
+  button.</p>
+<p>&nbsp;</p>
+
+<p> <A href="IDH_TFF_EXAMPLES.html">Examples</a></p>
+
+</body>
+
+</html>
