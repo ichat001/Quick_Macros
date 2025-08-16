@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Menu properties</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Menu properties</h1>
+
+<p>You can set <a href="IDH_POPUP.html">menu</a> properties in the Properties 
+  dialog. They are placed in the first line of menu text, so you can also edit 
+  them directly.</p>
+
+<p>&nbsp;</p>
+<p><a onClick="doSection(e1)" class="expand">Syntax</a></p>
+<div id="e1" class="expand"> 
+<pre class=syntax><span class="green"> /option1 </span><i>[</i><span class="green">parameters</span><i>] [</i><span class="green">/option2 </span><i>[</i><span class="green">parameters</span><i>] ...]</i></pre>  <p>&nbsp;</p>
+  <p>Space or semicolon, and one or more options. 
+    Each option begins with / and can have 1-2 parameters. If some 
+    parameter is not used, it can be omitted or &quot;&quot;.</p>
+</div>
+<p>&nbsp;</p>
+<p>Some options are explained more in the <a href="IDH_POPUP.html">menu</a> 
+  topic.</p>
+<h2>Available options</h2>
+<p>1. Set menu position.</p>
+
+<pre><span class="green"> /pos position</span></pre>
+<p>&nbsp;</p>
+
+<p><b>position</b> - one of the following words: <i>mouse</i> (default), <i>text</i>, 
+  <i>center</i>. </p>
+
+<p>&nbsp;</p>
+
+
+<p>2. Don't show icons.</p>
+
+<pre><span class="green"> /noicons</span></pre>
+<p>&nbsp;</p>
+<p>3. When an item is clicked, close the menu but don't run the associated command. 
+  Can be useful if the menu will be launched from code (<span class="blue">mac</span>).</p>
+
+<pre><span class="green"> /dontrun</span></pre>
+<p>&nbsp;</p>
+<p>4. Disable Edit items in the right-click menu.</p>
+
+<pre><span class="green"> /noedit</span></pre>
+<p>&nbsp;</p>
+
+<p>5. Expand file folders. <a href="IDH_POPUP.html">Read more</a>.</p>
+<pre><span class="green"> /expandfolders flags level</span></pre>
+<p>&nbsp;</p>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tnormal">
+  <tr> 
+    <td width="9%">1</td>
+    <td width="85%">Don't include shell objects that are not file system files/folders. 
+      For example, Control Panel folder and most objects in it are not file system 
+      objects.</td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td>Don't include folders.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td>Show hidden files/folders.</td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td>Expand not only folders but also shortcuts to folders. Expanded are only 
+      shortcuts that are in expanded folders.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td>Include only folders. Incompatible with flag 2.</td>
+  </tr>
+  <tr> 
+    <td>32</td>
+    <td>Add 'This Folder' item at the top of a submenu. It opens the folder from 
+      which is created the submenu.</td>
+  </tr>
+  <tr> 
+    <td>128</td>
+    <td>Display paths in the output when the menu is shown. Temporarily select 
+      it when you need to know paths of menu items. Especially useful when you 
+      need to include or exclude a non-file-system object (e.g. Recycle Bin). 
+      While this flag is set, /folder is not applied.</td>
+  </tr>
+</table>
+<p><b>level</b> limits the number of submenus. Examples: 1 - folder; 2 - folder\subfolder; 
+  3 - folder\subfolder\subfolder.</p>
+<p>&nbsp;</p>
+<p>6. Include/exclude patterns for /expandfolders. Applied only to files.</p>
+<pre><span class="green"> /filter include exclude</span></pre>
+<p>&nbsp;</p>
+<p>You can specify one or more files to be included or/and excluded. Use | as separator. Use <a href="../Other/IDP_WILDCARD.html">wildcard characters</a>.</p>
+<p>&nbsp;</p>
+<p> If include/exclude contains \ or : characters, evaluated is full path, else 
+  only filename.</p>
+<p>&nbsp;</p>
+<p> Non-file-system objects are evaluated by path, which usually is one or more 
+  class id strings. To see paths, temporarily select &quot;Show paths&quot; in 
+  Properties (it is flag 128).</p>
+<p>&nbsp;</p>
+<p>Examples of <b>include</b> or <b>exclude</b>: &quot;*.txt&quot; (txt files), 
+  &quot;*.exe|*.com|*.bat&quot; (files of these 3 types), &quot;jun*&quot; (files 
+  that begin with &quot;jun&quot;), &quot;C:\*\*&quot; (don't include files in 
+  C:\, but include files in folders), &quot;?:\*\*&quot; (the same for all drives).</p>
+<p>&nbsp;</p>
+<p>7. Include/exclude patterns for /expandfolders. The same as above, but applied 
+  only to folders and drives.</p>
+<pre><span class="green"> /filterfolders include exclude</span></pre>
+<p>&nbsp;</p>
+<p>Examples of <b>include</b> or <b>exclude</b>: &quot;C:\&quot; (drive C:), &quot;A:\|D:\&quot; 
+  (drives A: and D:), &quot;::{645FF040-5081-101B-9F08-00AA002F954E}&quot; (Recycle 
+  Bin).</p>
+<p>&nbsp;</p>
+<p>8. Set background image for menu items. Can be bmp, gif, jpg. QM 2.3.4: also can be png. The image is 
+  tiled, and therefore can be smaller than a menu item.</p>
+
+<pre><span class="green"> /bmp file</span></pre>
+<p>&nbsp;</p>
+
+<p>9. Set background image for highlighted menu item. The image is tiled.</p>
+<pre><span class="green"> /bmpsel file</span></pre>
+
+<p>&nbsp;</p>
+<p>10. Set text color for normal and selected items.</p>
+<pre><span class="green"> /tcol color colorsel</span></pre>
+<p>&nbsp;</p>
+<p>Here <b>color</b> and <b>colorsel</b> are <a href="../Other/IDP_COLOR.html">colors</a> 
+  in 0xBBGGRR format.</p>
+<p>&nbsp;</p>
+<p>11. QM 2.3.0. When menu items exceed screen height, use multiple columns.</p>
+<pre><span class="green"> /multicolumn</span></pre>
+<p>&nbsp;</p>
+<p> Expanded file folders are always displayed in multiple columns regardless 
+  of this option.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
