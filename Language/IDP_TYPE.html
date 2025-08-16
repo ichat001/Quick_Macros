@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>type</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><a href="IDP_DECLARATION.html">Define</a> variable type</h1>
+
+<h3>Syntax (simplified)</h3>
+
+<pre class=syntax><b>type</b> typename members</pre>
+<p>&nbsp;</p>
+<p>Members can be in the same line or/and in multiple lines:</p>
+<p>&nbsp;</p>
+<pre class=syntax><b>type</b> typename
+<i class=f8>(tab)</i>member1
+<i class=f8>(tab)</i>member2
+<i class=f8>(tab)</i><i>...</i></pre>
+<p>&nbsp;</p>
+
+<p>Instead of the <span class="blue">type</span> keyword, you can use <a href="IDP_CLASSES.html" class="blue">class</a> 
+  or <a href="IDP_CATEGORIES.html" class="blue">category</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>typename</b> - <A href="../Other/IDP_IDENTIFIERS.html">name</a> of the new type.</p>
+
+<p> <b>members</b> - list of members.</p>
+<ul>
+  <li>Member syntax: <span class=syntax><i>[</i><A href="../Other/IDP_TYPESPEC.html">membertype</a><i>]</i>membername</span></li>
+  <li> For members of type int, <b>membertype</b> can be omitted.</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>QM has 7 intrinsic <A href="IDH_VARIABLES.html">variable</a> types - int, byte, 
+  word, long, double, lpstr and str. It also defines <A href="../_COM/IDP_OLETYPES.html">7 
+  OLE types and several other types</a>. You can combine variables of several 
+  different types to create user-defined types (also known as structures or records). 
+  User-defined types are useful when you want to create a single variable that 
+  contains several related pieces of information. You create a user-defined type 
+  with the <span class="blue">type</span> statement. Once you have new type defined, 
+  you can create variables of that type (<b>typename</b>) like variables of intrinsic 
+  types. The type definition exists until QM exits or other file is opened.</p>
+<p>&nbsp;</p>
+<p>A user-defined type can contain member variables of any type, including other 
+  user-defined types.</p>
+
+<p>&nbsp;</p>
+
+<p>A user-defined type can contain embedded single-dimension arrays. The number 
+  of elements must be enclosed in square brackets and immediately follow member 
+  name: <span class=syntax><i>[</i>membertype<i>]</i>membername[numelem]</span>. 
+  Embedded strings (not lpstr or str) must be declared as byte array. Such array 
+  cannot be used directly as lpstr or pointer. Instead, use &amp; operator to 
+  get address of array, and assign it to a lpstr or pointer variable. Example: 
+  <span class=cod><span class=t>lpstr</span> s <span class=o>=</span> <span class=o>&#38;</span>var.array</span>. 
+  Array name, when used without [], means first element.</p>
+<p>&nbsp;</p>
+<p>It is possible to specify nonstandard member alignment, member offsets (e.g. to define unions), and define anonymous types within 
+  types. Read more <a href="IDP_UNIONS.html">here</a>.</p>
+<p>&nbsp;</p>
+<p> It is possible to use a base type (<a href="IDP_CLASSES.html">inheritance</a>).</p>
+<p>&nbsp;</p>
+<p>It is possible to add global identifiers. Usually it is used to define a <a href="IDP_CATEGORIES.html">category</a>. 
+  Syntax:</p>
+<p>&nbsp;</p>
+<pre class=syntax><b>type</b> typename <i>[</i>members<i>] [</i>: globals<i>]</i></pre>
+<p>&nbsp;</p>
+<p>User-defined types also can be defined in <a href="../QM_Help/IDH_SETT_FILES.html">reference 
+  files</a> and <A href="../_COM/IDP_TYPELIB.html">type libraries</a>, which allows 
+  you to use them without defining explicitly. Many declarations are in WINAPI 
+  and WINAPIV reference files. Usage example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=lib>WINAPI.</span><span class=t>PARAFORMAT</span> p</pre>
+<p>&nbsp;</p>
+<p>Some Windows types are defined by default. Some of them are <a href="../_COM/IDP_OLETYPES.html">defined 
+  by QM</a>, others in the System\Declarations folder.</p>
+<p>&nbsp;</p>
+<p>Some Windows types actually are not user-defined types, but rather aliases 
+  of other types or of pointers to other types. For example, instead of various 
+  handle types (HWND, HANDLE, HMODULE, HICON, etc), in QM is used <span class="type">int</span>. 
+  Instead of various pointer types (usually LPTYPENAME), use TYPENAME*. Instead 
+  of string types (LPSTR, etc), use <span class="type">lpstr</span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.0. Allowed comments. See example. Also can contain lines containing 
+  only comments, but the comments must always begin with ;;.</p>
+<p>&nbsp;</p>
+
+<p> <i>See also: </i> <A href="IDP_TYPEUSAGE.html">usage</a> <A href="IDP_UNIONS.html">unions</a>  
+  <A href="IDP_CLASSES.html">classes</a>  <A href="IDP_CATEGORIES.html">categories</a> <a href="IDP_DECLARATION.html">declarations</a> 
+  <a href="../Other/IDP_IDENTIFIERS.html">scope</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+<pre class=cod><span class=fq>type</span> <span class=t>RECT</span> left top right bottom
+<span class=fq>type</span> <span class=t>PAINTSTRUCT</span> hdc fErase <span class=t>RECT</span><span class=p>'</span>rcPaint fRestore fIncUpd <span class=o>!</span>r[<span class=n>32</span>]
+<span class=fq>type</span> <span class=t>MY</span> <span class=o>@</span>w <span class=o>!</span>b <span class=o>~</span>s i[<span class=n>4</span>] <span class=o>~*</span>sp <span class=t>RECT</span><span class=o>*</span>rp[<span class=n>10</span>]
+<span class=fq>type</span> <span class=t>MY2</span> <span class=t>word</span><span class=p>'</span>w <span class=t>byte</span><span class=p>'</span>b <span class=t>str</span><span class=p>'</span>s <span class=t>int</span><span class=p>'</span>i[<span class=n>4</span>] <span class=t>str</span><span class=o>*</span>sp <span class=t>RECT</span><span class=o>*</span>rp[<span class=n>10</span>]
+<span class=fq>type</span> <span class=t>MY3</span> <span class=c2>;;the same as above, but in multiple lines
+</span><span class=i>&#9;</span><span class=t>word</span><span class=p>'</span>w <span class=t>byte</span><span class=p>'</span>b <span class=t>str</span><span class=p>'</span>s <span class=c2>;;the same as @w !b ~s
+</span><span class=i>&#9;</span><span class=t>int</span><span class=p>'</span>i[<span class=n>4</span>] <span class=c2>;;embedded array
+</span><span class=i>&#9;</span><span class=t>str</span><span class=o>*</span>sp <span class=c2>;;pointer
+</span><span class=i>&#9;</span><span class=t>RECT</span><span class=o>*</span>rp[<span class=n>10</span>] <span class=c2>;;embedded array (10 pointers)
+</span><span class=fq>type</span> <span class=t>ARR2</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span>a <span class=t>ARRAY</span><span class=p>(</span><span class=t>int</span><span class=p>)</span>b</pre>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
