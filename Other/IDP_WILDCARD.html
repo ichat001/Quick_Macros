@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Wildcard characters</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Wildcard characters</h1>
+<p>Wildcard characters can be used in some functions that compare strings, find files, windows, etc.</p>
+<p>&nbsp;</p>
+<table class="tnormal"><col>
+<tr>
+<td>*</td> <td>&nbsp;matches zero or more characters. For example, &quot;c:\folder\*.txt&quot; 
+matches all text files in &quot;c:\folder&quot; folder.</td>
+</tr>
+
+<tr>
+<td>?</td> <td>&nbsp;matches any single character.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+<p> With most file 
+  functions that support it, wildcard characters can be used only in filename part. 
+  In Include/Exclude fields in menu properties, wildcards can be used in any place 
+  of file path.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Functions/IDP_MATCHW.html" class="blue">matchw</a></p>
+<p>&nbsp;</p>
+<h2>SQLite GLOB</h2>
+<p>With <span class="type">Sqlite</span> functions, in SQL you can use GLOB operator. It supports special characters *, ? and more.</p>
+<p>&nbsp;</p>
+<table class="tflags"><col>
+<tr>
+<td>*</td> <td>Matches any sequence of zero or more characters.</td>
+</tr>
+<tr>
+<td>?</td> <td>Matches exactly one character.</td>
+</tr>
+<tr>
+<td>[...]</td> <td>Matches one character from the enclosed list of characters.</td>
+</tr>
+<tr>
+<td>[^...]</td> <td>Matches one character not in the enclosed list.</td>
+</tr>
+
+</table>
+<p>&nbsp;</p>
+<p>With the [...] and [^...] matching, a range of characters can be specified using -. Example: &quot;[a-z]&quot; matches any single lower-case letter. To match character -, make it the last character in the list. To match character ], make it the first after [ or ^. To match * or ?, put them in [].</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
