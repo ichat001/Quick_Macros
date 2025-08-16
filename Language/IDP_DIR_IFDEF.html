@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#ifdef, #ifndef</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#ifdef</span>, 
+<span class="dir">#ifndef</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#if</span><i>[</i><span class="dir">n</span><i>]</i><span class="dir">def</span> identifier
+statements
+<i>[</i><span class="dir">#else</span>
+statements<i>]</i>
+<i>[</i><span class="dir">#endif</span><i>]</i></pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>identifier</b> - global identifier (named constant, type, function, 
+global variable, etc). </p>
+
+<p> <b>statements </b> - any statements.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> If <b>identifier</b> is defined (or not defined, if <span class="dir">#ifndef</span> 
+  used), are compiled statements after <span class="dir">#ifdef</span> (or <span class="dir">#ifndef</span>) and skipped statements after <span class="dir">#else</span>. Otherwise, 
+  are skipped statements after <span class="dir">#ifdef</span> (or <span class="dir">#ifndef</span>) and compiled statements after <span class="dir">#else</span>.</p>
+
+<p>&nbsp;</p>
+<p>If <span class="dir">#endif </span> is omitted, are compiled (or skipped) all following statements until the end.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.1. <span class="dir">#if</span>/<span class="dir">#ifdef</span>/<span class="dir">#ifndef</span> can be nested in other <span class="dir">#if</span>/<span class="dir">#ifdef</span>/<span class="dir">#ifndef</span> or <span class="dir">#else</span> code block. Also now most directives can be tab-indented.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_DIR_IF.html" class="dir">#if</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=c> if function &#34;MyFunction&#34; exists, call it:
+</span><span class=dir>#ifdef</span> <span class=fu>MyFunction</span>
+<span class=fu>MyFunction</span> <span class=n>100</span>
+<span class=dir>#endif</span></pre>
+
+</body>
+
+</html>
