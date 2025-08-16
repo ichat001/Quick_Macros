@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>wait</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Wait</h1>
+
+<p><i>See also:</i> <a href="IDP_WAIT_FOR.html">wait for</a></p>
+<p>&nbsp;</p>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS</pre><p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>timeS</b> - time (seconds) to wait. Can be integer (like <span class=cod><span class=n>10</span></span>) or double (like <span class=cod><span class=n>0.1</span></span>). Special values:</p>
+<table class="tflags">
+<tr> 
+  <td>0 or omitted</td>
+  <td>Just process messages that possibly are waiting in thread's 
+    message queue, regardless of <a href="IDP_OPT.html">opt 
+    waitmsg.</a></td>
+</tr>
+<tr> 
+  <td>-1</td>
+  <td> Infinite.</td>
+</tr>
+<tr> 
+  <td>-2</td>
+  <td><a href="IDP_SPE.html">Autodelay</a>. The wait time will be equal to the 
+    speed of the macro or function that <a href="../Other/IDP_FUNCTIONCALL.html">directly 
+    called</a> the current function. If there is no direct caller - default 
+    macro speed.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Waits <b>timeS</b> seconds.</p>
+<p>&nbsp;</p>
+<p> If <b>timeS</b> is simple digits, or begins with a digit, the <span class="blue">wait</span> 
+  keyword can be omitted. See examples.</p>
+<p>&nbsp;</p>
+<p>The wait time precision is about 2 milliseconds (0.002 s). For example, <span class=cod><span class=fq>wait</span> <span class=n>0.001</span></span> will probably wait 2 ms.</p>
+<p>&nbsp;</p>
+<p>Note: If the thread has windows/dialogs or uses COM events or some Windows 
+  API functions that use Windows messages, you should avoid wait commands in it. 
+  Or use small time (&lt;0.1). By default, messages are not processed while waiting, 
+  and your thread may temporarily hang. To process messages while waiting, use 
+  <a href="IDP_OPT.html">opt waitmsg</a>.</p>
+<p>&nbsp;</p>
+<p>Note: Don't use Windows API wait functions, because then QM cannot properly 
+  end the thread on user request. QM then terminates thread, which causes a big 
+  memory leak and possibly more bad things. Also, opt waitmsg is not  applied.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.0. <span class="blue">wait</span> uses alertable waiting. For example, <span class="dll">QueueUserAPC</span> can be used to run a function in the waiting thread.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Wait 0.5 seconds:
+</span><span class=fq>wait</span> <span class=n>0.5</span>
+<span class=c> or:
+</span><span class=n>0.5</span>
+<span class=c>
+ Wait 15 seconds; the wait time is variable wt:
+</span><span class=t>int</span> wt<span class=o>=</span><span class=n>15</span>
+<span class=fq>wait</span> wt
+<span class=c>
+ Wait 2 seconds:
+</span><span class=t>double</span> F<span class=o>=</span><span class=n>0.5</span>
+<span class=n>4</span><span class=o>*</span>F</pre>
+</body>
+
+</html>
