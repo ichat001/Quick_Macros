@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Calling COM functions</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Calling COM functions</h1>
+
+<h2>Syntax</h2>
+
+<p>Methods, property-get functions and property-put functions are called using  syntax:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>[...</i> = <i>]</i>ip.method<i>[</i>(parameters)<i>]</i>
+<i>[...</i> = <i>]</i>ip.property<i>[</i>(parameters)<i>]</i>
+ip.property<i>[</i>(parameters)<i>] </i>= value</pre>
+<p>&nbsp;</p>
+
+<p>Here <b>ip</b> is interface pointer variable; <b>method</b> and <b>property</b> 
+  are names of functions. Parameters often have BSTR or VARIANT type, but you can 
+  pass values of QM intrinsic types (str, etc) instead. QM converts them automatically.</p>
+
+<h2> Errors</h2>
+
+<p>Most COM functions actually return error code, which is 0 on success, negative 
+  on error, positive on partial success or if function returns some information. 
+  In C++ it is defined as integer of type HRESULT (int in QM). You don't use it 
+  when calling functions. Instead, as return value is used the last parameter if 
+  in type library it is marked as return value. If function returns negative HRESULT, 
+  QM generates error, which can be handled (<A href="../Flow/IDP_ERR.html" class="blue">err</a>). 
+  This behavior is only if function's return value is declared as HRESULT (near 
+  all functions are declared in this way). QM stores last called COM function's 
+  return value in special variable <a href="../Language/IDP_SPECVAR.html">_hresult</a>.</p>
+<h2> Multiple calls in single statement</h2>
+
+<p>A single statement can contain more than one function call. If a function returns 
+  interface pointer, you can immediately call a function on that interface pointer. 
+  For example, statement:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=lib>Excel.</span><span class=t>Worksheet</span> xlSheet<span class=o>=+</span>xlApp.Workbooks.Add<span class=p>(</span>xlWBATWorksheet<span class=p>)</span>.ActiveSheet</pre>
+
+<p>&nbsp;</p>
+<p>does the same job as the following three statements:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=lib>Excel.</span><span class=t>Workbooks</span> xlBooks<span class=o>=</span>xlApp.Workbooks
+<span class=lib>Excel.</span><span class=t>Workbook</span> xlBook<span class=o>=</span>xlBooks.Add<span class=p>(</span>xlWBATWorksheet<span class=p>)</span>
+<span class=lib>Excel.</span><span class=t>Worksheet</span> xlSheet<span class=o>=+</span>xlBook.ActiveSheet</pre>
+
+<p>&nbsp;</p>
+<p>QM 2.3.0: This also can be used with interfaces declared using <a href="IDP_INTERFACE.html" class="blue">interface</a>.</p>
+<h2> Arguments passed by reference</h2>
+
+<p>For &quot;by reference&quot; parameters (&amp; in QM status bar), you must 
+  pass variable of that type, or address of variable of that type. You cannot 
+  pass simple number or string as you could do in Visual Basic. For example, VB 
+  statement</p>
+<p>&nbsp;</p>
+
+<pre class=cod>doc <span class=o>=</span> Documents.Add<span class=p>(</span><span class=s>&#34;file&#34;</span><span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+<p>would be the same in QM, but only if argument is passed by value (e.g., declared 
+  as VARIANT'filename). If argument is passed by reference (e.g., declared as 
+  VARIANT&amp;filename), it should be</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>VARIANT</span> v<span class=o>=</span><span class=s>&#34;file&#34;</span><span class=p>;</span> doc <span class=o>=</span> docs.Add<span class=p>(</span>v<span class=p>)</span>
+<span class=c> or
+</span><span class=t>VARIANT</span> v<span class=o>=</span><span class=s>&#34;file&#34;</span><span class=p>;</span> doc <span class=o>=</span> docs.Add<span class=p>(</span><span class=o>&#38;</span>v<span class=p>)</span></pre>
+
+<h2> Default member</h2>
+
+<p>QM does not support default members. For example, Visual Basic statement</p>
+<p>&nbsp;</p>
+
+<pre class=cod>doc <span class=o>=</span> docs<span class=p>(</span><span class=n>1</span><span class=p>)</span> <span class=c2>;;get item #1 from collection</span></pre>
+
+<p>&nbsp;</p>
+<p>in QM could be</p>
+<p>&nbsp;</p>
+
+<pre class=cod>doc <span class=o>=</span> docs.Item<span class=p>(</span><span class=n>1</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>In the popup list of functions default member is blue.</p>
+
+<h2> Optional parameters</h2>
+
+<p>QM partially supports optional parameters.</p>
+<p>&nbsp;</p>
+<p> In QM status bar, optional parameters are displayed with
+  [ ], like [param]. Optional parameters that have a default value are displayed like [param=1].</p>
+<p>&nbsp;</p>
+<p> Optional parameters of VARIANT type can be omitted. Or use @ instead. If there is a default value, use the value.</p>
+<p>&nbsp;</p>
+<p>In the  example, we call function Func. Assume it has 3 
+  parameters, all optional. We pass x for parameter 2.</p>
+<p>&nbsp;</p>
+
+<pre class=cod>ip.Func<span class=p>(</span><span class=o>@</span> x<span class=p>)</span></pre>
+
+<h2> Variable number of arguments</h2>
+
+<p>Some COM functions support variable number of arguments. For such functions QM displays &quot;vararg&quot; in status bar.</p>
+<p>&nbsp;</p>
+<p> Store 
+  arguments into an ARRAY(VARIANT) variable and pass it as the last argument. Example:</p>
+<p>&nbsp;</p>
+<p>Assume that QM status bar shows this: Func(BSTR's ARRAY(VARIANT)*a) . vararg</p>
+<p>&nbsp; </p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>VARIANT</span><span class=p>)</span> a.create<span class=p>(</span><span class=n>2</span><span class=p>)</span>
+a[<span class=n>0</span>] <span class=o>=</span> <span class=n>1</span><span class=p>;</span> a[<span class=n>1</span>] <span class=o>=</span> <span class=s>&#34;string2&#34;</span>
+ip.Func<span class=p>(</span><span class=s>&#34;string1&#34;</span> <span class=o>&#38;</span>a<span class=p>)</span></pre>
+
+<p>&nbsp;</p>
+
+<p>When calling through IDispatch::Invoke, simply pass the arguments.   IDispatch::Invoke is used when the variable is of type IDispatch, or <span class="dir">#opt</span> dispatch 
+  1 is set, or the interface does not support vtbl binding. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod>ip.Func<span class=p>(</span><span class=s>&#34;string1&#34;</span> <span class=n>1</span> <span class=s>&#34;string2&#34;</span><span class=p>)</span></pre>
+
+<h2> I don't have type library, and don't want to declare interface</h2>
+
+<p>You can also call functions of undeclared interfaces. Interface pointer variable 
+  must be of IDispatch type. 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>IDispatch</span> app._create<span class=p>(</span><span class=s>&#34;Word.Application&#34;</span><span class=p>)</span>
+app.Visible <span class=o>=</span> <span class=o>-</span><span class=n>1</span></pre>
+
+<p>&nbsp;</p>
+
+<p>Argument types should match the expected 
+  types. QM does implicit conversions only 
+  where it is obvious, such as str to BSTR. The type of the return value is always 
+  VARIANT.</p>
+<p>&nbsp;</p>
+<p>QM cannot show type info (popup list of functions, and in status bar) for undeclared interfaces.</p>
+<p>&nbsp;</p>
+<p>You can also use VBScript or JScript code in QM. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> code<span class=o>=</span>
+<span class=s> Set app=CreateObject(&quot;Word.Application&quot;)</span>
+<span class=s> app.Visible=True</span>
+<span class=fu>VbsExec</span> code</pre>
+<p>&nbsp;</p>
+<p>Or, parts of code that manipulates single object can be in VBScript, and other 
+  parts in QM. Functions <span class="UDF">VbsFuns</span> and <span class="UDF">VbsEval</span> 
+  can be used to exchange values between VBScript and QM.</p>
+<p>&nbsp;</p>
+
+<h2>Examples</h2>
+
+<p>See <A href="IDP_COM_FUNC.html">other</a> topics and COM samples in the <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
