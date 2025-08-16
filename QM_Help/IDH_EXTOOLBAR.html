@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Extended toolbars</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Extended toolbars</h1>
+
+<p>The following toolbar option sets hook procedure:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /hook functionname</span></pre>
+
+<p>&nbsp;</p>
+
+<p>The specified user-defined function (hook procedure) receives all messages that are sent 
+  to the toolbar's main window (not owner), starting from WM_CREATE. This allows 
+  extending QM toolbars. You, for example, can create more controls.</p>
+
+<p>&nbsp;</p>
+<p>A template is available in menu -&gt; File -&gt; New -&gt; Templates.</p>
+<p>&nbsp;</p>
+
+<p>Toolbar hook procedure must begin with <span class=cod><span class=fq>function</span><span class=o>#</span> hWnd message wParam lParam</span>.</p>
+<p>&nbsp;</p>
+<p>If the hook procedure returns a nonzero value, the message is not further processed 
+  in the default window procedure. Some messages (see below) also are not processed 
+  in the default toolbar window procedure. To return 0 without further processing, 
+  declare the function as long (<span class=cod><span class=fq>function</span><span class=o>%</span> ...</span>), and return 0x100000000.</p>
+<p>&nbsp;</p>
+<p>To change toolbar behavior, return a nonzero value on these messages:</p>
+<p>WM_SIZE - disable resizing the child toolbar control.</p>
+<p>WM_EXITSIZEMOVE - disable deactivating after resize/move.</p>
+<p>WM_MOUSEACTIVATE - disable deactivating on click.</p>
+<p>WM_COMMAND - don't run the macro/file/command associated with the button.</p>
+<p>Other messages that will not be processed: WM_GETMINMAXINFO, WM_NCHITTEST, 
+  WM_WINDOWPOSCHANGING, WM_SYSCOMMAND, WM_ERASEBKGND.</p>
+<p>&nbsp;</p>
+<p> If the hook procedure executes <span class=cod><span class=fq>end</span></span> , it 
+  is no longer called.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. WM_INITDIALOG is sent when the toolbar is fully initialized, before 
+  showing. wParam is child toolbar control handle, lParam is 0, should return 
+  0. In previous versions, WM_INITDIALOG was not sent.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0.11. Toolbar controls are created without WS_EX_NOPARENTNOTIFY style, 
+  and therefore toolbar hook procedure receives WM_PARENTNOTIFY messages. For 
+  example, it can set font when the toolbar control is created (buttons are still 
+  not added at that time).</p>
+<p>&nbsp;</p>
+
+<p>Toolbar hook procedure runs in QM main thread. Be careful when creating it, 
+  because code that runs in QM thread can easily make QM unstable. Don't use wait 
+  commands. Don't use <span class="blue">atend</span>. Avoid <a href="../Other/IDP_THREADS.html">thread 
+  variables</a>. To have variables with current toolbar scope, use <span class="dll">SetProp</span>, 
+  <span class="dll">GetProp</span> and <span class="dll">RemoveProp</span> functions. 
+  Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> /MyToolbar
+</span><span class=fq>function</span><span class=o>#</span> hWnd message wParam lParam
+
+<span class=fq>type</span> <span class=t>MYTOOLBARVARS</span> a <span class=t>str</span><span class=p>'</span>b <span class=t>ARRAY</span><span class=p>(</span><span class=t>POINT</span><span class=p>)</span>c <span class=c2>;;declare type to hold multiple variables (example)
+</span><span class=t>MYTOOLBARVARS</span><span class=o>*</span> v<span class=o>=+</span><span class=fd>GetProp</span><span class=p>(</span>hWnd <span class=s>&#34;v&#34;</span><span class=p>)</span> <span class=c2>;;retrieve (required)
+</span>
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span>v._new<span class=p>;</span> <span class=fd>SetProp</span><span class=p>(</span>hWnd <span class=s>&#34;v&#34;</span> v<span class=p>)</span> <span class=c2>;;create (required)
+</span><span class=i>&#9;</span>v.a<span class=o>=</span><span class=n>1</span><span class=p>;</span> <span class=fq>out</span> v.a <span class=c2>;;use (example)
+</span><span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span>v.a<span class=o>=</span><span class=n>3</span><span class=p>;</span> <span class=fq>out</span> v.a <span class=c2>;;use (example)
+</span><span class=i>&#9;</span>v._delete<span class=p>;</span> <span class=fd>RemoveProp</span><span class=p>(</span>hWnd <span class=s>&#34;v&#34;</span><span class=p>)</span> <span class=c2>;;destroy (required)
+</span><span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_SETCURSOR</span>
+<span class=i>&#9;</span>v.a<span class=o>=</span><span class=n>2</span><span class=p>;</span> <span class=fq>out</span> v.a <span class=c2>;;use (example)
+</span></pre>
+<p>&nbsp;</p>
+<p>There are several sample toolbars in the <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">forum</a>.</p>
+<p>&nbsp; </p>
+</body>
+
+</html>
