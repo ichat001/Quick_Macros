@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>share</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Shared memory</h1>
+
+<p><span class="red">This function removed in QM 2.3.4. Instead use __ProcessMemory class. If you have code from QM forum with this function, look <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">here</a> for new version.</span></p>
+<p>&nbsp;</p>
+<p class="red">Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</p>
+<p>&nbsp;</p>
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int* </i><b>share</b>(<i>[</i>window<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+or <A href="../Other/IDP_WINDOWSTYLES.html">child</a> window that belongs to 
+the application with which will be used shared memory.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>If you try to use <span class="dll">SendMessage</span> function to get or set 
+  data in other application (other than QM) using pointer or string, in most cases 
+  it will not work, and may crash the application or damage its data. It is because 
+  the pointer is in address space of QM, and is invalid in address space of other 
+  application. The solution is to use shared memory.</p>
+<p>&nbsp;</p>
+<p>QM provides 1 KB of shared memory that macros can use. Function <span class="blue">share</span> 
+  returns its address. It returns different value for each application (although 
+  physical memory is the same, but applications use different address to access 
+  it). Call <span class="blue">share</span> twice: Call it without <b>window</b> 
+  argument to get shared memory address in QM context. Call it with <b>window</b> 
+  argument to get shared memory address in context of the application to which 
+  belongs the window. Use the first address (possibly with some offset) to get 
+  and/or set data. Pass the second address (possibly with some offset) to that 
+  application (usually as lParam of <span class="dll">SendMessage</span>).</p>
+<p>&nbsp;</p>
+<p>Always use <span class=cod><span class=fq>lock</span> _share</span> 
+  when using shared memory. It prevents using shared memory by multiple simultaneously 
+  running <a href="../Other/IDP_THREADS.html">threads</a>. See examples. Read 
+  about <a href="../Commands/IDP_LOCK.html" class="blue">lock</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Pass address of a variable of a user-defined type</span>
+<span class=fq>lock</span> _share
+VARIABLETYPE<span class=o>*</span> variable<span class=o>=+</span><span class=fq>share</span>
+<span class=fd>memset</span><span class=p>(</span>variable <span class=n>0</span> <span class=fq>sizeof</span><span class=p>(</span>VARIABLETYPE<span class=p>))</span>
+variable.member1<span class=o>=</span>value1
+variable.member2<span class=o>=</span>value2
+<span class=fd>SendMessage</span><span class=p>(</span>hwnd message wparam <span class=fq>share</span><span class=p>(</span>hwnd<span class=p>))</span>
+<span class=fq>out</span> variable.member1
+<span class=fq>lock</span><span class=o>-</span> _share
+
+<span class=c> Set status bar text</span>
+<span class=t>int</span> hwnd<span class=o>=</span><span class=fq>child</span><span class=p>(</span><span class=s>&#34;&#34;</span> <span class=s>&#34;msctls_statusbar32&#34;</span> <span class=s>&#34;Notepad&#34;</span> <span class=n>0x1</span><span class=p>)</span>
+<span class=t>str</span> text<span class=o>=</span><span class=s>&#34;text from QM&#34;</span>
+<span class=fq>lock</span> _share
+<span class=fd>strcpy</span><span class=p>(</span><span class=o>+</span><span class=fq>share</span> text<span class=p>)</span>
+<span class=fd>SendMessage</span><span class=p>(</span>hwnd <span class=d>SB_SETTEXT</span> <span class=n>0</span> <span class=fq>share</span><span class=p>(</span>hwnd<span class=p>))</span>
+<span class=fq>lock</span><span class=o>-</span> _share
+
+<span class=c> Get toolbar button text</span>
+<span class=t>int</span> hwnd<span class=o>=</span><span class=fq>child</span><span class=p>(</span><span class=s>&#34;Notification Area&#34;</span> <span class=s>&#34;ToolbarWindow32&#34;</span> <span class=s>&#34;+Shell_TrayWnd&#34;</span> <span class=n>0x1</span><span class=p>)</span>
+<span class=t>int</span> buttonID<span class=o>=</span><span class=n>0</span>
+<span class=fq>lock</span> _share
+<span class=fd>SendMessage</span><span class=p>(</span>hwnd <span class=d>TB_GETBUTTONTEXT</span> buttonID <span class=fq>share</span><span class=p>(</span>hwnd<span class=p>))</span>
+<span class=t>str</span> s.get<span class=p>(</span><span class=o>+</span><span class=fq>share</span> <span class=n>0</span><span class=p>)</span>
+<span class=fq>lock</span><span class=o>-</span> _share
+<span class=fq>out</span> s
+
+<span class=c> Get SysListView32 control item text</span>
+<span class=t>int</span> hwnd<span class=o>=</span><span class=fq>child</span><span class=p>(</span><span class=s>&#34;FolderView&#34;</span> <span class=s>&#34;SysListView32&#34;</span> <span class=s>&#34;My QM&#34;</span> <span class=n>0x1</span><span class=p>)</span>
+<span class=t>int</span> item<span class=o>=</span><span class=n>0</span>
+<span class=fq>lock</span> _share
+<span class=t>LVITEM</span><span class=o>*</span> lip<span class=o>=</span><span class=fq>share</span> <span class=c2>;;in QM context</span>
+<span class=t>LVITEM</span><span class=o>*</span> lip2<span class=o>=</span><span class=fq>share</span><span class=p>(</span>hwnd<span class=p>)</span> <span class=c2>;;in hlv context</span>
+<span class=fd>memset</span><span class=p>(</span>lip <span class=n>0</span> <span class=fq>sizeof</span><span class=p>(</span><span class=t>LVITEM</span><span class=p>))</span>
+<span class=t>int</span> stringoffset<span class=o>=</span><span class=fq>sizeof</span><span class=p>(</span><span class=t>LVITEM</span><span class=p>)</span><span class=o>+</span><span class=n>20</span>
+lip.pszText<span class=o>=+</span><span class=p>(</span>lip2<span class=o>+</span>stringoffset<span class=p>)</span> <span class=c2>;;in hlv context</span>
+lip.cchTextMax<span class=o>=</span><span class=n>260</span>
+lip.mask<span class=o>=</span><span class=d>LVIF_TEXT</span>
+<span class=fd>SendMessage</span><span class=p>(</span>hwnd <span class=d>LVM_GETITEMTEXT</span> item lip2<span class=p>)</span>
+<span class=t>str</span> s.get<span class=p>(</span><span class=o>+</span>lip stringoffset<span class=p>)</span>
+<span class=fq>lock</span><span class=o>-</span> _share
+<span class=fq>out</span> s</pre>
+
+</body>
+
+</html>
