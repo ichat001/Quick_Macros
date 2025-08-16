@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>htm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>Find html element, or get document interface</h1>
+<h3>Syntax1 - find html element</h3>
+<pre class=syntax><i>IDispatch </i><b>htm</b>(tag name<i> [</i>html<i>] [</i>window<i>]</i><i> [</i>frame<i>]</i><i> [</i>index<i>]</i><i> [</i>flags<i>]</i><i> [</i>waitS<i>]</i><i> [</i>navig<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Syntax2 - get IHTMLDocument2 of web page</h3>
+<pre class=syntax><i>IDispatch </i><b>htm</b>(hwnd<i></i>)</pre><p>&nbsp;</p>
+<h3>Syntax3 - get html element from accessible object</h3>
+<pre class=syntax><i>IDispatch </i><b>htm</b>(acc<i></i>)</pre><p>&nbsp; </p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>tag</b> - tag. Example: &quot;A&quot;.</p>
+<p> <b>name </b>- text. Depending on flags, it also can be some  attribute. 
+  Can be &quot;&quot;.</p>
+<p><b>html</b> - outer html. Example: &quot;&lt;A href=&quot;http://www.x.com&quot;&gt;Name&lt;/A&gt;&quot;. 
+  Default: &quot;&quot; (any).</p>
+  <p><a href="../Other/IDP_WINDOWEXPRESSION.html"><b>window</b></a> - window with 
+    web page (&quot;Internet Explorer_Server&quot; control) that contains this 
+    element.</p>
+  <ul>
+    <li> If omitted or 0, searches in first (in the <a href="http://www.wikipedia.org/wiki/Z-order" target=_blank>Z 
+      order</a>) visible Internet Explorer window (class &quot;IEFrame&quot;) or 
+      other IE-compatible browser window (class must be specified with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>).</li>
+  </ul>
+<p><b>frame</b> - 1-based index of frame/iframe. Or   path to it, like &quot;2/3&quot;.</p>
+<ul>
+  <li> If &quot;0&quot;, the element must be not in frame/iframe.</li>
+  <li> Default: &quot;&quot; (the element can be anywhere).</li>
+  <li>In multi-frame pages, <b>frame</b> makes <span class="blue">htm</span> faster.</li>
+</ul>
+<p><b>index</b> - index of this element in collection of elements of <b>tag</b> 
+  type.</p>
+<ul>
+  <li> <b>index</b> makes <span class="blue">htm</span> much faster.</li>
+  <li> <b>index</b> may not match exactly (e.g., after 
+    page structure has changed), but then <span class="blue">htm</span> is slower.</li>
+  <li> If <b>tag</b> is 
+    &quot;&quot;, <b>index</b> is index in collection of all elements.</li>
+  <li> Default: 
+    0.</li>
+</ul>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+  <tr> 
+    <td>1</td>
+    <td><p><b>name</b> is full or with <a href="IDP_MATCHW.html">wildcard 
+      characters</a> (*?).</p>
+      <ul>
+        <li>&quot;*&quot; matches elements with no name.</li>
+        <li> Without this flag, <b>name</b> can be partial.</li>
+        <li> This flag cannot be used 
+          with flag 2.</li>
+      </ul>      </td>
+  </tr>
+  <tr> 
+    <td>2</td>
+    <td><b>name</b> is <A href="../RegExp/IDP_PCRE.html">regular expression</a>.</td>
+  </tr>
+  <tr> 
+    <td>4</td>
+    <td><b>html</b> is full or with wildcard characters. This 
+      flag cannot be used with flag 8.</td>
+  </tr>
+  <tr> 
+    <td>8</td>
+    <td><b>html</b> is regular expression.</td>
+  </tr>
+  <tr> 
+    <td>16</td>
+    <td><b>window</b> is handle of &quot;Internet Explorer_Server&quot; child-window. 
+      Default: main window. If not set, the function searches only in the first 
+      visible &quot;Internet Explorer_Server&quot; control.</td>
+  </tr>
+  <tr> 
+    <td>32</td>
+    <td>Error if  not found.</td>
+  </tr>
+  <tr> 
+    <td>0x100-0xA00</td>
+    <td><b>name</b> is attribute: 0x100 - id, 0x200 - name, 0x300 - alt, 0x400 
+      - value, 0x500 - type, 0x600 - title, 0x700 - href, 0x800 - onclick, 0x900 
+      - src, 0xA00 - classid.</td>
+  </tr>
+</table>
+<p><a href="../Other/IDP_WINDOWEXPRESSION.html"> </a> <b>waitS </b>-  time (seconds) to wait for the element in the window.</p>
+<p><b>navig</b> - a positive or negative number that can be used to get an adjacent 
+  element.</p>
+<p><b>hwnd, acc</b> - read in Remarks.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Finds a html element.</p>
+<p>&nbsp;</p>
+<p>Returns pointer to MSHTML.IHTMLElement interface (except Syntax2), or 0 if not 
+  found. The return value can be assigned to a variable of type Htm. The variable represents a html element, and 
+  is used to manipulate it (click, get text, set text, get  
+  other interface, etc).</p>
+<p>&nbsp;</p>
+<p> A html element is an object in a web page (link, button, 
+  text, etc). Html elements is faster and more precise alternative to accessible objects. 
+  However, this function works only with Internet Explorer and other windows that 
+  display web page in &quot;Internet Explorer_Server&quot; control. </p>
+<p>&nbsp;</p>
+<h4>Syntax1 </h4>
+<p>Finds html element.</p>
+<p>&nbsp;</p>
+<p> Searches only in the first found matching window, and only in 
+  the first found visible &quot;Internet Explorer_Server&quot; control that displays 
+  a web page. To search in other windows or controls (for example in hidden tabs), 
+  find the window (<a href="IDP_WIN.html" class="blue">win</a>) or control (<a href="IDP_CHILD.html" class="blue">child</a>) 
+  and pass the window handle to <span class="blue">htm</span> as  <b>window</b>.</p>
+<p>&nbsp; </p>
+<h4>Syntax2</h4>
+<p>Returns pointer to MSHTML.IHTMLDocument2 interface of web page in window <b>hwnd</b>. 
+  If <b>hwnd</b> is literal 0 - in first matching window. The interface 
+  represents web page, which is container of html elements.</p>
+<p>&nbsp;</p>
+<p>Tips:  To get html document 
+  from html element, call element's <i>document</i> property. To get MSHTML.IHTMLWindow2, 
+  call document's <i>parentWindow</i> property.</p>
+<p>&nbsp;</p>
+<h4>Syntax3</h4>
+<p>Gets html element that corresponds to accessible object 
+  <b>acc</b>.</p>
+<p>&nbsp;</p>
+<p> Tip: Function <a href="IDP_ACC.html" class="blue">acc</a> 
+  can be used for backward conversion.</p>
+<p>&nbsp;</p>
+<p> Tip: To get html element from certain coordinates, use <a href="IDP_ACC.html" class="blue">acc</a>: <span class=cod><span class=t>Acc</span> am<span class=o>=</span><span class=fq>acc</span><span class=p>(</span>x y hwnd<span class=p>);</span> <span class=t>Htm</span> hm<span class=o>=</span><span class=fq>htm</span><span class=p>(</span>am<span class=p>)</span></span>. It works withs some elements (e.g. links, images, input) but does not work with others (e.g. simple text).</p>
+<p>&nbsp;</p>
+<h3>Dialogs</h3>
+<p> To insert the <span class="blue">htm</span> function, use the Find Html Element 
+  dialog. Drag the picture and drop onto an object in a web page. This fills the 
+  dialog with values that are optimized for best performance.</p>
+<p>&nbsp;</p>
+<p> If the web page is frequently updated, element's index may change, and for 
+  some elements this may cause the function to find another similar element. To 
+  minimize this possibility, you should test (press the Test button) with different 
+  <i>Index</i>. Test with index 0 and index 10000. If then will be found different 
+  element, try to change some parameters, or find an adjacent element and use 
+  <i>Navigate</i> (positive or negative number) to navigate to the desired element. 
+  Also, if index does not match, the search time is longer. It is as longer as 
+  the count of elements in the <i>Tag</i> collection is larger, so you may consider 
+  to find an element that belongs to a tag with less number of elements, and then 
+  navigate.</p>
+<p>&nbsp;</p>
+<p>In the dialog, the <i>Index in all</i> field is index of element in collection 
+  of all elements in page or frame. Normally, it isn't used with <span class="blue">htm</span> 
+  function. Click arrows to view adjacent elements. Or, type another index and 
+  press ! (update).</p>
+<p>&nbsp;</p>
+<p>To manipulate a html element (click, get/set text, etc), use the Html Element 
+  dialog. Alternatively, type <span class=cod>.</span> after variable name, 
+  and select a function from the drop-down list.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=t>Htm</span> el<span class=o>=</span><span class=fq>htm</span><span class=p>(</span><span class=s>&#34;INPUT&#34;</span> <span class=s>&#34;id&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;Internet Explorer&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0x221</span><span class=p>)</span>
+el.Click
+<span class=c> or
+</span>el.el.click
+<span class=c> or
+</span><span class=lib>MSHTML.</span><span class=t>IHTMLElement</span> el<span class=o>=</span><span class=fq>htm</span><span class=p>(</span><span class=s>&#34;INPUT&#34;</span> <span class=s>&#34;id&#34;</span> <span class=s>&#34;&#34;</span> <span class=s>&#34;Internet Explorer&#34;</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0x221</span><span class=p>)</span>
+el.click</pre>
+</body>
+</html>
