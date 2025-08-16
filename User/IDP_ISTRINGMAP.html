@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>IStringMap interface</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>IStringMap interface</h1>
+
+
+<p>A string map object is an array of key-value pairs. A key is an unique string 
+  that is used to access the associated value. A value is a string that is associated 
+  with the key. Unlike a simple array, a string map is optimized to quickly find 
+  an item, even if there are 1000000 items. A string map, for example, can be 
+  used to store dictionary data in memory, where keys are words of language A, 
+  and values are words of language B. Also can be used to store a list of unique 
+  strings that are not necessary associated with values.</p>
+<p>&nbsp;</p>
+<p> To create a string map object, use function <span class="dll">CreateStringMap</span> or <span class="blue">_create</span> (QM 2.3.4). 
+  To work with it, use <span class="type">IStringMap</span> interface.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>IStringMap</span> m.<span class=fq>_create</span>
+<span class=t>lpstr</span> s<span class=o>=</span>
+<span class=s> key1 value1</span>
+<span class=s> key2 value2</span>
+<span class=s> key3 value3</span>
+m.<span class=fd>AddList</span><span class=p>(</span>s<span class=p>)</span>
+
+<span class=t>lpstr</span> v<span class=o>=</span>m.<span class=fd>Get</span><span class=p>(</span><span class=s>&quot;key2&quot;</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>v<span class=p>)</span> <span class=fq>out</span> v
+<span class=fq>else</span> <span class=fq>out</span> <span class=s>&quot;not found&quot;</span></pre>
+<p>&nbsp;</p>
+<h2>Global functions</h2>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>dll</span> <span class=s>&#34;qm.exe&#34;</span> <span class=t>IStringMap</span><span class=p>'</span><span class=fd>CreateStringMap</span> flags <span class=c2>;;flags: 1 case insens., 2 exists - do nothing, 4 exists - replace, 8 exists - add new, 16 exists - compare</span></pre>
+<p>&nbsp;</p>
+<p>Creates string map object and returns <span class="type">IStringMap</span> COM interface pointer.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>flags</b> - same as with function <span class="dll">Flags</span>, see below.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.4. You can instead use <span class="blue">_create</span>.</p>
+<p>&nbsp;</p>
+<h2>IStringMap member functions</h2>
+<p>Member functions are called like: variable.Function(arguments). See the example code at the top of this topic. Note that the colored code lines below are not function calling examples. They are copied from interface declaration and used here to show function name, arguments etc.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod>[p]<span class=fd>Flags</span><span class=p>(</span>flags<span class=p>)</span> <span class=c2>;;1 case insens., 2 exists - do nothing, 4 exists - replace, 8 exists - add new, 16 exists - compare</span>
+[g]<span class=o>#</span><span class=fd>Flags</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Sets or gets flags to change default behavior of other functions.</p>
+<p>&nbsp;</p>
+<p>Error if map is not empty.</p>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>flags</b>:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>1</td>
+      <td>Case insensitive. For example, <span class=cod><span class="fd">Get</span><span class=p>(</span><span class=s>&quot;a&quot;</span><span class=p>)</span></span> will find key &quot;a&quot; or &quot;A&quot;.</td>
+    </tr>
+    <tr>
+      <td>2, 4, 8, 16</td>
+      <td><p>What to do when <span class="dll">Add</span>, <span class="dll">AddList</span> or <span class="dll">Rename</span> tries to add a key that already exists.</p>
+        <table class="tflags">
+          <col>
+          <tr>
+            <td>Default</td>
+            <td>Error.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Don't add the new key.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Replace old value (like <span class="dll">Set</span>).</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Add new item. Then the map can have duplicate keys. By default, 
+              functions <span class="dll">Get</span>, <span class="dll">Get2</span>, <span class="dll">Set</span>, <span class="dll">Rename</span> and <span class="dll">Remove</span> will get 
+              first added key; functions <span class="dll">GetAll</span>, <span class="dll">GetAllOf</span> and <span class="dll">EnumNext</span> will retrieve identical keys in FIFO 
+              order. If flag 4 also is used - last added key, LIFO order.</td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Compare new and old value. If equal, do nothing. If different, see other 
+              flags.</td>
+          </tr>
+        </table>
+        <p> Evaluation order: 16, 8, 4, 2.</p></td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<pre class=cod><span class=t>IStringMap</span> m.<span class=fq>_create</span><span class=p>;</span> m.<span class=fd>Flags</span><span class=o>=</span><span class=n>1</span></pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Add</span><span class=p>(</span><span class=o>$</span>k <span class=o>$</span>v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds item (key-value pair) to the map. Error 
+  if the key already exists, unless flags 2-16 used with <span class="dll">Flags</span> or <span class="dll">CreateStringMap</span>. 
+  <b>v</b> may be empty (&quot;&quot; or 0). If <b>v</b> is 0, is added &quot;&quot; 
+  instead.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>AddList</span><span class=p>(</span><span class=o>$</span>s <span class=o>$</span>sep<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds multiple items to the map. Error if 
+  a key from the list already exists in the map, unless flags 2-16 used with <span class="dll">Flags</span> or <span class="dll">CreateStringMap</span>. In the list, each line should contain 
+  a key-value pair. To separate key and value, use characters specified in <b>sep</b>. Default <b>sep</b> is &quot; [9]&quot; (spaces and tabs). Note that <b>sep</b> is not 
+  a separator string; it is a set of characters that can be used. If a line 
+  is empty or begins with a separator character, does not add it. If a line contains 
+  only key, value is &quot;&quot;. If you want to add simple list of strings (keys 
+  without values), you can use &quot;[]&quot; as <b>sep</b> to avoid breaking 
+  strings into keys and values.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. If <b>sep</b> is &quot;csv&quot;, interprets <b>s</b> as <a href="IDP_ICSV.html">CSV</a> string. For example, use CSV when items may be multiline. The 4-th character of <b>sep</b> sets separator. For example, &quot;csv=&quot; sets separator =. Default separator is comma. The CSV must contain 1 or 2 columns.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>$</span><span class=fd>Get</span><span class=p>(</span><span class=o>$</span>k<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Returns the value associated with the specified 
+  key. If the key does not exist, returns 0, and also sets _hresult to 1. Warning: 
+  the returned value is a lpstr that points to internal data, and therefore becomes 
+  invalid after you call a function that modifies the map. To avoid this, assign 
+  it to a str variable. Also, this function is not thread-safe, because another 
+  thread may call a function that modifies the map. This function is always safe 
+  if it is used just to check if the key exists (<span class=cod><span class=fq>if</span><span class=p>(</span>m.Get<span class=p>(</span><span class=s>&#34;key&#34;</span><span class=p>))</span> ...</span>). Note: if the key exists but the value is empty (added &quot;&quot; 
+  or 0), this function returns &quot;&quot;, which evaluates to true with <span class="blue">if</span>.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>$</span><span class=fd>Get2</span><span class=p>(</span><span class=o>$</span>k <span class=t>str</span><span class=o>&amp;</span>v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Same as Get, but is always safe. Stores the 
+  value into the str variable <b>v</b>. Although this function is slightly slower 
+  than <span class="dll">Get</span>, use it if the map object can be modified 
+  by other threads.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Set</span><span class=p>(</span><span class=o>$</span>k <span class=o>$</span>v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Changes value. Error if the key does not exist.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Rename</span><span class=p>(</span><span class=o>$</span>k <span class=o>$</span>newname<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Changes key name. Error if the key does 
+  not exist.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>Remove</span><span class=p>(</span><span class=o>$</span>k<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Removes item (key and value). If the key 
+  does not exist, does not generate an error, but sets _hresult to 1.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>RemoveAll</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Removes all items.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>Count</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Returns the number of items.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>GetAll</span><span class=p>(</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>ak <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>av<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Retrieves all keys and/or values. Stores 
+  keys into str array <b>ak</b>, unless it is 0. Stores values into str array 
+  <b>av</b>, unless it is 0. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> ak av
+m.<span class=fd>GetAll</span><span class=p>(</span>ak av<span class=p>)</span>
+<span class=t>int</span> i
+<span class=fq>for</span><span class=p>(</span>i <span class=n>0</span> ak.len<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%s %s&#34;</span> ak[i] av[i]</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>GetAllOf</span><span class=p>(</span><span class=o>$</span>k <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>av<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Retrieves values of all keys that match <b>k</b>. Can be useful if the map is created with flag 
+8, which allows to add duplicate keys.</p>
+<p>&nbsp;</p>
+<p>Returns the 
+  number of matching keys. If there are no matching keys, returns 0 and sets _hresult to 1.</p>
+<p>&nbsp;</p>
+<p><b>av</b> - variable that receives values. Can be 0 if don't need.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>GetList</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>s <span class=o>$</span>sep<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Writes all items to a str variable. Each 
+  line will contain a key-value pair. Key and value will be separated by <b>sep</b>. 
+  Default <b>sep</b> is &quot; &quot;.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.3. If <b>sep</b> is &quot;csv&quot;, creates <a href="IDP_ICSV.html">CSV</a> string. For example, use CSV when items may be multiline. The 4-th character of <b>sep</b> sets separator. For example, &quot;csv=&quot; sets separator =. Default separator is comma. The CSV will contain 2 columns.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>EnumBegin</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Begins to enumerate items.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>EnumNext</span><span class=p>(</span><span class=t>str</span><span class=o>&amp;</span>k <span class=t>str</span><span class=o>&amp;</span>v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Retrieves next item. Returns 1 if successful, 
+  or 0 if there are no more items. Stores key into str variable <b>sk</b>, unless 
+  it is 0. Stores value into str variable <b>sv</b>, unless it is 0. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span> sk sv
+m.<span class=fd>EnumBegin</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span>m.<span class=fd>EnumNext</span><span class=p>(</span>sk sv<span class=p>))</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;%s %s&#34;</span> sk sv</pre>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>EnumEnd</span><span class=p>()</span></pre>
+<p>&nbsp;</p>
+<p>Should be called (although not necessary) 
+  if the enumeration loop exits before all items are enumerated.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>IntAdd</span><span class=p>(</span><span class=o>$</span>k v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Adds item. Same as <span class="dll">Add</span>, 
+  but <b>v</b> is integer number. Internally it is stored as string. To add a 
+  numeric value (including double and other types), also can be used <span class="dll">Add</span>, 
+  but you have to convert it to string (assign it to a str variable and pass the 
+  variable to <span class="dll">Add</span>). This function just simplifies that.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=o>#</span><span class=fd>IntGet</span><span class=p>(</span><span class=o>$</span>k <span class=t>int</span><span class=o>&amp;</span>v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets value as integer number. If key exists, 
+  stores value into <b>v</b> and returns 1, else returns 0. To retrieve a numeric 
+  value also can be used other functions (<span class="dll">Get</span>, <span class="dll">GetAll</span>, 
+  etc). These functions return the number as string, and you can use <span class="blue">val</span> 
+  to convert it to number. This function just simplifies that.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class=fd>IntSet</span><span class=p>(</span><span class=o>$</span>k v<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Changes value. Same as <span class="dll">Set</span>, but <b>v</b> 
+  is integer number.</p>
+<p>&nbsp;</p>
+<h2>Notes</h2>
+<p>To retrieve all items, can be used <span class="dll">GetAll</span>, <span class="dll">GetList</span> 
+  or EnumX functions. <span class="dll">GetAll</span> is slower and requires 
+  much memory to store all data, especially if the map is large. However, EnumX 
+  functions should not be called simultaneously in multiple threads. Items always 
+  are retrieved sorted.</p>
+<p>&nbsp;</p>
+<p>All <span class="type">IStringMap</span> functions are thread-safe, except in cases 
+  mentioned above. It means that a map object can be used by multiple threads 
+  simultaneously.</p>
+<p>&nbsp;</p>
+<p>If a function generates an error, its description always is &quot;The parameter 
+  is incorrect&quot;. The most common error is when you try to add an item that 
+  already exists. To avoid it, you can use <span class="dll">Get</span> to check 
+  if it exists, or use <span class="blue">err</span> (faster), or use flags 2-16 
+  with <span class="dll">Flags</span> or <span class="dll">CreateStringMap</span>. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>if</span><span class=p>(</span><span class=o>!</span>m.<span class=fd>Get</span><span class=p>(</span><span class=s>&#34;key2&#34;</span><span class=p>))</span>
+<span class=i>&#9;</span>m.<span class=fd>Add</span><span class=p>(</span><span class=s>&#34;key2&#34;</span> <span class=s>&#34;new value&#34;</span><span class=p>)</span>
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;already exists&#34;</span>
+
+m.<span class=fd>Add</span><span class=p>(</span><span class=s>&#34;key2&#34;</span> <span class=s>&#34;new value&#34;</span><span class=p>)</span>
+<span class=fq>err</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&#34;already exists&#34;</span></pre>
+</body>
+
+</html>
