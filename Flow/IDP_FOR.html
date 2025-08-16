@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>for</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>for (repeat with counter variable)</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>for</b> counter initvalue finalvalue <i>[</i>step<i>]</i>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i></pre>
+<p>&nbsp;</p>
+
+<p>Can be  single line:</p>
+<pre class=syntax><b>for</b>(counter initvalue finalvalue <i>[</i>step<i>]</i>) statements</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>counter</b> - counter variable. Type - int, long, lpstr or pointer.</p>
+
+<p> <b>initvalue</b> - initial <b>counter</b> value. Type - type of <b>counter</b>.</p>
+
+<p> <b>finalvalue</b> - final <b>counter</b> value. Type - type of <b>counter</b>.</p>
+
+<p> <b>step</b> - value to add to <b>counter</b> after each loop. Type - int. Default: 1.</p>
+</div>
+
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<h4>Simple description:</h4>
+<p>Repeatedly executes <b>statements</b>, after each loop adding 1 (or <b>step</b>) 
+  to <b>counter</b> variable.</p>
+<p>&nbsp;</p>
+<h4>Complete description:</h4>
+<p>Assigns <b>initvalue</b> to <b>counter</b>, and, while <b>counter</b> &lt; 
+  <b>finalvalue,</b> repeatedly executes  <b>statements</b>. After each 
+  loop adds <b>step</b> to <b>counter</b>. If <b>step</b> is negative, executes 
+  <b>statements</b> while <b>counter</b> &gt; <b>finalvalue</b>.</p>
+
+<p>&nbsp;</p>
+
+<p>Use <span class="blue">break</span> to exit loop. Use <span class="blue">continue</span> 
+  to skip following <b>statements</b>.</p>
+
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>If you don't need counter variable, use <A href="IDP_REP.html" class="blue">rep</a>.</p>
+
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <A href="IDP_FOREACH.html" class="blue">foreach</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>lpstr</span> s <span class=o>=</span> <span class=s>&#34;abcd.ef&#34;</span>
+<span class=t>int</span> i
+<span class=t>int</span> j <span class=o>=</span> <span class=fq>len</span><span class=p>(</span>s<span class=p>)</span>
+<span class=fq>for</span> i <span class=n>0</span> j
+<span class=i>&#9;</span><span class=fq>out</span> i
+<span class=i>&#9;</span><span class=fq>if</span> s[i] <span class=o>=</span> <span class=n>'.'</span>
+<span class=i>&#9;&#9;</span><span class=fq>break</span>
+<span class=fq>
+for</span><span class=p>(</span>i <span class=n>0</span> j<span class=p>)</span> <span class=fq>out</span> i<span class=p>;</span> <span class=fq>if</span><span class=p>(</span>s[i] <span class=o>=</span> <span class=n>'.'</span><span class=p>)</span> <span class=fq>break</span></pre>
+
+<p>&nbsp;</p></body>
+
+</html>
