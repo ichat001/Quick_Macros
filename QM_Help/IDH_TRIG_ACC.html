@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: accessible object</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: accessible object</h1>
+
+<p>Launches the macro when the specified <a href="../Functions/IDP_ACCESSIBLE.html">accessible 
+  object</a> generates an event. To assign this trigger, use the <A href="IDH_PROPERTIES.html">Properties</a> 
+  dialog.</p>
+<p>&nbsp;</p>
+<p> Accessible objects are various user interface objects in a window, such as 
+  buttons, text fields, list items, links, menus. This trigger type also supports 
+  objects that are not window parts: top-level windows, caret (text cursor), cursor 
+  (mouse pointer), sound and alert. There are numerous events that can be used 
+  to launch the macro. Examples:</p>
+<p>&nbsp;</p>
+<p>When an object is created or destroyed.</p>
+<p>When an object receives focus.</p>
+<p>When an object's state or location changes.</p>
+<p>When any of an object's properties change.</p>
+<p>&nbsp;</p>
+<p> To discover events and object properties, use accessible object event logging. 
+  Right click the output pane and check Log -&gt; Acc. events in the menu. In 
+  the logging options dialog you can specify certain filters, to exclude some 
+  types of events and objects.</p>
+<p>&nbsp;</p>
+<p>For each event, in the output is displayed indexed string that has this format:</p>
+<p>i. event, idObject, idChild</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;ow: object window class, id and text</p>
+<p>&nbsp;&nbsp;&nbsp; pw: top-level parent window class and name</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;ao: accessible object properties</p>
+<p>&nbsp;</p>
+<p>Properties that cannot be retrieved are not displayed. For example, if the 
+  object window is <a href="../Other/IDP_WINDOWSTYLES.html">top-level window</a>, 
+  it does not have parent window, and pw line is not displayed. In the Properties 
+  dialog, leave corresponding fields empty.</p>
+<p>&nbsp;</p>
+<p>In the Properties dialog, select an event in the list at left, and enter other 
+  properties in the right. All properties except idObject are optional, but should 
+  be specified at least object window class (or/and id) and parent window class 
+  (and name, if class isn't unique). Accessible object properties and child window 
+  text are slower to retrieve, and therefore should be used only if really necessary. 
+  Note that idChild is not child window id, but is used to identify the accessible 
+  object. If it is some nonzero value, consider checking &quot;Any nonzero&quot;, 
+  because often it is nonconstant.</p>
+<p>&nbsp;</p>
+<p>Class names must be full or with wildcard characters (QM 2.3.4). Other strings can be partial. If Use * is checked, must be full or with <a href="../Functions/IDP_MATCHW.html">wildcard 
+  characters</a>. Empty fields are not evaluated. To match empty string, 
+  use single * character in that field.</p>
+<p>&nbsp;</p>
+<p>There are quite many fields in the Properties dialog. It is easy to make a 
+  mistake when filling them. If the trigger does not work (macro does not run) 
+  when expected, temporarily check Debug and click OK. Then try to reproduce the 
+  conditions that should cause the macro to run. In the output pane will be displayed 
+  the first property that doesnt match when an event of that type occurs and these 
+  properties match: idObject, idChild, ow class and pw class.</p>
+<p>&nbsp;</p>
+<p>The macro can receive trigger information through the <span class="blue">function</span> 
+  statement that is inserted with your confirmation when you close the Properties 
+  dialog. <b>hwnd</b> is object window handle. If it is a child window, you can 
+  use <span class=cod><span class=t>int</span> h<span class=o>=</span><span class=fd>GetAncestor</span><span class=p>(</span>hwnd <span class=n>2</span><span class=p>)</span></span> to get its top-level parent window handle. To get the accessible object, 
+  you can use ObjectFromEvent function of <span class="type">Acc</span> class.</p>
+<p>&nbsp;</p>
+<p>Before logging, save all your work in all programs, because some events of 
+  some objects may crash the program to which the object belongs. When an exception 
+  occurs while logging, QM tries to handle it so that the program would not crash, 
+  but it is not always possible. Particularly, exceptions occur 
+  when QM tries to get accessible object properties. This is another reason why 
+  you should not use accessible object properties in triggers where the object 
+  can be identified not using them. To make logging safe, check &quot;don't get 
+  ao properties&quot;.</p>
+<p>&nbsp;</p>
+<p>Events &quot;destroy&quot; and &quot;hide&quot; are unreliable with 64-bit windows.</p>
+<p>&nbsp;</p>
+<p>This trigger type is based on Microsoft Active Accessibility and WinEvents. 
+  You can read more in <a href="../Other/IDP_MSDN.html">MSDN library</a> (search 
+  for WinEvents). To read about event types, search MSDN for &quot;Event Constants&quot;.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<p>Let's make trigger &quot;any web page in Internet Explorer is opened and fully 
+  loaded&quot;. Open Internet Explorer (IE). Then switch to QM, right click the 
+  output pane and select Log -&gt; Acc. events in the popup menu. In the dialog, 
+  click OK. Switch to IE and open a page, for example, Google page. Then switch 
+  to QM and stop logging (click the same menu item). Try to find an event that 
+could be used for this trigger. Probably the best event is this (or similar; may depend on Internet Explorer version):</p>
+<p>&nbsp;</p>
+<p>.... CREATE, WINDOW, 0</p>
+<p>ow: class=&quot;Internet Explorer_Server&quot;, id=0</p>
+<p>pw: class=&quot;IEFrame&quot;, name=&quot;Google - Microsoft Internet Explorer&quot;</p>
+<p>ao: role=PANE, state=0x100040, name=&quot;Google&quot;, value=&quot;http://www.google.com/&quot;</p>
+<p>&nbsp;</p>
+<p>Open the Properties dialog, select Accessible object, CREATE. In the right, 
+  enter object window class (Internet Explorer_Server) and top-level parent window 
+  class (IEFrame). As parent window name, optionally enter Internet Explorer. 
+  Click Next and select PANE in the Role combobox. Leave Name and Value fields 
+  empty, unless you want to make the trigger specific to this page only.</p>
+<p>&nbsp;</p>
+<p>Click OK. QM will ask whether to insert code to receive trigger properties. 
+  Let's say, you need page URL. Then click Yes. It adds two lines of 
+  code at the beginning of the macro. Uncomment the second line (delete space 
+  at the beginning). The a variable can be used to access and manipulate the PANE 
+  accessible object. Its Value property contains the URL of the page. Insert the 
+  code to get the Value property. You can use the Accessible Object Actions dialog 
+  to insert it.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> hwnd idObject idChild
+<span class=t>Acc</span> a.ObjectFromEvent<span class=p>(</span>hwnd idObject idChild<span class=p>)</span>
+<span class=t>str</span> value<span class=o>=</span>a.Value
+<span class=fq>out</span> value</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
