@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Delimiters</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Delimiters</h1>
+
+<p>Functions <A href="../Functions/IDP_FINDW.html" class="blue">findw</a>, <A href="../Functions/IDP_FINDT.html" class="blue">findt</a>, 
+  <A href="../Functions/IDP_TOK.html" class="blue">tok</a>, <A href="../str/IDP_S_GETT.html">str.gett</a> and 
+  <A href="../str/IDP_S_FINDREPLACE.html">str.findreplace</a> have a <b>delim</b> parameter.</p>
+<p>&nbsp;</p>
+<p><b>delim</b> can be:</p>
+<ul>
+  <li>A string consisting of delimiter characters.
+  <ul><li>For example, if <b>delim</b> is &quot; ,&quot;, delimiters will be space and comma.</li>
+    <li>Note that <b>delim</b> is not a delimiter string. It is a set of possible delimiter characters.</li>
+    <li>QM 2.3.3. All these functions also have a flag to use blanks as additional delimiter characters.</li>
+  </ul>
+  </li>
+  <li>If <b>delim</b> is omitted or &quot;&quot; or 0, all non-word characters will be delimiters.</li>
+  <li> If <b>delim</b> is 1, delimiters 
+    will be blanks, double quotes and parentheses.</li>
+  <li>QM 2.3.3. If <b>delim</b> is 2, delimiters 
+    will be blanks.</li>
+</ul>
+<p>&nbsp;</p>
+<p>With these functions, blanks are: space, new line, tab, all characters with codes 0-31.</p>
+<p>&nbsp;</p>
+<p>With these functions, word characters are: </p>
+<ul>
+  <li>Alphanumeric <a href="../Tables/IDP_ASCII.html">ASCII</a> characters (A-Z a-z 0-9).</li>
+  <li>Underscore (_).</li>
+  <li> In Unicode mode - all non-ASCII characters.</li>
+  <li>In non-Unicode mode - other ANSI alpha characters.</li>
+</ul>
+<p>&nbsp;</p>
+<p>In <a href="IDP_UNICODE.html">Unicode</a> mode, can be used only ASCII characters. 
+  Non ASCII characters are not delimiters, even if explicitly specified.</p>
+<p>&nbsp;</p>
+<h3>Table of delimiters</h3>
+<p><b>delim</b> also can be a table of delimiters. Use flag 0x100. The table must be a 256-byte array (usually str 
+  variable). Each byte is for a character whose <a href="../Tables/IDP_ASCII.html">code</a> 
+  is equal to the array indice. For delimiter characters, set the bytes to 1, 
+  for others 0. For example, if delim[32] is 1, then space (code 32) is delimiter. 
+Always set delim[0] to 1. In Unicode mode, don't use non ASCII characters as delimiters.</p>
+<p>&nbsp;</p>
+
+<p> In the example, we create table of delimiters and use it with <span class="blue">tok</span> 
+  function. Delimiters will be all blanks (characters with values &lt; 33), &quot;, 
+  &lt; and &gt;.</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> d.all<span class=p>(</span><span class=n>256</span> <span class=n>2</span> <span class=n>0</span><span class=p>)</span>
+d.set<span class=p>(</span><span class=n>1</span> <span class=n>0</span> <span class=n>33</span><span class=p>)</span>
+d[<span class=n>34</span>]<span class=o>=</span><span class=n>1</span><span class=p>;</span> d[<span class=n>'&#60;'</span>]<span class=o>=</span><span class=n>1</span><span class=p>;</span> d[<span class=n>'&#62;'</span>]<span class=o>=</span><span class=n>1</span>
+<span class=c> 
+</span><span class=t>str</span> s<span class=o>=</span><span class=s>&#34;one.one ''two two'' &#60;three + three&#62;&#34;</span>
+<span class=t>lpstr</span> s1 s2 s3
+<span class=t>int</span> n<span class=o>=</span><span class=fq>tok</span><span class=p>(</span>s <span class=o>&#38;</span>s1 <span class=n>3</span> d <span class=n>1</span><span class=o>|</span><span class=n>4</span><span class=o>|</span><span class=n>64</span><span class=o>|</span><span class=n>256</span><span class=p>)</span>
+<span class=c> Now s1 is &#34;one.one&#34;,
+ s2 is &#34;two two&#34;,
+ s3 is &#34;three + three&#34;
+</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
