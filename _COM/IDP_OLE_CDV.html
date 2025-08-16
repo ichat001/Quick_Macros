@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>CURRENCY, DECIMAL, VARIANT</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable types CURRENCY, DECIMAL, VARIANT</h1>
+
+<p>A variable of type CURRENCY is stored as 8-byte integer, scaled by 10000 to 
+  give a fixed-point number with 15 digits to the left of the decimal point and 
+  4 digits to the right. This provides a range of 922337203685477.5807 to -922337203685477.5808. 
+  Useful for calculations involving money, or 
+  for any fixed-point calculation where accuracy is particularly important.</p>
+
+<p>&nbsp;</p>
+
+<p>A variable of type DECIMAL is stored as 12-byte integer, scaled by a power 
+  of 10.</p>
+
+<p>&nbsp;</p>
+
+<p>A variable of type VARIANT can hold a value of type int, byte, word, double, 
+  long, BSTR, DATE, FLOAT, CURRENCY, DECIMAL, arrays, interface pointers and several other types. The first member (vt) 
+  of VARIANT  holds <A href="../Tables/IDP_VARIANT.html">type information</a>. 
+  The next three words are used only by DECIMAL. Then follows 8-byte union that 
+  can hold value of other supported types. An union is a variable type whose members 
+  can have different types but they all share the same memory. Variables of type 
+  VARIANT are automatically <A href="../Tables/IDP_VARTABLE.html">cleared</a> 
+  when go out of scope.</p>
+<p>&nbsp;</p>
+<p>All these types support operator = (assign) and <A href="../Language/IDP_OPUNARY.html">unary 
+  operators</a>. To assign a string containing a number, <a href="../Functions/IDP_VAL.html" class="blue">val</a> 
+  is not needed. Error if = cannot convert from another type.</p>
+
+<h2>Functions</h2>
+<p>All these types have the same set of arithmetic functions. These functions provide more precise results than calculations with operators. Common syntax:</p>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.function(parameters)</pre>
+
+<p>&nbsp;</p>
+
+<p>Here <b>var</b> is a variable of type CURRENCY, DECIMAL or VARIANT. Arguments can have any type, but before calculating they are converted to the type of <b>var</b>. Most functions return <b>var</b> itself.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>add</b>(<i>[</i>left<i>]</i> right)</pre>
+
+<p>&nbsp;</p>
+<p>Adds <b>left</b> and <b>right</b> (var = left + right). If <b>left</b> is omitted, 
+  <b>var</b> is used (var = var + right).</p>
+
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>sub</b>(<i>[</i>left<i>]</i> right)</pre>
+
+<p>&nbsp;</p>
+<p>Subtracts (var = left - right).</p>
+
+<p>&nbsp;</p><hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>mul</b>(<i>[</i>left<i>]</i> right)</pre>
+
+<p>&nbsp;</p>
+<p>Multiplies (var = left * right).</p>
+
+<p>&nbsp;</p><hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>div</b>(<i>[</i>left<i>]</i> right)</pre>
+
+<p>&nbsp;</p>
+<p>Divides (var = left / right).</p>
+
+<p>&nbsp;</p><hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>round</b>(<i>[</i>number<i>] [</i>cDec<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Rounds <b>number</b> to <b>cDec</b> places after decimal point. Default for 
+  <b>cDec</b> is 0. Default for <b>number</b> is <b>var</b>.</p>
+
+<p>&nbsp;</p><hr>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>fix</b>(<i>[</i>number<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Gets integer part of <b>number</b>. Default for <b>number </b>is <b>var</b>.</p>
+
+<p>&nbsp;</p><hr>
+<p>&nbsp;</p>
+
+<pre class=syntax><i>int </i>var.<b>cmp</b>(numberorstring <i>[</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<p>Compares <b>var</b> and <b>numberorstring</b>. Returns -1 if <b>var</b> is 
+  less than <b>numberorstring</b>, 0 if equal, 1 if greater.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. Added <b>flags</b>. Flag 1 - case insensitive.</p>
+<p>&nbsp;</p>
+<h2>VARIANT functions</h2>
+<p>&nbsp;</p>
+
+<pre class=syntax>var.<b>attach</b>(a)</pre>
+
+<p>&nbsp;</p>
+<p>Here <b>a</b> is variable of type ARRAY, BSTR, VARIANT or interface pointer.</p>
+<p>&nbsp;</p>
+<p>The function stores <b>a</b> into <b>var</b> without copying the associated 
+  data (as operator = does). Clears <b>a</b>.</p>
+<p>&nbsp;</p>
+<h2>Examples</h2>
+
+<pre class=cod><span class=t>VARIANT</span> a
+a.add<span class=p>(</span><span class=n>10</span> <span class=n>0.45</span><span class=p>)</span>
+<span class=c> now a is 10.45
+</span>a.sub<span class=p>(</span>a.mul<span class=p>(</span><span class=n>5</span> <span class=n>10</span><span class=p>)</span> <span class=n>0.45</span><span class=p>)</span>
+<span class=c> now a is 49.55
+</span>a.round<span class=p>(</span><span class=n>2.52</span><span class=p>)</span>
+<span class=c> now a is 3
+</span>a.round<span class=p>(</span><span class=n>2.52</span> <span class=n>1</span><span class=p>)</span>
+<span class=c> now a is 2.5
+</span>a.fix<span class=p>(</span><span class=n>2.52</span><span class=p>)</span>
+<span class=c> now a is 2
+</span>a <span class=o>=</span> <span class=o>-</span>a
+<span class=c> now a is -2
+</span>a <span class=o>=</span> <span class=s>&#34;string1&#34;</span>
+a.add<span class=p>(</span><span class=s>&#34; string2&#34;</span><span class=p>)</span>
+<span class=c> now a is &#34;string1 string2&#34;
+</span></pre>
+
+</body>
+
+</html>
