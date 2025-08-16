@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Type declaration for functions, parameters, etc</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>
+Type declaration for functions, parameters, etc</h1>
+
+<p>In declarations, must be specified types of function parameters, type members, 
+  etc. Usually, type name is placed before parameter/member name, without spaces 
+  between them. To separate them, use <tt>'</tt>. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span><span class=p>'</span>a</pre>
+
+<p>&nbsp;</p>
+<p>If it is pointer or reference, <tt>'</tt> is not used. 
+  Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>str</span><span class=o>*</span>a
+<span class=t>str</span><span class=o>&#38;</span>a
+<span class=t>str</span><span class=o>**</span>a
+<span class=t>str</span><span class=o>***</span>a
+<span class=t>str</span><span class=o>*&#38;</span>a</pre>
+<p>&nbsp;</p>
+<p>If it is ARRAY, <tt>'</tt> is optional. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span>a
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)'</span>a</pre>
+<p>&nbsp;</p>
+<p>For some types, also can be used type declaration character instead of type 
+  name. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=o>#</span>a
+<span class=o>~</span>a</pre>
+<p>&nbsp;</p>
+<p>Type declaration characters:</p>
+<table class="tnormal">
+
+<tr>
+<td>
+<i>Type</i></td>
+<td>byte</td>
+<td>word</td>
+<td>int</td>
+<td>long</td>
+<td>double</td>
+<td>lpstr</td>
+<td>str</td>
+<td>VARIANT</td>
+</tr>
+
+<tr>
+<td>
+<i>Character</i></td>
+<td><tt>!</tt></td>
+<td><tt>@</tt></td>
+<td><tt>#</tt> <br>or none</td>
+<td><tt>%</tt></td>
+<td><tt>^</tt></td>
+<td><tt>$</tt></td>
+<td><tt>~</tt></td>
+<td><tt>`</tt><br>
+  (QM 2.3.3)</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+
+<p>If type is <span class="type">int</span>, type name can be omitted. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod>a</pre>
+<p>&nbsp;</p>
+<p>The return type of a user-defined function must follow the <span class="blue">function</span> 
+  keyword. Use <tt>'</tt>  to separate them, unless you use a type declaration character. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=p>'</span><span class=t>int</span>
+<span class=fq>function</span><span class=o>#</span></pre>
+<p>&nbsp;</p>
+<p>For functions that don't  return a value,  don't specify a type.</p>
+<p>&nbsp;</p>
+<h3>Examples (full declarations)</h3>
+
+<pre class=cod><span class=c> Type of function SetCursorPos is int; types of parameters  -  int:
+</span><span class=fq>dll</span> user32 <span class=o>#</span><span class=fd>SetCursorPos</span> x y
+
+<span class=c> Type of function is word pointer; types of parameters  -  int, lpstr, str reference, POINT pointer:
+</span><span class=fq>function</span><span class=p>'</span><span class=t>word</span><span class=o>*</span> <span class=t>int</span><span class=p>'</span>i <span class=t>lpstr</span><span class=p>'</span>a <span class=t>str</span><span class=o>&#38;</span>sr <span class=t>POINT</span><span class=o>*</span>pp
+<span class=c> or
+</span><span class=fq>function</span><span class=o>@*</span> i <span class=o>$</span>a <span class=o>~&#38;</span>sr <span class=t>POINT</span><span class=o>*</span>pp
+<span class=c>
+ Type of rcPaint is RECT; type of r is byte array; type of other members is int:
+</span><span class=fq>type</span> <span class=t>PAINTSTRUCT</span> hdc fErase <span class=t>RECT</span><span class=p>'</span>rcPaint fRestore fIncUpd <span class=o>!</span>r[<span class=n>32</span>]</pre>
+
+</body>
+
+</html>
