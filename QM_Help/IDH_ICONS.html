@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Icons</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Icons</h1>
+
+<p>The Icons dialog can be used to find or create icons for <a href="IDH_MENUICONS.html">toolbars, 
+  menus</a>, <a href="IDH_ITEMS.html">QM items</a> and shortcuts.</p>
+
+<h2>Left side - icon browser</h2>
+<p>Here you can find icons, assign them to menu items, etc.</p>
+<p>&nbsp;</p>
+<p> <i>Browse</i> - open an icon file. You can select files and view their icons 
+  without closing the Open dialog. The small button shows menu of recent files. 
+  To add a file to the menu or move it to the top, select the file in the 'Open 
+  icon file' dialog and press OK.</p>
+<p>&nbsp;</p>
+<p><i>Actions</i> - shows menu of icon actions. Most actions use the current icon. 
+  The icon is displayed in the dialog, and its file name and index is in the title 
+  bar.</p>
+<p>&nbsp;</p>
+
+<p> <i>Set icon...</i> - assign the icon to a menu/toolbar item, or to the current 
+  QM item, or to items of the same type as the current QM item, etc. For menu/toolbar 
+  items, inserts the icon file path into the editor text, in the line that contains 
+  the text cursor.</p>
+<p>&nbsp;</p>
+<p><i>Reset</i> - assign default icon.</p>
+<p>&nbsp;</p>
+<p><i>Edit</i> - open the icon in the icon editor at the right. If the icon is 
+  from a library (dll, exe, etc) or is not compatible (read below), opens it as 
+  new.</p>
+<p>&nbsp;</p>
+<p><i>Edit in external editor</i> - open the icon file in another program that 
+  is specified in Options -&gt; Tools. If the icon is from a library, at first 
+  saves it to an ico file.</p>
+<p>&nbsp;</p>
+<p><i>Save as ico file</i> - if the icon is from a library, saves it to an ico 
+  file.</p>
+<p>&nbsp;</p>
+<p><i>Copy path</i> - store path of the icon to the clipboard.</p>
+<p>&nbsp;</p>
+<p><i>Paste path</i> - open icon file whose path is in the clipboard as text.</p>
+<p>&nbsp;</p>
+<p><i>Set default save folder</i> - choose a folder where Save As dialogs will 
+  start. It is not used by the Browse button.</p>
+<p>&nbsp;</p>
+<p><i>Refresh icons</i> - reload changed icons of QM items and common icons. To 
+  improve performance, icons are cached.</p>
+<p>&nbsp;</p>
+<p><i>Imagelist Editor</i> - creates imagelists that can be used with various 
+  controls in dialogs.</p>
+<!--<p>[] Then you can assign t_imagelist to controls using messages, or use it with 
+  ImageList_X functions for other purposes. All this is documented in the MSDN 
+  Library. You can assign single imagelist to multiple controls, or use several 
+  imagelists. Make sure that controls don't destroy it. The variable destroys 
+  it automatically. The variable must exist while the imagelist is used by controls, 
+  therefore it should not be local.</p>-->
+<h2>Right side - icon editor</h2>
+
+<p> Here you can create simple icons for menus, toolbars and QM items.</p>
+<p>&nbsp;</p>
+
+<p>When you create or edit an icon, click &quot;Save&quot; or &quot;Save As&quot;. 
+  Then you can use the Actions menu to assign the icon to a menu item, etc. QM 
+  does not automatically save icons or prompt to save when closing the editor.</p>
+
+<p>&nbsp;</p>
+
+<p>The editor saves icons to *.ico files that contain one small icon (16x16 pixels, 
+  16 or 256 colors). Usually icon files contain two or more icons of various size 
+  and color count. To prevent overwriting such icons, the editor opens them as 
+  new.</p>
+
+<p>&nbsp;</p>
+
+<h4>Tips</h4>
+
+
+
+<p>Right click the grid to undo. Ctrl+left click to pick color.</p>
+
+<p>Drag the preview icon to capture an icon or to move the image in the editor. 
+  Drag with Ctrl to capture-add. While capturing, you can see top-left pixel's 
+  <a href="../Other/IDP_COLOR.html">color</a>.</p>
+
+<p>The eraser color will be transparent.</p>
+
+<p>When drawing, you can keep the Color dialog open and use it as alternative 
+  palette.</p>
+<h2>How QM uses custom icons</h2>
+<p>In QM 2.3.0.3 and later, you can set custom icons for QM items and item types. 
+  Also changed the way QM uses icons in menus, dialogs, etc.</p>
+<p>&nbsp;</p>
+<p>In menus and toolbars: For items are used the same default icons that are displayed 
+  in QM. Also now you can set default icon for submenus.</p>
+<p>&nbsp;</p>
+<p><span class="UDF">ShowDialog</span>, <span class="UDF">AddTrayIcon</span>, 
+  <span class="UDF">MainWindow</span>: As default icon is used the icon of the function 
+  or macro that started the thread. In <a href="IDH_MAKEEXE.html">exe</a> - exe icon.</p>
+<p>&nbsp;</p>
+<p>Paths of icons of QM items are saved in the QM file together with items.  Paths of icons of QM item types are saved in the registry.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
