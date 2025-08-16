@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>mkdir</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>Create new folder</h1>
+<h3>Syntax</h3>
+<pre class=syntax><i>int </i><b>mkdir</b>(folder <i>[</i>parent<i>]</i>)</pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p> <b>folder</b> - name of new folder. If <b>parent</b> isn't used or is &quot;&quot;, 
+<b>folder</b> must be full path.</p>
+<p><b>parent</b> - container folder or drive. If <b>folder</b> includes full path, 
+<b>parent</b> isn't used. Default: &quot;&quot;.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>Creates new folder.</p>
+<p>&nbsp;</p>
+<p>Returns 1 if successfully created. Error if failed. Returns 0 if the folder already exists.</p>
+<p>&nbsp;</p>
+<p>Also creates parent folders, if need. For example, <span class=cod><span class=fq>mkdir</span> <span class=s>&#34;x:\a\b\c&#34;</span></span> creates folders a, b and c, if they did not exist.</p>
+<p>&nbsp;</p>
+<p><em>See also:</em> <span class="UDF">ChangeFileSecurity</span>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=fq>mkdir</span> <span class=s>&#34;$Desktop$\New Folder&#34;</span> <span class=c2>;;create &#34;Nef Folder&#34; on the desktop
+</span><span class=fq>mkdir</span> <span class=s>&#34;New Folder&#34;</span> <span class=s>&#34;$Desktop$&#34;</span> <span class=c2>;;the same
+</span></pre>
+<p>&nbsp;</p>
+</body>
+</html>
