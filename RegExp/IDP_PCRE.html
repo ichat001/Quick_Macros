@@ -1,0 +1,434 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+<title>Regular expressions </title>
+<link rel=StyleSheet href="../QM-Help.css">
+<style type="text/css">
+<!--
+span.c6 {
+	font-style: italic;
+}
+-->
+</style>
+</head>
+
+<body>
+
+<h1>Regular expressions</h1>
+<p><a href="IDH_PCRE.html">Reference</a></p>
+<p>&nbsp;</p>
+
+<p>Regular expressions are used to find, find-replace and split strings. QM has 
+  two functions that use regular expressions: <a href="../Functions/IDP_FINDRX.html" class="blue">findrx</a> 
+  and <a href="../str/IDP_S_REPLACERX.html">str.replacerx</a>. Regular expressions 
+  also can be used with commands and functions that use <a href="../Other/IDP_WINDOWEXPRESSION.html">window 
+  name</a>, with <a href="../QM_Help/IDH_TRIG_WINDOW.html">window triggers</a>, 
+  and in the Find dialog. </p>
+
+<p>&nbsp;</p>
+
+<p>A regular expression is a pattern of text that consists of ordinary characters 
+  (for example, letters a through z) and special characters, known as <i>metacharacters</i>. 
+  The pattern describes one or more strings to match when searching text. It is 
+  like a string containing wildcard characters * and ? that you use when searching 
+  for files, but regular expressions are much more powerful. The following table 
+  contains some metacharacters and their behavior in the context of regular expressions.</p>
+
+<p>&nbsp;</p>
+
+<table class="tnormal">
+  <tr> 
+    <th>Character</th>
+    <th>Description</th>
+  </tr>
+  <tr> 
+    <td>\ </td>
+    <td>Marks the next character as either a special character, a 
+      literal (removes special meaning from next metacharacter), a backreference, 
+      anchor, or an octal|hex escape. For example, 't' matches the character &quot;t&quot;. 
+      '\t' matches a tab character. The sequence '\\' matches &quot;\&quot;, and 
+      &quot;\(&quot; matches &quot;(&quot;. </td>
+  </tr>
+  <tr> 
+    <td>. </td>
+    <td><p>Matches any single character except new line character (\n). 
+      If you use '(?s)' somewhere before, then . matches all characters.</p>
+      <p>&nbsp;</p>
+      <p>Note: 
+        A Windows new line consists of two characters - carriage return followed 
+        by new line (\r\n). Since . matches carriage return (\r), sometimes you 
+      may get unexpected results. Then use [^\r\n] instead of . .</p></td>
+  </tr>
+  <tr> 
+    <td>[xyz] </td>
+    <td><p>A character set. Matches any one of the enclosed characters. 
+        For example, '[abc]' matches the 'a' in &quot;plain&quot;.</p>
+      <p><br>
+        Note: [digits] in strings is a QM <a href="../Language/IDP_CONSTANT.html">escape 
+          sequence</a> and is replaced to a character code. 
+        If you need literal [digits] in regular expression, use [91] instead of [. For 
+        example, for [135] use [91]135]. Escape sequences are processed 
+        before processing regular expression.</p></td>
+  </tr>
+  <tr> 
+    <td>[^xyz] </td>
+    <td>A negative character set. Matches any character not enclosed. 
+      For example, '[^abc]' matches the 'p' in &quot;plain&quot;. </td>
+  </tr>
+  <tr> 
+    <td>[a-z] </td>
+    <td>A range of characters. Matches any character in the specified 
+      range. For example, '[a-z]' matches any lowercase alphabetic character in 
+      the range 'a' through 'z'. </td>
+  </tr>
+  <tr> 
+    <td>[^a-z] </td>
+    <td>A negative range characters. Matches any character not in 
+      the specified range. For example, '[^a-z]' matches any character not in 
+      the range 'a' through 'z'. </td>
+  </tr>
+  <tr> 
+    <td>* </td>
+    <td>Matches the preceding subexpression zero or more times. For 
+      example, zo* matches &quot;z&quot; and &quot;zoo&quot;.</td>
+  </tr>
+  <tr> 
+    <td>+ </td>
+    <td>Matches the preceding subexpression one or more times. For 
+      example, 'zo+' matches &quot;zo&quot; and &quot;zoo&quot;, but not &quot;z&quot;.</td>
+  </tr>
+  <tr> 
+    <td>? </td>
+    <td>Matches the preceding subexpression zero or one time. For 
+      example, &quot;do(es)?&quot; matches the &quot;do&quot; in &quot;do&quot; 
+      or &quot;does&quot;.</td>
+  </tr>
+  <tr> 
+    <td>{n} </td>
+    <td>Matches exactly <span class=c6>n</span> times (<span class=c6>n</span> 
+      is a nonnegative integer). For example, 'o{2}' does not match the 'o' in 
+      &quot;Bob,&quot; but matches the two o's in &quot;food&quot;. </td>
+  </tr>
+  <tr> 
+    <td>{n,} </td>
+    <td>Matches at least <span class=c6>n</span> times. For example, 
+      'o{2,}' does not match the &quot;o&quot; in &quot;Bob&quot; and matches 
+      all the o's in &quot;foooood&quot;.</td>
+  </tr>
+  <tr> 
+    <td>{n,m} </td>
+    <td>Matches at least <span class=c6>n</span> and at most <span class=c6>m</span> 
+      times. For example, &quot;o{1,3}&quot; matches the first three o's in &quot;fooooood&quot;. 
+      Note that you cannot put a space between the comma and the numbers. </td>
+  </tr>
+  <tr> 
+    <td>? </td>
+    <td>When this character immediately follows any of the other quantifiers 
+      (*, +, ?, { <span class=c6>n</span>}, { <span class=c6>n</span>,}, { <span class=c6>n</span>, 
+      <span class=c6>m</span>}), the matching pattern is non-greedy. A non-greedy 
+      pattern matches as little of the searched string as possible, whereas the 
+      default greedy pattern matches as much of the searched string as possible. 
+      For example, in the string &quot;oooo&quot;, 'o+?' matches a single &quot;o&quot;, 
+      while 'o+' matches all 'o's. </td>
+  </tr>
+  <tr> 
+    <td>^ </td>
+    <td>Matches the position at the beginning of the input string. 
+      If multiline flag is set, ^ also matches the position at beginning of line. 
+    </td>
+  </tr>
+  <tr> 
+    <td>$ </td>
+    <td>Matches the position at the end of the input string. If multiline 
+      flag is set, $ also matches the position at end of line.</td>
+  </tr>
+  <tr> 
+    <td>\b </td>
+    <td>Matches a word boundary, that is, the position between a word 
+      and a space (or other delimiter, e.g. comma). For example, 'er\b' matches 
+      the 'er' in &quot;never&quot; but not the 'er' in &quot;verb&quot;. </td>
+  </tr>
+  <tr> 
+    <td>\B </td>
+    <td>Matches a nonword boundary. 'er\B' matches the 'er' in &quot;verb&quot; 
+      but not the 'er' in &quot;never&quot;. </td>
+  </tr>
+  <tr> 
+    <td>(pattern) </td>
+    <td>Matches <span class=c6>pattern</span> and captures (remembers) 
+      the match (&quot;submatch&quot;). To match parentheses characters ( ), use 
+      '\(' or '\)'. </td>
+  </tr>
+  <tr> 
+    <td>(?:pattern) </td>
+    <td>Matches <span class=c6>pattern</span> but does not capture 
+      the match, that is, it is a non-capturing match that is not stored for possible 
+      later use. This is useful for combining parts of a pattern with the &quot;or&quot; 
+      character (|). For example, 'industr(?:y|ies) is a more economical expression 
+      than 'industry|industries'. </td>
+  </tr>
+  <tr> 
+    <td>(?=pattern) </td>
+    <td>Positive lookahead matches the search string at any point 
+      where a string matching <span class=c6>pattern</span> begins. This is a 
+      non-capturing match, that is, the match is not captured for possible later 
+      use. For example 'Windows (?=95|98|NT|2000)' matches &quot;Windows&quot; 
+      in &quot;Windows 2000&quot; but not &quot;Windows&quot; in &quot;Windows 
+      3.1&quot;. Lookaheads do not consume characters, that is, after a match 
+      occurs, the search for the next match begins immediately following the last 
+      match, not after the characters that comprised the lookahead. </td>
+  </tr>
+  <tr> 
+    <td>(?!pattern) </td>
+    <td>Negative lookahead matches the search string at any point 
+      where a string not matching <span class=c6>pattern</span> begins. This is 
+      a non-capturing match, that is, the match is not captured for possible later 
+      use. For example 'Windows (?!95|98|NT|2000)' matches &quot;Windows&quot; 
+      in &quot;Windows 3.1&quot; but does not match &quot;Windows&quot; in &quot;Windows 
+      2000&quot;. Lookaheads do not consume characters, that is, after a match 
+      occurs, the search for the next match begins immediately following the last 
+      match, not after the characters that comprised the lookahead. </td>
+  </tr>
+  <tr> 
+    <td>x|y </td>
+    <td>Matches either <span class=c6>x</span> or <span class=c6>y</span>. 
+      For example, 'z|food' matches &quot;z&quot; or &quot;food&quot;. 'colo(r|ur)' 
+      matches &quot;color&quot; or &quot;colour&quot;. </td>
+  </tr>
+  <tr> 
+    <td>\cx </td>
+    <td>Matches the control character indicated by <span class=c6>x</span>. 
+      For example, \cM matches a Control-M or carriage return character. The value 
+      of <span class=c6>x</span> must be in the range of A-Z or a-z. If not, c 
+      is assumed to be a literal 'c' character. </td>
+  </tr>
+  <tr> 
+    <td>\d </td>
+    <td>Matches a digit character. Equivalent to [0-9]. </td>
+  </tr>
+  <tr> 
+    <td>\D </td>
+    <td>Matches a nondigit character. Equivalent to [^0-9]. </td>
+  </tr>
+  <tr> 
+    <td>\f </td>
+    <td>Matches a form-feed character. Equivalent to \x0c and \cL. 
+    </td>
+  </tr>
+  <tr> 
+    <td>\n </td>
+    <td>Matches a newline character. Equivalent to \x0a and \cJ. </td>
+  </tr>
+  <tr> 
+    <td>\r </td>
+    <td>Matches a carriage return character. Equivalent to \x0d and 
+      \cM. </td>
+  </tr>
+  <tr> 
+    <td>\s </td>
+    <td>Matches any whitespace character including space, tab, form-feed, 
+      etc. Equivalent to [ \f\n\r\t\v]. </td>
+  </tr>
+  <tr> 
+    <td>\S </td>
+    <td>Matches any non-whitespace character. Equivalent to [^ \f\n\r\t\v]. 
+    </td>
+  </tr>
+  <tr> 
+    <td>\t </td>
+    <td>Matches a tab character. Equivalent to \x09 and \cI. </td>
+  </tr>
+  <tr> 
+    <td>\v </td>
+    <td>Matches a vertical tab character. Equivalent to \x0b and \cK. 
+    </td>
+  </tr>
+  <tr> 
+    <td>\w </td>
+    <td>Matches any word character including underscore. Equivalent 
+      to '[A-Za-z0-9_]'. </td>
+  </tr>
+  <tr> 
+    <td>\W </td>
+    <td>Matches any nonword character. Equivalent to '[^A-Za-z0-9_]'. 
+    </td>
+  </tr>
+  <tr> 
+    <td>\xn </td>
+    <td>Matches <span class=c6>n</span>, where <span class=c6>n</span> 
+      is a hexadecimal escape value. Hexadecimal escape values must be exactly 
+      two digits long. For example, '\x41' matches &quot;A&quot;. '\x041' is equivalent 
+      to '\x04' &amp;mp; &quot;1&quot;. Allows ASCII codes to be used in regular 
+      expressions. </td>
+  </tr>
+  <tr> 
+    <td>\num </td>
+    <td>Matches <span class=c6>num</span>, where <span class=c6>num</span> 
+      is a positive integer. A reference back to captured matches. For example, 
+      '(.)\1' matches two consecutive identical characters. </td>
+  </tr>
+  <tr> 
+    <td>\n </td>
+    <td>Identifies either an octal escape value or a backreference. 
+      If \<span class=c6>n</span> is preceded by at least <span class=c6>n</span> 
+      captured subexpressions, <span class=c6>n</span> is a backreference. Otherwise, 
+      <span class=c6>n</span> is an octal escape value if <span class=c6>n</span> 
+      is an octal digit (0-7). </td>
+  </tr>
+  <tr> 
+    <td>\nm </td>
+    <td>Identifies either an octal escape value or a backreference. 
+      If \<span class=c6>nm</span> is preceded by at least <span class=c6>nm</span> 
+      captured subexpressions, <span class=c6>nm</span> is a backreference. If 
+      \<span class=c6>nm</span> is preceded by at least <span class=c6>n</span> 
+      captures, <span class=c6>n</span> is a backreference followed by literal 
+      <span class=c6>m</span>. If neither of the preceding conditions exist, \
+      <span class=c6>nm</span> matches octal escape value <span class=c6>nm</span> 
+      when <span class=c6>n</span> and <span class=c6>m</span> are octal digits 
+      (0-7). </td>
+  </tr>
+  <tr> 
+    <td>\nml </td>
+    <td>Matches octal escape value <span class=c6>nml</span> when 
+      <span class=c6>n</span> is an octal digit (0-3) and <span class=c6>m</span> 
+      and <span class=c6>l</span> are octal digits (0-7). </td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h2>Tutorials</h2>
+<pre class=cod><span class=c> Shows how to use function findrx() to find and extract text.</span>
+
+<span class=c> findrx() is is similar to find().</span>
+<span class=t>int</span> i
+i<span class=o>=</span><span class=fq>find</span><span class=p>(</span><span class=s>&#34;Sunday Monday Tuesday&#34;</span> <span class=s>&#34;Monday&#34;</span><span class=p>)</span> <span class=c2>;;find Monday</span>
+<span class=fq>out</span> i
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;Sunday Monday Tuesday&#34;</span> <span class=s>&#34;Monday&#34;</span><span class=p>)</span> <span class=c2>;;find Monday</span>
+<span class=fq>out</span> i
+
+<span class=c> But findrx() can find not only exact text.</span>
+<span class=c> The second argument (regular expression) can contain special characters (metacharacters) that match certain characters or conditions.</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file578.txt&#34;</span> <span class=s>&#34;\d+&#34;</span><span class=p>)</span> <span class=c2>;;find a number. Here \d matches a digit, and + means &#34;one or more&#34;. So, \d+ matches one or more digits.</span>
+<span class=fq>out</span> i
+
+<span class=c> How to extract the found text?</span>
+<span class=t>str</span> s
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file578.txt&#34;</span> <span class=s>&#34;\d+&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;pass a str variable as 5-th argument, and it will be populated with the match</span>
+<span class=fq>out</span> i
+<span class=fq>out</span> s
+
+<span class=c> What if not found?</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file.txt&#34;</span> <span class=s>&#34;\d+&#34;</span><span class=p>)</span> <span class=c2>;;if not found, returns -1</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=o>&#60;</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&#34;not found&#34;</span>
+
+<span class=c> When whole string must match:</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;578&#34;</span> <span class=s>&#34;^\d+$&#34;</span><span class=p>)</span> <span class=c2>;;here ^ and $ mean &#34;beginning&#34; and &#34;end&#34;</span>
+<span class=fq>out</span> i
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file578.txt&#34;</span> <span class=s>&#34;^\d+$&#34;</span><span class=p>)</span> <span class=c2>;;does not match</span>
+<span class=fq>out</span> i
+
+<span class=c> Find a number where it is whole word:</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file123 456.txt&#34;</span> <span class=s>&#34;\b\d+\b&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;here \b means &#34;word boundary&#34;. Word characters are alphanumeric ASCII characters and _.</span>
+<span class=fq>out</span> i
+<span class=fq>out</span> s
+
+<span class=c> Find a date in a filename:</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file01-02-2000.txt&#34;</span> <span class=s>&#34;\d{2}-\d{2}-\d{4}&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;here \d{2} means &#34;2 digits&#34;</span>
+<span class=fq>out</span> i
+<span class=fq>out</span> s
+
+<span class=c> If need only year:</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file01-02-2000.txt&#34;</span> <span class=s>&#34;\d{2}-\d{2}-(\d{4})&#34;</span> <span class=n>0</span> <span class=n>0</span> s <span class=n>1</span><span class=p>)</span> <span class=c2>;;6-th argument tells which submatch (part enclosed in ()) to get into s</span>
+<span class=fq>out</span> i
+<span class=fq>out</span> s
+
+<span class=c> If need month, day and year:</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file01-02-2000.txt&#34;</span> <span class=s>&#34;(\d{2})-(\d{2})-(\d{4})&#34;</span> <span class=n>0</span> <span class=n>0</span> a<span class=p>)</span>
+<span class=fq>out</span> a[<span class=n>0</span>] <span class=c2>;;whole match</span>
+<span class=fq>out</span> a[<span class=n>1</span>] <span class=c2>;;submatch 1 (month)</span>
+<span class=fq>out</span> a[<span class=n>2</span>] <span class=c2>;;submatch 2 (day)</span>
+<span class=fq>out</span> a[<span class=n>3</span>] <span class=c2>;;submatch 3 (year)</span>
+
+<span class=c> Find substring consisting of specified characters:</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;xxx 0x3ea5 yyy&#34;</span> <span class=s>&#34;0x[\dabcdef]+&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;here [] is used to specify characters, \d is digit, + means &#34;1 or more&#34;. So it finds 0x followed by 1 or more digits and characters abcdef.</span>
+<span class=fq>out</span> i
+<span class=fq>out</span> s
+
+<span class=c> How to use \^$()[].+? and other metacharacters as ordinary characters? (all metacharacters are listed in &#34;Regular expression syntax&#34; topic in QM Help)</span>
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;file.txt&#34;</span> <span class=s>&#34;.+\.txt&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;insert \ before each such character. Here the first . means &#34;any character&#34;, however the second . is just . because preceded by \.</span>
+<span class=fq>out</span> s
+i<span class=o>=</span><span class=fq>findrx</span><span class=p>(</span><span class=s>&#34;xxx file.txt yyy&#34;</span> <span class=s>&#34;\Qfile.txt\E&#34;</span> <span class=n>0</span> <span class=n>0</span> s<span class=p>)</span> <span class=c2>;;or enclose part of regular expression in \Q and \E</span>
+<span class=fq>out</span> s</pre>
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<pre class=cod><span class=c> Shows how to use function str.replacerx() to find-replace text.</span>
+
+<span class=c> str.replacerx() is similar to str.findreplace().</span>
+<span class=t>str</span> x<span class=o>=</span><span class=s>&quot;Sunday Monday Tuesday&quot;</span>
+x.<span class=fq>findreplace</span><span class=p>(</span><span class=s>&quot;Monday&quot;</span> <span class=s>&quot;(here was Monday)&quot;</span><span class=p>)</span>
+<span class=fq>out</span> x
+<span class=t>str</span> y<span class=o>=</span><span class=s>&quot;Sunday Monday Tuesday&quot;</span>
+y.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;Monday&quot;</span> <span class=s>&quot;(here was Monday)&quot;</span><span class=p>)</span>
+<span class=fq>out</span> y
+
+<span class=c> But it can find not only exact text. It can find text like findrx().</span>
+y<span class=o>=</span><span class=s>&quot;file123 456.txt&quot;</span>
+y.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;\d+&quot;</span> <span class=s>&quot;(here was a number)&quot;</span><span class=p>)</span>
+<span class=fq>out</span> y
+
+<span class=c> What if not found?</span>
+y<span class=o>=</span><span class=s>&quot;file.txt&quot;</span>
+<span class=t>int</span> n<span class=o>=</span>y.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;\d+&quot;</span> <span class=s>&quot;(here was a number)&quot;</span><span class=p>)</span> <span class=c2>;;replacerx returns number of found matches</span>
+<span class=fq>if</span><span class=p>(</span>n<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;not found&quot;</span>
+
+<span class=c> How to use submatches in the replacement string?</span>
+y<span class=o>=</span><span class=s>&quot;file01-02-2000.txt&quot;</span>
+y.<span class=fq>replacerx</span><span class=p>(</span><span class=s>&quot;(\d{2})-(\d{2})-(\d{4})&quot;</span> <span class=s>&quot;$3-$1-$2&quot;</span><span class=p>)</span> <span class=c2>;;in the replacement string, $number can be used for a submatch</span>
+<span class=fq>out</span> y <span class=c2>;;converted date from mm-dd-yyyy to yyyy-mm-dd format</span>
+</pre>
+
+<p>&nbsp;</p>
+
+<h4>On the web:</h4>
+<p> <a href="http://msdn.microsoft.com/en-us/library/6wzad2b2.aspx" target="_blank">Tutorial</a> (VBScript regular expressions)</p>
+<p><a href="http://www.google.lt/search?q=regular%20expressions" target="_blank">More info, often used regular expressions, etc</a></p>
+<p><a href="http://www.google.lt/search?q=regular%20expressions download" target="_blank">Regular expression tools</a></p>
+<h2>PCRE</h2>
+
+<p>Regular expression support is provided by the <a href="http://www.pcre.org/" target="_blank">PCRE 
+  library</a>, which is open source software, written by Philip Hazel, 
+  and copyright by the University of Cambridge, England. </p>
+
+<p>&nbsp;</p>
+
+<p>The PCRE library is a set of functions that implement regular expression pattern 
+  matching using the same syntax and semantics as Perl, with just a few differences. 
+  QM uses PCRE version 4.4. It corresponds approximately with Perl 5.8.</p>
+<h2><a name="utf8"></a>UTF-8</h2>
+<p>When QM is running in Unicode mode, it stores text in UTF-8 format. When text 
+  is in UTF-8 format, non <a href="../Tables/IDP_ASCII.html">ASCII</a> characters 
+  consist of 2-4 bytes.</p>
+<p>&nbsp;</p>
+<p> QM does not support UTF-8 mode (option RX_UTF8) in regular expressions. Non 
+  ASCII characters can be used, but they are interpreted as 2-4 separate bytes, 
+  not as single character. For example, <tt>.</tt> matches 
+  single byte, not whole character. Also, with non ASCII characters are not recognized 
+  word boundaries (\b), character classes (\w, \s, etc), not supported case insensitivity, 
+  etc.</p>
+<p>&nbsp;</p>
+<p> In most cases all this will not be a problem. However in some cases, when 
+  there are non ASCII characters in regular expression or subject string, you 
+  have to build the regular expression differently, and maybe use <a href="../Functions/IDP_FINDRX.html">flag 
+  32</a>.</p>
+
+<p>&nbsp; </p>
+
+</body>
+
+</html>
