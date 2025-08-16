@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#sub</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#sub</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#sub </span>name <i>[</i>attributes<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+  <p><b>name</b> - <A href="../Other/IDP_IDENTIFIERS.html">name</a> of the sub-function.</p>
+  <p><b>attributes</b> - one or more characters to specify sub-function properties:</p>
+  <table class="tflags">
+    <col>
+    <tr>
+      <td>c</td>
+      <td>This sub-function is a <a href="IDP_CLASSES.html">class</a> member function of its parent function's class. Example: <span class=cod><span class=dir>#sub</span> Member c</span>. To call: <span class=cod><span class=fu>sub.Member</span></span> or <span class=cod>var.<span class=fu>sub.Member</span></span>.</td>
+    </tr>
+    <tr>
+      <td>m</td>
+      <td>Text of this sub-function is used as <a href="../QM_Help/IDH_POPUP.html">menu</a> item text in a menu, toolbar or autotext. The menu item must be like <span class=cod>Label <span class=p>:</span><span class=fu>sub.SubName</span></span>. Cannot be called as function.</td>
+    </tr>
+    <tr>
+      <td>v</td>
+      <td>This sub-function can use parent's local and thread variables declared above the first sub call statement. Be careful with this, read more in Remarks -&gt; More.</td>
+    </tr>
+    <tr>
+      <td>r</td>
+      <td>This sub-function sees parent's <a href="IDP_REF.html" class="blue">ref</a> and <a href="../_COM/IDP_TYPELIB.html" class="blue">typlib</a> statements that are above the first sub call statement.</td>
+    </tr>
+    <tr>
+      <td>p</td>
+      <td>QM 2.4.3. Private. In a function containing <a href="IDP_DIR_SUB.html#shared">shared sub-functions</a> this sub-function is not shared. Sub-functions in other functions are always private, don't need this attribute.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+
+<p>Begins a sub-function.</p>
+<p>&nbsp;</p>
+<p>Added in QM 2.4.1.</p>
+<p>&nbsp;</p>
+<p>Sub-functions are user-defined functions that are embedded in text of their <i>parent</i> <a href="../QM_Help/IDH_ITEMS.html">QM item</a> (macro etc). Unlike <a href="../QM_Help/IDH_FUNCTION.html">usual QM user-defined functions</a>, they aren't separate QM items that you could manage in the list of macros. Sub-functions can be used in macros, functions, member functions, menus, toolbars and autotexts.</p>
+<p>&nbsp;</p>
+<p>To call a sub-function, use its name with &quot;sub.&quot; prefix. Such sub-functions can be called from parent and its sub-functions, but not from other QM items. QM 2.4.3 also supports <a href="IDP_DIR_SUB.html#shared">shared sub-functions</a>.</p>
+<p>&nbsp;</p>
+<p>Sub-functions can be used like usual functions:</p>
+<ul>
+  <li>Called directly, like <span class=cod><span class=fu>sub.SubName</span><span class=p>(</span><span class=n>1</span> <span class=n>2</span><span class=p>)</span></span> or <span class=cod>classVar.<span class=fu>sub.SubName</span><span class=p>(</span><span class=n>1</span> <span class=n>2</span><span class=p>)</span></span>.</li>
+  <li>As callback function, for example with <span class="blue">atend</span>, <span class="blue">win</span>, <span class="UDF">ShowDialog</span>. To get address: <span class=cod><span class=o>&amp;</span><span class=fu>sub.SubName</span></span>.</li>
+  <li>Run in separate thread with <a href="../Commands/IDP_MAC.html" class="blue">mac</a>, like <span class=cod><span class=fq>mac</span> <span class=s>&quot;sub.SubName&quot;</span></span>.</li>
+  <li>As timer function with <a href="../Commands/IDP_TIM.html" class="blue">tim</a>, like <span class=cod><span class=fq>tim</span> <span class=n>1</span> <span class=fu>sub.SubName</span></span>.</li>
+  <li>With <a href="../_COM/IDP_COM_EVENTS.html">COM events</a>.</li>
+  <li>With directives <a href="IDP_DIR_COMPILE.html" class="dir">#compile</a> and <a href="IDP_DIR_SET.html" class="dir">#set</a>. QM 2.4.3: also with <a href="IDP_DIR_ERR.html" class="dir">#err</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>When you may want to use sub-function instead of usual function:</p>
+<ul>
+  <li>You need a private function that cannot be used in other macros.</li>
+  <li>You don't want to have the function in the list of macros.</li>
+  <li>You want to edit it together (in same text) with parent function.</li>
+  <li>When menu item text is multiline and you don't want to create macro/function for it.</li>
+  <li>To use features specific to sub-functions, for example attribute v (use parent variables).</li>
+</ul>
+<p>&nbsp;</p>
+<p>When you cannot use sub-function:</p>
+<ul>
+  <li>The function is used by more than one macro/function/etc.</li>
+  <li>The function must have a trigger or other properties of QM items that sub-functions don't have.</li>
+  <li>Where sub-functions are not supported (error when trying to use).</li>
+  <li>You want to make your macro compatible with older QM versions (&lt; 2.4.1).</li>
+</ul>
+<p>&nbsp;</p>
+<p>Sub-functions cannot be nested. This directive ends current code (parent or another sub-function).
+</p>
+<p>&nbsp;</p>
+<p>All sub-functions can access private/protected members of <a href="IDP_CLASSES.html">class</a> of parent function, even if they don't have c attribute.</p>
+<p>&nbsp;</p>
+<p>Like in all functions, default speed (<a href="../Commands/IDP_SPE.html" class="blue">spe</a>) in sub-functions is 0. In sub-functions with m attribute it is like in macros and menu items, default 100.</p>
+<p>&nbsp;</p>
+<p><a onClick="doSection(e1)" class="expand">More</a></p>
+<div id="e1" class="expand">
+  <p>When compiling a sub-function, QM creates a temporary hidden QM item for it. These QM items have own QM item id and name (see <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a>), but don't have own text, trigger and most other properties of QM items. The names are like &quot;&lt;00001&gt;SubName&quot;, where the number is parent QM item id, although usually displayed like &quot;ParentName:SubName&quot; or just &quot;SubName&quot;. Most QM functions that find QM item by name support both &quot;&lt;00001&gt;SubName&quot; and &quot;ParentName:SubName&quot;, but can find only if the temporary QM item already exists.</p>
+  <p>&nbsp;</p>
+<p>When a sub-function is specified, in most cases QM uses its parent instead:</p>
+  <ul>
+    <li><a href="../str/IDP_S_MACRO.html">str.getmacro</a> gets parent text (all, including text of sub-functions).</li>
+    <li> <span class="blue">qmitem</span> gets parent properties.</li>
+    <li> <span class="blue">dis</span> disables/enables parent.</li>
+    <li>str.<span class="blue">setmacro</span> replaces text of parent.</li>
+    <li>All functions that use <a href="../Other/IDP_RESOURCES.html">macro resources and settings</a>.</li>
+    <li>Functions that use the above functions. For example, <span class=cod><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;&quot;</span> ...<span class=p>)</span></span> gets dialog definition from caller's text. If caller is a sub-function, looks in all parent text, not just in its part containing the sub-function. Similarly, <span class=cod><span class=fu>CsExec</span> <span class=s>&quot;&quot;</span></span> etc look for script code in all parent text.</li>
+    <li>When creating exe, if need to add sub-function's text to exe, adds parent text.</li>
+  </ul>
+  <p>&nbsp;</p>
+  <p>When a sub-function is specified, QM does not use its parent with <span class="dll">IsThreadRunning</span>, <span class="dll">EnumQmThreads</span>, <span class="blue">shutdown</span> -6 (end thread), <span class="UDF">EndThread</span>, <span class="UDF">WaitForThreads</span>, trigger &quot;End thread&quot;. Example: <span class=cod><span class=fd>IsThreadRunning</span><span class=p>(</span><span class=s>&quot;ParentName:SubName&quot;</span><span class=p>)</span></span>.</p>
+  <p>&nbsp;</p>
+  <p>Some other featues that sub-functions don't have:</p>
+  <ul>
+    <li>Cannot be encrypted separately from parent.</li>
+    <li>Cannot run in other process than parent.</li>
+    <li>Cannot be the main function in exe.</li>
+    <li>Cannot be a class special function - constructor, destructor, operator=.</li>
+  </ul>
+  <p>&nbsp;</p>
+  <p>Be careful with attribute v (use parent variables):</p>
+  <ul>
+    <li>When the sub-function is a callback function, in some cases it may be called when parent function is already returned, or even run in other thread. Then will be run-time error &quot;cannot access variable&quot;. This attribute is not allowed with <span class="blue">mac</span> and in menus.</li>
+    <li>When the parent function is called recursively (calls itself), its sub-functions with v attribute use variables of the nearest parent function instance in the call stack. If it is not what you need, the parent function should not be recursive.</li>
+  </ul>
+  <p>&nbsp;</p>
+<p>Sub-function threads and timers are hidden by default in the 'Running items' pane. Right-click a folder to show.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=fu>sub.Test</span>
+
+<span class=dir>#sub</span> Test
+<span class=fq>out</span> <span class=s>&quot;sub-function Test&quot;</span>
+<span class=fq>out</span> <span class=fu>sub.Test2</span><span class=p>(</span><span class=n>3</span> <span class=n>4</span><span class=p>)</span>
+
+<span class=dir>#sub</span> Test2
+<span class=fq>function</span><span class=o>#</span> a b
+<span class=fq>out</span> <span class=s>&quot;sub-function Test2&quot;</span>
+<span class=fq>ret</span> a<span class=o>+</span>b
+</pre>
+<p>&nbsp;</p>
+<h2><a name="shared"></a>Shared sub-functions</h2>
+<p>By default, sub-functions can be called only from parent and its sub-functions, but not from other QM items. QM 2.4.3 and later also supports shared sub-functions. They can be global and class.</p>
+<p>&nbsp;</p>
+<p>Global shared sub-functions can be called from anywhere. They must be in functions named &quot;__sub_X&quot;, where X can be any name. They are called like <span class=cod><span class=fu>sub_X.Func</span><span class=p>(</span><span class=n>1</span> <span class=n>2</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>Class shared sub-functions can be called from any member functions of that class, and from their sub-functions. They must be in class member functions named &quot;Class.__subX&quot;, where Class is class name and X can be any name. They are called like <span class=cod><span class=fu>subX.Func</span><span class=p>(</span><span class=n>1</span> <span class=n>2</span><span class=p>)</span></span> or <span class=cod>classVar.<span class=fu>subX.Func</span><span class=p>(</span><span class=n>1</span> <span class=n>2</span><span class=p>)</span></span>. Use attribute c for class member sub-functions, like  <span class=cod><span class=dir>#sub</span> Member c</span>. Functions without this attribute are like global functions, but they can be called only from functions of that class, and they can call any functions of that class (public, private and protected).</p>
+<p>&nbsp;</p>
+<p>Shared sub-functions cannot have attributes v, r and m. Can have attribute p that makes the sub-function non-shared.</p>
+<p>&nbsp;</p>
+<p>The __sub_X and Class.__subX functions can be used only as containers of shared sub-functions. They cannot be called etc. If you try to cal, run or compile such a function, instead are compiled all its shared sub-functions, which can be useful in debugging (eg to check for errors all at once).</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
