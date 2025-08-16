@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Function tips</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Tips and recommendations for user-defined functions</h1>
+
+<p><a href="IDH_FUNCTIONTIPS.html#a1" name="L1">Why and how to create functions</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a2" name="L2">How to receive and return values</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a7" name="L7">Passing and returning strings, arrays, etc</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a3" name="L3">Local variables</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a4" name="L4">The help section</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a5" name="L5">Miscellaneous tips</a></p>
+<p><a href="IDH_FUNCTIONTIPS.html#a6" name="L6">Using passwords</a></p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDH_FUNCTION.html">user-defined functions</a>, <a href="../Language/IDH_FUNCTIONS.html">about 
+  functions</a>, <a href="../Language/IDP_FUNCTION.html">declaration (parameters etc)</a>, <a href="../Reference/IDH_PROGRAMMING.html">programming in QM</a></p>
+<p>&nbsp;</p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L1" name="a1">Why and how to create functions</a></h2>
+<p> A user-defined function is a macro that can be called from other macros. 
+  You create a function using menu File -&gt; New -&gt; New Function. You can 
+  place functions anywhere except in System folder. A function can be called from 
+  any macro/function/menu/toolbar. Also you can create <a href="../Language/IDP_DIR_SUB.html">sub-functions</a> in code 
+  of other macros/functions.</p>
+<p>&nbsp;</p>
+<p>Sooner or later, you'll find that several your macros contain the same or similar 
+  code that performs the same operation. But you probably don't want to create 
+  or copy the same code again and again. You can create a function and place the 
+  code there. Then each macro could use the code by simply calling the function 
+  by name.</p>
+<p>&nbsp;</p>
+<p>For example, you have two macros:</p>
+<p>&nbsp;</p>
+<p>Macro1:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> s1<span class=o>=</span><span class=s>&#34;c:\md\t.txt&#34;</span>
+<span class=t>str</span> s2
+<span class=t>int</span> i
+
+<span class=c> get filename extension
+</span>i<span class=o>=</span><span class=fq>findcr</span><span class=p>(</span>s1 <span class=n>'.'</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=o>&#62;=</span><span class=n>0</span><span class=p>)</span> s2.get<span class=p>(</span>s1 i<span class=p>)</span>
+<span class=fq>else</span> s2<span class=o>=</span><span class=s>&#34;&#34;</span>
+
+<span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> i s2</pre>
+<p>&nbsp;</p>
+<p>Macro2:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> a<span class=o>=</span><span class=s>&#34;d:\mm\fav.mp3&#34;</span>
+<span class=t>str</span> b
+<span class=t>int</span> c
+
+<span class=c> get filename extension
+</span>c<span class=o>=</span><span class=fq>findcr</span><span class=p>(</span>a <span class=n>'.'</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>c<span class=o>&#62;=</span><span class=n>0</span><span class=p>)</span> b.get<span class=p>(</span>a c<span class=p>)</span>
+<span class=fq>else</span> b<span class=o>=</span><span class=s>&#34;&#34;</span>
+
+<span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> c b</pre>
+<p>&nbsp;</p>
+<p>Both macros use the same code to get filename extension. Instead of using the 
+  same code in each macro, you can create a function and place the code there. 
+  Create new function using menu File -&gt; New -&gt; New Function, and give it 
+  some meaningful name, e.g. fileext.</p>
+<p>&nbsp;</p>
+<p>Function fileext:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span> <span class=t>lpstr</span><span class=p>'</span>f <span class=t>str</span><span class=o>&#38;</span>e
+
+<span class=t>int</span> i<span class=o>=</span><span class=fq>findcr</span><span class=p>(</span>f <span class=n>'.'</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span>i<span class=o>&#62;=</span><span class=n>0</span><span class=p>)</span> e.get<span class=p>(</span>f i<span class=p>)</span>
+<span class=fq>else</span> e<span class=o>=</span><span class=s>&#34;&#34;</span>
+<span class=fq>ret</span> i</pre>
+<p>&nbsp;</p>
+<p>Now you can use the function in macros:</p>
+<p>&nbsp;</p>
+<p>Macro1:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> s1<span class=o>=</span><span class=s>&#34;c:\md\t.txt&#34;</span>
+<span class=t>str</span> s2
+<span class=t>int</span> i
+
+i<span class=o>=</span><span class=fu>fileext</span><span class=p>(</span>s1 s2<span class=p>)</span>
+
+<span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> i s2</pre>
+<p>&nbsp;</p>
+<p>Macro2:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>lpstr</span> a<span class=o>=</span><span class=s>&#34;d:\mm\fav.mp3&#34;</span>
+<span class=t>str</span> b
+<span class=t>int</span> c
+
+c<span class=o>=</span><span class=fu>fileext</span><span class=p>(</span>a b<span class=p>)</span>
+
+<span class=fq>out</span> <span class=s>&#34;%i %s&#34;</span> c b</pre>
+<p>&nbsp;</p>
+<p>Now macros are not only shorter, but also easier to read (the function name 
+  says what the function does). Also, if you ever want to enhance the code that 
+  gets filename extension, you don't have to do it in all macros.</p>
+<p>&nbsp;</p>
+<p>Below is shown how the function is called and executed. Red lines - execution 
+  flow direction. Green lines - passing and returning values. The second parameter 
+  is declared as reference (&amp;), therefore the function receives address of 
+  variable e and can modify its value.</p>
+<p>&nbsp;</p>
+<p><img src="../image/function.gif"></p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L2" name="a2">How to receive and return values</a></h2>
+<p>Here is an example of code at the beginning of a function:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /
+</span><span class=fq>function</span><span class=o>#</span> a <span class=t>str</span><span class=p>'</span>s [<span class=t>str</span><span class=o>&#38;</span>so]</pre>
+<p>&nbsp;</p>
+<p>The <span class=cod><span class=c>&nbsp;/</span></span> at the beginning means that this function can be called 
+  from code, but cannot be launched to run like macro. It can be followed by the 
+  name of a macro. Then, when you press the Run button, the macro would run instead 
+  of this function. You can set it in the Properties dialog.</p>
+<p>&nbsp;</p>
+<p> The <a href="../Language/IDP_FUNCTION.html" class="blue">function</a> statement 
+  defines function's parameters and return type. It does not include function's 
+  name.</p>
+<p>&nbsp;</p>
+<p><span class=cod><span class=o>#</span></span> tells that this function returns an integer value. You can 
+   use <span class=cod><span class=p>'</span><span class=t>int</span></span> instead. See <a href="../Language/IDH_VARIABLES.html">type 
+  declaration characters</a>.</p>
+<p>&nbsp;</p>
+<p> This function has 3 parameters: <b>a</b>, <b>s</b> and <b>so</b>. The [ ] shows 
+  that <b>so</b> is optional.</p>
+<p>&nbsp;</p>
+<p> Parameters are  local variables. They are created and initialized 
+  each time when the function is called.</p>
+<p>&nbsp;</p>
+<p><span class=cod>a</span> declares parameter <b>a</b> of type int (integer). The declaration also can be <span class=cod><span class=t>int</span><span class=p>'</span>a</span> or <span class=cod><span class=o>#</span>a</span> (# is type declaration character for int), but for parameters of type int it is not necessary. When 
+  the function is called, <b>a</b> receives copy of the value (argument) passed by the caller.</p>
+<p>&nbsp;</p>
+<p><span class=cod><span class=t>str</span><span class=p>'</span>s</span> declares parameter  <b>s</b> of type str (string). Instead you can use <span class=cod><span class=o>~</span>s</span>. When the function 
+  is called, <b>s</b> receives copy of  the value (argument) passed by the caller.</p>
+<p>&nbsp;</p>
+<p> <span class=cod><span class=t>str</span><span class=o>&amp;</span>so</span> declares parameter <b>so</b> that  
+  is reference to a variable of type str. When the function is called, <b>so</b> actually receives 
+  address of the variable passed by the caller. If the function 
+  modifies <b>so</b>, it actually modifies the caller's variable. Imagine that <b>so</b> is  alias of the caller's variable. This method of 
+  passing arguments is called &quot;by reference&quot;. It provides better performance, 
+  because string copying is eliminated. Also you can use this method 
+  to return one or more values. It is a good alternative to the <span class="blue">ret</span> statement, which copies and returns single value.</p>
+<p>&nbsp;</p>
+<p>The <span class="blue">function</span> statement is optional. Use it  when need parameters or when the function returns something (uses <span class="blue">ret</span>).</p>
+<p>&nbsp;</p>
+<p>The <a href="../Flow/IDP_RET.html" class="blue">ret</a> statement is used to exit function and continue to execute 
+  caller's code (caller waits while function runs). It also can return some value. It is optional. 
+  If function exits not through <span class="blue">ret</span>, or <span class="blue">ret</span> does not return 
+  a value, the function returns 0. See example below.</p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L7" name="a7">Passing and returning strings, arrays, etc</a></h2>
+<p>There are several ways to pass strings to functions. Each way has its advantages 
+  and disadvantages. Below are examples. For simplicity, the examples have only 
+  single parameter, although any number, type and order of parameters could be used.</p>
+<p>&nbsp;</p>
+<p>1. Function begins with</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> <span class=t>lpstr</span><span class=p>'</span>s <span class=c2>;;or function $s</span></pre>
+<p>&nbsp;</p>
+<p>Then you can pass any string. 
+  If you accidentally try to pass a number, you get error. I use this way in most 
+  my functions because it is fast and type-safe. If I need to use str functions 
+  with s, I assign s to a str variable inside the function. But if you don't know 
+  what is lpstr and how to use it, use way 2 or 3 instead. Although the function 
+  can modify the string, you should never do it (use way 3 instead), because the 
+  caller may pass a constant.</p>
+<p>&nbsp;</p>
+<p>2. Function begins with</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> <span class=t>str</span><span class=p>'</span>s <span class=c2>;;or function ~s</span></pre>
+<p>&nbsp;</p>
+<p>Then you can pass any string 
+  or number. Numbers are automatically converted. Advantages: easiest, does not 
+  require knowledge about lpstr; s can be manipulated using str functions without 
+  at first storing to a str variable. Disadvantages: whole string is copied, which 
+  is slower and in case of large strings requires much memory; not error if you 
+  accidentally pass a number.</p>
+<p>&nbsp;</p>
+<p>3. Function begins with</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> <span class=t>str</span><span class=o>&#38;</span>s <span class=c2>;;or function ~&#38;s</span></pre>
+<p>&nbsp;</p>
+<p> Then you must pass a str variable. The function can 
+  modify the variable. Usually used to return string values (instead of using <span class="blue">ret</span>). An example is given above (function fileext). 
+  Advantages: fast and type-safe. Disadvantages: you cannot pass string constants 
+  (e.g. &quot;some text&quot;) or variables of other than str type.</p>
+<p>&nbsp;</p>
+<p> Also can be used <span class=cod><span class=fq>function</span> <span class=t>str</span><span class=o>*</span>s</span>, 
+  which is similar to 3 but requires knowledge about working with pointers.</p>
+<p>&nbsp;</p>
+<p>To return strings, the function may begin with <span class=cod><span class=fq>function</span><span class=p>'</span><span class=t>str</span></span> 
+  or <span class=cod><span class=fq>function</span><span class=p>'</span><span class=t>lpstr</span></span>, 
+  and use <span class="blue">ret</span>. Although such functions are easier to 
+  use, but they are dangerous. You must understand variable scope, etc. Therefore, 
+  the preferred way to return string values is the way 3 described above.</p>
+<p>&nbsp;</p>
+<p>Safe arrays (and not only str arrays) and user-defined types also usually are 
+  passed and returned like strings using the way 3, because it is fastest (does 
+  not copy whole data) and safest. Example function:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&#38;</span>a</pre>
+<p>&nbsp;</p>
+<p>Passing an interface pointer using 3 is slightly faster, although passing it 
+  using 2 usually also is quite fast and does not copy whole object.</p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L3" name="a3">Local variables</a></h2>
+<p>Variables that you declare in a function are local to the function (unless 
+  you declare them as global or thread). They are destroyed when the function 
+  exits. Even if the function is called multiple times, its variables do not retain 
+  values between calls. Local variables are visible (can be used) only in that 
+  function. Caller's variables are not visible in the function. Parameters (used in <span class="blue">function</span> statement) also are local variables.</p>
+<p>&nbsp;</p>
+<p><i>Read more:</i> <a href="../Language/IDH_VARIABLES.html">variables</a>, <a href="../Language/IDP_VARIABLES.html">declaring 
+  variables</a>, <a href="../Language/IDP_SCOPE.html">variable scope</a></p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L4" name="a4">The help section</a></h2>
+<p><a href="../Other/IDP_F1.html">Read here</a></p>
+<p>&nbsp;</p>
+<p>See example below.</p>
+<h2><a href="IDH_FUNCTIONTIPS.html#L5" name="a5">Miscellaneous tips</a></h2>
+<p>Below is an example  function. It does nothing useful, but 
+  shows something that can be useful in functions.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> /</span>
+<span class=fq>function</span><span class=o>#</span> a <span class=t>str</span><span class=p>'</span>s [<span class=t>str</span><span class=o>&amp;</span>so]
+
+<span class=c> What it does ...</span>
+<span class=c> Returns: ...</span>
+
+<span class=c> a - ...</span>
+<span class=c> s - ...</span>
+<span class=c> so - ...</span>
+
+<span class=c> REMARKS</span>
+<span class=c> ...</span>
+
+<span class=c> EXAMPLE</span>
+<span class=c> str s</span>
+<span class=c> FunctionName 1 &quot;abc&quot; s</span>
+<span class=c> out s</span>
+
+
+<span class=fq>opt</span> noerrorshere <span class=n>1</span> <span class=c2>;;pass errors generated in this function to the caller. Other way to do it: err+ end _error (at the end of this function).</span>
+
+<span class=fq>spe</span> <span class=o>-</span><span class=n>1</span> <span class=c2>;;set speed to be equal to caller's speed (initially function's speed is 0). Of course, this is not useful in functions that don't have macro commands that are affected by spe.</span>
+
+<span class=fq>if</span><span class=p>(</span>a<span class=o>=</span><span class=n>0</span><span class=p>)</span> <span class=fq>end</span> <span class=s>&quot;invalid argument&quot;</span> <span class=c2>;;validate a: if a is 0, generate error. Error is generated in caller. If caller does not use &quot;err&quot; statement to handle it, macro ends.</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=fq>getopt</span><span class=p>(</span>nargs<span class=p>)</span> <span class=o>&lt;</span> <span class=n>3</span><span class=p>)</span> <span class=c2>;;if third argument is omitted</span>
+<span class=i>&#9;</span><span class=c> ... (more code)</span>
+<span class=i>&#9;</span><span class=fq>ret</span> <span class=c2>;;exit function and return 0</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>&amp;</span>so<span class=p>)</span> <span class=c2>;;if so is valid (caller may pass 0, or omit third argument)</span>
+<span class=i>&#9;</span>so.<span class=fq>from</span><span class=p>(</span>s a<span class=p>)</span> <span class=c2>;;modify the variable that was passed by reference</span>
+
+<span class=c> ... (more code)</span>
+
+<span class=fq>wait</span> <span class=o>-</span><span class=n>2</span> <span class=c2>;;autodelay (wait number of milliseconds equal to caller' speed). You may consider to add it at the end of some functions.</span>
+
+<span class=fq>ret</span> <span class=n>1</span> <span class=c2>;;exit function and return 1</span>
+
+<span class=c> here ret is not necessary (the function will return 0)</span>
+</pre>
+<h2><a href="IDH_FUNCTIONTIPS.html#L6" name="a6">Using passwords</a></h2>
+<p>You should not pass passwords to nonsecure user-defined functions. You should 
+  use encrypted passwords. A user-defined function that accepts a password is 
+  secure only if it matches all these requirements:</p>
+<p>&nbsp;</p>
+<p>1. Is encrypted.</p>
+<p>&nbsp;</p>
+<p>2. Supports encrypted password. That is, contains code like this:</p>
+<p>&nbsp;</p>
+<pre class=cod>truepassword.decrypt<span class=p>(</span><span class=n>16</span> encryptedpassword <span class=s>&#34;encryptionkey&#34;</span><span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Here <b>truepassword</b> is a str variable, <b>encryptedpassword</b> is the 
+  password argument, <b>encryptionkey</b> is an encryption key that should be 
+  unique to this function. Read more about <a href="../str/IDP_S_ENCRYPT.html">str.decrypt 
+  and str.encrypt</a>.</p>
+<p>&nbsp;</p>
+<p> To encrypt passwords, can be used <a href="IDH_SETT_SECURITY.html">Options 
+  -&gt; Security</a> dialog or str.encrypt. When encrypting a password, QM extracts 
+  the encryption key from the function, and encrypts the password using the encryption 
+  key. An encrypted password has this format: [*XXXXXXXXXXXXXXXXXX*]. You can 
+  simply pass it to the function, like <span class=cod><span class=fu>Function</span><span class=p>(</span>a b <span class=s>&#34;[*0123456789ABCDEF*]&#34;</span><span class=p>)</span></span>, or embed it in a string, like <span class=cod><span class=fu>Function</span><span class=p>(</span>a b <span class=s>&#34;user=Me;password=[*0123456789ABCDEF*];&#34;</span><span class=p>)</span></span>.</p>
+<p>&nbsp;</p>
+<p>QM functions that accept password (<span class="blue">net</span>, <span class="UDF">AutoPassword</span>, 
+  etc) support encrypted password.</p>
+<p>&nbsp;</p>
+<p>3. Does not pass nonencrypted password to nonsecure user-defined functions.</p>
+<p>&nbsp;</p>
+<p>4. Does not paste or type the password. Does not use anything that allows the 
+  password to be entered somewhere in visible form.</p>
+<p>&nbsp;</p>
+<p>To enter a password into a password field of a certain program, use function 
+  <span class="UDF">AutoPassword</span>. It is easiest and most secure way 
+  to enter a password from a macro. It cannot enter the password in a non-password-field.</p>
+<p>&nbsp;</p>
+<p>To make your macro that uses passwords really secure, you should also encrypt 
+  it and use <a href="../Functions/IDP_INPP.html" class="blue">inpp</a> to ask 
+  for password to run it. You can use the &quot;Password input box&quot; dialog 
+  for this.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
