@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>ref</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><a href="IDP_DECLARATION.html">Declare</a> reference file or macro</h1>
+<h3>Syntax1 - declare a reference file</h3>
+
+<pre class=syntax><b>ref</b> refname file <i>[</i>flags<i>]</i></pre>
+<p>&nbsp;</p>
+<h3>Syntax2 - use previously declared file</h3>
+<pre class=syntax><b>ref</b> refname</pre><p>&nbsp;</p>
+<h3>Parameters</h3>
+<div class="parts">
+<p><b>refname</b> - some <A href="../Other/IDP_IDENTIFIERS.html">name</a> that 
+will be used to identify the reference file.</p>
+
+<p> <b>file</b> - file or QM item (macro etc) that contains declarations.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags"><col>
+<tr> 
+  <td>1</td>
+  <td>Load on demand. Will be loaded only when actually needed.</td>
+</tr>
+<tr> 
+  <td>2</td>
+  <td>Global scope. Identifiers from this file can be used anywhere without 
+    specifying <b>refname</b>.</td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Low priority. QM searches for declarations in low-priority refs after 
+    it does it in other refs.</td>
+</tr>
+<tr> 
+  <td>8</td>
+  <td>Always show members in the main <a href="../QM_Help/IDH_TYPEINFO.html">popup 
+    list</a>. Also, members are always declared automatically when they are 
+    first time used or viewed in editor. This flag is used together with flag 
+    2. Flag 1 would not have effect.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<h4>Syntax1</h4>
+
+<p>Declare file or macro where QM will look for declarations. Can be anywhere, 
+  not necessary in the same macro where used.</p>
+<p>&nbsp;</p>
+<h4>Syntax2</h4>
+<p>Makes identifiers from a somewhere declared reference file or macro available 
+  in current macro without specifying <b>refname</b>. Also, if the file is still 
+  not loaded, loads.</p>
+<p>&nbsp;</p>
+<p>Reference files/macros can contain declarations of types (<a href="IDP_TYPE.html" class="blue">type</a>, 
+  <span class="blue">class</span>, <span class="blue">category</span>), constants 
+  (<a href="IDP_DEF.html" class="blue">def</a>), dll functions (<a href="IDP_DLL.html" class="blue">dll</a>), 
+  COM interfaces (<a href="../_COM/IDP_INTERFACE.html" class="blue">interface</a>) 
+  and type libraries (<a href="../_COM/IDP_TYPELIB.html" class="blue">typelib</a>). 
+  The declarations are in QM format. Each declaration starts from the beginning 
+  of a line.</p>
+<p>&nbsp;</p>
+<p>The purpose is the same as of type libraries (<a href="../_COM/IDP_TYPELIB.html" class="blue">typelib</a>) 
+  or <a href="IDP_DIR_COMPILE.html" class="dir">#compile</a>: declare various 
+  identifiers (constants, dll functions, types, etc) so that you don't have to 
+  do it when you want to use them. Unlike type libraries, reference files can 
+  be used only in QM. Unlike <span class="dir">#compile</span>, <span class="blue">ref</span> 
+  does not compile whole file/macro. For example, if you compile a macro that 
+  contains declarations of dll functions, dll files are immediately loaded into 
+  memory. With <span class="blue">ref</span>, dll is loaded only when (if) it 
+  is needed.</p>
+<p>&nbsp;</p>
+<p>QM 2.2.0. A reference file/macro (lets call it <i>file1</i>) also can contain 
+  references to other reference files/macros (<i>file2</i>). In file2 QM will 
+  look for declarations of identifiers that are used in declarations in file1 
+  but not declared in file1. To add such a reference, add <span class=cod><span class=fq>ref</span> refname</span> line in file1. Also declare file2 somewhere in macros, using 
+  syntax1, before or after of file1 declaration.</p>
+<p>&nbsp;</p>
+<p>A declaration in a reference file/macro can be followed by comments in the 
+  next line. Comments will be displayed in QM status bar. The line must begin 
+  with single space and two semicolons. Declarations should not have comments 
+  in the same line.</p>
+<p>&nbsp;</p>
+<h4>Accessing identifiers declared in a reference file</h4>
+<p>&nbsp;</p>
+<p>If a reference file is declared with global scope (flag 2), identifiers from 
+  it can be used anywhere, without any special syntax. Otherwise use
+  syntax <span class=syntax><span class="lib">refname</span>.identifier</span>, 
+  unless the reference file is declared in the same macro/function. Also, when using <span class=syntax><span class="lib">refname</span>.identifier</span> 
+  syntax, identifier is automatically declared and colored when typing or opening 
+  macro.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_DIR_SUB.html">sub-function attribute r</a>, <a href="../QM_Help/IDH_FOLDERPROP.html">application folders</a>.</p>
+<p>&nbsp;</p>
+<h4>Existing reference files</h4>
+<p>&nbsp;</p>
+<p>Quick Macros comes with several reference files containing Windows API and 
+  other declarations:</p>
+<p>&nbsp;</p>
+<p> WINAPI - mostly used Windows XP API declarations. It is declared 
+  with flag 2 (global scope) and therefore you can use Windows API simply, without 
+  prepending <span class=cod><span class=lib>WINAPI.</span></span>. That is why you can use Windows 
+  API without declaring them. That is why when you type or click an identifier 
+  (type, function, etc), its declaration is displayed in QM status bar.</p>
+<p>&nbsp;</p>
+<p> The file has been updated in QM 2.3.0. To create it was used Vista SDK v6.0 
+  headers/libraries and preproccessor definitions for Windows 2003 and Internet 
+  Explorer 6 (WINVER 0x0502, _WIN32_IE 0x0603). The old file (QM 2.2.0-2.2.1) 
+  was created from older header files and therefore there are some changes. If 
+  you upgraded QM from an older version, you can still find the old file in QM 
+  folder. The old file is named winapiqm.txt. The new file is winapi.txt.</p>
+<p>&nbsp;</p>
+<p>WINAPIV - declarations specific to Windows Vista. To avoid conflicts, it is 
+  declared not as global, and therefore functions and other identifiers can be 
+  accessed only like  <span class=cod><span class=lib>WINAPIV.</span>Function</span>. The 
+  file has been added in QM 2.3.0. To create it was used Vista SDK v6.0 headers/libraries 
+  and preproccessor definitions for Windows Vista and Internet Explorer 7 (WINVER 
+  0x0600, _WIN32_IE 0x0700).</p>
+<p>&nbsp;</p>
+<p>WINAPI7 - declarations specific to Windows 7. To avoid conflicts, it is declared 
+  not as global, and therefore functions and other identifiers can be accessed 
+  only like <span class=cod><span class=lib>WINAPIV.</span>Function</span>. The file has 
+  been added in QM 2.3.1. To create it was used Windows 7 SDK v7.0 headers/libraries 
+  and preproccessor definitions for Windows 7 and Internet Explorer 8 (WINVER 
+  0x0601, _WIN32_IE 0x0800).</p>
+<p>&nbsp;</p>
+<p>WINAPI, WINAPIV and WINAPI7 contain declarations from <a onClick="doSection(e1)" class="expand">these header files</a>. </p>
+<div id="e1" class="expand">
+<pre>#define NOCRYPT //don't add cryptography, 218 KB
+#include &#34;crt.h&#34; //most header files for msvcrt.dll
+#include &#60;windows.h&#62;
+#include &#60;winternl.h&#62;
+#include &#60;winioctl.h&#62; //QM 2.3.0
+#include &#60;shlobj.h&#62; //#includes &#60;commctrl.h&#62;
+#include &#60;shlwapi.h&#62;
+#include &#60;richedit.h&#62;
+#include &#60;olectl.h&#62;
+#include &#60;oleacc.h&#62;
+#include &#60;htmlhelp.h&#62;
+#include &#60;pdh.h&#62;
+#include &#60;tlhelp32.h&#62;
+#include &#60;winsock2.h&#62;
+#include &#60;wtsapi32.h&#62; //QM 2.2.0.3
+#include &#60;mstask.h&#62;
+#include &#60;msterr.h&#62;
+#include &#60;dbt.h&#62;
+#include &#60;psapi.h&#62;
+#include &#60;uxtheme.h&#62;
+#include &#60;wininet.h&#62; //QM 2.3.0</pre>
+</div>
+
+<p>&nbsp;</p>
+<p> You can <a href="http://www.quickmacros.com/download.html" target="_blank">download</a> file WINAPI2 that contains 
+  more declarations.</p>
+<p>&nbsp;</p>
+<h4>Using with distributed macros</h4>
+<p>&nbsp;</p>
+<p> If you create macros for distributing, in them you should not use identifiers 
+  from reference files, unless you are sure that others have the same reference 
+  files. For example, WINAPI has been updated in QM 2.2.0 and in QM 2.3.0. If 
+  you use identifiers from it in your macros, other people that use other QM versions 
+  may get &quot;unknown identifier&quot; errors. You should rather extract these 
+  declarations from the reference file and place them in the macros. All this 
+  is not actual if the macros are compiled to <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>. 
+</p>
+<p>&nbsp;</p>
+<h4>Extracting and logging declarations</h4>
+<p>&nbsp;</p>
+<p>To extract a single declaration from a reference file or macro, type or click the identifier 
+  (e.g. function name) in the editor and do one of the following: 1. Ctrl+click 
+  the identifier and copy declaration from output. 2. Copy declaration from status bar, or press Alt+F8 to transfer it from status bar to output. 3. Press 
+  F2 and copy declaration from file. Also, to extract multiple declarations (except 
+  from macros), you can use menu Run 
+  -&gt; Compile Options-&gt; Show declarations from ref files. Then used declarations 
+  that are found in reference files are displayed in the output. A declaration 
+  is displayed when the identifier is first time used in a macro that you run 
+  or compile, or first time displayed in code when you use syntax <span class=syntax><span class="lib">refname</span>.identifier</span>.</p>
+<p>&nbsp;</p>
+<h4>Errors in declarations</h4>
+<p>&nbsp;</p>
+<p>Sometimes may happen that some declaration in reference file fails, for example, 
+  due to a missing dll or type library. In such case, file is opened, and statement 
+  highlighted. If you want that on error would be executed some user-defined function, 
+  place  <span class=cod><span class=dir>#err</span> <span class=fq>function</span></span>  in reference file, immediately after declaration. If function returns nonzero 
+  value, error is not shown, and compilation stops. If returns negative value, 
+  &quot;unknown identifier&quot; error also is not shown.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_DECLARATION.html">declarations</a> <a href="../Other/IDP_IDENTIFIERS.html">scope</a> <a href="IDP_DIR_ERR.html">#err</a></p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=fq>ref</span> <span class=lib>MyRef</span> <span class=s>&#34;MyRefFile.txt&#34;</span> <span class=n>1</span>
+<span class=fq>ref</span> <span class=lib>MyRef2</span> <span class=s>&#34;MyRefMacro&#34;</span></pre>
+</body>
+
+</html>
