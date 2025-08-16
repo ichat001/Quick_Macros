@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>ifa</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>If window is active/focused</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><b>ifa</b><i>[</i>-<i>]</i> window
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...</i>
+<i>[</i><b>else</b>
+<i class=f8>(tab)</i>statements
+<i class=f8>(tab)</i><i>...]</i></pre>
+<p>&nbsp;</p>
+
+<p>Can be single line:</p>
+
+<pre class=syntax><b>ifa</b><i>[</i>-<i>]</i>(window) statements
+<i>[</i><b>else</b> statements<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b><a href="../Other/IDP_WINDOWEXPRESSION.html">window</a></b> - top-level or <A href="../Other/IDP_WINDOWSTYLES.html">child</a> window. </p>
+</div>
+<p>&nbsp;</p>
+
+<h4>Options:</h4>
+<table class="tflags"><col>
+<tr>
+<td>-</td> <td>not.</td>
+</tr>
+
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Similar to <A href="IDP_IF.html" class="blue">if</a>.<A href="../Other/IDP_WINDOWEXPRESSION.html"></a></p>
+
+<p>&nbsp;</p>
+
+<p>If <b>window</b> exists and is active, executes <b>statements</b> after <span class="blue">ifa</span> and skips <b>statements</b> after <span class="blue">else</span> (if used). Else skips <b>statements</b> after <span class="blue">ifa</span> and executes <b>statements</b> after <span class="blue">else</span> (if used). If child window, tests whether it has focus.</p>
+
+<p>&nbsp;</p>
+<p>QM 2.3.3. Can be used as function. Return 1 if the window is active, 0 if inactive or not found.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i> For &quot;if window exists&quot; use <a href="../Functions/IDP_WIN.html" class="blue">win</a> and <span class="blue">if</span>. See the last example.</p>
+<p>&nbsp;</p>
+<p> <i>See also:</i> <A href="../Functions/IDP_WIN.html" class="blue">wintest</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>ifa</span> <span class=s>&quot;Notepad&quot;</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;''Notepad'' is active&quot;</span>
+<span class=i>&#9;</span><span class=fq>key</span> Cv
+<span class=fq>else</span>
+<span class=i>&#9;</span><span class=fq>act</span> <span class=s>&quot;Notepad&quot;</span>
+<span class=i>&#9;</span><span class=fq>bee</span>
+
+<span class=c> use as function
+</span><span class=fq>if</span><span class=p>(</span><span class=fq>ifa</span><span class=p>(</span><span class=s>&quot;Notepad&quot;</span><span class=p>)</span> <span class=fq>or</span> <span class=fq>ifa</span><span class=p>(</span><span class=s>&quot;WordPad&quot;</span><span class=p>))</span> <span class=fq>out</span> <span class=s>&quot;Notepad or WordPad window is active.&quot;</span>
+
+<span class=c> check if exists
+</span><span class=t>int</span> w<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Notepad&quot;</span> <span class=s>&quot;Notepad&quot;</span><span class=p>)</span>
+<span class=fq>if</span> w
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;''Notepad'' exists&quot;</span>
+</pre>
+
+</body>
+
+</html>
