@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>end</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Generate run-time error</h1>
+
+<h3>Syntax</h3>
+<pre class=syntax><b>end</b> <i>[</i>errorstring<i>] [</i>flags<i>] [</i>errorcode<i>]</i></pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>errorstring</b> - error description. Can be string or variable of type <a href="IDP_ERR.html">QMERROR</a>.</p>
+<ul>
+  <li> Can contain QM output <a href="../Other/IDP_F1.html">tags</a>.</li>
+  <li> Use <a href="../Language/IDP_FSTRING.html">F-string</a> to insert variables.</li>
+</ul>
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+
+<table class="tflags"><col>
+<tr> 
+  <td> 0-3</td>
+  <td> <p>Where to generate error:</p>
+    <ul>
+      <li>0 (default) -  in caller. If there is no <a href="../Other/IDP_FUNCTIONCALL.html">direct 
+    caller</a> - here.</li>
+      <li>1 - here.</li>
+      <li>2 -  in caller that is not class member function called 
+        for this variable.</li>
+      <li>3 - this flag is <a onClick="doSection(e1)" class="expand">obsolete</a>.
+        <div id="e1" class="expand"> In caller of first function that is not in private folder. This flag does not work in exe.</div>
+      </li>
+  </ul>
+<p><i>See also:</i> <A href="IDP_RET.html" class="blue"></a> <A href="../Commands/IDP_OPT.html"> <span class="blue">opt</span> noerrorshere, nowarningshere</a></p>
+  </td>
+</tr>
+<tr> 
+  <td>4</td>
+  <td>Don't open macro. You also can set this globally in Options.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>QM 2.3.3. Generate warning, not error.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td>QM 2.3.5. Append last dll error string. See <a href="../str/IDP_S_DLLERROR.html">str.dllerror</a>.</td>
+</tr>
+<tr>
+  <td>32</td>
+  <td>QM 2.3.6. Temporary warning. It will be shown withing 1 hour after editing the macro where it would be generated. In exe the warning will never be shown. Flag 8 is optional.</td>
+</tr>
+</table>
+<p><b>errorcode</b> - dll error code to use with flag 16. If omitted or 0, calls <span class="dll">GetLastError</span>.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+<p>Generates run-time error, which ends <a href="../Other/IDP_THREADS.html">thread</a> (running macro)  if not handled.</p>
+<p>&nbsp;</p>
+<p> By default, if <span class="blue">end</span> is used in a user-defined function, the error is generated in caller (macro/function that called the function).</p>
+<p>&nbsp;</p>
+<p> Caller  can handle errors with <a href="IDP_ERR.html" class="blue">err</a> statement. Then it may want to know  error  code. It is _error.code. There are several ways to set error code when generating error:</p>
+<ul>
+  <li>Use an  <a href="../Language/IDP_SPECVAR.html">error constant</a> as <b>errorstring</b>.</li>
+  <li>Prepend code (some number) to <b>errorstring</b>. Use error codes &gt;= 2000.</li>
+  <li>Set _error.code and _error.description, and use _error as <b>errorstring</b>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>QM 2.3.3. If used flag 8, generates warning instead of error. It does not end macro. Just displays warning message in QM output. Flags 0-3 are applied. To disable such warnings, use <a href="../Commands/IDP_OPT.html">opt nowarnings 1</a>.</p>
+
+<p>&nbsp;</p>
+<p>In <a href="../Other/IDP_F1.html">function help</a> you can see errors that the  function may generate. QM displays errors from <span class="blue">end</span> statements used in that function, or  errors explicitly specified in  <span class=cod><span class=c>Errors:</span></span> line.</p>
+<p>&nbsp;</p>
+<p><span class="blue">end</span> without arguments (just <span class=cod><span class=fq>end</span></span>) ends  thread without generating error. But usually it's better to use <a href="IDP_RET.html" class="blue">ret</a>. In some cases it's better to use <a href="../Commands/IDP_SHUTDOWN.html">shutdown -7</a>. Don't use Windows API functions such as <span class="dll">ExitThread</span>, because then QM cannot manage threads properly.</p>
+<p>&nbsp;</p>
+<p><span class="blue">end</span> immediately ends execution of current function and its callers. However <a href="../Language/IDP_CLASSES.html">class destructor functions</a> and functions registered with <a href="IDP_ATEND.html" class="blue">atend</a> will be executed.</p>
+<p>&nbsp;</p>
+<p>Avoid <span class="blue">end</span> (except to generate warning (flag 8)) in callback functions (dialog procedures, COM event functions, etc), unless really necessary. Also, avoid unhandled run-time errors there. If the callback function is called by a dll function, the dll may not free its allocated memory, critical sections, etc; in some cases the dll function will not work properly next time (need to restart QM). If the callback function is called with <a href="../Functions/IDP_CALL.html" class="blue">call</a>, the caller cannot handle the error with <span class="blue">err</span>. The error is generated in the callback function, not in its caller.</p>
+<p>&nbsp;</p>
+<p>Don't use <span class="blue">end</span> (except to generate warning (flag 8)) in <a href="../Language/IDP_CLASSES.html">class constructor, destructor and operator= functions</a> and functions registered with <a href="IDP_ATEND.html" class="blue">atend</a>. Also, avoid unhandled run-time errors there. In destructor and atend function it just ends the function, not thread. In constructor and operator= it always generates error that cannot be handled; if constructor fails, destructor calling behavior is undefined. If destructor or atend function can fail, it should handle errors (use <span class="blue">err</span> if need) and use <span class="blue">end</span> with flag 8 (warning) if need. If constructor or operator= can fail, move the code to a member function that must be explicitly called (like <span class=cod><span class=t>Class</span> var.<span class=fu>Init</span></span> or <span class=cod>var.<span class=fu>Clone</span><span class=p>(</span>var2<span class=p>)</span></span>).</p>
+<p>&nbsp;</p>
+<p><span class="blue">end</span> in a <a href="../Other/IDP_THREADS.html">special thread</a> (QM thread or trigger filter function) just ends the callback function, not the thread.</p>
+<p>&nbsp;</p>
+<p> <i>See also:</i> <a href="IDP_RET.html" class="blue">ret</a>, <a href="../Language/IDP_DIR_RET.html" class="dir">#ret</a></p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=fq>end</span> <span class=s>&#34;file not found&#34;</span>
+<span class=fq>end</span> <span class=s>&#34;2000 my error description&#34;</span> <span class=c>;;use an error code</span>
+<span class=fq>end</span> <span class=d>ERR_FILE</span> <span class=c>;;use an error constant</span>
+
+<span class=t>str</span> filevariable<span class=o>=</span><span class=s>&#34;Z:\file&#34;</span>
+<span class=fq>end</span> F<span class=s>&#34;{ERR_FILE}: '{filevariable}'&#34;</span>
+<span class=fq>
+run</span><span class=o></span> <span class=s>&#34;abc&#34;</span>
+<span class=fq>err</span>
+<span class=i>&#9;</span>_error.description <span class=o>+</span> <span class=s>&#34; abc&#34;</span>
+<span class=i>&#9;</span><span class=fq>end</span> _error<span class=n></span>
+
+<span class=fq>end</span> <span class=c>;;end thread without generating error</span></pre>
+</body>
+
+</html>
