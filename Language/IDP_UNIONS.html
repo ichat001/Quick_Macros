@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Unions; type member alignment</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Type member alignment; unions</h1>
+
+<h2>Structures</h2>
+<p>A <i>structure</i> is a type that has member variables. Most of these types are <a href="IDP_TYPE.html">user-defined 
+  types</a>.</p>
+<p>&nbsp;</p>
+<p>Only these types don't have member variables:</p>
+<p>byte - 1 byte.</p>
+<p>word - 2 bytes.</p>
+<p>int, lpstr, pointer, interface pointer - 4 bytes.</p>
+<p>long, double - 8 bytes.</p>
+<h2>Default alignment</h2>
+<p> Structure members are placed in memory in the order they are defined. In the following 
+  example, offset of <b>a</b> is 0, offset of <b>b</b> is 4 (because size of <b>a</b> 
+  is 4), and size of structure is 8.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>T1</span> <span class=t>int</span><span class=p>'</span>a <span class=t>int</span><span class=p>'</span>b
+<span class=t>T1</span> t
+<span class=fq>out</span> <span class=s>&#34;%i %i   %i&#34;</span> <span class=o>&#38;</span>t.a<span class=o>-&#38;</span>t <span class=o>&#38;</span>t.b<span class=o>-&#38;</span>t <span class=fq>sizeof</span><span class=p>(</span>t<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Assuming that all members are not structures, these rules are applied:</p>
+<ul>
+  <li>A member is aligned so that its offset is divisible by its size.</li>
+  <li> The size of the structure   is divisible by the size of its largest member.</li>
+</ul>
+<p>&nbsp;</p>
+<p>For the above reason, in some cases there may be some padding (1-7 unused bytes) between members and at the end. In the 
+  following example, offset of <b>a</b> is 0, offset of <b>b</b> is 4 (3-byte padding after <b>a</b>), and size of structure is 12 (2-byte padding at the end).</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>T2</span> <span class=t>byte</span><span class=p>'</span>a <span class=t>int</span><span class=p>'</span>b <span class=t>word</span><span class=p>'</span>c
+<span class=t>T2</span> t
+<span class=fq>out</span> <span class=s>&#34;%i %i %i   %i&#34;</span> <span class=o>&#38;</span>t.a<span class=o>-&#38;</span>t <span class=o>&#38;</span>t.b<span class=o>-&#38;</span>t <span class=o>&#38;</span>t.c<span class=o>-&#38;</span>t <span class=fq>sizeof</span><span class=p>(</span>t<span class=p>)</span></pre>
+<h2>Nonstandard  alignment</h2>
+<p>Some types use nonstandard member alignment.  In C/C++ languages, to set it is used #pragma pack. It can set alignment  1, 2, 4 or 8 (default). Structure members are aligned so that their offsets are divisible by their sizes or by the alignment value, whichever is smaller.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.2. To set alignment, add [pack1], [pack2], [pack4] or [pack8] (default) at the end of type definition. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>T3</span> <span class=t>byte</span><span class=p>'</span>a <span class=t>int</span><span class=p>'</span>b <span class=t>word</span><span class=p>'</span>c [pack1]
+<span class=t>T3</span> t
+<span class=fq>out</span> <span class=s>&#34;%i %i %i   %i&#34;</span> <span class=o>&#38;</span>t.a<span class=o>-&#38;</span>t <span class=o>&#38;</span>t.b<span class=o>-&#38;</span>t <span class=o>&#38;</span>t.c<span class=o>-&#38;</span>t <span class=fq>sizeof</span><span class=p>(</span>t<span class=p>)</span></pre>
+
+<h2>Explicit alignment; unions</h2>
+<p>You can explicitly specify offsets of some members. It allows you to define 
+  unions (structures with overlapped members of different types) and structures 
+  with nonstandard member alignment. The member declaration must be preceded by 
+  the offset (integer number) in square brackets. Example:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>LHWORD</span> <span class=t>int</span><span class=p>'</span>i [<span class=n>0</span>]<span class=t>word</span><span class=p>'</span>lo [<span class=n>2</span>]<span class=t>word</span><span class=p>'</span>hi
+<span class=t>LHWORD</span> lh.i<span class=o>=</span><span class=n>0x00050007</span>
+<span class=fq>out</span> <span class=s>&#34;LOWORD is %i, HIWORD is %i&#34;</span> lh.lo lh.hi
+<span class=c> Output: LOWORD is 7, HIWORD is 5
+</span></pre>
+
+<p>&nbsp;</p>
+
+<p> If offset begins with +, it is interpreted as offset from offset of previous 
+  member. Empty brackets means same offset as of previous member. Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>LHWORD</span> <span class=t>int</span><span class=p>'</span>i []<span class=t>word</span><span class=p>'</span>lo [<span class=o>+</span><span class=n>2</span>]<span class=t>word</span><span class=p>'</span>hi</pre>
+
+<p>&nbsp;</p>
+
+<p> If offsets of all members are explicitly set, the size of the type also is 
+  explicitly set. In the following example it is 6 (normally it would be 8, because 
+  <b>i</b> would be at 4-byte offset):</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=fq>type</span> <span class=t>TYPE</span> [<span class=n>0</span>]<span class=t>word</span><span class=p>'</span>w [<span class=n>2</span>]<span class=t>int</span><span class=p>'</span>i</pre>
+<p>&nbsp;</p>
+<p>QM 2.2.0. Implicit and explicit constructor/destructor/copy functions are not 
+  called for union members (except of the VARIANT type). A <a href="IDP_DIR_OPT.html">warning</a> 
+  is shown. QM cannot know which union member is valid 
+  at the time. Clearing wrong member may be catastrophic. These members should 
+  be cleared explicitly. For example, if an union member is an interface pointer, 
+  and you know it is valid at the time, call its hidden function Release to clear 
+  it. For BSTR, call SysFreeString. For ARRAY - SafeArrayDestroy. Also, there 
+  are special functions for some types, for example ReleaseStgMedium clears variables 
+  of STGMEDIUM type. All this is documented in <a href="../Other/IDP_MSDN.html">MSDN 
+  Library</a>.</p>
+<h2>Anonymous types within types</h2>
+<p>You probably already know that members of user-defined types can be other 
+  user-defined types. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>T1</span> <span class=t>int</span><span class=p>'</span>a <span class=t>int</span><span class=p>'</span>b
+<span class=fq>type</span> <span class=t>T2</span> <span class=t>int</span><span class=p>'</span>x <span class=t>T1</span><span class=p>'</span>y
+<span class=t>T2</span> t
+t.y.a<span class=o>=</span><span class=n>5</span></pre>
+<p>&nbsp;</p>
+<p>It is also possible to define types within types (QM 2.2.0). It can be used 
+  to simplify conversion between C++ and QM declarations, because in C++ it is 
+  used to define complex unions. These nested types don't have a type name and 
+  a member name, but can have specified offset. Their members are accessed directly. 
+  To define such nested types, enclose their members in {}. Examples:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>T2</span> <span class=t>int</span><span class=p>'</span>x {<span class=t>int</span>'a <span class=t>int</span>'b}
+<span class=t>T2</span> t
+t.a<span class=o>=</span><span class=n>5</span>
+
+<span class=fq>type</span> <span class=t>LHWORD</span> <span class=t>int</span><span class=p>'</span>i []{<span class=t>word</span>'lo <span class=t>word</span>'hi}
+<span class=t>LHWORD</span> lh.i<span class=o>=</span><span class=n>0x00050007</span>
+<span class=fq>out</span> <span class=s>&#34;LOWORD is %i, HIWORD is %i&#34;</span> lh.lo lh.hi</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
