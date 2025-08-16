@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: window</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: window</h1>
+
+<p>Launches the macro when the specified window appears, disappears, is activated, 
+  etc.</p>
+<p>&nbsp;</p>
+<p> To assign this trigger, use the Properties dialog. You can use the 
+  Drag tool to fill window name/class fields. While dragging, you can right-click 
+  to send window to bottom, or Ctrl+Shift+right-click to send child window 
+  to bottom.</p>
+
+<p>&nbsp;</p>
+<p>You should always specify window class. If it isn't specified, QM ignores some windows, e.g. windows 
+  without caption.</p>
+<p>&nbsp;</p>
+<p>You can also specify text/class of a control (child window) 
+  of the window. Accessible objects (e.g., objects in web pages)  are 
+  not supported.</p>
+<p>&nbsp;</p>
+<p> You can also specify <a href="../Other/IDP_WINDOWSTYLES.html">window style</a> 
+  - numeric value, or p (popup), or m (not popup).</p>
+<p>&nbsp;</p>
+<p>Window name and control text can be partial. Must match case. If empty, matches any.</p>
+<p>&nbsp;</p>
+<p>If &quot;Use *&quot; is checked, window name and control text must be full or with <a href="../Functions/IDP_MATCHW.html">wildcard characters</a> 
+  * and ?. For example, 
+  to tell that window name must end with &quot; - Notepad&quot;, check &quot;Use 
+  *&quot; and enter &quot;* - Notepad&quot;. To tell that window name must be 
+  exactly &quot;Notepad&quot;, check &quot;Use *&quot; and enter &quot;Notepad&quot;. 
+  String &quot;*&quot; matches windows with no name.</p>
+<p>&nbsp;</p>
+<p>In the window name field, you can use <A href="../RegExp/IDP_PCRE.html">regular 
+  expression</a>. First character must be $. For example, <tt>$Word.*\.(?i)rtf$</tt> 
+  matches window name that contains &quot;Word&quot; and ends with &quot;.rtf&quot; 
+  or &quot;.RTF&quot; (the first <tt>$</tt> tells that you use 
+  regular expression, <tt>.*</tt> means any number of any 
+  characters, <tt>\.</tt> means literal ., <tt>(?i)</tt> 
+  sets &quot;case insensitive&quot; option, the last <tt>$</tt> 
+  means end of window name). Regular expression can be used to identify more than 
+  one window. Example: <tt>$(Notepad|Calc)</tt>. When using 
+  regular expression, &quot;Use *&quot; is not applied to window name.</p>
+<p>&nbsp;</p>
+<p> Class names must be full. Can contain wildcard characters, regardless of the &quot;Use *&quot; option (QM 2.3.4). If empty, matches any.</p>
+<p>&nbsp;</p>
+<p>To launch macro when window is created (appears first time), you should select 
+  &quot;Created &amp; active&quot;. If window is shown but not activated, select 
+  &quot;Created &amp; visible&quot;. To launch macro each time when window is 
+  activated, select &quot;Activated&quot;. You can use &quot;Activated&quot; with 
+  toolbars (this does not create more instances of the same toolbar on the same 
+  window). To launch macro each time when window name is changed and matches the 
+  specified name, select &quot;Name changed&quot;.</p>
+<p>&nbsp;</p>
+<p> If &quot;When idle&quot; is checked, the macro starts only when the window is not busy and is ready 
+  to receive user input. However, the macro may not run with some windows, for example if the window is busy (uses CPU) all the time.</p>
+<p>&nbsp;</p>
+<p>Several items can have  same &quot;Window&quot; trigger. For example, a 
+  window can have several toolbars.</p>
+
+<p>&nbsp;</p>
+
+<p>A window-triggered macro receives that window handle through _command variable. 
+  To get it, you can use <span class=cod><span class=fq>val</span><span class=p>(</span>_command<span class=p>)</span></span> or <span class="UDF">TriggerWindow</span>.</p>
+<p>&nbsp;</p>
+<p>The &quot;destroyed&quot; trigger is unreliable with 64-bit windows. Also if checked &quot;Other&quot; in Options -&gt; Triggers -&gt; Low level hooks. Instead use a function that gets window handle and waits until it is destroyed. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> trigger: window created</span>
+<span class=t>int</span> hwnd<span class=o>=</span><span class=fu>TriggerWindow</span>
+<span class=fq>wait</span> <span class=n>0</span> <span class=o>-</span>WC hwnd
+<span class=fq>out</span> <span class=s>&quot;window destroyed&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<p> <i>See also:</i> <A href="IDH_PROPERTIES.html">Properties</a></p>
+<p>&nbsp;</p>
+</body>
+
+</html>
