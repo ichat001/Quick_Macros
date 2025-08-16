@@ -1,0 +1,1074 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Dialogs</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Dialogs</h1>
+
+<p><a href="IDH_DIALOG_EDITOR.html#a1" name="L1">How to create dialog</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a2" name="L2">Working with the Dialog Editor</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a3" name="L3">How to show dialog</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a4" name="L4">Dialog types (modal, modeless, child)</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a5" name="L5">How to get data from controls</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a6" name="L6">How to initialize controls</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a7" name="L7">Variable names</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a8" name="L8">Using a user-defined type</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a9" name="L9">Smart dialogs </a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a10" name="L10">Multi-page dialogs</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a19" name="L19">Multiple dialogs in a macro</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a18" name="L18">Unicode</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a17" name="L17">Fonts and colors</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a13" name="L13">Menus and accelerators (hotkeys)</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a14" name="L14">Common controls, other controls</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a15" name="L15">ActiveX controls</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a11" name="L11">Encrypted macros</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a12" name="L12">Dialogs now and before QM 2.1.9</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a16" name="L16">Dialog examples and tutorials</a></p>
+<p><a href="IDH_DIALOG_EDITOR.html#a20" name="L20">Dialog programming info at MSDN</a></p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L1" name="a1">How to create dialog</a></h2>
+
+<p>To create new dialog, use menu File -&gt; New -&gt; New Dialog. It creates 
+  initial dialog definition (BEGIN DIALOG ... 
+  END DIALOG) and opens it in the Dialog Editor. You can add controls, order them, 
+  change text, etc. When you click Save, it updates the dialog definition.</p>
+<p>&nbsp;</p>
+<p> To edit a dialog later, open the macro that contains the dialog definition 
+  and click 'Dialog Editor' button or menu item in QM window. If current macro does not contain a dialog definition, this button/menu creates new dialog.</p>
+<p>&nbsp;</p>
+<p>You can also edit dialog definitions directly. The format is simple: The first 
+  line defines dialog window, other lines - controls. Line format: id class style 
+  exstyle x y width height text tooltip. Text and tooltip are optional. The position/size is in dialog units, not in pixels.</p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L2" name="a2">Working with the Dialog Editor</a></h2>
+<table class="tnormal">
+<tr>
+  <td>Add control</td>
+  <td>Click or drag&amp;drop a control from the toolbox.</td>
+</tr>
+<tr>
+  <td>Move control</td> <td>Drag with the mouse left button. Or use arrow keys.</td>
+</tr>
+<tr>
+<td>Resize control or dialog</td> <td>Drag with the mouse right button. Or use Shift+arrow keys.</td>
+</tr>
+<tr>
+  <td>Select control</td>
+  <td>Click it. A small red rectangle will appear at the top-left corner. Also you can use Tab or Shift+Tab to select next or previous control in the Z order.</td>
+</tr>
+<tr>
+  <td>Send control to the top of the <a href="http://www.wikipedia.org/wiki/Z-order" target=_blank>Z 
+    order</a> and tab order</td>
+  <td>Shift+click.</td>
+</tr>
+<tr>
+<td>Send control to the bottom of the Z order</td> <td>Ctrl+click.</td>
+</tr>
+<tr>
+<td>Place control behind the currently selected control in the Z order</td> <td>Ctrl+Shift+click.</td>
+</tr>
+<tr>
+<td>Z-order all controls</td> <td>Select dialog, then Ctrl+Shift+click all controls starting 
+  from the control that must be at the top of the Z order. Alternatively, close 
+  the Dialog Editor and reorder lines in the dialog definition. The order of lines matches the Z order.</td>
+</tr>
+<tr>
+<td>Underline character in control's text</td> <td>Place ampersand (&amp;) before.</td>
+</tr>
+<tr>
+<td>Create group of option buttons</td> <td>Add &quot;Option first&quot; and then several 
+&quot;Option next&quot;.</td>
+</tr>
+<tr>
+  <td>Move multiple controls</td>
+  <td>If the controls are in a Group control, Shift+drag it. Else create/drag a temporary Group control for it.</td>
+</tr>
+<tr>
+  <td>Move/resize with high precision.</td>
+  <td>Use Alt when you drag or right-drag.</td>
+</tr>
+<tr>
+  <td>Add control similar to a control in a window</td>
+  <td>Move the mouse over the control and press the hotkey defined in Dialog Editor Options.</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<p>In the Dialog Editor, you can set text for some controls. For other controls, 
+  text is used only as control's name, making it easier for you to recognize the 
+  control in the Dialog Editor. The first three characters also are used for variable 
+  name. Generally, controls are identified by an unique control id - numeric value 
+  that you can see in variable name. For example, if variable name is b3But, you 
+  know that control id is 3.</p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L3" name="a3">How to show dialog</a></h2>
+
+<p>Use function <span class=UDF>ShowDialog</span>. The Dialog Editor creates code for it. When you click Save, it updates the code or displays in output, depending on dialog settings. The code also may contain declarations of variables for controls (read below). By default the code must be in the same function as the dialog definition, but it can be anywhere if not using a sub-function dialog procedure.</p>
+<p>&nbsp;</p>
+<p>The minimum code to show the dialog is created by the Dialog 
+  Editor. But <span class="UDF">ShowDialog</span> has more parameters that you can use.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span><span class=o>#</span> [<span class=o>$</span>macro] [dlgproc] [<span class=o>!*</span>controls] [hwndowner] [flags] [style] [notstyle] [param] [x] [y] [<span class=o>$</span>icon] [<span class=o>$</span>menu] <span class=c2>;;flags: 1 modeless, 4 set style (default is to add), 64 raw x y.</span></pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>macro</b> - where to look for dialog definition. Can be:</p>
+<ul>
+  <li>A variable containing dialog definition. This is recommended.</li>
+  <li>Name of macro (or function etc) that contains dialog 
+    definition.</li>
+  <li> If &quot;&quot;, <span class="UDF">ShowDialog</span> looks for dialog definition in the caller macro. If it is a <a href="../Language/IDP_DIR_SUB.html">sub-function</a>, looks in whole text, not just in that sub-function.</li>
+</ul>
+<p><b>dlgproc</b> - address of a dialog procedure. Optional. Used with smart 
+  dialogs (read below).</p>
+<p><b>controls</b> - array of strings (address of first str variable in the array) 
+  for controls, as explained later in this topic.</p>
+<p><b>hwndowner</b> - owner window handle. If the dialog has WS_CHILD style - parent window 
+  handle.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+  <tr>
+    <td>1</td>
+    <td><a href="IDH_DIALOG_EDITOR.html#a4">Modeless</a> dialog.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Replace dialog style with <b>style</b>. Default - add <b>style</b>.</td>
+  </tr>
+  <tr>
+    <td>64</td>
+    <td>Raw <b>x y</b>. Read more below.</td>
+  </tr>
+  <tr>
+    <td>128</td>
+    <td><p>QM 2.3.3. Start hidden.</p>
+      <ul>
+        <li>If later need to unhide, use <span class="blue">act</span> (shows and activates) or <span class="blue">hid</span>- (does not activate).</li>
+        <li>It also can be used to create visible dialog without activating it. Create hidden dialog, and under <span class=cod><span class=fq>case</span> <span class=d>WM_INITDIALOG</span></span> call <span class=cod><span class=fq>hid</span><span class=o>-</span> hDlg</span>.</li>
+        <li>When this flag used, does not disable owner window (<b>hwndowner</b>).</li>
+        <li>Without this flag, modal dialogs always start visible, regardless of WS_VISIBLE style.</li>
+      </ul></td>
+  </tr>
+  <tr>
+    <td>0x100</td>
+    <td><p>QM 2.4.2. Use x y specified in dialog definition. Read more below. Also you should remove DS_CENTER style.</p></td>
+  </tr>
+</table>
+<p><b>style</b> - combination of window styles (WS_ and/or DS_ constants). Changes  style that is set in the Dialog 
+  Editor.</p>
+<p><b>notstyle</b> - combination of styles to remove from default style.</p>
+<p><b>param</b> - some value to pass to the dialog procedure. The dialog procedure 
+  can retrieve it using <span class="UDF">DT_GetParam</span> function.</p>
+<p><b>x, y</b> - dialog coordinates. Read more below.</p>
+<p> <b>icon</b> - title bar icon.</p>
+<ul>
+  <li> If omitted or &quot;&quot;, uses default icon.  In QM 2.3.0 and later it is icon 
+    of thread main function or macro. In older versions - default macro icon. In 
+    exe - in all QM versions it is exe icon.</li>
+  <li>Supports <a href="../Other/IDP_RESOURCES.html">macro resources</a> (QM 2.4.1) and <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> resources.</li>
+</ul>
+<p><b>menu</b> - menu.</p>
+<ul>
+  <li> Can be name of QM item that contains menu definition (read 
+    below), or menu definition itself (variable). In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> also can be menu resource id, 
+    like &quot;:1&quot;.</li>
+</ul>
+<ul>
+  <li> Menu definition can contain accelerators 
+    (hotkeys). If using resource, uses accelerator table with the same id 
+    as the menu (if exists).</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p> Actual dialog coordinates depend on <b>x</b>, <b>y</b>, <b>hwndowner</b>, 
+  some styles, flag 64, and <a href="../Language/IDP_SPECVAR.html">_monitor</a>. 
+  If <b>x</b> and <b>y</b> are omitted or 0, by default dialogs are shown in screen 
+  center.</p>
+<ul>
+  <li>If flag 0x100 used, <b>x y</b> are ignored. Instead are used x y specified in dialog definition (dialog units, not pixels) and styles DS_CENTER, DS_CENTERMOUSE, DS_ABSALIGN.</li>
+  <li>Else if WS_CHILD style used, uses raw <b>x</b> and <b>y</b> in parent's client 
+    area.</li>
+  <li>Else if flag 64 used, uses raw <b>x</b> and <b>y</b> relative to the primary 
+    monitor. If DS_CENTER style used (it is default), ensures that the dialog is 
+    completely in the work area.</li>
+  <li>Else if DS_CENTERMOUSE style used, the dialog is placed by the mouse pointer. 
+    Nonzero <b>x y</b> can be used to add offset.</li>
+  <li>Else if DS_CENTER style used (it is default), negative <b>x</b> and/or <b>y</b> 
+    values are interpreted as offset from the right and/or bottom edge of the work 
+    area, 0 values - screen center. Positive coordinates are interpreted as coordinates 
+    in the work area of the monitor. The monitor depends on the _monitor variable.</li>
+  <li> Else if <b>hwndowner</b> used and DS_ABSALIGN style not used, uses raw <b>x</b> 
+    and <b>y</b>, relative to the owner's client area.</li>
+  <li> Else uses raw <b>x</b> and <b>y</b> relative to the work area of the monitor. 
+    The monitor depends on the _monitor variable.</li>
+</ul>
+<p>&nbsp;</p>
+<p>If your dialog shows message boxes or other unowned dialogs, it should 
+  do it in the same monitor. Under <span class=cod><span class=fq>case</span> <span class=d>WM_INITDIALOG</span></span> 
+  insert <span class=cod>_monitor<span class=o>=</span>hDlg</span>. Without this, these unowned 
+  dialogs will be in the primary monitor regardless where your dialog is.</p>
+<p>&nbsp;</p>
+<p>The return value depends on dialog type. Read the next chapter. Error if dialog cannot be shown, for example if a control class is not registered.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L4" name="a4">Dialog types (modal, modeless, child)</a></h2>
+<p>A dialog can be modal or modeless. If modal, <span class=UDF>ShowDialog</span> returns only when 
+the dialog is closed. If modeless, <span class=UDF>ShowDialog</span> creates 
+the dialog and returns immediately.</p>
+<p>&nbsp;</p>
+<p>The Dialog Editor creates code to show 
+  modal dialog, but you can edit it to show modeless dialog (add flag 1, etc).</p>
+<p>&nbsp;</p>
+<p><span class=UDF>ShowDialog</span> for a modal dialog returns 1 on OK, 0 on Cancel. 
+  When you click some other push-button in a dialog that does not have  dialog 
+  function (that is,  not a &quot;smart&quot; dialog), it closes the dialog, 
+  and <span class=UDF>ShowDialog</span> returns button id.</p>
+<p>&nbsp;</p>
+<p> <span class=UDF>ShowDialog</span> for a modeless dialog returns dialog window 
+  handle. It does not wait until the dialog is closed, and does not populate dialog variables on OK. To make a modeless dialog useful, use dialog procedure (see <a href="IDH_DIALOG_EDITOR.html#a9">smart dialogs</a>). The thread must stay running and process messages. <a onClick="doSection(modeless)" class="expand">Example</a>.</p>
+<div id="modeless" class="expand">
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;3 4&quot;</span>
+<span class=t>str</span> c3Che e4
+<span class=t>int</span> hDlg<span class=o>=</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;&quot;</span> <span class=o>&amp;</span><span class=fu>sub.DlgProc</span> <span class=o>&amp;</span>controls <span class=n>0</span> <span class=n>1</span><span class=p>)</span>
+<span class=fu>MessageLoop</span> <span class=n>2</span> <span class=c2>;;flag 2 enables keyboard navigation, which by default does not work in modeless dialogs.</span>
+<span class=fq>out</span> c3Che
+<span class=fq>out</span> e4
+
+<span class=c> BEGIN DIALOG</span>
+<span class=c> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 223 135 &quot;Dialog&quot;</span>
+<span class=c> 1 Button 0x54030001 0x4 120 116 48 14 &quot;OK&quot;</span>
+<span class=c> 2 Button 0x54030000 0x4 170 116 48 14 &quot;Cancel&quot;</span>
+<span class=c> 3 Button 0x54012003 0x0 8 10 48 12 &quot;Check&quot;</span>
+<span class=c> 4 Edit 0x54030080 0x200 8 24 96 14 &quot;&quot;</span>
+<span class=c> END DIALOG</span>
+<span class=c> DIALOG EDITOR: &quot;&quot; 0x2040104 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=dir>#sub</span> DlgProc
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span><span class=fd>PostMessage</span> <span class=n>0</span> <span class=n>2000</span> <span class=n>0</span> <span class=n>0</span> <span class=c2>;;ends MessageLoop</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=fq>ret</span>
+<span class=c> messages2</span>
+<span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDOK</span>
+<span class=i>&#9;</span><span class=fu>DT_GetControls</span> hDlg <span class=c2>;;populated dialog variables. Optional.</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDCANCEL</span>
+<span class=fq>ret</span> <span class=n>1</span>
+</pre>
+</div>
+<p>&nbsp;</p>
+<p>Dialogs also can be used as child windows. Add WS_CHILD style, and pass parent window handle 
+  to <span class="UDF"> ShowDialog</span>. Child dialogs are modeless.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. If a modeless dialog still exists when the thread ends, it receives <span class="def">WM_QM_ENDTHREAD</span> message. It destroys the dialog, unless dialog procedure returns nonzero (then you must explicitly destroy the dialog before the thread completely ends).</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L5" name="a5">How to get data from controls</a></h2>
+
+<p>The Dialog Editor craetes and updates <span class="UDF">ShowDialog</span> code that may contain declarations of variables for some controls. You can use the 
+  variables to initialize the controls and get data from them. Example:</p>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> controls <span class=o>=</span> <span class=s>&#34;3 5&#34;</span>
+<span class=t>str</span> e3Nam c5Var
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog2&#34;</span> <span class=n>0</span> <span class=o>&#38;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=fq>if</span><span class=p>(</span>c5Var<span class=o>=</span><span class=n>1</span><span class=p>)</span> <span class=c2>;;checked
+</span><span class=i>&#9;</span><span class=fq>out</span> e3Nam</pre>
+<p>&nbsp;</p>
+<p> Don't edit the declarations (the first two lines) manually because the variables 
+  must be in a particular order. The first str variable contains identifiers of 
+  controls. Then follow str variables for each 
+  control whose id is included in the first variable, in the same order. Variable 
+  names include control id. The third argument of <span class=UDF>ShowDialog</span> 
+  must be address of the first variable.</p>
+
+<p>&nbsp;</p>
+
+<p>When the user clicks OK, <span class=UDF>ShowDialog</span> gets data from controls and populates the variables. Data format:</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>Control type</th>
+    <th>Variable</th>
+    <th>Notes, examples</th>
+  </tr>
+  <tr> 
+    <td>Check, Option</td>
+    <td>&quot;1&quot; if checked, &quot;0&quot; if unchecked.</td>
+    <td><span class=cod><span class=fq>if</span><span class=p>(</span>c3Exa<span class=o>=</span><span class=n>1</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;checked&quot;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p>ComboBox,</p>
+    <p>single-selection  ListBox</p></td>
+    <td>&quot;index text&quot;. Here index is 0-based index of selected item, or -1 if no selection.</td>
+    <td>
+<pre class=cod><span class=t>int</span> iSel<span class=o>=</span><span class=fq>val</span><span class=p>(</span>cb3<span class=p>)</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fu>TO_CBGetItem</span><span class=p>(</span>cb4<span class=p>)</span>
+<span class=fq>out</span> i<span class=p>;</span> <span class=fq>out</span> cb3
+</pre>
+</td>
+  </tr>
+  <tr> 
+    <td>Multi-selection ListBox</td>
+    <td>String consisting of '0' and '1' characters for unselected and selected items. For example, if selected 
+    are items 0 and 3 in a 4-item list box, the string will be &quot;1001&quot;.</td>
+    <td>
+    <p><span class=cod><span class=fq>if</span><span class=p>(</span>lb3[<span class=n>0</span>]<span class=o>=</span><span class=n>'1'</span><span class=p>)</span> <span class=fq>out</span> <span class=s>&quot;selected&quot;</span></span></p></td>
+  </tr>
+  <tr> 
+    <td>Edit, <a href="IDP_QMCOMBOBOX.html">QM_Edit</a>, rich edit</td>
+    <td>Control text.</td>
+    <td>Before QM 2.3.4: unchanged if read-only.</td>
+  </tr>
+  <tr>
+    <td><a href="IDP_QMGRID.html">QM_Grid</a></td>
+    <td>Table in <a href="IDP_ICSV.html">CSV</a> format.</td>
+    <td>You can use <a href="IDP_ICSV.html" class="type">ICsv</a> interface to work with CSV.</td>
+  </tr>
+  <tr>
+    <td><a href="IDP_QMCOMBOBOX.html">QM_ComboBox</a></td>
+    <td>Depends on control style and flags.</td>
+    <td>Editable: control text; read-only: item index; check boxes: string of  '0' and '1' characters; flag 2: hex value; flag 0x100: CSV.</td>
+  </tr>
+  <tr>
+    <td>Static, Button, Group, ActiveX</td>
+    <td>Unchanged.</td>
+    <td>The Dialog Editor does not add variables for most of these controls.</td>
+  </tr>
+  <tr>
+    <td>Other</td>
+    <td>Control's text. Before QM 2.3.4: unchanged.</td>
+    <td>The Dialog Editor adds variables only for some control types. To add for others, you can use <a href="IDP_QMDLL.html#QmSetWindowClassFlags" class="dll">QmSetWindowClassFlags</a> or Dialog Editor Options.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>To get data from controls in a <a href="IDH_DIALOG_EDITOR.html#a9">dialog procedure</a>, you can use function <span class="UDF">DT_GetControl</span> or <span class="UDF">DT_GetControls</span>. Also you can use window/control functions - <a href="../str/IDP_S_WINDOW.html">str.getwintext</a>, <a href="../Commands/IDP_BUT.html" class="blue">but</a> (get check box state), <span class="UDF">CB_SelectedItem</span> and other. Look in <a href="../Language/IDP_CATEGORIES.html">category</a> <span class="lib">control</span>. Also you can use control messages, most of them are documented in the MSDN Library.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L6" name="a6">How to initialize controls</a></h2>
+
+<p>In the Dialog Editor you can set text for these controls: button, group, static text, 
+  read-only edit, SysLink. To initialize other controls, before showing dialog 
+  assign certain strings to the control variables.</p>
+<p>&nbsp;</p>
+<table class="tnormal">
+  <tr> 
+    <th>Control type</th>
+    <th>Variable</th>
+    <th>Control contents</th>
+    <th>Notes, examples</th>
+  </tr>
+  <tr> 
+    <td>Check, Option</td>
+    <td>&quot;1&quot;</td>
+    <td>Checked.</td>
+    <td><span class=cod>c3<span class=o>=</span><span class=n>1</span></span></td>
+  </tr>
+  <tr> 
+    <td>ListBox, ComboBox</td>
+    <td>List of strings. Some strings can begin with &amp;.</td>
+    <td>Each line adds item. The &amp; selects the item.</td>
+  <td>
+<pre class=cod>cb3<span class=o>=</span><span class=s>&quot;&amp;Zero[]One[]Two&quot;</span>
+lb4<span class=o>=</span><span class=s>&quot;Zero[]&amp;One[]&amp;Two&quot;</span></pre>
+  </td>
+  </tr>
+  <tr> 
+    <td>Static icon</td>
+    <td>Icon file path or <a href="../Other/IDP_RESOURCES.html">macro resource</a> name. Can begin with &amp;. Can contain <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> 
+      resource id.</td>
+    <td>Displays the icon. The &amp; displays 32x32 icon instead of 16x16 icon.</td>
+    <td>
+<pre class=cod>si3<span class=o>=</span><span class=s>&quot;$my qm$\file.ico&quot;</span>
+si4<span class=o>=</span><span class=s>&quot;&amp;shell32.dll,15&quot;</span>
+si6<span class=o>=</span><span class=s>&quot;resource:test.ico&quot;</span>
+<span class=s>&quot;:150 file.ico&quot;</span>
+<span class=s>&quot;&amp;:150 file.ico&quot;</span></pre>
+    </td>
+  </tr>
+  <tr> 
+    <td>Static bitmap</td>
+    <td>bmp, jpg or gif file path or macro resource name. Can contain exe resource id. QM 2.3.4: can be png.</td>
+    <td>Displays the picture.</td>
+    <td>
+<pre class=cod>sb3<span class=o>=</span><span class=s>&quot;$my qm$\file.gif&quot;</span>
+sb7<span class=o>=</span><span class=s>&quot;resource:test.png&quot;</span>
+sb8<span class=o>=</span><span class=s>&quot;:8 $personal$\file.bmp&quot;</span></pre>
+    </td>
+  </tr>
+  <tr> 
+    <td>Dialog itself (id=0)</td>
+    <td>Any text.</td>
+    <td>Displays the text in the title bar.</td>
+    <td>
+    <p><span class=cod>d0<span class=o>=</span><span class=s>&quot;New Title&quot;</span></span></p>
+    <p>&nbsp;</p>
+      <p>Include 0 in Dialog Editor Options -&gt; Add variables...</p>
+    </td>
+  </tr>
+  <tr> 
+    <td>Edit, <a href="IDP_QMCOMBOBOX.html">QM_Edit</a></td>
+    <td>Any text.</td>
+    <td>Displays the text.</td>
+    <td><span class=cod>e3<span class=o>=</span><span class=s>&quot;text&quot;</span></span></td>
+  </tr>
+  <tr> 
+    <td>Rich edit</td>
+    <td>Any text. Can be .rtf file path or macro resource name, preceded by &amp;. The path can contain exe resource 
+      id (QM 2.3.0).</td>
+    <td>Displays the text or the file.</td>
+    <td>
+<pre class=cod>rea3<span class=o>=</span><span class=s>&quot;text&quot;</span>
+rea4<span class=o>=</span><span class=s>&quot;&amp;$personal$\rich text.rtf&quot;</span>
+rea8<span class=o>=</span><span class=s>&quot;&amp;resource:Document.rtf&quot;</span>
+rea5<span class=o>=</span><span class=s>&quot;&amp;:10 &amp;$personal$\text.txt&quot;</span></pre>
+    </td>
+  </tr>
+  <tr> 
+    <td>Web browser control</td>
+    <td>Web page, folder or file that can be opened in web browser.</td>
+    <td><p>Opens the web page, folder or file.  If &quot;&quot;, opens empty page.</p></td>
+    <td>
+<pre class=cod>ax3SHD<span class=o>=</span><span class=s>&quot;www.quickmacros.com&quot;</span>
+ax4SHD<span class=o>=</span><span class=s>&quot;$my qm$\animated.gif&quot;</span>
+ax5SHD<span class=o>=</span><span class=s>&quot;&quot;</span></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><a href="IDP_QMGRID.html">QM_Grid</a></td>
+    <td>Table in <a href="IDP_ICSV.html">CSV</a> format.</td>
+    <td>Displays the table.</td>
+    <td><p><span class=cod>qmg3<span class=o>=</span><span class=s>&quot;a1,b1,c1[]a2,b2,c2&quot;</span></span></p>
+      <p>&nbsp;</p>
+    <p>You can use <a href="IDP_ICSV.html" class="type">ICsv</a> interface to work with CSV.</p></td>
+  </tr>
+  <tr>
+    <td><a href="IDP_QMCOMBOBOX.html">QM_ComboBox</a></td>
+    <td>CSV. First row - control properties. Other rows - list items.</td>
+    <td>&nbsp;</td>
+    <td>
+    <pre class=cod>qmcb3<span class=o>=</span><span class=s>&quot;0[]Zero[]One[]Two&quot;</span>
+qmcb4<span class=o>=</span><span class=s>&quot;,,1[]Zero[]One,1[]Two&quot;</span>
+</pre>
+</td>
+  </tr>
+  <tr> 
+    <td>Other</td>
+    <td>Any text.</td>
+    <td>Sets text of the control. The control can display it or not.</td>
+    <td><p>The Dialog Editor adds variables only for some control types. To add for others, you can use <a href="IDP_QMDLL.html#QmSetWindowClassFlags" class="dll">QmSetWindowClassFlags</a> or Dialog Editor Options.</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<p>Example:</p>
+
+<p>&nbsp;</p>
+
+<pre class=cod><span class=t>str</span> controls <span class=o>=</span> <span class=s>&#34;3 5 6 7 4&#34;</span>
+<span class=t>str</span> c3 cb5 e6 si7 sb4
+c3 <span class=o>=</span> <span class=n>1</span> <span class=c2>;;checkbox checked
+</span>cb5 <span class=o>=</span> <span class=s>&#34;Sunday[]&#38;Monday[]Tuesday&#34;</span> <span class=c2>;;combobox with three items; Monday is selected
+</span>e6 <span class=o>=</span> <span class=s>&#34;Default text&#34;</span> <span class=c2>;;edit control's text is &#34;Default text&#34;
+</span>si7 <span class=o>=</span> <span class=s>&#34;&#38;files.ico&#34;</span> <span class=c2>;;32x32 icon from files.ico file
+</span>sb4 <span class=o>=</span> <span class=s>&#34;c:\pictures\tree.bmp&#34;</span> <span class=c2>;;picture
+</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog2&#34;</span> <span class=n>0</span> <span class=o>&#38;</span>controls<span class=p>))</span> <span class=fq>ret</span></pre>
+<p>&nbsp;</p>
+<p>To set control data in a <a href="IDH_DIALOG_EDITOR.html#a9">dialog procedure</a>, you can use function <span class="UDF">DT_SetControl</span> or <span class="UDF">DT_SetControls</span>. Also you can use window/control functions - <a href="../str/IDP_S_WINDOW.html">str.setwintext</a>, <a href="../Commands/IDP_BUT.html" class="blue">but</a> (set check box state), <span class="UDF">CB_SelectItem</span> and other. Look in <a href="../Language/IDP_CATEGORIES.html">category</a> <span class="lib">control</span>. Also you can use control messages, most of them are documented in the MSDN Library.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L7" name="a7">Variable names</a></h2>
+<p>The Dialog Editor creates names for control variables. A variable name is composed from abbreviated class name, id and max 
+  3 characters of control's name. For example, if combo box with id 15 is named 
+  &quot;Value&quot;, variable name is cb15Val.</p>
+<p>&nbsp;</p>
+<p>If you change variable names (change variable's text in the Dialog Editor), need to update variable names in the macro. The Dialog Editor can do
+  it automatically on Save, depending on dialog settings.</p>
+  
+<h2><a href="IDH_DIALOG_EDITOR.html#L8" name="a8">Using a user-defined type</a></h2>
+<p>Instead of multiple str variables for controls, you can use a user-defined type. You can 
+  enter type name in Dialog Editor Options. Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>TYPE_A</span> <span class=o>~</span>controls <span class=o>~</span>c3Che <span class=o>~</span>e4 <span class=o>~</span>cb5
+<span class=t>TYPE_A</span> d.controls<span class=o>=</span><span class=s>&#34;3 4 5&#34;</span>
+
+d.cb5<span class=o>=</span><span class=s>&#34;Sunday[]&#38;Monday[]Tuesday&#34;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog4&#34;</span> <span class=n>0</span> <span class=o>+&#38;</span>d<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=fu>TO_CBGetItem</span> d.cb5
+<span class=fq>out</span> d.cb5</pre>
+<p>&nbsp;</p>
+<p>Examples of getting control values in a dialog procedure:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> modal dialog (don't use this for modeless dialogs)
+</span><span class=t>TYPE_A</span><span class=o>&#38;</span> d<span class=o>=+</span><span class=fu>DT_GetControls</span><span class=p>(</span>hDlg<span class=p>)</span>
+<span class=fq>out</span> d.e4
+
+<span class=c> modal or modeless dialog
+</span><span class=t>TYPE_A</span> d.controls<span class=o>=</span><span class=s>&#34;3 4 5&#34;</span>
+<span class=fu>DT_GetControls</span><span class=p>(</span>hDlg <span class=o>&#38;</span>d<span class=p>)</span>
+<span class=fq>out</span> d.e4</pre>
+<p>&nbsp;</p>
+<p>Example of using the registry to save dialog data:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>type</span> <span class=t>DLGVAR</span> <span class=o>~</span>controls <span class=o>~</span>e3 <span class=o>~</span>c4Che
+<span class=t>DLGVAR</span> d.controls<span class=o>=</span><span class=s>&#34;3 4&#34;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=fq>rget</span><span class=p>(</span>_s <span class=s>&#34;DLGVAR&#34;</span> <span class=s>&#34;\test&#34;</span><span class=p>))</span> _s.setstruct<span class=p>(</span>d<span class=p>)</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog33&#34;</span> <span class=n>0</span> <span class=o>&#38;</span>d<span class=p>))</span> <span class=fq>ret</span>
+
+_s.getstruct<span class=p>(</span>d<span class=p>);</span> <span class=fq>rset</span><span class=p>(</span>_s <span class=s>&#34;DLGVAR&#34;</span> <span class=s>&#34;\test&#34;</span><span class=p>)</span></pre>
+<h2><a href="IDH_DIALOG_EDITOR.html#L9" name="a9">Smart dialogs </a></h2>
+<p>When you use a simple dialog, you can only initialize controls before calling <span class="UDF">ShowDialog</span>, and get data from them when <span class="UDF">ShowDialog</span> returns. While the dialog is open, the macro waits until it is closed. That 
+  is enough in many cases. But sometimes you need to execute some code while dialog 
+  is open. For example, show an Open File dialog when the user clicks a button. 
+Then you need a special function - <i>dialog  procedure</i>.</p>
+<p>&nbsp;</p>
+<h3>Dialog procedure</h3>
+<p>A dialog procedure is a user-defined function 
+  (can be <a href="../Language/IDP_DIR_SUB.html">sub-function</a>) that begins with <span class="cod"><span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam</span>. Its address is passed to <span class="UDF">ShowDialog</span> as the second argument. To create a dialog with a dialog procedure, use menu File -&gt; New -&gt; New Dialog. Select 'New smart dialog'.</p>
+<p>&nbsp;</p>
+<p> Example:</p>
+<pre class=cod><span class=c>\Dialog_Editor</span>
+
+<span class=c> This code defines and shows dialog.</span>
+<span class=c> Everything is like with simple dialogs, but we use the second ShowDialog argument - address of dialog procedure.</span>
+
+<span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=s> 3 Button 0x54032000 0x0 8 8 48 14 &quot;Test&quot;</span>
+<span class=s> 4 ComboBox 0x54230243 0x0 8 28 96 213 &quot;&quot;</span>
+<span class=s> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=s> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=s> END DIALOG</span>
+<span class=s> DIALOG EDITOR: &quot;&quot; 0x2040108 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&quot;4&quot;</span>
+<span class=t>str</span> cb4
+cb4<span class=o>=</span><span class=s>&quot;&amp;A[]B[]C&quot;</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=o>&amp;</span><span class=fu>sub.DlgProc</span> <span class=o>&amp;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+
+<span class=dir>#sub</span> DlgProc <span class=c2>;;this is the dialog procedure</span>
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;dialog created&quot;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;closing&quot;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=fq>ret</span>
+<span class=c> messages2</span>
+<span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDOK</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;button OK clicked&quot;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>3</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=s>&quot;button Test clicked&quot;</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>CBN_SELENDOK</span><span class=o>&lt;&lt;</span><span class=n>16</span><span class=o>|</span><span class=n>4</span>
+<span class=i>&#9;</span>_i<span class=o>=</span><span class=fu>CB_SelectedItem</span><span class=p>(</span>lParam<span class=p>)</span>
+<span class=i>&#9;</span><span class=fq>out</span> <span class=o>F</span><span class=s>&quot;ComboBox item {</span>_i<span class=s>} selected&quot;</span>
+<span class=fq>ret</span> <span class=n>1</span>
+</pre>
+<p>&nbsp;</p>
+<p> The dialog procedure is called by the system whenever the dialog receives 
+a message (e.g., when the user clicks a button or selects a combobox item).</p>
+<p>&nbsp;</p>
+<p> The first <a href="../Flow/IDP_SEL.html" class="blue">sel</a> is for dialog-related messages. The 
+  second <span class="blue">sel</span> is for control-related messages (WM_COMMAND). When a message arrives, is executed code that follows the <span class="blue">case</span> 
+  statement for that message.</p>
+<p>&nbsp;</p>
+<p>To add <span class="blue">case</span> statements 
+  for various messages, you can use the Events dialog in the Dialog Editor. Then 
+  add your code in or below the <span class="blue">case</span> line.</p>
+<p>&nbsp;</p>
+<p> <A class="expand" onClick="doSection(e2)">Some often used messages</A>.</p>
+<div id="e2" class="expand"> 
+  <p>WM_INITDIALOG - the dialog has been created. Here you can add code that initializes 
+    some controls, sets timers etc.</p>
+<p>&nbsp;</p>
+  <p>WM_DESTROY - the dialog will be destroyed. It is already hidden, but controls 
+    still exist. If the dialog procedure has allocated data that must be deleted 
+    when the dialog is closed, do it here.</p>
+<p>&nbsp;</p>
+  <p>WM_CREATE - although Windows does not send this message to dialogs, QM sends 
+    it before initializing controls. WM_INITDIALOG is sent after initializing 
+    controls. This message is rarely used.</p>
+  <p>&nbsp;</p>
+  <p>WM_COMMAND - an input event in a standard control. wParam contains control 
+    id (in <a href="../Other/IDP_HIWORD.html">low-order</a> word) and notification code (in high-order word). lParam 
+    is control handle. Several often used notification codes:</p>
+  <p>&nbsp;</p>
+  <p>BN_CLICKED - button is clicked. There are two special control ids:</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;IDOK (1) - OK button. Return 1 (default) to close 
+    the dialog, or 0 to not close.</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;IDCANCEL (2) - Cancel button. Return 1 (default) to 
+    close the dialog, or 0 to not close.</p>
+  <p>&nbsp;</p>
+  <p>CBN_SELENDOK - selected combo box item. To determine which item is selected, 
+    use <span class="UDF">CB_SelectedItem</span>.</p>
+  <p>&nbsp;</p>
+  <p>LBN_SELCHANGE - selected list box item. To determine which item is selected, 
+    use <span class="UDF">LB_SelectedItem</span>.</p>
+  <p>&nbsp;</p>
+  <p>The <span class="blue">case</span> statements that handle WM_COMMAND notification 
+    codes may include notification code and control id (e.g. <span class=cod><span class=fq>case</span> <span class=d>CBN_SELENDOK</span><span class=o>&#60;&#60;</span><span class=n>16</span><span class=o>|</span><span class=n>3</span></span>). 
+    Since BN_CLICKED is 0, it can be omitted (<span class=cod><span class=fq>case</span> <span class=n>3</span></span>).</p>
+  <p>&nbsp;</p>
+  <p>Menus also send WM_COMMAND with notification code 0 (same as BN_CLICK). Accelerators 
+    (in QM only) and toolbar buttons too. The low-order word is the menu item 
+    id (or accelerator id, or toolbar button id). It means that you can handle 
+    menu item clicks, accelerators and toolbar button clicks in the same way as 
+    button clicks. It also means that menu item ids should not be the same as 
+    button ids, unless you need that they would behave identically.</p>
+<p>&nbsp;</p>
+</div>
+<p>&nbsp;</p>
+<h3>Parameters and the return value of dialog procedure</h3>
+<p>&nbsp;</p>
+<p>Parameters:</p>
+<div class="parts">
+<p><b>hDlg</b> - dialog window handle.  In dialog procedure always use hDlg, not <span class=cod><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Dialog name&quot;</span><span class=p>)</span></span>. Example: <span class=cod><span class=t>int</span> hwndControl<span class=o>=</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>)</span></span>.</p>
+<p><b>message</b> - an integer value of the message, for example WM_INITDIALOG.</p>
+<p><b>wParam</b>, <b>lParam</b> - two integer values that depend on message.</p>
+</div>
+<p>&nbsp;</p>
+<p>The dialog procedure can return:</p>
+<ul>
+  <li> 0 - the message will be processed by the system. Return 0 for all unused messages and for most used messages.</li>
+  <li>1 - the message will not be processed by the system.</li>
+  <li>For WM_COMMAND can return any value, it is ignored. However on IDOK and IDCANCEL should return 1, or the dialog will not be closed.</li>
+  <li>To return certain non-zero value as documented in the message reference, use <span class=cod><span class=fq>ret</span> <span class=fu>DT_Ret</span><span class=p>(</span>hDlg theValue<span class=p>)</span></span>.</li>
+</ul>
+<p>&nbsp;</p>
+<h3>How to get/set control values in dialog procedure</h3>
+<p>The control variables are used before and after <span class="UDF">ShowDialog</span>, but not in the dialog procedure.</p>
+<p>&nbsp;</p>
+<p>To get/set control values in dialog procedure, you can use functions from the <span class="lib">control</span> <a href="../Language/IDP_CATEGORIES.html">category</a>. For example,  <a href="../str/IDP_S_WINDOW.html">str.getwintext/setwintext</a> to get/set Edit control text; <a href="../Commands/IDP_BUT.html" class="blue">but</a> to click button, check/uncheck or get checked; <span class="UDF">CB_SelectedItem</span> to get combo box selected item index<a href="../Language/IDP_CATEGORIES.html"></a>. Also you can send control messages with <span class="dll">SendMessage</span>. Control messages are documented in the <a href="../Other/IDP_MSDN.html">MSDN Library</a>.</p>
+<p>&nbsp;</p>
+<p>Alternatively use function <span class="UDF">DT_GetControl</span> to get control data in the format described in the <a href="IDH_DIALOG_EDITOR.html#a5">How to get data from controls</a> chapter. You can use function <span class="UDF">DT_GetControls</span> to get data from multiple controls. Use function <span class="UDF">DT_SetControl</span> or <span class="UDF">DT_SetControls</span> to set control data.</p>
+<p>&nbsp;</p>
+<h3>More info</h3>
+<p>Usually don't need to add code to close dialog. It is automatically closed on OK and Cancel, unless you return 0 on IDOK/IDCANCEL. To close explicitly from the dialog procedure, use <span class=cod><span class=fq>clo</span> hDlg</span> or <span class="UDF">DT_Cancel</span> (same as pressing Cancel) or <span class="UDF">DT_Ok</span> (same as pressing 
+OK). Don't use <span class="dll">EndDialog</span> and <span class="dll">DestroyWindow</span>. To close a dialog from outside if you don't have its handle, use <span class="blue">clo</span> like when you close any other window.</p>
+<p>&nbsp;</p>
+<p>There are more functions that can be used in dialog procedures. Their names begin with DT_. They are in category _other.__in_dlgproc. For example, <span class=cod><span class=lib>_other.__in_dlgproc.</span><span class=fu>DT_SetAutoSizeControls</span></span>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<p><a href="IDH_DIALOG_EDITOR.html#a16" name="L16">Dialog examples and tutorials</a></p>
+<p>&nbsp;</p>
+<p>Also you can look for examples in &quot;\System\Tools&quot; 
+  folder. Code toolbar dialogs are implemented there.  They use several private functions, usually their names begin with TO_. Don't use the private functions in your macros, because they may be changed or deleted in the future, but you can make their copies. 
+  You can use public functions from folders &quot;\System\Functions&quot;, &quot;\System\Dialogs\Dialog Functions&quot; 
+  and &quot;\System\Dialogs\Dialog Control Classes&quot;. Also you can use private functions that don't show warning &quot;private System function X in user code...&quot;.</p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L10" name="a10">Multi-page dialogs</a></h2>
+<p>QM dialogs don't have support for real property pages (child dialogs), but you can easily show 
+  and hide groups (<i>pages</i>) of related controls so that only one page would be visible at a time. In the Dialog Editor, use buttons 
+  &lt; and &gt; to switch pages and create new pages. Controls with id 1 to 999 
+  are always visible (common). Controls with id greater or equal 1000 belong to 
+  pages that can be easily shown and hidden. Each page can have maximum 100 controls. 
+  For example, controls in page 0 have id 1000 to 1099, controls in page 1 have 
+  id 1100 to 1199, and so on.</p>
+<p>&nbsp;</p>
+<p>To switch pages at run time, in the dialog procedure call 
+function  <span class="UDF">DT_Page</span>.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=fq>function</span> hDlg index [<span class=o>~</span>map]</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>hDlg</b> - hDlg.</p>
+<p> <b>index</b> - 0-based page index. Use -1 to hide 
+  all pages.</p>
+<p> <b>map</b> - can be used to map <b>index</b> 
+  to different page.</p>
+<ul>
+  <li> It is list of page indices separated by spaces. 
+    For example,<b> </b>&quot;0 0 1 2 2 -1&quot; shows page 0 when <b>index</b> 
+    is 0 or 1, page 1 when <b>index</b> is 2,  page 2 when <b>index</b> is 3 
+    or 4, and none when <b>index</b> is 5.</li>
+  <li> Use parentheses  to show several pages simultaneously. For example,<b> </b>&quot;0 (1 3) 2&quot; shows pages 1 and 3 when <b>index</b> is 
+    1.</li>
+  <li>You can also use the same string in dialog editor Options. Then mapping will be applied at design time.</li>
+</ul>
+</div>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L19" name="a19">Multiple dialogs in a macro</a></h2>
+<p>A macro can contain more than 1 dialog. Use <a href="../Language/IDP_DIR_SUB.html">sub-functions</a> for it.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> \Dialog_Editor</span>
+
+<span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> ...</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=o>&amp;</span><span class=fu>sub.DlgProc</span> <span class=n>0</span><span class=p>))</span> <span class=fq>ret</span>
+<span class=c> ...</span>
+
+
+<span class=dir>#sub</span> DlgProc
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+<span class=c> ...</span>
+
+
+<span class=dir>#sub</span> Dialog2
+<span class=fq>function</span><span class=o>#</span> [hwndOwner]
+
+<span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> ...</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=o>&amp;</span><span class=fu>sub.DlgProc2</span> <span class=n>0</span> hwndOwner<span class=p>))</span> <span class=fq>ret</span>
+<span class=c> ...</span>
+
+
+<span class=dir>#sub</span> DlgProc2
+<span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+<span class=c> ...</span>
+</pre>
+<p>&nbsp;</p>
+<p>In this example there are 2 dialogs. One in the parent function and one in sub-function Dialog2. When opening the Dialog Editor, you can choose which dialog to edit. If a sub-function or parent function contains multiple dialogs, the Dialog Editor uses the first dialog in it (the first dialog definition, ShowDialog statement, variable declarations, and the first found dialog procedure below it).</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L18" name="a18">Unicode</a></h2>
+<p>QM 2.3.0 and later versions support <a href="../Other/IDP_UNICODE.html">Unicode</a>. 
+  To enable it for whole program, check the checkbox in Options. To enable it 
+  for a dialog, select &quot;Unicode&quot; or &quot;As QM&quot; in dialog editor Options. By default, 
+  dialogs work in ANSI mode, like in previous QM versions.</p>
+<p>&nbsp;</p>
+<p> If QM is running in  Unicode mode, most controls work well with any text regardless of dialog Unicode mode. To use Unicode text with rich edit controls, either set Unicode mode for the dialog, or use control of class RichEdit20W or RichEdit50W instead of RichEdit20A.</p>
+<p>&nbsp;</p>
+<p>When Unicode is enabled for a dialog, its dialog procedure receives Unicode versions of some messages, particularly those that 
+  can pass or query text. Then the text is in Unicode UTF-16 format. QM string 
+  functions don't understand UTF-16. You can use <a href="../str/IDP_S_UNICODE.html">str.ansi</a> 
+  to convert the text to UTF-8 or ANSI. The <a href="../Language/IDP_SPECVAR.html">_unicode</a> 
+  variable  tells you in which mode QM is running.</p>
+<p>&nbsp;</p>
+<p>For example, in a dialog procedure of a Unicode dialog, lParam of WM_SETTEXT 
+  is UTF-16 text. If the dialog is ANSI, it is ANSI text. Common controls (tree 
+  view, list view, etc) have their own Unicode mode, which is enabled in Unicode 
+  dialogs, and disabled in ANSI dialogs. In Unicode mode they send different notification messages 
+  (codes used with WM_NOTIFY message). For example, in Unicode mode a tree view 
+  control sends TVN_SELCHANGEDW instead of TVN_SELCHANGED. Control Unicode mode 
+  can be turned on/off using CCM_SETUNICODEFORMAT message, documented in <a href="../Other/IDP_MSDN.html">MSDN 
+  library</a>.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L17" name="a17">Fonts and colors</a></h2>
+<p>QM 2.2.1. Use class <span class="type">__Font</span>. <A class="expand" onClick="doSection(e3)">Example</A>.</p>
+<div id="e3" class="expand"> 
+  <p>Function Dialog_font_sample</p>
+  <pre class=cod><span class=c>\Dialog_Editor
+</span><span class=fq>function</span><span class=o>#</span> hDlg message wParam lParam
+<span class=fq>if</span><span class=p>(</span>hDlg<span class=p>)</span> <span class=fq>goto</span> messages
+
+<span class=t>str</span> controls <span class=o>=</span> <span class=s>&#34;6 3&#34;</span>
+<span class=t>str</span> lb6 e3
+e3<span class=o>=</span><span class=s>&#34;Text&#34;</span>
+lb6<span class=o>=</span><span class=s>&#34;item1[]item2&#34;</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&#34;Dialog_font_sample&#34;</span> <span class=o>&#38;</span><span class=fu>Dialog_font_sample</span> <span class=o>&#38;</span>controls<span class=p>))</span> <span class=fq>ret</span>
+
+<span class=c> BEGIN DIALOG
+ 0 &#34;&#34; 0x10C80A44 0x100 0 0 173 99 &#34;Dialog Fonts&#34;
+ 4 Static 0x54000000 0x4 10 22 48 14 &#34;Text&#34;
+ 6 ListBox 0x54230101 0x200 104 20 60 34 &#34;&#34;
+ 3 Edit 0x54030080 0x204 10 38 82 16 &#34;&#34;
+ 1 Button 0x54030001 0x4 4 82 48 14 &#34;OK&#34;
+ 2 Button 0x54030000 0x4 56 82 48 14 &#34;Cancel&#34;
+ 5 Button 0x54020007 0x4 4 6 166 54 &#34;Text&#34;
+ END DIALOG
+ DIALOG EDITOR: &#34;&#34; 0x2020103 &#34;*&#34; &#34;&#34; &#34;&#34;
+</span>
+<span class=fq>ret</span>
+<span class=c> messages
+</span><span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span>
+<span class=i>&#9;</span><span class=t>__Font</span><span class=o>--</span> f
+<span class=i>&#9;</span>f.Create<span class=p>(</span><span class=s>&#34;Courier New&#34;</span> <span class=n>14</span> <span class=n>1</span><span class=p>)</span>
+<span class=i>&#9;</span>f.SetDialogFont<span class=p>(</span>hDlg <span class=s>&#34;3-5&#34;</span><span class=p>)</span>
+<span class=i>&#9;</span>f.SetDialogFontColor<span class=p>(</span>hDlg <span class=n>0xff0000</span> <span class=s>&#34;3 4&#34;</span><span class=p>)</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=t>__Font</span><span class=o>--</span> f2
+<span class=i>&#9;</span>f2.Create<span class=p>(</span><span class=s>&#34;Comic Sans MS&#34;</span> <span class=n>7</span> <span class=n>2</span><span class=p>)</span>
+<span class=i>&#9;</span>f2.SetDialogFont<span class=p>(</span>hDlg <span class=s>&#34;2&#34;</span><span class=p>)</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=t>__Font</span><span class=o>--</span> f3
+<span class=i>&#9;</span>f.SetDialogFontColor<span class=p>(</span>hDlg <span class=n>0x008000</span> <span class=s>&#34;6&#34;</span><span class=p>)</span>
+<span class=i>&#9;</span>
+<span class=i>&#9;</span><span class=c> note: __Font variables must not be local because they must exist while the dialog is open.
+</span><span class=i>&#9;</span><span class=c> note: in a dialog, use different __Font variables for different fonts.
+</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_DESTROY</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_COMMAND</span> <span class=fq>goto</span> messages2
+<span class=fq>ret</span>
+<span class=c> messages2
+</span><span class=fq>sel</span> wParam
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDOK</span>
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>IDCANCEL</span>
+<span class=fq>ret</span> <span class=n>1</span></pre>
+  <p>&nbsp;</p>
+  </div>
+<h2><a href="IDH_DIALOG_EDITOR.html#L13" name="a13">Menus and accelerators (hotkeys)</a></h2>
+<p><span class="UDF">ShowDialog</span> has an optional <b>menu</b> parameter. 
+  It can be the name of a macro (or item of other type) that contains menu definition. 
+  It also can be menu definition itself.</p>
+<p>&nbsp;</p>
+<p>To create menu definitions, use the Menu Editor. You can find it in code toolbar -&gt; More tools.</p>
+<p>&nbsp;</p>
+<p>Example menu definition:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> BEGIN MENU</span>
+<span class=c> &gt;&amp;File</span>
+<span class=c> &#9;&amp;Open : 101 0 0 Co</span>
+<span class=c> &#9;-</span>
+<span class=c> &#9;&gt;&amp;Recent</span>
+<span class=c> &#9;&#9;Empty : 102 0 3</span>
+<span class=c> &#9;&#9;&lt;</span>
+<span class=c> &#9;&lt;</span>
+<span class=c> &gt;&amp;Edit</span>
+<span class=c> &#9;Cu&amp;t : 103 0 0 Cx</span>
+<span class=c> &#9;-</span>
+<span class=c> &#9;Select &amp;All : 104 0 0 Ca</span>
+<span class=c> &#9;&lt;</span>
+<span class=c> &amp;Help : 105 0</span>
+<span class=c> END MENU</span></pre>
+<p>&nbsp;</p>
+<h3>Menu definition format</h3>
+<p>You can see that it is similar to QM menus. A single line (except &lt;), creates 
+  a menu item. Items that open popup menus or submenus begin with &gt;. They usually 
+  don't have an id and accelerator. The end of a popup menu or submenu is marked 
+  by &lt; line. Hyphen is used for separators. A line can optionally begin with 
+  any number of spaces and tabs.</p>
+<p>&nbsp;</p>
+<p> Syntax used for menu items:</p>
+<p>&nbsp;</p>
+<pre class=syntax>Label : id <i>[</i>type<i>] [</i>state<i>] [</i>accelerator<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>label</b> - menu item text. Use ampersand to underline characters. Can be 
+  used escape sequences (not in Menu Editor).</p>
+<p><b>id</b> - menu item id. Should be 0 to 65535 (0xFFFF). When 
+  you click the menu item, the dialog procedure receives WM_COMMAND message that 
+  can be handled in the same way as it would be a button with the id. Use bigger values (e.g. above 10000) to avoid conflicts with buttons.</p>
+<p><b>type</b> - numeric combination of menu item types. Normally it is omitted 
+  or 0.</p>
+<p><b>state</b> - numeric combination of menu item states. Useful states: 3 disabled, 8 checked.</p>
+<p><b>accelerator</b> - a hotkey in <a href="../Tables/IDP_KEYCODES.html">QM 
+  format</a> (same as with <span class="blue">key</span>). The hotkey string 
+  is appended to the menu item label automatically, unless label contains a tab character.</p>
+</div>
+<p>&nbsp;</p>
+<p><b>id</b>, <b>type</b> and <b>state</b> must be single numbers, without operators 
+  and named constants. More info about menu item types and states can be found 
+  in <a href="../Other/IDP_MSDN.html">MSDN Library</a> (search for MENUITEMINFO 
+  structure).</p>
+<p>&nbsp;</p>
+<h3>Other info</h3>
+<p>In <a href="../QM_Help/IDH_MAKEEXE.html">exe</a> also can be used menus from 
+  resources. The <b>menu</b> argument of <span class="UDF">ShowDialog</span> must 
+  be semicolon followed by resource id, e.g. &quot;:15&quot;. If the resource 
+  contains accelerator table with the same id, the table is used for accelerators, 
+  although accelerator text is not added (must be included in label text, after 
+  tab).</p>
+<p>&nbsp;</p>
+<p>To change or remove menu at run time, call <span class="UDF">DT_SetMenu</span> 
+  in dialog procedure. To create or load menu, use <span class="UDF">DT_CreateMenu</span>.</p>
+<p>&nbsp;</p>
+<p>Menu bars and accelerators can be used with modal and modeless dialogs, but not 
+  with child dialogs.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.2. Menu definitions also can be used to show popup menus. Use <span class="UDF">ShowMenu</span> or <span class="type">MenuPopup</span>.<span class="UDF">Create</span>.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.2. You can set menu icons with <span class="UDF">DT_SetMenuIcons</span>.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L14" name="a14">Common controls, other controls</a></h2>
+<p>The Dialog Editor and dialog functions support controls of the following classes: 
+  Button (push button, checkbox, group), Edit, RichEdit20A, RichEdit20W, Static (static text, 
+  bitmap, icon, line), ComboBox, LixtBox and <a href="IDP_QMGRID.html">QM_Grid</a>. Working with controls of these classes 
+  is easy. You can initialize them before you call <span class="UDF">ShowDialog</span>, 
+  and get data (text, checked, etc) from them when dialog is closed.</p>
+<p>&nbsp;</p>
+<p>Dialogs can contain controls of other classes too. For example, TreeView32, 
+  SysTabControl32. However, only programmers can use them. The dialog must be 
+  a &quot;smart&quot; dialog, otherwise the controls will be useless. To interact 
+  with these controls, are used various messages (with <span class="dll">SendMessage</span>). 
+  To notify the dialog about various events, these controls usually send WM_NOTIFY 
+  message, not WM_COMMAND. Messages, styles and other information can be 
+  found in <a href="../Other/IDP_MSDN.html">MSDN library</a>. If you don't know 
+  the value of a constant, click it, press <a href="../Other/IDP_F1.html">F1</a>, 
+  and search for definition on the Internet.</p>
+<p>&nbsp;</p>
+<p> Several samples can be found in the <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">forum</a>. 
+  Search for the class name.</p>
+<!--
+<p>&nbsp;</p>
+<p>QM 2.3.3. Added &quot;Info&quot; control. Class &quot;QM_DlgInfo&quot;. It is a QM-defined control. Not available in exe. Can be used to show various info in dialogs. It is a simple read-only text control with yellow background. Supports <a href="../Other/IDP_F1.html">tags</a> (links, formatting, code), if text begins with &quot;&lt;&gt;&quot;. You can set text in Dialog Editor, or use a dialog variable or str.setwintext. Cannot get text (can only with scintilla messages). Based on scintilla.</p>
+-->
+<h2><a href="IDH_DIALOG_EDITOR.html#L15" name="a15">ActiveX controls</a></h2>
+<p>Controls that you usually use in dialogs are Windows controls. Also you can 
+  use ActiveX controls. ActiveX controls are <a href="../_COM/IDH_COM.html">COM</a> 
+  objects that provide graphical user interface. They are used differently than 
+  Windows controls. To work with Windows controls, are used messages. To work 
+  with ActiveX controls, are used functions that they provide.</p>
+<p>&nbsp;</p>
+<p> To insert an ActiveX control, click &quot;ActiveX controls...&quot; in the 
+  Dialog Editor. It opens the <a href="../_COM/IDP_COM_USAGE.html">COM Libraries</a> 
+  dialog that displays available (registered) ActiveX controls. Select the control 
+  you need and click Add Control To Dialog.</p>
+<p>&nbsp;</p>
+<p> ActiveX controls are defined in <a href="../_COM/IDP_TYPELIB.html">type libraries</a>, 
+  as COM classes. To use an ActiveX control in a dialog, at first declare the 
+  type library where the control class is defined. To insert type library declarations, 
+  use the COM Libraries dialog. When adding a control to a dialog, QM prompts 
+  to insert type library declaration if it still does not exist in current macro. 
+  Several type libraries, including SHDocVw (web browser control) are already 
+  declared.</p>
+<p>&nbsp;</p>
+<p> You can read more about type libraries and ActiveX controls in the <a href="../_COM/IDP_COM_USAGE.html">Using 
+  COM Components</a> topic.</p>
+<p>&nbsp;</p>
+<p>When you have an ActiveX control created, you usually need some way to communicate 
+  with it. For this purpose, declare a variable of that class and call <a href="../_COM/IDP_COM_FUNC.html">_getcontrol</a>. 
+  Pass handle of ActiveX control's host window (which itself is a Windows control 
+  of &quot;ActiveX&quot; class). Then you can <a href="../_COM/IDP_COM_CALL.html">call 
+  functions</a> with the variable to manipulate the control. To receive events, 
+  use <a href="../_COM/IDP_COM_EVENTS.html">_setevents</a>. The variable must be local (not global or thread). Call <span class="blue">_getcontrol</span> every time before using it.</p>
+<p>&nbsp;</p>
+<p>Example:</p>
+<p>&nbsp;</p>
+<pre class=cod>...
+<span class=fq>sel</span> message
+<span class=i>&#9;</span><span class=fq>case</span> <span class=d>WM_INITDIALOG</span> <span class=c2>;;dialog created
+</span><span class=i>&#9;</span><span class=lib>SHDocVw.</span><span class=t>WebBrowser</span> b
+<span class=i>&#9;</span>b._getcontrol<span class=p>(</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>))</span>
+<span class=i>&#9;</span>b._setevents<span class=p>(</span><span class=s>&#34;sub.b&#34;</span><span class=p>)</span>
+<span class=i>&#9;</span>b.Navigate<span class=p>(</span><span class=s>&#34;http://www.google.com&#34;</span><span class=p>)</span>
+...
+<span class=i>&#9;</span><span class=fq>case</span> <span class=n>4</span> <span class=c2>;;Back button
+</span><span class=i>&#9;</span>b._getcontrol<span class=p>(</span><span class=fq>id</span><span class=p>(</span><span class=n>3</span> hDlg<span class=p>))</span>
+<span class=i>&#9;</span>b.GoBack
+...</pre>
+<p>&nbsp;</p>
+<p>There is a sample dialog with web browser control in the <a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+<p>You cannot use <a href="../str/IDP_S_WINDOW.html">str.setwintext</a> with ActiveX controls, except  web browser control. If the text 
+  is URL or path of a html, image or other file, web browser control opens that web page or file. 
+  Does not wait until finished loading. Sets silent mode to avoid script error 
+  messages. If the text is &quot;&quot;, loads 
+  &quot;about:blank&quot; or clears the control. To  load HTML, use function <span class="UDF">HtmlToWebBrowserControl</span>.</p>
+<p>&nbsp;</p>
+<p>ActiveX controls can be used in other windows (non-dialog) too. To create an 
+  ActiveX control, use <span class="UDF">CreateControl</span> or <span class="dll">CreateWindowEx</span>. 
+  Class name and text must be like in dialog definitions: class &quot;ActiveX&quot;, text  like &quot;Typelib.Class {GUID}&quot;.</p>
+<p>&nbsp;</p>
+<p>QM supports run-time licensing of ActiveX controls. It allows you 
+  to add purchased ActiveX controls to macros and exes and distribute these macros 
+  and exes. When you insert an ActiveX control in the Dialog Editor using the 
+  COM Libraries dialog, QM automatically attaches encrypted run-time license 
+  key, if the control can generate it. With attached run-time license key, the 
+  control can be used on any computer. If you distribute macro (not exe), you 
+  should encrypt the macro that contains the dialog definition to prevent others 
+  to reuse the run-time license key in their macros. See <a href="IDH_DIALOG_EDITOR.html#a11">Encrypted 
+  Macros</a>. Even if the macro is not encrypted, the key can only be used in 
+  Quick Macros, because only QM can decrypt the key. Also, others will not be 
+  able to create exes with the key. Note that some controls may use different 
+  ways to verify license. For example, you may have to call certain function and pass the license key.</p>
+<p>&nbsp;</p>
+<p> Some ActiveX controls don't work well in QM. This is because they are designed 
+  for full-featured containers, such as Visual Basic forms, or only for certain 
+  programs. At design time, you can only move and resize ActiveX controls (or 
+  control placeholders). Properties can be changed only at run time.</p>
+<p>&nbsp;</p>
+<p>Many other COM components are not controls, and must be created with <a href="../_COM/IDP_COM_FUNC.html">_create</a> 
+  or other functions instead. Such components usually are in dll files. Controls 
+  usually are in ocx or dll files.</p>
+<p>&nbsp;</p>
+<p>QM 2.3.4. It is possible to use some ActiveX controls even if the COM component is not registered on that computer. In dialog definition add full path of the COM component (dll or ocx) to the ActiveX text string, like <span class=cod><span class=c><tt>&quot;Typelib.Class {CLSID} ''dll:$qm$\file.ocx''&quot;</tt></span></span>.  If the file not found, tries to create as registered. In exe, if path begins with &quot;$qm$&quot;, searches for the dll in exe folder; if not found there, searches in QM folder if QM is installed on that computer. </p>
+<p>&nbsp;</p>
+<p>QM 2.3.5. To create COM components without registration, you can use manifest and <span class="type">__ComActivator</span> class.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../_COM/IDP_COM_USAGE.html">Using COM components</a>.</p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L11" name="a11">Encrypted macros</a></h2>
+<p> If you encrypt macro that contains dialog definition, the dialog will not 
+  work unless the dialog definition is in a variable. 
+  Examples:</p>
+<p>&nbsp;</p>
+<p>This macro will not work encrypted.</p>
+<pre class=cod><span class=c> BEGIN DIALOG</span>
+<span class=c> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=c> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=c> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=c> END DIALOG</span>
+<span class=c> DIALOG EDITOR: &quot;&quot; 0 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span><span class=s>&quot;This macro&quot;</span> <span class=n>0</span> <span class=n>0</span><span class=p>))</span> <span class=fq>ret</span>
+</pre>
+<p>&nbsp;</p>
+<p>This macro will work always.</p>
+<pre class=cod><span class=t>str</span> dd<span class=o>=</span>
+<span class=s> BEGIN DIALOG</span>
+<span class=s> 0 &quot;&quot; 0x90C80AC8 0x0 0 0 224 136 &quot;Dialog&quot;</span>
+<span class=s> 1 Button 0x54030001 0x4 116 116 48 14 &quot;OK&quot;</span>
+<span class=s> 2 Button 0x54030000 0x4 168 116 48 14 &quot;Cancel&quot;</span>
+<span class=s> END DIALOG</span>
+<span class=s> DIALOG EDITOR: &quot;&quot; 0 &quot;*&quot; &quot;&quot; &quot;&quot; &quot;&quot;</span>
+
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span><span class=fu>ShowDialog</span><span class=p>(</span>dd <span class=n>0</span> <span class=n>0</span><span class=p>))</span> <span class=fq>ret</span>
+</pre>
+<p>&nbsp;</p>
+<p>The same is with menu definitions. Use a variable if want to encrypt the dialog.</p>
+<h2><a href="IDH_DIALOG_EDITOR.html#L12" name="a12">Dialogs now and before QM 2.1.9</a></h2>
+<p>In QM versions &lt; 2.1.9, the dialog procedure must call <span class="UDF">DT_Init</span> 
+  on WM_INITDIALOG, <span class="UDF">DT_DeleteData</span> on WM_DESTROY, <span class="UDF">DT_Ok</span> 
+  on OK, and <span class="UDF">DT_Cancel</span> on Cancel. Starting from QM 2.1.9, 
+  these functions are not necessary. Now you have to use them only if the dialog 
+  will be used by someone that has an older QM version (this does not apply to 
+  <a href="../QM_Help/IDH_MAKEEXE.html">exe-macros</a>). Also, to avoid any problems, 
+  you should leave these functions in dialogs where they already exist.</p>
+<p>&nbsp;</p>
+<p>A note about IDOK and IDCANCEL. Before QM 2.1.9, <span class="UDF">DT_Ok</span> 
+  and <span class="UDF">DT_Cancel</span> functions were used to close the dialog. 
+  If they were not called, the dialog was not closed. Now dialogs are closed automatically. 
+  To prevent this, return 0 on IDOK or IDCANCEL. For backward compatibility, a 
+  dialog also is not closed automatically if it calls <span class="UDF">DT_Init</span> 
+  on WM_INITDIALOG (it is the way QM recognizes old dialogs).</p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L16" name="a16">Dialog examples and tutorials</a></h2>
+<p>Search for <i>ShowDialog</i> or <i>dialog</i> in the <A href="http://www.quickmacros.com/forum/index.php" target="_blank">forum</a>.</p>
+<p>&nbsp;</p>
+<p>Several topics to get started:</p>
+<p>&nbsp;</p>
+<p>Tips how to <a href="http://www.quickmacros.com/forum/viewtopic.php?t=977" target="_blank">copy/paste 
+  QM code in the forum</a>, and how to <a href="http://www.quickmacros.com/forum/viewtopic.php?t=2113" target="_blank">use 
+  dialog examples</a>.</p>
+<p>&nbsp;</p>
+<p>A tutorial for a <a href="http://www.quickmacros.com/forum/viewtopic.php?t=2401" target="_blank">simplest 
+  dialog with checkboxes</a>.</p>
+<p>&nbsp;</p>
+<p><a href="http://www.quickmacros.com/forum/viewtopic.php?t=2381" target="_blank">Running 
+  and ending macros from a dialog</a> (without closing the dialog).</p>
+<p>&nbsp;</p>
+<p><a href="http://www.quickmacros.com/forum/viewtopic.php?t=1936" target="_blank">Executing 
+  code from a dialog with a combo box</a> (without closing the dialog). An <a href="http://www.quickmacros.com/forum/viewtopic.php?t=1708" target="_blank">example 
+  with a list box</a>.</p>
+<p>&nbsp;</p>
+<p><a href="http://www.quickmacros.com/forum/viewtopic.php?f=2&t=3368" target="_blank">Collection 
+  of dialogs and other code</a></p>
+
+<h2><a href="IDH_DIALOG_EDITOR.html#L20" name="a20">Dialog programming info at MSDN</a></h2>
+<p><a href="http://www.google.com/search?q=site%3amicrosoft.com%20dialog%20boxes%20Windows%20about%20programming%20using%20reference" target="_blank">Dialog box programming info at MSDN</a></p>
+<p>&nbsp;</p>
+<p>Dialog programming in QM is similar to dialog programming in C++ using Windows API, as documented in MSDN. In QM it is simplified. When you know how dialogs work at Windows API level (dialog procedure, messages, notification messages, etc), you can also understand how it works in QM.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
