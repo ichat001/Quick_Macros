@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Triggers: event log</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Triggers: event log</h1>
+
+<p>Launches the macro when an event is added to the Windows Event Log. To assign 
+  this trigger, use the Properties dialog.</p>
+<p>&nbsp;</p>
+<p>Windows and applications record important events to the Windows Event Log. 
+  You can see these events in the Event Viewer. For example, Windows logs when 
+  an application is shut down due to an error, when an Internet connection is connected/disconnected, 
+  when services are started/stopped/paused, various other errors and information.</p>
+<p>&nbsp;</p>
+<p>There are several logs - System, Application, Security, and possibly more. 
+  Event source typically is the application or service that logs the event. Event 
+  id is an unique number (within that source) that identifies the event. Message 
+  is a text information. Message typically is composed of constant text that is 
+  associated with that event id, and inserted strings that are specific to a particular 
+  event. If &quot;Retrieve full message&quot; is unchecked, is retrieved only 
+  these inserted strings, separated by spaces. This is much faster, because to 
+  retrieve whole message QM have to load the dll that contains the text. Since 
+  you can specify event id, you don't have to retrieve whole message to identify 
+  the event. In the Message field can be used wildcard characters * and ?.</p>
+<p>&nbsp;</p>
+<p>The macro can receive trigger information through the <a href="../Language/IDP_FUNCTION.html" class="blue">function</a> 
+  statement that is inserted with your confirmation when you close the Properties 
+  dialog.</p>
+<p>&nbsp;</p>
+<p>Event log triggers don't work on user accounts with limited rights because 
+  access to event logs is denied.</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
