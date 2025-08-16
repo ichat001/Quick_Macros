@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>spe</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Set macro speed (autodelay)</h1>
+
+<h3>Syntax1 - set speed</h3>
+
+<pre class=syntax><b>spe</b> <i>[</i>timeMS<i>]</i></pre>
+
+<p>&nbsp;</p>
+<h3>Syntax2 - get speed</h3>
+<pre class=syntax><i>int </i><b>spe</b>(<i>[</i>context<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>timeMS</b> - autodelay time in milliseconds. Can be
+0 to 60000. 
+  Default: 0.</p>
+<ul>
+  <li> If -1, inherits from caller. If there is no <a href="../Other/IDP_FUNCTIONCALL.html">direct 
+    caller</a>, 
+    uses default autodelay for macros (read in remarks).</li>
+  <li> If -2, uses default autodelay for macros.</li>
+</ul>
+<p><b>context</b> - if omitted or 0, returns current macro/function speed. If 
+  -1 or -2, returns caller's or global speed (see above).</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<h4>Syntax1</h4>
+<p>Changes autodelay for subsequent commands.</p>
+<p>&nbsp;</p>
+<p>Autodelay is a small wait time automatically added after macro commands. It makes the macro more reliable, because then the target window has more time to process input. It makes the macro slower.</p>
+<p>&nbsp;</p>
+<p> Autodelay is applied to:</p>
+<p> <span class="blue">lef</span>, <span class="blue">rig</span>, 
+  <span class="blue">mid</span>, <span class="blue">dou</span>, <span class="blue">mou</span> (/4), <span class="blue">key</span>, <span class="blue">paste</span>/<span class="blue">outp</span>, <span class="type">str</span>.<span class="blue">setsel</span>, <span class="blue">run</span>, <span class="blue">act</span>, 
+  <span class="blue">clo</span>, <span class="blue">min</span>, <span class="blue">max</span>, 
+  <span class="blue">res</span>, <span class="blue">siz</span>, <span class="blue">mov</span>, <span class="blue">hid</span>, <span class="blue">men</span>, 
+  <span class="blue">but</span>, <span class="blue">web</span>, <span class="blue">wait</span> WT, <span class="UDF">MouseWheel</span><span class="UDF"></span>, 
+  <span class="UDF">MouseButtonX</span>, <span class="UDF">ArrangeWindows</span>, 
+  <span class="UDF">RestoreMultiWinPos</span>, <span class="UDF">CloseWindowsOf</span>, <span class="type">Acc</span>.<span class="UDF">Mouse</span>, <span class="type">Acc</span>.<span class="UDF">CbSelect</span>, <span class="type">Htm</span>.<span class="UDF">Mouse</span>, <span class="type">Htm</span>.<span class="UDF">ClickAsync</span>, <span class="type">WindowText</span>.<span class="UDF">Mouse</span>.</p>
+
+<p>&nbsp;</p>
+<p>In macros and menu/toolbar/autotext items, default (initial) autodelay is 100 ms, or as set with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>. 
+  In functions and member functions, initial autodelay is  0. </p>
+<p>&nbsp;</p>
+<p><span class="blue">spe</span> changes autodelay only for current 
+  function or macro,  not for functions that it calls. If a user defined function wants to use caller's speed, insert this at the beginning of the function: <span class=cod><span class=fq>spe</span> <span class=o>-</span><span class=n>1</span></span> .</p>
+<p>&nbsp;</p>
+<p><i>Tips: </i>To add autodelay feature for a user-defined function, add <span class=cod><span class=fq>wait</span> <span class=o>-</span><span class=n>2</span></span> at the end.</p>
+<p>&nbsp; </p>
+<p><i>Syntax2:</i> Returns current autodelay (does not change). Alternatively, use <a href="../Functions/IDP_GETOPT.html" class="blue">getopt</a> function.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <A href="IDP_OPT.html" class="blue">opt</a>, <A href="../Functions/IDP_GETOPT.html" class="blue">getopt</a>, <a href="../Other/IDP_WINDOWEXPRESSION.html">window</a>.</p>
+
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=c> Set macro speed (wait 50 ms after macro commands):
+</span><span class=fq>spe</span> <span class=n>50</span>
+<span class=c> Set maximal speed:
+</span><span class=fq>spe</span></pre>
+
+</body>
+
+</html>
