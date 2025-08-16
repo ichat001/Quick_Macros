@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>#opt</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Compiler directives: 
+<span class="dir">#opt</span></h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><span class="dir">#opt</span> option value</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>option</b> - one of words in the table below.</p>
+
+<p> <b>value</b> - one of values (0 or 1) in the table:</p>
+
+<table class="tflags">
+<tr> 
+  <th>option</th>
+  <th> 1 or other nonzero</th>
+  <th> 0</th>
+</tr>
+<tr> 
+  <td> err</td>
+  <td> On compile-time error continue. Skip statement with error. This option works not with all statements. Use it only where it has sense, like in the example below.</td>
+  <td> On compile-time error stop.</td>
+</tr>
+<tr> 
+  <td>nowarnings</td>
+  <td>Don't display warnings.</td>
+  <td>Display warnings.</td>
+</tr>
+<tr> 
+  <td> dispatch</td>
+  <td> Call COM functions through IDispatch.Invoke.</td>
+  <td> Call COM functions through VTBL (if available).</td>
+</tr>
+<tr>
+  <td>hidedecl (QM 2.3.2)</td>
+  <td>Hide declarations in <a href="../QM_Help/IDH_TYPEINFO.html">popup lists</a>.</td>
+  <td>Don't hide declarations.</td>
+</tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> Sets an option that is used when compiling current macro/function.</p>
+<p>&nbsp;</p>
+<p>Initially all options are 0.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i> Other ways to hide something: 1. If name begins with &quot;__&quot;. 2. If the user-defined function is in a <a href="../QM_Help/IDH_FOLDERPROP.html">private folder</a>. 3. If the class member function is private or protected.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=dir>#opt</span> <span class=fq>err</span> <span class=n>1</span>
+<span class=fu>FunctionThatMayBeMissing</span><span class=p>(</span>a b c<span class=p>)</span>
+<span class=dir>#opt</span> <span class=fq>err</span> <span class=n>0</span>
+
+<span class=dir>#opt</span> nowarnings <span class=n>1</span>
+<span class=fq>mac</span> <span class=fu>FunctionThatReturnsIdOfFunctionToRun</span>
+<span class=dir>#opt</span> nowarnings <span class=n>0</span>
+
+<span class=fq>typelib</span> <span class=lib>Excel</span> <span class=s>{00020813-0000-0000-C000-000000000046}</span>
+<span class=dir>#opt</span> dispatch <span class=n>1</span>
+<span class=lib>Excel.</span><span class=t>Application</span> xlApp._create
+xlApp.Visible <span class=o>=</span> <span class=o>-</span><span class=n>1</span>
+
+<span class=dir>#opt</span> hidedecl <span class=n>1</span>
+<span class=fq>class</span> <span class=t>HiddenClass</span> <span class=o>-</span>m_x <span class=o>-</span>m_y
+<span class=t>int</span><span class=o>+</span> g_hiddenVariable
+<span class=dir>#opt</span> hidedecl <span class=n>0</span></pre>
+
+</body>
+
+</html>
