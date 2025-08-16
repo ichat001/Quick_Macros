@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>QM file management functions, macro settings and resources</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+</head>
+
+<body>
+<h1>QM file management functions, macro settings and resources</h1>
+<p>In macros you can call functions of special variable _qmfile to manage <a href="../Other/IDP_RESOURCES.html">macro resources</a> and other data in current <a href="../QM_Help/IDH_QML.html">QM file(s)</a>. Unavailable in exe.</p>
+<p>&nbsp;</p>
+<p>Most functions added in QM 2.4.0, some in QM 2.4.1.</p>
+<p>&nbsp;</p>
+<p>All functions throw error if failed, for example if macro or resource not found. With 'Get' functions, error if the resource or setting does not exist; you can use <a href="../Flow/IDP_ERR.html" class="blue">err</a>. With 'Delete' and 'Enum' functions, not error when there are no matching resources or settings. The 'Add' functions add or replace.</p>
+<p>&nbsp;</p>
+<p><a href="../Language/IDP_DIR_SUB.html">Sub-functions</a> cannot have resources and settings, but can use resources and settings of parent QM item.</p>
+<p>&nbsp;</p>
+<p>Functions, parameters, examples:</p>
+<p>&nbsp;</p>
+<h2>Functions to manage macro resources</h2>
+<pre class=cod><span class=fd>ResourceAdd</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>resName <span class=o>!*</span>data nBytes<span class=p>)</span>
+<span class="fd">ResourceGet</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>resName <span class=t>str</span><span class=o>&amp;</span>data [flags]<span class=p>)</span>
+<span class="fd">ResourceDelete</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>resNameWildcard<span class=p>)</span>
+<span class="fd">ResourceRename</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>oldName <span class=o>$</span>newName<span class=p>)</span>
+<span class="fd">ResourceEnum</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>resNameWildcard <span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>aName [<span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>aData]<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>macro</b> - QM item whose <a href="../Other/IDP_RESOURCES.html">resources</a> are managed. Can be:</p>
+  <ul>
+    <li><a href="../QM_Help/IDH_ITEMS.html">QM item</a> name (full, case insensitive) or +<a href="../Functions/IDP_QMITEM.html">id</a> (integer). Also can be QM item path or <a href="../Other/IDP_GUID.html">GUID</a> string.</li>
+    <li>0 - file resources (not attached to a macro).</li>
+    <li>+-1 - QM item that calls the file management function.</li>
+    <li>+-2 - caller of the QM item (function) that calls the file management function.</li>
+    <li>+-3 or &quot;&quot; - QM item currently open in the code editor.</li>
+  </ul>
+  <p><b>resName</b> - resource name, eg &quot;image:bird&quot; or &quot;cut.ico&quot;.</p>
+  <ul>
+    <li>With <span class="dll">ResourceGet</span> also can be like &quot;resource:&lt;macro&gt;name&quot; (then <b>macro</b> not used) or &quot;resource:name&quot;.</li>
+    <li>Cannot be empty or contain characters &quot; ' &lt; &gt; and newline. Must match case.</li>
+  </ul>
+  <p><b>data</b>, <b>nBytes</b> (<span class="dll">ResourceAdd</span>) - pointer to resource data, and resource size. See example.</p>
+  <p><b>data</b> (<span class="dll">ResourceGet</span>) - str variable that receives resource data.</p>
+  <p><b>flags</b> (<span class="dll">ResourceGet</span>): 1 - if <b>macro</b> does not have the resource, try to get it from a caller in the function call stack. 2 - if <b>macro</b> does not have the resource, but another QM item in the same QM file has a resource with this name, show a note in QM output.</p>
+  <p><b>resNameWildcard</b> (<span class="dll">ResourceDelete</span>, <span class="dll">ResourceEnum</span>) - resource name. To match multiple resources, use wildcard characters as with <a href="../Other/IDP_WILDCARD.html">SQLite GLOB</a>. If &quot;&quot; or &quot;*&quot;, <span class="dll">ResourceEnum</span> gets all.</p>
+  <p><b>oldName</b>, <b>newName</b> (<span class="dll">ResourceRename</span>) - current and new resource name.</p>
+  <p><b>aName</b> (<span class="dll">ResourceEnum</span>) - array variable that receives names of all matching resources.</p>
+  <p><b>aData</b> (<span class="dll">ResourceEnum</span>) - optional array variable that receives data of all matching resources.</p>
+</div>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<pre class=cod><span class=t>str</span> s1 s2
+<span class=c> import image resource from file</span>
+s1.<span class=fq>getfile</span><span class=p>(</span><span class=s>&quot;$my qm$\test.bmp&quot;</span><span class=p>)</span>
+s1.<span class=fq>encrypt</span><span class=p>(</span><span class=n>32</span><span class=p>)</span> <span class=c2>;;LZO-compress</span>
+_qmfile.<span class=fd>ResourceAdd</span><span class=p>(</span><span class=s>&quot;Macro2193&quot;</span> <span class=s>&quot;image:test&quot;</span> s1 s1.len<span class=p>)</span>
+
+<span class=c> export image resource to file</span>
+_qmfile.<span class=fd>ResourceGet</span><span class=p>(</span><span class=s>&quot;Macro2193&quot;</span> <span class=s>&quot;image:test&quot;</span> s2<span class=p>)</span>
+<span class=fq>err</span> <span class=fq>out</span> <span class=s>&quot;resource not found&quot;</span><span class=p>;</span> <span class=fq>ret</span>
+s2.<span class=fq>decrypt</span><span class=p>(</span><span class=n>32</span><span class=p>)</span> <span class=c2>;;LZO-decompress</span>
+s2.<span class=fq>setfile</span><span class=p>(</span><span class=s>&quot;$my qm$\test2.bmp&quot;</span><span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<h2>Functions to manage macro settings</h2>
+<p>In macros you sometimes use various settings that must be saved somewhere. Usually programs and macros use registry (<a href="../Functions/IDP_RGET.html">rset, rget</a>) or files for it. Alternatively you can store macro settings in current QM file. Registry settings are specific to the computer/user. Settings stored in QM file are specific to that QM file. QM also stores some of its settings in QM file, for example toolbar positions. Note that this feature is unavailable in exe.</p>
+<p>&nbsp;</p>
+<p>Macro settings are similar to macro resources. You can use it to store any settings and other data used in your macros. Unlike resources, settings of macros of all currently loaded QM files (main and shared) are stored in the main file. Macro settings are not used with temporary QM items (items in the Temp folder).</p>
+<p>&nbsp;</p>
+<p>You can manage macro settings with these functions. There are no dialogs for this.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class="fd">SettingAddB</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName <span class=o>!*</span>data nBytes<span class=p>)</span>
+<span class="fd">SettingAddS</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName <span class=o>$</span>data<span class=p>)</span>
+<span class="fd">SettingAddI</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName data<span class=p>)</span>
+<span class="fd">SettingGetB</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName <span class=o>!*</span>data nBytes<span class=p>)</span>
+<span class=o>$</span><span class="fd">SettingGetS</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName [<span class=t>str</span><span class=o>&amp;</span>data]<span class=p>)</span>
+<span class=o>#</span><span class="fd">SettingGetI</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName<span class=p>)</span>
+<span class="fd">SettingDelete</span><span class=p>(</span><span class=o>$</span>macro <span class=o>$</span>settName<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>macro</b> - QM item whose settings are managed. Same as with the 'Resource' functions, see above.</p>
+  <p><b>settName</b> - setting name. Must match case. With <span class="dll">SettingDelete</span> can contain wildcard characters to delete multiple.</p>
+</div>
+<p>&nbsp;</p>
+<p>The 'SettingAdd' functions add or replace setting <b>settName</b> of QM item <b>macro</b>. With <span class="dll">SettingAddB</span>, <b>data</b> is pointer to data, and <b>nBytes</b> is data size. With <span class="dll">SettingAddS</span>, <b>data</b> is a string value. With <span class="dll">SettingAddI</span> - an integer value.</p>
+<p>&nbsp;</p>
+<p>The 'SettingGet' functions get data of setting <b>settName</b> of QM item <b>macro</b>. Function <span class="dll">SettingGetB</span> copies max <b>nBytes</b> of data to memory buffer <b>data</b>; error if data size is &lt; <b>nBytes</b>. Function <span class="dll">SettingGetS</span> stores data in a str variable <b>data</b> and returns <b>data</b> as string. Function <span class="dll">SettingGetI</span> returns data as integer value.</p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<pre class=cod><span class=t>str</span> s1 s2<span class=p>;</span> <span class=t>int</span> i1 i2<span class=p>;</span> <span class=t>POINT</span> p1 p2
+<span class=c> add or update settings</span>
+s1<span class=o>=</span><span class=s>&quot;string value1&quot;</span>
+_qmfile.<span class=fd>SettingAddS</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name1&quot;</span> s1<span class=p>)</span>
+
+i1<span class=o>=</span><span class=n>100</span>
+_qmfile.<span class=fd>SettingAddI</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name2&quot;</span> i1<span class=p>)</span>
+
+p1.x<span class=o>=</span><span class=n>10</span><span class=p>;</span> p1.y<span class=o>=</span><span class=n>20</span>
+_qmfile.<span class=fd>SettingAddB</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name3&quot;</span> <span class=o>&amp;</span>p1 <span class=fq>sizeof</span><span class=p>(</span>p1<span class=p>))</span>
+
+<span class=c> get settings</span>
+_qmfile.<span class=fd>SettingGetS</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name1&quot;</span> s2<span class=p>)</span>
+<span class=fq>err</span> <span class=fq>out</span> <span class=s>&quot;setting not found&quot;</span><span class=p>;</span> <span class=fq>ret</span>
+<span class=fq>out</span> s2
+<span class=c> or</span>
+<span class=fq>out</span> _qmfile.<span class=fd>SettingGetS</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name1&quot;</span> _s<span class=p>)</span>
+
+i2<span class=o>=</span>_qmfile.<span class=fd>SettingGetI</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name2&quot;</span><span class=p>)</span>
+<span class=fq>out</span> i2
+
+_qmfile.<span class=fd>SettingGetB</span><span class=p>(</span><span class=s>&quot;Macro2201&quot;</span> <span class=s>&quot;name3&quot;</span> <span class=o>&amp;</span>p2 <span class=fq>sizeof</span><span class=p>(</span>p2<span class=p>))</span>
+<span class=fq>out</span> <span class=o>F</span><span class=s>&quot;{</span>p2.x<span class=s>} {</span>p2.y<span class=s>}&quot;</span>
+</pre>
+<p>&nbsp;</p>
+<h2>Functions to manage QM file directly with Sqlite class</h2>
+<p>QM files are SQLite databases and can be managed with <span class="type">Sqlite</span> class. For example, you can create and use your own tables. You also can get data from QM tables, but should not modify them, especially items and texts. QM currently uses these tables: items, texts, resources, xFind, xSett, xTags. Use these functions to access currently loaded QM files (main or shared). For other files instead use <span class="type">Sqlite</span>.<span class="UDF">Open</span>.</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=o>!*</span><span class="fd">SqliteBegin</span><span class=p>(</span>[iid]<span class=p>)</span>
+<span class="fd">SqliteEnd</span><span class=p>()</span>
+<span class=o>#</span><span class="fd">SqliteItemProp</span><span class=p>(</span><span class=o>$</span>macro [<span class=t>int</span><span class=o>&amp;</span>rowid] [<span class=t>GUID</span><span class=o>&amp;</span>guid]<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+<p><span class="dll">SqliteBegin</span> gives you access to the SQLite database  of the currently loaded main QM file. Note that there are separate databases for each currently loaded file (the main file and shared files). You can use <b>iid</b> (QM item id) to access the file in which is the QM item.</p>
+<p>&nbsp;</p>
+<p><span class="dll">SqliteEnd</span> must be called when the macro finishes working with the database. Between calls to <span class="dll">SqliteBegin</span> and <span class="dll">SqliteEnd</span> the database is locked, and QM (or another macro) waits when it wants to access the database (read or write). If <span class="dll">SqliteEnd</span> not called, the file is locked until the thread ends.</p>
+<p>&nbsp;</p>
+<p><span class="dll">SqliteItemProp</span> gets database-specific QM item properties that you cannot get with <a href="../Functions/IDP_QMITEM.html" class="blue">qmitem</a> and <a href="../str/IDP_S_MACRO.html">str.getmacro</a>. In databases, QM items can be identified by row id or by <a href="../Other/IDP_GUID.html">GUID</a>. Row id is unique in that file; it's the id column used in some tables; it's not the same as QM item id. GUID is globally unique; it's the guid column used in some tables. The <b>macro</b> parameter can be QM item name, id, etc, like with other functions. The function returns QM item id.</p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<pre class=cod><span class=c> get reference to database in which is macro Macro2202</span>
+<span class=t>Sqlite</span><span class=o>&amp;</span> x<span class=o>=</span>_qmfile.<span class=fd>SqliteBegin</span><span class=p>(</span><span class=fq>qmitem</span><span class=p>(</span><span class=s>&quot;Macro2202&quot;</span><span class=p>))</span> <span class=c2>;;note: Sqlite&amp; x, not Sqlite x</span>
+
+<span class=c> now can use Sqlite functions, for example:</span>
+<span class=t>str</span> sql<span class=o>=</span>
+<span class=s> CREATE TABLE IF NOT EXISTS myTable(a INT, b TEXT);</span>
+<span class=s> INSERT INTO myTable VALUES(1, 'one'),(2, 'two');</span>
+x.<span class=fu>Exec</span><span class=p>(</span>sql<span class=p>)</span>
+<span class=t>SqliteStatement</span> p.<span class=fu>Prepare</span><span class=p>(</span>x <span class=s>&quot;SELECT b FROM myTable&quot;</span><span class=p>)</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=o>!</span>p.<span class=fu>FetchRow</span><span class=p>)</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>out</span> p.<span class=fu>GetText</span><span class=p>(</span><span class=n>0</span><span class=p>)</span>
+
+<span class=c> SqliteItemProp example</span>
+<span class=t>int</span> iid rowid<span class=p>;</span> <span class=t>GUID</span> guid
+iid<span class=o>=</span>_qmfile.<span class=fd>SqliteItemProp</span><span class=p>(</span><span class=s>&quot;Macro2202&quot;</span> rowid guid<span class=p>)</span>
+<span class=fq>out</span> <span class=s>&quot;%i %i %s&quot;</span> iid rowid _s.<span class=fu>FromGUID</span><span class=p>(</span>guid<span class=p>)</span>
+
+<span class=c> unlock database</span>
+_qmfile.<span class=fd>SqliteEnd</span>
+</pre>
+<p>&nbsp;</p>
+<h2>Other functions</h2>
+<pre class=cod><span class="fd">FullSave</span><span class=p>()</span>
+</pre>
+<p>&nbsp;</p>
+<p>This function does the same as the Save button in QM window - applies and saves all changes. Also saves other QM settings - registry settings, toolbar positions etc. Also checkpoints currently loaded <a href="../QM_Help/IDH_QML.html">QM files</a>, ie transfers changes collected in temporary .qml-wal files to .qml files. You can call this function for example before a custom backup. QM internally does the same when closing files, hiding QM window and in some other cases.</p>
+<p>&nbsp;</p>
+<hr>
+<pre class=cod><span class="fd">GetLoadedFiles</span><span class=p>(</span><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span><span class=o>&amp;</span>aFiles<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>Gets paths of currently loaded <a href="../QM_Help/IDH_QML.html">QM files</a>.</p>
+<p>&nbsp;</p>
+<p><b>aFiles</b> - variable that receives path strings. The first element is the main file. Other elements - shared files. Memory databases (Temp, Deleted) are not included.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <span class="dll">FullSave</span> (above).</p>
+<p>&nbsp;</p>
+<h4>Example</h4>
+<pre class=cod><span class=t>ARRAY</span><span class=p>(</span><span class=t>str</span><span class=p>)</span> a
+_qmfile.<span class=fd>GetLoadedFiles</span><span class=p>(</span>a<span class=p>)</span>
+<span class=fq>out</span> a[<span class=n>0</span>] <span class=c2>;;main file path</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
