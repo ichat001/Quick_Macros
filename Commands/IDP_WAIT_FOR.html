@@ -1,0 +1,627 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>wait for</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Wait for</h1>
+
+<p><i>See also:</i> <a href="IDP_WAIT.html">wait</a></p>
+<p>&nbsp;</p>
+<h3>Events</h3>
+<p><a href="IDP_WAIT_FOR.html#aw" name="Lw">Wait for window</a></p>
+<p><a href="IDP_WAIT_FOR.html#aw_wt" name="Lw_wt">Wait for window name</a></p>
+<p><a href="IDP_WAIT_FOR.html#ak" name="Lk">Wait for key</a></p>
+<p><a href="IDP_WAIT_FOR.html#am" name="Lm">Wait for mouse</a></p>
+<p><a href="IDP_WAIT_FOR.html#ap" name="Lp">Wait for CPU</a></p>
+<p><a href="IDP_WAIT_FOR.html#ah" name="Lh">Wait for handle</a></p>
+<p><a href="IDP_WAIT_FOR.html#ahm" name="Lhm">Wait for multiple handles</a></p>
+<p><a href="IDP_WAIT_FOR.html#av" name="Lv">Wait for variable</a></p>
+<p><a href="IDP_WAIT_FOR.html#ai" name="Li">Wait for web page</a></p>
+<p><a href="IDP_WAIT_FOR.html#acu" name="Lcu">Wait for cursor (mouse pointer)</a></p>
+<p><a href="IDP_WAIT_FOR.html#ac" name="Lc">Wait for color</a></p>
+<p><a href="IDP_WAIT_FOR.html#as" name="Ls">Wait for image on screen</a></p>
+<p><a href="IDP_WAIT_FOR.html#aother" name="Lother">Wait for other events</a></p>
+<p>&nbsp;</p>
+<h3>Syntax (common to all events)</h3>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event<i> [</i>...<i>]</i></pre>
+<p>&nbsp;</p>
+<p>Can be used as function:</p>
+<pre class=syntax><i>int </i><b>wait</b>(<i></i>timeS event<i> [</i>...<i>]</i>)</pre>
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>timeS</b> - max time (seconds) to wait. Integer (e.g. 5) or double (e.g. 
+0.5).</p>
+
+<p> <b>event</b> - one of literals described below (WA, etc).</p>
+<p> <b>...</b> - more parameters. Depends on <b>event</b>.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Remarks</h3>
+<p>If <b>timeS</b>&lt;=0, waits infinitely.</p>
+<p>If <b>timeS</b>&gt;0,  waits maximum <b>timeS</b> seconds. Error if the event does not occur within <b>timeS</b>. To continue macro, use <A href="../Flow/IDP_ERR.html" class="blue">err</a>.</p>
+<p>&nbsp;</p>
+<p>The wait time precision depends on event. For key, mouse and H/HM events, it 
+  is 0 - 10 ms. For others - from 20 to 300 ms.</p>
+<p>&nbsp;</p>
+<p>Can be used as function, e.g. <span class=cod>variable<span class=o>=</span><span class=fq>wait</span><span class=p>(</span>...<span class=p>)</span></span>. 
+  The return value depends on event. If not specified, returns 1. 
+  If <a href="IDP_OPT.html">opt waitmsg</a> is set, returns 0 if the thread receives <span class="def">WM_QUIT</span> message.</p>
+<p>&nbsp;</p>
+<p>Note: If the thread has windows/dialogs or uses COM events or some Windows 
+  API functions that use Windows messages, you should avoid wait commands in it. 
+  Or use small time (&lt;0.1). By default, messages are not processed while waiting, 
+  and your thread may hang. To process messages while waiting, use <a href="IDP_OPT.html">opt waitmsg</a>.</p>
+<p>&nbsp;</p>
+<p>Note: Don't use Windows API wait functions, because then QM cannot properly 
+  end the thread on user request. QM then terminates thread, which causes a big 
+  memory leak and possibly more bad things. Also, opt waitmsg is not  applied.</p>
+<p>&nbsp;</p>
+<p>QM 2.4.0. <span class="blue">wait</span> uses alertable waiting. For example, <span class="dll">QueueUserAPC</span> can be used to run a function in the waiting thread.</p>
+<p>&nbsp;</p>
+<h2><a href="IDP_WAIT_FOR.html#Lw" name="aw">Wait for window</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event window</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>event</b>:</p>
+<table class="tflags">
+<tr>
+  <td>WA</td>
+  <td><p>Wait until window is active, visible and not minimized.</p>
+    <ul>
+      <li>If window does 
+    not exist, at first waits until it is created.</li>
+      <li> Returns window handle.</li>
+      <li>WA is optional.</li>
+      <li> See also: <a href="IDP_RUN.html" class="blue">run</a>.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>-WA or WN</td>
+  <td><p>Wait until window is deactivated or destroyed.</p>
+    <ul>
+      <li> Does not wait if window is 
+    already inactive or does not exist.</li>
+      <li> Returns handle of the active window.</li>
+    </ul></td>
+</tr>
+<tr>
+  <td>WC</td>
+  <td><p>Wait until window is created.</p>
+    <ul>
+      <li>Does not wait if window already exists.</li>
+      <li> Returns 
+        window handle.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>-WC or WD</td>
+  <td><p>Wait until window is destroyed.</p>
+    <ul>
+      <li>Does not wait if window does not exist.</li>
+      <li> Returns 
+        handle of the active window.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>WP</td>
+  <td><p>Wait until window's program exits.</p>
+    <ul>
+      <li>Does not wait if window does not exist.</li>
+      <li> Returns handle of the active window.</li>
+      <li> See also: <a href="IDP_RUN.html" class="blue">run</a>.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>WV</td>
+  <td><p>Wait until window is visible.</p>
+    <ul>
+      <li> If window does not exists, at first waits 
+        until it is created.</li>
+      <li> Returns window handle.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>-WV</td>
+  <td><p>Wait until window is hidden or destroyed.</p>
+    <ul>
+      <li> Does not wait if window 
+        does not exist.</li>
+      <li>Returns window handle. If window 
+        does not exist,  returns 1.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>WE</td>
+  <td><p>Wait until window is enabled.</p>
+    <ul>
+      <li> If window does not exists, at first waits 
+        until it is created.</li>
+      <li> Returns window handle.</li>
+    </ul>    </td>
+</tr>
+<tr>
+  <td>-WE</td>
+  <td><p>Wait until window is disabled or destroyed.</p>
+    <ul>
+      <li> Does not wait if window 
+        does not exist.</li>
+      <li>Returns window handle. If window 
+        does not exist,  returns 1.</li></ul></td>
+</tr>
+<tr>
+  <td>WAI</td>
+  <td><p>Wait until one of windows  is active, visible and not minimized.</p>
+    <ul>
+      <li><b>window</b> is list of windows, like <span class=cod><span class=s>&#34;Notepad[]WordPad&#34;</span></span>.</li>
+      <li> Returns 1-based window index in the list.</li>
+    </ul>      </td>
+</tr>
+</table>
+<p><a href="../Other/IDP_WINDOWEXPRESSION.html"><b>window</b></a> - window. Can be child window.</p>
+</div>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Wait for window &#34;Notepad&#34; max. 5 seconds; on timeout error:
+</span><span class=fq>wait</span> <span class=n>5</span> WA <span class=s>&#34;Notepad&#34;</span>
+<span class=c> or (WA can be omitted):
+</span><span class=fq>wait</span> <span class=n>5</span> <span class=s>&#34;Notepad&#34;</span>
+<span class=c> or (wait can be omitted):
+</span><span class=n>5</span> WA <span class=s>&#34;Notepad&#34;</span>
+<span class=c> or (WA and wait can be omitted):
+</span><span class=n>5</span> <span class=s>&#34;Notepad&#34;</span>
+
+<span class=c> Wait for window &#34;Notepad&#34; max. 5 seconds; on timeout continue:
+</span><span class=fq>wait</span> WA <span class=n>5</span> <span class=s>&#34;Notepad&#34;</span><span class=p>;</span> <span class=fq>err</span>
+
+<span class=c> Wait max 5 s for window &#34;Notepad&#34;; on timeout run macro &#34;Open&#34;:
+</span><span class=fq>wait</span> <span class=n>5</span> WA <span class=s>&#34;Notepad&#34;</span>
+<span class=fq>err</span>
+<span class=i>&#9;</span><span class=fq>mac</span><span class=o>-</span> <span class=s>&#34;Open&#34;</span>
+<span class=c>
+ Wait until window &#34;Notepad&#34; is closed:
+</span><span class=fq>wait</span> <span class=n>0</span> <span class=o>-</span>WC <span class=s>&#34;Notepad&#34;</span>
+<span class=c>
+ Wait until window with name &#34;Calc&#34; and class &#34;SciCalc&#34; is created:
+</span><span class=fq>wait</span> <span class=n>0</span> WC <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Calc&#34;</span> <span class=s>&#34;SciCalc&#34;</span><span class=p>)</span>
+<span class=c>
+ Wait until control with id 1500 in window &#34;Window&#34; becomes enabled:
+</span><span class=fq>wait</span> <span class=n>0</span> WE <span class=fq>id</span><span class=p>(</span><span class=n>1500</span> <span class=s>&#34;Window&#34;</span><span class=p>)</span>
+<span class=c>
+ Wait for window &#34;Notepad&#34; max. 5 seconds; store window handle into variable:
+</span><span class=t>int</span> hwnd <span class=o>=</span> <span class=fq>wait</span><span class=p>(</span><span class=n>5</span> WA <span class=s>&#34;Notepad&#34;</span><span class=p>);</span> <span class=fq>err</span>
+<span class=c>
+ Wait until currently active window is deactivated (another window  becomes active); return handle of another window:
+</span><span class=t>int</span> hwnd <span class=o>=</span> <span class=fq>wait</span><span class=p>(</span><span class=n>5</span> <span class=o>-</span>WA <span class=s>&#34;&#34;</span><span class=p>)</span>
+<span class=c></span><span class=c>
+ Wait for message &#34;Error&#34; or &#34;Warning&#34; that belongs to &#34;APP&#34; program:
+</span><span class=t>int</span> hwnd <span class=o>=</span> <span class=fq>wait</span><span class=p>(</span><span class=n>5</span> <span class=fq>win</span><span class=p>(</span><span class=s>&#34;Error[]Warning&#34;</span> <span class=s>&#34;#32770&#34;</span> <span class=s>&#34;APP&#34;</span> <span class=n>16</span><span class=p>))</span>
+</pre>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lw_wt" name="aw_wt">Wait for window name</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event handle name <i>[</i>flags<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>WT</td>
+      <td><p>Wait until window name is <b>name</b>.</p></td>
+    </tr>
+    <tr>
+      <td>-WT</td>
+      <td><p>Wait until window name is other than <b>name</b>.</p></td>
+    </tr>
+  </table>
+  <p><b>handle</b> - window handle<a href="../User/IDP_QMDLL.html#RtOptions" class="dll"></a>.</p>
+  <p><b>name</b> - name to wait for<a href="../User/IDP_QMDLL.html#RtOptions" class="dll"></a>. Can be partial.</p>
+  <p><b><a href="../Other/IDP_FLAGS.html">flags</a></b><a href="../User/IDP_QMDLL.html#RtOptions" class="dll"></a>:</p>
+  <table class="tflags">
+    <tr>
+      <td>1</td>
+      <td><p><b>name</b> is full or with <a href="../Functions/IDP_MATCHW.html">wildcard 
+      characters</a> (*?). </p></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><p><b>name</b> is <A href="../RegExp/IDP_PCRE.html">regular 
+      expression</a>.</p></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><b>name</b> case insensitive.</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Added in QM 2.3.4.</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lk" name="ak">Wait for key</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event <i>[</i>keycode<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>event</b>:</p>
+<table class="tflags">
+<tr>
+  <td>K</td>
+  <td><p>Wait for key up event.</p></td>
+</tr>
+<tr>
+  <td>KF</td>
+  <td><p>Wait for key down event.</p>
+    <ul>
+      <li>Unlike K, it &quot;eats&quot; the keyboard event. The active window will not receive it.</li>
+      <li>Not available in <a href="../QM_Help/IDH_MAKEEXE.html">exe</a>.</li>
+    </ul>    </td>
+</tr>
+</table>
+<p><a href="../Tables/IDP_KEYCODES.html"><b>keycode</b></a> - single QM key code. Optional.</p>
+<ul>
+  <li> If <b>keycode</b> is omitted, waits for any key.</li>
+  <li> <b>keycode</b> also can be string variable in parentheses (QM key code), 
+    or numeric value in parentheses (<a href="../Tables/IDP_VIRTUALKEYS.html">virtual-key 
+      code</a>).</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+<p>Returns virtual-key code.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_VISTA.html">UAC</a>: does not work if QM runs as standard user and the active window has higher integrity level.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c></span><span class=c> Wait for key F12:
+</span><span class=fq>wait</span> <span class=n>0</span> K F12
+<span class=c>
+ Wait for any key, eat the key, and display virtual-key code:
+</span><span class=t>int</span> vk <span class=o>=</span> <span class=fq>wait</span><span class=p>(</span><span class=n>0</span> KF<span class=p>)</span>
+<span class=fq>out</span> vk
+</pre>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lm" name="am">Wait for mouse</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event</pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>ML</td>
+      <td><p>Wait for left mouse button up event.</p>
+        <ul>
+          <li> Returns 1.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>MR</td>
+      <td><p>Wait for right mouse button up event.</p>
+        <ul>
+          <li> Returns 2.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>MM</td>
+      <td><p>Wait for middle mouse button up event.</p>
+        <ul>
+          <li> Returns 4.</li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>M</td>
+      <td><p>Wait for any mouse button up event.</p>
+        <ul>
+          <li> Returns mouse button code: 1 left, 
+            2 right, 4 middle, 5 X1, 6 X2.</li>
+        </ul></td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Does not &quot;eat&quot; the mouse event. The active window will receive it.</p>
+<p>&nbsp;</p>
+<p><a href="../Other/IDP_VISTA.html">UAC</a>: does 
+  not work if QM runs as standard user and the active window has higher integrity 
+level.</p>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lp" name="ap">Wait for CPU</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event <i>[</i>threshold<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>P</td>
+      <td><p>Wait until CPU usage is less than <b>threshold</b>.</p>
+        <ul>
+          <li><b>threshold</b> must be 1 to 100.        </li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>-P</td>
+      <td><p>Wait until CPU usage is more than <b>threshold</b>.</p>
+        <ul>
+          <li><b>threshold</b> must be  0 to 99.</li>
+      </ul></td>
+    </tr>
+  </table>
+  <p><b>threshold</b> - % CPU usage. Default: 20 % or as set with <a href="../User/IDP_QMDLL.html#RtOptions" class="dll">RtOptions</a>.</p>
+</div>
+<p>&nbsp;</p>
+<p>Use carefully. Some programs constantly use CPU, 
+even when they are ready for input.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#GetCPU" class="dll">GetCPU</a>.</p>
+<p>&nbsp;</p>
+<h3>Example</h3>
+<pre class=cod><span class=c></span><span class=c></span><span class=c> Run program and max. 15 seconds wait until CPU usage is less than 20%:
+</span><span class=fq>run</span> <span class=s>&#34;app.exe&#34;</span><span class=p>;</span> <span class=fq>wait</span> <span class=n>15</span> P <span class=n>20</span>
+</pre>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lh" name="ah">Wait for handle</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS H handle</pre>
+<p>&nbsp;</p>
+<div class="parts">
+<p><b>handle</b> - <a href="http://www.google.com/search?q=site%3Amicrosoft.com%20synchronization%20objects" target="_blank">synchronization 
+object</a> handle.</p>
+</div>
+<p>&nbsp;</p>
+<p>Waits until the  object becomes signaled. For example, 
+can wait until another thread exits (see examples).</p>
+<p>&nbsp;</p>
+<p> Returns 1.</p>
+<p>&nbsp;</p>
+<p>Returns -1 if a handle is invalid.</p>
+<p>&nbsp;</p>
+<p><span class="blue">wait</span> H/HM/HMA uses Windows API wait functions 
+  (<span class="dll">[Msg]WaitForMultipleObjectsEx</span>) that modify object's 
+  state on success. For example, on successful wait for an auto-reset event, <span class="blue">wait</span> resets it; on successful wait for a 
+  mutex, the thread owns the mutex; if the mutex was abandoned, <span class="blue">wait</span> calls <span class=cod><span class=fd>SetLastError</span><span class=p>(</span><span class=n>128</span><span class=p>)</span></span>. Don't use Windows API wait functions directly (unless 
+  with 0 or very small timeout) because then QM cannot properly end the 
+  thread on user request, and also cannot apply opt waitmsg.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i> Use variables of type <span class="type">__Handle</span> to store handles to be automatically closed with <span class="dll">CloseHandle</span> when the variable dies. Don't close QM thread handles.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i> To wait for a mutex, see also <a href="IDP_LOCK.html" class="blue">lock</a>.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c></span><span class=c></span><span class=c></span><span class=c> Run notepad and wait until it exits (just example of wait 0 H; use run with flag 0x400 instead):
+</span><span class=t>__Handle</span> hProcess<span class=o>=</span><span class=fq>run</span><span class=p>(</span><span class=s>&#34;notepad.exe&#34;</span><span class=p>)</span> <span class=c2>;;the __Handle variable will close the handle</span>
+<span class=fq>wait</span> <span class=n>0</span> H hProcess<span class=p></span>
+
+<span class=c> Run function &#34;Function&#34; in separate thread and wait until it exits:
+</span><span class=t>int</span> hThread<span class=o>=</span><span class=fq>mac</span><span class=p>(</span><span class=s>&#34;Function&#34;</span><span class=p>)</span> <span class=c2>;;note: don't use  __Handle variables with QM thread handles</span>
+<span class=fq>wait</span> <span class=n>0</span> H hThread<span class=c2></span></pre>
+<p>&nbsp;</p>
+
+<pre class=cod><span class=c> Create event and wait until another thread sets it (SetEvent):
+ ______Thread1_______
+</span><span class="t">__Handle</span><span class=o>+</span> g_hevent; <span class=fq>if</span><span class=p>(</span><span class=o>!</span>g_hevent<span class=p>)</span> g_hevent<span class=o>=</span><span class=fd>CreateEvent</span><span class=p>(</span><span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=fq>wait</span> <span class=n>60</span> H g_hevent<span class=fq></span>
+<span class=c> ______Thread2_______
+</span><span class=t></span><span class=fd>SetEvent</span><span class=p>(</span>g_hevent<span class=p>)</span></pre>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lhm" name="ahm">Wait for multiple handles (QM 2.2.0)</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS HM ha</pre>
+<p>or</p>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS HM h1 h2 <i>[</i>h3<i>] [</i>h4<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>ha</b> - variable of type <span class="type">ARRAY(int)</span>, containing up to 60 handles of <a href="http://www.google.com/search?q=site%3Amicrosoft.com%20synchronization%20objects" target="_blank">synchronization 
+  objects</a>.</p>
+  <ul>
+    <li>QM 2.4.0. Also can be <span class="type">ARRAY(__Handle)</span>.</li>
+  </ul>
+<p><b>h1-h4</b> - handles of synchronization 
+  objects. Can be of type <span class="type">int</span> or <span class="type">__Handle</span>.</p>
+</div>
+<p>&nbsp;</p>
+<p>If HM used, waits until one of the  objects becomes signaled. Returns  1-based index of the first 
+signaled handle.</p>
+<p>&nbsp;</p>
+<p>If HMA used (added in QM 2.4.0), waits until ALL the objects are signaled. Returns 1.</p>
+<p>&nbsp;</p>
+<p>Returns -1 if a handle is invalid.</p>
+<p>&nbsp;</p>
+<p><i>Tip:</i>  Use variables of type <span class="type">__Handle</span> or <span class="type">ARRAY(__Handle)</span> to store handles to be automatically closed with <span class="dll">CloseHandle</span> when the variable dies. Don't close QM thread handles.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+<pre class=cod><span class=c> Create two event objects and wait until one of them is set (SetEvent)</span>
+<span class=t>__Handle</span><span class=o>+</span> g_e1 g_e2
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span>g_e1<span class=p>)</span> g_e1<span class=o>=</span><span class=fd>CreateEvent</span><span class=p>(</span><span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=fq>if</span><span class=p>(</span><span class=o>!</span>g_e2<span class=p>)</span> g_e2<span class=o>=</span><span class=fd>CreateEvent</span><span class=p>(</span><span class=n>0</span> <span class=n>0</span> <span class=n>0</span> <span class=n>0</span><span class=p>)</span>
+<span class=t>int</span> i<span class=o>=</span><span class=fq>wait</span><span class=p>(</span><span class=n>0</span> HM g_e1 g_e2<span class=p>)</span>
+<span class=fq>out</span> i
+
+<span class=c> Start three notepad processes and wait until all closed</span>
+<span class=t>ARRAY</span><span class=p>(</span><span class=t>__Handle</span><span class=p>)</span> a
+<span class=fq>rep</span> <span class=n>3</span>
+<span class=i>&#9;</span>a[]<span class=o>=</span><span class=fq>run</span><span class=p>(</span><span class=s>&quot;notepad.exe&quot;</span><span class=p>)</span>
+<span class=fq>wait</span> <span class=n>0</span> HMA a
+</pre>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lv" name="av">Wait for variable</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event variable</pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>V</td>
+      <td><p>Wait until the variable becomes nonzero.</p></td>
+    </tr>
+    <tr>
+      <td>-V</td>
+      <td><p>Wait until the variable becomes 0.</p></td>
+    </tr>
+  </table>
+  <p><b>variable</b> - variable of type int.</p>
+</div>
+<p>&nbsp;</p>
+<p> Returns the final value of the 
+variable.</p>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Li" name="ai">Wait for web page</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS I <i>[</i>url<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>url</b> - wait for this URL. If omitted, waits while browser is busy.</p>
+</div>
+<p>&nbsp;</p>
+<p>Waits until web page is finished loading and web browser isn't busy.</p>
+<p>&nbsp;</p>
+<p>Works only in Internet Explorer and IE-based web browsers.</p>
+<p>&nbsp;</p>
+<p> Note: Waits 
+  only in single window. If, while waiting, the page is opened in a new window, ignores 
+  the new window.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_WEB.html" class="blue">web</a>.</p>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lcu" name="acu">Wait for cursor (mouse pointer)</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event cursor</pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>CU</td>
+      <td><p>Wait for the  cursor.</p></td>
+    </tr>
+    <tr>
+      <td>-CU</td>
+      <td>Wait until the cursor disappears.</td>
+    </tr>
+  </table>
+  <p><b>cursor</b> -  one of:</p>
+  <ul>
+    <li>Standard cursor identifier, such as IDC_ARROW.</li>
+    <li> QM 2.3.2. Custom cursor identifier,  recorded in the Wait dialog.</li>
+  </ul>
+</div>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lc" name="ac">Wait for color</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event color x y <i>[</i>window<i>] [</i>flags<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>C</td>
+      <td><p>Wait for the specified pixel <a href="../Other/IDP_COLOR.html">color</a> in the specified <a href="../Other/IDP_PIXELS.html">point</a> in window 
+        or screen (if <b>window</b> is 0 or omitted).</p></td>
+    </tr>
+    <tr>
+      <td>-C</td>
+      <td>Wait until pixel color will change from the specified color.</td>
+    </tr>
+  </table>
+  <p><b>x y</b> - <A href="../Other/IDP_PIXELS.html">coordinates</a>.</p>
+  <p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level 
+    or child window. If omitted or literal 0, <b>x</b> and <b>y</b> are screen 
+    coordinates.</p>
+<p><b><a href="../Other/IDP_FLAGS.html">flags</a></b>:</p>
+<table class="tflags">
+<tr> 
+  <td width="9%">1</td>
+  <td width="85%"><strong>x y</strong> are relative to the top-left corner of window's 
+    client area or of the work area.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Activate <b>window</b>. Restore if minimized. Error if point <strong>x y</strong> does not belong to <b>window</b> or its top-level parent window. No error with flag 0x1000.</td>
+</tr>
+<tr>
+  <td>0x1000</td>
+  <td>QM 2.4.3.  Get pixel color directly from <strong>window</strong>, not from screen. The same as <a href="../Functions/IDP_SCAN.html" class="blue">scan</a> flag 0x1000. This flag is ignored if <strong>window</strong> not used or if Windows Aero theme is not enabled or <strong>window</strong> is <a href="../Other/IDP_DPI.html">DPI-scaled</a>.</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<p><em>See also:</em> <a href="../Functions/IDP_PIXEL.html" class="blue">pixel</a>, <a href="../Functions/IDP_SCAN.html" class="blue">scan</a>.</p>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Ls" name="as">Wait for image on screen</a></h2>
+<pre class=syntax><i>[</i><b>wait </b><i>]</i>timeS event file <i>[</i>window<i>] [</i>rect<i>] [</i>flags<i>] [</i>colorDiff<i>] [</i>matchIndex<i>]</i></pre>
+<p>&nbsp;</p>
+<div class="parts">
+  <p><b>event</b>:</p>
+  <table class="tflags">
+    <tr>
+      <td>S</td>
+      <td>Wait for  image.</td>
+    </tr>
+    <tr>
+      <td>-S</td>
+      <td>Wait until image disappears</td>
+    </tr>
+  </table>
+  <p><b>file, window, rect, flags, colorDiff, matchIndex</b> - same as with <a href="../Functions/IDP_SCAN.html" class="blue">scan</a>.</p>
+</div>
+<p>&nbsp;</p>
+<p>QM 2.3.2. Added more features.</p>
+<p>&nbsp;</p>
+<h4>Tips</h4>
+<p>Waiting for image (S, -S) in large region (whole screen or window) consumes 
+  significant amount of CPU time. If during that time other application performs 
+  some processing, QM may slow down it. If processing speed is important, you 
+  can view CPU usage of qm.exe, and, if it is too high, minimize it by minimizing 
+  the search region (<a href="../Functions/IDP_SCAN.html">read more</a>). While 
+  waiting, QM periodically searches for the image. If speed (<span class="blue">spe</span>) 
+  is 0, the rate is much higher.</p>
+<p>&nbsp;</p>
+<p> To see CPU usage, use Windows Task Manager or perfmon.exe. You can also use <a href="../User/IDP_QMDLL.html#GetCPU" class="dll">GetCPU</a> function.</p>
+<p>&nbsp;</p>
+
+<h2><a href="IDP_WAIT_FOR.html#Lother" name="aother">Wait for other events</a></h2>
+<p>Wait for user input: <a href="../Functions/IDP_MES.html" class="blue">mes</a> (message box), <a href="../Functions/IDP_INP.html" class="blue">inp</a> (input box), <span class="UDF">ShowDialog</span> (custom dialog), <span class="UDF">ListDialog</span> and other dialogs.</p>
+<p>Wait for accessible object (text, link, button, etc): <a href="../Functions/IDP_ACC.html" class="blue">acc</a>. Specify the wait time in the 'Find Accessible Object' dialog.</p>
+<p>Wait for html element (web page objects in Internet Explorer): <a href="../Functions/IDP_HTM.html" class="blue">htm</a>. Specify the wait time in the 'Find Html Element' dialog.</p>
+<p>Wait for image: <a href="../Functions/IDP_SCAN.html" class="blue">scan</a>. Select 'Wait for' in the 'Find Image' dialog.</p>
+<p>Run program and wait for: <a href="IDP_RUN.html" class="blue">run</a>. Use the 'Run Program' dialog.</p>
+<p>Open web page and wait for: <a href="IDP_WEB.html" class="blue">web</a>. Use the 'Open Web Page' dialog.</p>
+<p>&nbsp;</p>
+<p>Waiting for other events can be  implemented with <a href="../Flow/IDP_REP.html" class="blue">rep</a>. To create new &quot;wait for&quot; user-defined functions, you 
+  can use <span class="UDF">WaitFor</span> template (menu File -&gt; New -&gt; 
+  Templates).</p>
+<p>&nbsp;</p>
+<p>Note: Don't use Windows API wait functions, because then QM cannot properly 
+  end the thread on user request. QM then terminates thread, which causes a big memory leak and possibly more bad things. Also, opt waitmsg is not applied.</p>
+<p>&nbsp;</p>
+<h3>Examples</h3>
+
+<pre class=cod><span class=c></span><span class=c></span><span class=c>
+</span><span class=c> Wait for some condition that is not supported by wait:
+</span><span class=fq>rep</span><span class=p>()</span> <span class=fq>if</span><span class=p>(</span>condition<span class=p>)</span> <span class=fq>break</span><span class=p>;</span> <span class=fq>else</span> <span class=n>0.1</span>
+
+<span class=c> Wait for mouse left button down:
+</span><span class=fq>rep</span><span class=p>()</span> <span class=n>0.01</span><span class=p>;</span> <span class=fq>ifk</span><span class=p>((</span><span class=n>1</span><span class=p>))</span> <span class=fq>break</span>
+</pre>
+<p>&nbsp;</p>
+<pre class=cod><span class=c> wait for one of two files
+</span><span class=t>str</span> file1<span class=o>=</span><span class=s>&quot;$personal$\file1.txt&quot;</span>
+<span class=t>str</span> file2<span class=o>=</span><span class=s>&quot;$personal$\file2.txt&quot;</span>
+<span class=fq>rep</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=fd>FileExists</span><span class=p>(</span>file1<span class=p>))</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=fq>if</span><span class=p>(</span><span class=fd>FileExists</span><span class=p>(</span>file2<span class=p>))</span> <span class=fq>break</span>
+<span class=i>&#9;</span><span class=n>0.5</span></pre></body>
+
+</html>
