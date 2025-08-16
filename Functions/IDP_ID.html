@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>id</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+<h1>Find child window (get handle)</h1>
+
+<h3>Syntax</h3>
+
+<pre class=syntax><i>int </i><b>id</b>(id<i> [</i>window<i>] [</i>flags<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+<div class="parts">
+
+<h3>Parameters</h3>
+
+<p> <b>id</b> - child window id. Integer. You can see it in QM status bar.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - parent 
+  window. If omitted - active window. The function searches only in the first 
+  found matching window.</p>
+
+<p> <b><a href="../Other/IDP_FLAGS.html">flags</a></b>: 1 - search only direct 
+  children. Default: 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p>Finds a <A href="../Other/IDP_WINDOWSTYLES.html">child window</a> in the specified 
+  window, and returns its handle. Returns 0 if not found. Error if parent window 
+  does not exist.</p>
+<p>&nbsp;</p>
+<p>Unlike <a href="IDP_CHILD.html" class="blue">child</a>, at first searches direct 
+  children and does not prefer visible children.</p>
+<p>&nbsp;</p>
+<p> The function is often used in <a href="../User/IDH_DIALOG_EDITOR.html">dialogs</a>, 
+  to get control handles. Also can be used with any windows.</p>
+<p>&nbsp;</p>
+
+<p>Window id, differently than handle, usually is set by the software developer 
+  and does not change at run time. It usually is a value between 0 and 65535. 
+  A window can have more than one child window with same id. Often such child 
+  windows don't receive user input, or they are children of other children. Sometimes 
+  id may be set at run time and it may be a random value (usually then it is not 
+  in the range 0 - 65535).</p>
+
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="IDP_CHILD.html" class="blue">child</a> 
+  <a href="IDP_ACC.html" class="blue">acc</a> <a href="IDP_HTM.html" class="blue">htm</a></p>
+<p>&nbsp;</p>
+
+<h3>Examples</h3>
+
+<pre class=cod><span class=t>int</span> h <span class=o>=</span> <span class=fq>id</span><span class=p>(</span><span class=n>15</span> <span class=s>&#34;Notepad&#34;</span><span class=p>)</span>
+<span class=fq>act</span> <span class=fq>id</span><span class=p>(</span><span class=n>306</span> <span class=s>&#34;Calculator&#34;</span><span class=p>)</span></pre>
+
+</body>
+
+</html>
