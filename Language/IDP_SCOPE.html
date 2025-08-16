@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>Variable storage and scope</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>Variable storage and scope</h1>
+
+<h2>Local (auto) variables</h2>
+
+<p>Local variables exist only in the function or macro where they are 
+  declared. You cannot simply access a variable declared in one function from 
+  another function. You can use the same variable name in different functions 
+  but it will not be the same variable.</p>
+<p>&nbsp;</p>
+<p>Declaration example:</p>
+<pre class=cod><span class=t>int</span> i</pre>
+<p>&nbsp;</p>
+<p> Function <a href="IDP_FUNCTION.html">parameters</a> also are local variables.</p>
+<p>&nbsp;</p>
+<p> Local variables exist only as long as the function is executing. They are 
+  automatically created when entering the function and destroyed when leaving 
+  the function. Every executing function instance has its own set of local variables.</p>
+
+<p>&nbsp;</p>
+
+
+<p>Local variables are located on the stack, in order they were declared. They 
+  are aligned on 4 bytes (variables of size 1 to 4 occupy 4 bytes, variables of 
+  size 5 to 8 occupy 8 bytes, etc). Variables of composite types (str, BSTR, ARRAY, 
+  VARIANT, interface pointers) can also have associated data in dynamic memory. 
+  Memory allocation is automatic.</p>
+<h2>Global (static) variables</h2>
+<p>Global variables are shared by all functions and macros of current process (QM or exe). Use global variables to share data between different macros or between 
+  different instances of the same macro.</p>
+<p>&nbsp;</p>
+<p>To declare a global variable, use &quot;<tt>+</tt>&quot; like in this example:</p>
+<pre class=cod><span class=t>int</span><span class=o>+</span> g_Variable</pre>
+<p>&nbsp;</p>
+<p> Global variables are created when <a href="../QM_Help/IDH_DEBUG.html">compiling</a> the function or 
+  macro where they are declared, and destroyed when closing QM file, eg when QM exits.</p>
+<p>&nbsp;</p>
+<p>The same global variable can be declared multiple times and in multiple places. 
+If you assign a value in the declaration statement (eg <span class=cod><span class=t>int</span><span class=o>+</span> g_v1<span class=o>=</span><span class=n>1</span></span>), the assignment is performed each time.</p>
+<p>&nbsp;</p>
+<p> Don't use global variables where not necessary. Where possible, use local variables, thread variables, pass variables to functions as arguments.</p>
+<p>&nbsp;</p>
+<p>To avoid confusion and conflicts when using multiple global variables, use descriptive names with some name convention, for example add &quot;g_&quot; prefix. To reduce the number of global variables, use <a href="IDP_TYPE.html">user-defined types</a> to store several related variables in a single variable</p>
+<p>&nbsp;</p>
+<p>If a global variable can be accessed by multiple <a href="../Other/IDP_THREADS.html">threads</a> simultaneously, use <a href="../Commands/IDP_LOCK.html" class="blue">lock</a> to prevent it, because it is dangerous, may give incorrect results, corrupt memory, make QM unstable.</p>
+<p>&nbsp;</p>
+<p>If a macro runs in <a href="../QM_Help/IDH_MAKEEXE.html#a8">separate process</a>, it has own global variables. Assume you use global variable g_x in 3 macros. Macro A runs in QM, macros B and C run in separate processes. You cannot use g_x to share data between these 3 macros, because each macro has its own instance of g_x. To share data between these macros you can use <a href="../Functions/IDP_RGET.html">registry</a> or  a file. Programmers can use Windows API functions, for example shared memory. QM has class <span class="type">__SharedMemory</span> to make it simpler.</p>
+
+<h2>Thread variables</h2>
+
+<p>Thread scope is intermediate between local and global. Thread variables are shared between all functions 
+  of the same <a href="../Other/IDP_THREADS.html">thread</a> (running macro). 
+They must be declared in each function where used.</p>
+<p>&nbsp;</p>
+<p>To declare a thread variable, use &quot;<tt>-</tt>&quot; like in this example:</p>
+<pre class=cod><span class=t>int</span><span class=o>-</span> t_i</pre>
+<p>&nbsp;</p>
+<p>Thread variables are created at run time, at the beginning of the function 
+  where first time declared in the thread. They are destroyed when the thread 
+exits (macro ends).</p>
+<p>&nbsp;</p>
+<p> If you assign a value in the declaration statement, the assignment 
+  is performed only the first time during thread execution (differently than local and global 
+  variables). Example:</p>
+<p>&nbsp;</p>
+<pre class=cod><span class=t>int</span><span class=o>-</span> t_i<span class=o>=</span><span class=n>5</span> <span class=c2>;;even if this line is encountered sevel times during thread execution, 5 is assigned only the first time</span></pre>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../Other/IDP_THREADS.html">thread variables in special 
+  threads</a></p>
+<p>&nbsp;</p>
+
+<h3>Private thread variables</h3>
+
+<p>Variables declared with &quot;<tt>--</tt>&quot; are thread 
+  variables that are visible only in that function.</p>
+<p>&nbsp;</p>
+<p> Declaration example:</p>
+
+<pre class=cod><span class=t>int</span><span class=o>--</span> t_i</pre>
+<h2>Member variables and functions</h2>
+
+<p><A href="IDP_CLASSES.html">Class</a> members can be used in all member functions of that class. 
+  Instead of <span class=cod>variable.member</span> use just <span class=cod>member</span> or <span class=cod>this.member</span>.</p>
+
+<h2>Sub-function parent variables</h2>
+
+<p><a href="IDP_DIR_SUB.html">Sub-functions</a> with v attribute can use local variables of parent.</p>
+
+<h2>Application variables (obsolete)</h2>
+
+<p>Local variables of the main function of a folder that has <a href="../QM_Help/IDH_FOLDERPROP.html">&quot;Application&quot; 
+  property</a> are also visible in other functions of that app folder.</p>
+
+<h2>Scope priority</h2>
+
+<p>If there are two or more visible variables or functions with the same name and different 
+  scope, QM uses the one that is the first in this list:</p>
+<ol>
+  <li>Predefined (<a href="../Reference/IDH_REFERENCE.html">QM language keywords, intrinsic functions</a>, <a href="IDP_SPECVAR.html">special variables/constants</a>, <a href="IDH_VARIABLES.html">intrinsic types</a>, <a href="../_COM/IDP_OLETYPES.html">other QM-defined types</a>). You cannot declare a variable (except class/type member) with the same name as one of predefined 
+    names.</li>
+  <li>Local and thread variables.</li>
+  <li>In <a href="IDP_CLASSES.html">class</a> member functions - members (variables and functions) of this class, then of base classes.</li>
+  <li>In sub-functions with v attribute - parent's local variables.</li>
+  <li>Application main function's variables (obsolete).</li>
+  <li>Global functions, variables, types, etc.</li>
+</ol>
+
+<p>In class member functions:</p>
+<ul>
+  <li>If a class member name matches a predefined name, to access the member use <span class=cod>this.member</span>.</li>
+  <li>If a class member name matches a global name, to access the global use <span class=cod><span class=lib>__not_this.</span>global</span>. Here <span class="lib">__not_this</span> is a <a href="IDP_CATEGORIES.html">category</a> that has been added in QM 2.4.3 for this purpose, but also can be used any category name.</li>
+</ul>
+<p>&nbsp;</p>
+
+<hr>
+<p> <i>See also:</i> <A href="IDP_SCOPE2.html">more types of storage</a>, <A href="IDP_SPECVAR.html">predefined variables</a></p>
+
+</body>
+
+</html>
