@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>High-order word, low-order word</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1>High-order word, low-order word</h1>
+<p>Sometimes some value can be stored in high-order word and low-order word of an integer value. I'll try to explain what it is.</p>
+<p>&nbsp;</p>
+<p>At first you should know <a href="../Language/IDH_VARIABLES.html">variable types</a> int, word and byte.</p>
+<p>&nbsp;</p>
+<p> int has 4 bytes. word has 2 bytes. Therefore int has 2 words.</p>
+<p>&nbsp;</p>
+<p><img src="../image/lohiword.gif"></p>
+<p>&nbsp;</p>
+<p>Green -  low-order word.</p>
+<p> Blue - high-order word.</p>
+<p>&nbsp;</p>
+<p>The picture shows bytes in memory, in little-endian format, where the byte order is reverse than in hexadecimal representation (0x<font color="#0080E0">HHHH</font><font color="#00A000">LLLL</font>) and bit-shift operator names.</p>
+<p>&nbsp;</p>
+<p>The low-order word adds its exact value to the total value of the int. The high-order word adds its value multiplied by 0x10000 (left-shifted by 16 bits).</p>
+<p>&nbsp;</p>
+<p>To store two values L and H into low-order and high-order word of integer value R, use this:</p>
+<p>&nbsp;</p>
+<pre class=cod>R <span class=o>=</span> H<span class=o>&#60;&#60;</span><span class=n>16</span><span class=o>|</span>L
+<span class=c> or
+</span>R <span class=o>=</span> <span class=fu>MakeInt</span><span class=p>(</span>L H<span class=p>)</span></pre>
+<p>&nbsp;</p>
+<p>To get low-order word and high-order word:</p>
+<p>&nbsp;</p>
+<pre class=cod>L <span class=o>=</span> R<span class=o>&#38;</span><span class=n>0xFFFF</span>
+H <span class=o>=</span> R<span class=o>&#62;&#62;</span><span class=n>16</span></pre>
+<p>&nbsp;</p>
+<h3>High-order byte, low-order byte</h3>
+<p>Sometimes some value can be stored in high-order byte and low-order byte of a word. Everything is similar as above.</p>
+<p>&nbsp;</p>
+<p>To store two values L and H into low-order and high-order byte of word value R, use this:</p>
+<p>&nbsp;</p>
+<pre class=cod>R <span class=o>=</span> H<span class=o>&#60;&#60;</span><span class=n>8</span><span class=o>|</span>L<span class=c></span></pre>
+<p>&nbsp;</p>
+<p>To get low-order byte and high-order byte:</p>
+<p>&nbsp;</p>
+<pre class=cod>L <span class=o>=</span> R<span class=o>&#38;</span><span class=n>0xFF</span>
+H <span class=o>=</span> R<span class=o>&#62;&#62;</span><span class=n>8</span><span class=o>&#38;</span><span class=n>0xFF</span></pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
