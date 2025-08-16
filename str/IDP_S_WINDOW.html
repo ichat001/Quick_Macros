@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<script type="text/javascript" src="../h.js"></script>
+
+<title>getwintext, setwintext, getwinclass, getwinexe</title>
+
+<link rel=StyleSheet href="../QM-Help.css">
+
+</head>
+
+<body>
+
+<h1><A name="IDP_S_WINDOWS"></a>Get window text, class name, program, set 
+ window text</h1>
+
+
+
+<h3>Syntax</h3>
+
+<pre class=syntax>s.<b>getwintext</b>(window)
+s.<b>setwintext</b>(window)
+s.<b>getwinclass</b>(window)
+s.<b>getwinexe</b>(window <i>[</i>full<i>]</i>)</pre>
+
+<p>&nbsp;</p>
+
+<h3>Parameters</h3>
+
+<div class="parts">
+<p> <b>s </b>- str variable.</p>
+
+<p> <A href="../Other/IDP_WINDOWEXPRESSION.html"> <b>window</b></a> - top-level or child window. Usually it is window handle.</p>
+
+<p> <b>full </b>- if 0, get filename (e.g., &quot;notepad&quot;), else get full 
+path (e.g., &quot;C:\Windows\notepad.exe&quot;). Default: 0.</p>
+</div>
+
+<p>&nbsp;</p>
+
+<h3>Remarks</h3>
+
+<p> <span class="blue">getwintext</span> populates <b>s</b> with <b>window</b> 
+  text. It can be window title, button label, edit control text, static control 
+  text, etc.</p>
+
+<p> <span class="blue">setwintext</span> sets <b>window</b> text.</p>
+
+<p> <span class="blue">getwinclass</span> populates <b>s</b> with <b>window</b> 
+  class name.</p>
+
+<p> <span class="blue">getwinexe</span> populates <b>s</b> with <b>window</b> 
+  executable file name or full path. Cannot get full path of a process running 
+  as other user.</p>
+<p>&nbsp;</p>
+<p><i>See also:</i> <a href="../User/IDP_QMDLL.html#GetProcessExename" class="dll">GetProcessExename</a></p>
+<p>&nbsp;</p>
+
+<h3>Example</h3>
+
+<pre class=cod><span class=t>int</span> h
+<span class=t>str</span> s
+h<span class=o>=</span><span class=fq>win</span><span class=p>(</span><span class=s>&quot;Notepad&quot;</span><span class=p>)</span>
+s.<span class=fq>getwintext</span><span class=p>(</span>h<span class=p>)</span>
+h<span class=o>=</span><span class=fq>id</span><span class=p>(</span><span class=n>15</span> <span class=s>&quot;Notepad&quot;</span><span class=p>)</span>
+s.<span class=fq>setwintext</span><span class=p>(</span>h<span class=p>)</span>
+</pre>
+<p>&nbsp;</p>
+</body>
+
+</html>
